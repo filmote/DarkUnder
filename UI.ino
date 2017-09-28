@@ -111,10 +111,10 @@ void displaySplash() {
   Sprites::drawOverwrite(0, 0, splash, 0);
  
   if (splashStatus == SplashButtons::Play) {
-    Sprites::drawOverwrite(36, 53, hMarker, 0);
+    Sprites::drawSelfMasked(25, 54, hMarker, 0);
   }
   else {
-    Sprites::drawOverwrite(66, 53, hMarker, 0);
+    Sprites::drawSelfMasked(63, 54, hMarker, 0);
   }
 
   if (arduboy.justPressed(LEFT_BUTTON)) {

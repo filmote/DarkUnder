@@ -6,109 +6,113 @@
 #include "Level.h"
 
 struct Player {
-//    color playerColor = color(#FFFFFF);
-    int playerSize = TILE_SIZE;
-    int x;
-    int y;
 
-    Player (int initX, int initY) {
-//      playerX = colX*TILE_SIZE;
-//      playerY = rowY*TILE_SIZE;
-      x = initX;
-      y = initY;
-//      pcolX=col;
-//      prowY=row;
-    }  
-    void display(Arduboy2 *arduboy) {
-    //  fill(#000000);
-    //  noStroke();
-      arduboy->fillRect(x, y, TILE_SIZE, TILE_SIZE, BLACK);
-      arduboy->fillRect(x + 1, y + 1, TILE_SIZE/2, TILE_SIZE/2, WHITE);
-    
-      // rect(originX,originY, TILE_SIZE, TILE_SIZE);
-      // fill(#FFFFFF);
-      // rect(originX+1,originY+1, TILE_SIZE/2, TILE_SIZE/2);
-      // stroke(0);
+  int x;
+  int y;
+  Direction direction;
+
+  Player (int initX, int initY) {
+
+    x = initX;
+    y = initY;
+    direction = Direction::North;
+
+  }
+
+  boolean moveLegal(Level *myLevel, int row, int col) {
+
+    if (myLevel->worldGrid[row][col] < 1) {
+      return true;
+    } 
+    else {
+      return false;
     }
 
-    boolean moveLegal(Level *myLevel, int row, int col) {
-      //println("Hero X= "+row+" Hero Y= "+col);
-      if (myLevel->worldGrid[row][col] < 1) {
-        return true;
-      } else {
-        return false;
-      }
-    }  
+  }  
 
-    void movePlayer(Level *myLevel, Direction direction) {
- Serial.println(myLevel->worldGrid[y][x]);  
-      switch (direction) {
-        case Direction::Up:
-          if (moveLegal(myLevel, y - 1, x)) {
-//            playerY = playerY-playerSize;
-            --y;
-            renderMaze(myLevel);
-          };
-          break;
-        case Direction::Down:
-          if (moveLegal(myLevel, y + 1, x)) {
-//            playerY = playerY+playerSize;
-            ++y;
-            renderMaze(myLevel);
-          };
-          break;
-        case Direction::Left:
-          if (moveLegal(myLevel, y, x - 1)) {
-//            playerX = playerX-playerSize;
-            --x;
-            renderMaze(myLevel);
-          };
-          break;
-        case Direction::Right:
-          if (moveLegal(myLevel, y, x + 1)) {
-//            playerX = playerX+playerSize;
-            ++x;
-            renderMaze(myLevel);
-          };
-          break;
-      }
+  void movePlayer(Level *myLevel, Buttons button) {
 
-//      pcolX=col;
-//      prowY=row;
-//      aiTurn=true;//player moved, turn to enemy
+    switch (direction) {
+
+      case Direction::North:
+      
+        switch (button) {
+
+          case Buttons::Up:
+            if (moveLegal(myLevel, y - 1, x)) { --y; }; direction = Direction::North; break;
+
+          case Buttons::Down:
+            if (moveLegal(myLevel, y + 1, x)) { ++y; }; break;
+
+          case Buttons::Left:
+            if (moveLegal(myLevel, y, x - 1)) { --x; }; direction = Direction::West; break;
+
+          case Buttons::Right:
+            if (moveLegal(myLevel, y, x + 1)) { ++x; }; direction = Direction::East; break;
+
+        }
+        break;
+
+      case Direction::East:
+      
+        switch (button) {
+
+          case Buttons::Up:
+            if (moveLegal(myLevel, y, x + 1)) { ++x; }; direction = Direction::East; break;
+
+          case Buttons::Down:
+            if (moveLegal(myLevel, y, x - 1)) { --x; }; break;
+
+          case Buttons::Left:
+            if (moveLegal(myLevel, y - 1, x)) { --y; }; direction = Direction::North; break;
+
+          case Buttons::Right:
+            if (moveLegal(myLevel, y + 1, x)) { ++y; }; direction = Direction::South; break;
+
+        }
+        break;
+                        
+      case Direction::South:
+
+        switch (button) {
+
+          case Buttons::Up:
+            if (moveLegal(myLevel, y + 1, x)) { ++y; }; direction = Direction::South; break;
+
+          case Buttons::Down:
+            if (moveLegal(myLevel, y - 1, x)) { --y; }; break;
+
+          case Buttons::Left:
+            if (moveLegal(myLevel, y, x + 1)) { ++x; }; direction = Direction::East; break;
+
+          case Buttons::Right:
+            if (moveLegal(myLevel, y, x - 1)) { --x; }; direction = Direction::West; break;
+
+        }
+        break;
+
+      case Direction::West:
+      
+        switch (button) {
+
+          case Buttons::Up:
+            if (moveLegal(myLevel, y, x - 1)) { --x; }; direction = Direction::West; break;
+
+          case Buttons::Down:
+            if (moveLegal(myLevel, y, x + 1)) { ++x; }; break;
+
+          case Buttons::Left:
+            if (moveLegal(myLevel, y + 1, x)) { ++y; }; direction = Direction::South; break;
+
+          case Buttons::Right:
+            if (moveLegal(myLevel, y - 1, x)) { --y; }; direction = Direction::North; break;
+
+        }
+        break;
+
     }
-  
 
-void renderMaze(Level *myLevel) {
-
-
-  Serial.print("After x :");
-  Serial.print(x);
-  Serial.print(", y :");
-  Serial.println(y);
- 
-
-  Serial.print(myLevel->worldGrid[y - 2][x - 1]);
-  Serial.print(" ");
-  Serial.print(myLevel->worldGrid[y - 2][x]);
-  Serial.print(" ");
-  Serial.println(myLevel->worldGrid[y - 2][x + 1]);
-
-  Serial.print(myLevel->worldGrid[y - 1][x - 1]);
-  Serial.print(" ");
-  Serial.print(myLevel->worldGrid[y - 1][x]);
-  Serial.print(" ");
-  Serial.println(myLevel->worldGrid[y - 1][x + 1]);
-
-  Serial.print(myLevel->worldGrid[y][x - 1]);
-  Serial.print(" ");
-  Serial.print(myLevel->worldGrid[y][x]);
-  Serial.print(" ");
-  Serial.println(myLevel->worldGrid[y][x + 1]);
-
-
-
-}
+  }
 
 };
 
