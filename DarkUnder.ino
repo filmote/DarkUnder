@@ -95,8 +95,7 @@ void playLoop() {
 
   playerVision(&myHero, &myLevel);
   worldDrawGrid(&arduboy, &myHero, &myLevel);
-//  drawDirectionIndicator(&arduboy, &myHero);
-  drawDirectionIndicator();
+  drawDirectionIndicator(&myHero);
   
   if (arduboy.justPressed(UP_BUTTON))       { myHero.movePlayer(&myLevel, Buttons::Up); }
   if (arduboy.justPressed(DOWN_BUTTON))     { myHero.movePlayer(&myLevel, Buttons::Down); }
@@ -301,19 +300,19 @@ void playerVision (Player *myHero, Level *myLevel) { //draw the walls by checkin
 
 void worldDrawGrid(Arduboy2 *arduboy, Player *myHero, Level *myLevel) {
 
-  uint8_t x = 0;
-  uint8_t y = 0;
+  uint8_t drawX = 0;
+  uint8_t drawY = 0;
   
-  for (int row = myHero->y - 3; row <= myHero->y + 3; row++) {
+  for (int mapY = myHero->y - 3; mapY <= myHero->y + 3; mapY++) {
 
-    for ( int col = myHero->x - 2; col <= myHero->x + 2; col++) {
+    for ( int mapX = myHero->x - 2; mapX <= myHero->x + 2; mapX++) {
 
-      if (row >= 0 && row < myLevel->yDim && col >= 0 && col < myLevel->xDim) { 
+      if (mapY >= 0 && mapY < myLevel->yDim && mapX >= 0 && mapX < myLevel->xDim && !(drawX == 4 && drawY == 0) ) { 
         
-        switch ((MapElements)myLevel->worldGrid[row][col]) {
+        switch ((MapElements)myLevel->worldGrid[mapY][mapX]) {
   
           case MapElements::Floor:
-            arduboy->fillRect(MAP_X_OFFSET + (x * TILE_OFFSET), MAP_Y_OFFSET + (y * TILE_OFFSET), TILE_SIZE, TILE_SIZE, WHITE);
+            arduboy->fillRect(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), TILE_SIZE, TILE_SIZE, WHITE);
             break;
   
           case MapElements::Wall:
@@ -324,12 +323,12 @@ void worldDrawGrid(Arduboy2 *arduboy, Player *myHero, Level *myLevel) {
 
       }
 
-      x++;
+      drawX++;
       
     }
 
-    x = 0;
-    y++;
+    drawX = 0;
+    drawY++;
 
   }
 
@@ -346,15 +345,9 @@ void worldDrawGrid(Arduboy2 *arduboy, Player *myHero, Level *myLevel) {
 #define DIRECTION_X_OFFSET 66
 #define DIRECTION_Y_OFFSET 43
 
-// void drawDirectionIndicator(Arduboy2 *arduboy, Player *myHero) {
-  
-//     Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, direction_images[(uint8_t)myHero->direction], 0);
-    
-//   }
+void drawDirectionIndicator(Player *myHero) {
 
-  void drawDirectionIndicator() {
-    
-      Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, direction_images[(uint8_t)myHero.direction], 0);
-      
-    }
-      
+  Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, direction_images[(uint8_t)myHero->direction], 0);
+  
+}
+
