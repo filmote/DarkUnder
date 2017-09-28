@@ -221,7 +221,7 @@ void playerVision (Player *myHero, Level *myLevel) { //draw the walls by checkin
 
   
   Sprites::drawOverwrite(0, 0, frames, 0);
-  Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 1, visionBack, 0);
+  Sprites::drawSelfMasked(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 1, visionBack, 0);
 
   // Far front wall ..
   
