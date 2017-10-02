@@ -28,6 +28,8 @@ struct Level {
   uint32_t height = 1;
 
   const uint8_t * const * map_tiles;
+  const uint8_t * const * map_images;
+  const uint8_t * const * map_masks;
   // Level(){
   //    row=8;
   //    col=4;
@@ -42,7 +44,7 @@ struct Level {
       uint8_t tile = pgm_read_byte(x / MAP_TILE_WIDTH) + ((y / MAP_TILE_HEIGHT) * width);
       const uint8_t *tileStart = map_tiles[tile];
 
-      return (MapElements)(pgm_read_byte(tileStart + (x % MAP_TILE_WIDTH) + (((y % MAP_TILE_HEIGHT) / 8) * width)) && (1 << ((y % MAP_TILE_HEIGHT) % 8)));
+      return (MapElements)(pgm_read_byte(tileStart + (x % MAP_TILE_WIDTH) + (((y % MAP_TILE_HEIGHT) / 8) * width)) & (1 << ((y % MAP_TILE_HEIGHT) % 8)));
       
     }
 

@@ -16,6 +16,7 @@ const uint8_t PROGMEM level_00[] = {
 27, 14,                     // Starting Postion
 (uint8_t)Direction::East,   // Starting Direction
 3, 1,                       // Dimensions
+0,                          // Wall textures
 0, 0, 0,                    // Map Data
 };
 

@@ -43,13 +43,19 @@ struct Player {
 
           case Buttons::Down:
             if (moveLegal(myLevel, y + 1, x)) { ++y; }; break;
-
+/*
           case Buttons::Left:
             if (moveLegal(myLevel, y, x - 1)) { --x; }; direction = Direction::West; break;
 
           case Buttons::Right:
             if (moveLegal(myLevel, y, x + 1)) { ++x; }; direction = Direction::East; break;
+*/
+          case Buttons::Left:
+            direction = Direction::West; break;
 
+          case Buttons::Right:
+            direction = Direction::East; break;
+            
         }
         break;
 
@@ -62,13 +68,19 @@ struct Player {
 
           case Buttons::Down:
             if (moveLegal(myLevel, y, x - 1)) { --x; }; break;
-
+/*
           case Buttons::Left:
             if (moveLegal(myLevel, y - 1, x)) { --y; }; direction = Direction::North; break;
 
           case Buttons::Right:
             if (moveLegal(myLevel, y + 1, x)) { ++y; }; direction = Direction::South; break;
+*/
+          case Buttons::Left:
+            direction = Direction::North; break;
 
+          case Buttons::Right:
+            direction = Direction::South; break;
+            
         }
         break;
                         
@@ -81,12 +93,18 @@ struct Player {
 
           case Buttons::Down:
             if (moveLegal(myLevel, y - 1, x)) { --y; }; break;
-
+/*
           case Buttons::Left:
             if (moveLegal(myLevel, y, x + 1)) { ++x; }; direction = Direction::East; break;
 
           case Buttons::Right:
             if (moveLegal(myLevel, y, x - 1)) { --x; }; direction = Direction::West; break;
+*/
+          case Buttons::Left:
+            direction = Direction::East; break;
+
+          case Buttons::Right:
+            direction = Direction::West; break;
 
         }
         break;
@@ -100,12 +118,18 @@ struct Player {
 
           case Buttons::Down:
             if (moveLegal(myLevel, y, x + 1)) { ++x; }; break;
-
+/*
           case Buttons::Left:
             if (moveLegal(myLevel, y + 1, x)) { ++y; }; direction = Direction::South; break;
 
           case Buttons::Right:
             if (moveLegal(myLevel, y - 1, x)) { --y; }; direction = Direction::North; break;
+*/
+          case Buttons::Left:
+            direction = Direction::South; break;
+
+          case Buttons::Right:
+            direction = Direction::North; break;
 
         }
         break;

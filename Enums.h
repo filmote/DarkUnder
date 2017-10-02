@@ -8,6 +8,27 @@
 #define TILE_OFFSET   5
 #define UNIT          TILE_SIZE / 4
 
+
+#define MAP_IMAGE_BACK            0
+#define MAP_IMAGE_CLOSE_FRONT     1
+#define MAP_IMAGE_CLOSE_LEFT      2
+#define MAP_IMAGE_CLOSE_RIGHT     3
+#define MAP_IMAGE_MID_FRONT       4
+#define MAP_IMAGE_MID_LEFT        5
+#define MAP_IMAGE_MID_RIGHT       6
+#define MAP_IMAGE_FAR_FRONT       7
+#define MAP_IMAGE_FAR_LEFT        8
+#define MAP_IMAGE_FAR_RIGHT       9
+
+#define MAP_MASK_CLOSE_FRONT      0
+#define MAP_MASK_CLOSE_LEFT       1
+#define MAP_MASK_CLOSE_RIGHT      2
+#define MAP_MASK_MID_FRONT        3 
+#define MAP_MASK_MID_LEFT         4
+#define MAP_MASK_MID_RIGHT        5
+#define MAP_MASK_FAR_LEFT         6
+#define MAP_MASK_FAR_RIGHT        7
+
 enum class GameStates : uint8_t {
   Splash,
   About,
