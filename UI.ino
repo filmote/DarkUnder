@@ -38,69 +38,69 @@
   // icnSelect = loadImage("icnSelect.gif");
   // textFont(font, 16);
   // }
-void displayGame() {
-
-  // image(frames, 0, 0);
-  // fill(255);
-  // //-- stats
-  // textAlign(LEFT);
-  // text("HP...", 70, 14); 
-  // text("DF...", 70, 22); 
-  // text("AP...", 70, 30);
-  // text("MG..", 70, 38);
-  // textAlign(RIGHT);
-  // text(HP, 92, 14); 
-  // text(DF, 92, 22); 
-  // text(AP, 92, 30);
-  // text(MG, 92, 38);
-
-  if (UIStatus == "collecting") {
-    // image(foundWindow,16,10);
-    // fill(0);
-    // textAlign(CENTER);
-    // imageMode(CENTER);
-    // text("YOU FOUND",35,17);
-    // text(objectType,35,51);
-    // image(icnHPPotion,35,31);
-    // imageMode(CORNER);
-    // image(icnHand,66,43);
-    // image(icnTrash,78,43);
-    switch (lastDirection){
-
-      case 'L':
-        Sprites::drawOverwrite(67, 56, icnSelect, 0);
-        if (activated){
-//        myObjects.remove(objectID);
-        UIStatus="";
-        }
-        break;
-
-      case 'R':
-        Sprites::drawOverwrite(79, 56, icnSelect, 0);
-        if (activated){
-//        myObjects.remove(objectID);
-        UIStatus="";
-        }
-        break;
-      // default:
-      //   println("exception");
-      //   break;
-    } 
-
-  }
-  else {
-    // //-- description
-    // textAlign(LEFT);
-    // text(myLevel.levelDescription.toUpperCase(), 80, 50);
-    // //-- orientation
-    // image(frameOrientation,66,43);
-    // textSize(16);
-    // textAlign(LEFT);
-    // text(orientation, 69, 55);
-    // textSize(8);
-  }
-  
-}
+//void displayGame() {
+//
+//  // image(frames, 0, 0);
+//  // fill(255);
+//  // //-- stats
+//  // textAlign(LEFT);
+//  // text("HP...", 70, 14); 
+//  // text("DF...", 70, 22); 
+//  // text("AP...", 70, 30);
+//  // text("MG..", 70, 38);
+//  // textAlign(RIGHT);
+//  // text(HP, 92, 14); 
+//  // text(DF, 92, 22); 
+//  // text(AP, 92, 30);
+//  // text(MG, 92, 38);
+//
+//  if (UIStatus == "collecting") {
+//    // image(foundWindow,16,10);
+//    // fill(0);
+//    // textAlign(CENTER);
+//    // imageMode(CENTER);
+//    // text("YOU FOUND",35,17);
+//    // text(objectType,35,51);
+//    // image(icnHPPotion,35,31);
+//    // imageMode(CORNER);
+//    // image(icnHand,66,43);
+//    // image(icnTrash,78,43);
+//    switch (lastDirection){
+//
+//      case 'L':
+//        Sprites::drawOverwrite(67, 56, icnSelect, 0);
+//        if (activated){
+////        myObjects.remove(objectID);
+//        UIStatus="";
+//        }
+//        break;
+//
+//      case 'R':
+//        Sprites::drawOverwrite(79, 56, icnSelect, 0);
+//        if (activated){
+////        myObjects.remove(objectID);
+//        UIStatus="";
+//        }
+//        break;
+//      // default:
+//      //   println("exception");
+//      //   break;
+//    } 
+//
+//  }
+//  else {
+//    // //-- description
+//    // textAlign(LEFT);
+//    // text(myLevel.levelDescription.toUpperCase(), 80, 50);
+//    // //-- orientation
+//    // image(frameOrientation,66,43);
+//    // textSize(16);
+//    // textAlign(LEFT);
+//    // text(orientation, 69, 55);
+//    // textSize(8);
+//  }
+//  
+//}
 
 
 
@@ -126,11 +126,11 @@ void displaySplash() {
   }
 
   if (arduboy.justPressed(A_BUTTON) && splashStatus == SplashButtons::Play) {
-    gameStatus = GameStates::Play;
+    gameState = GameStates::InitGame;
   }
 
   if (arduboy.justPressed(A_BUTTON) && splashStatus == SplashButtons::About) {
-    gameStatus = GameStates::About;
+    gameState = GameStates::About;
   }
 
 }
@@ -140,7 +140,7 @@ void displayLogo(){
   Sprites::drawOverwrite(0, 0, garCo, 0);  
 
   if (arduboy.justPressed(A_BUTTON)) {
-    gameStatus = GameStates::Splash;
+    gameState = GameStates::Splash;
   }
 
 }

@@ -1,6 +1,8 @@
 #ifndef VISION_H
 #define VISION_H
 
+#define MAP_TILE_WIDTH  31
+#define MAP_TILE_HEIGHT 31
 
 #define TILE_SIZE     4
 #define TILE_OFFSET   5
@@ -9,6 +11,8 @@
 enum class GameStates : uint8_t {
   Splash,
   About,
+  InitGame,
+  InitLevel,
   Play
 };
 
