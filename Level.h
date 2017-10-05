@@ -8,21 +8,7 @@
 
 struct Level {
 
-//  int originX=108;
-//  int originY=18;
   String levelDescription="Hallway of \nthe dead";
-//    int  worldGrid[10][10] = {   
-//    {1,1,1,1,1,1,1,1,1,1},
-//    {1,0,0,0,0,0,0,0,0,1},
-//    {1,0,1,1,1,0,0,0,0,1},
-//    {1,0,1,0,1,0,0,0,0,1},
-//    {1,0,0,0,1,0,0,0,0,1},
-//    {1,1,1,0,1,0,0,0,0,1},
-//    {1,0,0,0,0,0,0,0,0,1},
-//    {1,0,1,1,0,1,0,1,0,1},
-//    {1,0,0,1,0,1,0,1,0,1},
-//    {1,1,1,1,1,1,1,1,1,1}
-//     };
 
   uint32_t startPos = 0;
   uint32_t width = 3;
@@ -32,51 +18,15 @@ struct Level {
   const uint8_t * const * map_tiles;
   const uint8_t * const * map_images;
   const uint8_t * const * map_masks;
-  // Level(){
-  //    row=8;
-  //    col=4;
-  //    myHero = new Player(row, col); 
-  //   // myObjects.add(new Object(3, 3, 'P'));
-  //    //myObjects.add(new Object(4, 6, 'P'));
-  //   // myEnemies.add(new Stalker(2, 6));
-  // };
   
-    MapElements getMapElement(uint32_t x, uint32_t y, bool debug) {
+  MapElement getMapElement(uint32_t x, uint32_t y) {
 
-      uint8_t tile = pgm_read_byte(&level[startPos + (x / MAP_TILE_WIDTH) + ((y / MAP_TILE_HEIGHT) * width)]);
-if (debug) {
-  Serial.print("startPos: ");
-Serial.print(startPos);
-  Serial.print(", s2: ");
-Serial.print(startPos + (x / MAP_TILE_WIDTH) + ((y / MAP_TILE_HEIGHT) * width));
-  Serial.print(", x: ");
-Serial.print(x);
-Serial.print(", y: ");
-Serial.print(y);
-Serial.print(", tile: ");
-Serial.print(tile);
-}
-      const uint8_t *tileStart = map_tiles[tile];
-if (debug) {
-Serial.print(", tileStart: ");
-Serial.print((uint16_t)&tileStart);
-Serial.print(" ");
-Serial.print((uint16_t)&tile_00);
-Serial.print(", (x % MAP_TILE_WIDTH): ");
-Serial.print((x % MAP_TILE_WIDTH));
-Serial.print(", (((y % MAP_TILE_HEIGHT) * width) / 8): ");
-Serial.print((((y % MAP_TILE_HEIGHT) * width) / 8));
-Serial.print(", 1 << (y % MAP_TILE_HEIGHT % 8): ");
-Serial.print(1 << (y % MAP_TILE_HEIGHT % 8));
+    uint8_t tile = pgm_read_byte(&level[startPos + (x / MAP_TILE_WIDTH) + ((y / MAP_TILE_HEIGHT) * width)]);
+    const uint8_t *tileStart = map_tiles[tile];
+    uint16_t mapElement = pgm_read_byte(&tileStart[(x % MAP_TILE_WIDTH)  + ((y/8) * MAP_TILE_WIDTH)]) & (1 << (y % MAP_TILE_HEIGHT % 8));
+    return (MapElement)mapElement;
 
-}
-      byte t = pgm_read_byte(&tileStart[(x % MAP_TILE_WIDTH)  + (((y % MAP_TILE_HEIGHT) * width) / 8)]) & (1 << (y % MAP_TILE_HEIGHT % 8));
-if (debug) {
-Serial.print(", t: ");
-Serial.println((uint16_t)t);
-}
-      return (MapElements)t;
-    }
+  }
 
 };
 

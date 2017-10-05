@@ -1,13 +1,15 @@
 #ifndef VISION_H
 #define VISION_H
 
-#define MAP_TILE_WIDTH  31
-#define MAP_TILE_HEIGHT 31
+#define MAP_TILE_WIDTH            31
+#define MAP_TILE_HEIGHT           31
 
-#define TILE_SIZE     4
-#define TILE_OFFSET   5
-#define UNIT          TILE_SIZE / 4
+#define TILE_SIZE                 4
+#define TILE_OFFSET               5
+#define UNIT                      TILE_SIZE / 4
 
+#define NUMBER_OF_ENEMIES         10
+#define ENEMY_BEHOLDER_POSITION   Point {6, 5}
 
 #define MAP_IMAGE_BACK            0
 #define MAP_IMAGE_CLOSE_FRONT     1
@@ -29,7 +31,7 @@
 #define MAP_MASK_FAR_LEFT         6
 #define MAP_MASK_FAR_RIGHT        7
 
-enum class GameStates : uint8_t {
+enum class GameState : uint8_t {
   Splash,
   About,
   InitGame,
@@ -42,7 +44,7 @@ enum class SplashButtons : uint8_t {
   About
 };
 
-enum class Buttons : uint8_t {
+enum class Button : uint8_t {
   Up,
   Left,
   Down,
@@ -56,9 +58,18 @@ enum class Direction : uint8_t {
   West
 };
 
-enum class MapElements : uint8_t {
+enum class MapElement : uint8_t {
   Floor,
   Wall
 };
+
+enum class EnemyType : uint8_t {
+  Beholder,
+  Skeleton,
+  DisplacerBeast,
+  Wraith,
+  Dragon
+};
+
 
 #endif

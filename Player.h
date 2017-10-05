@@ -11,17 +11,11 @@ struct Player {
   int y;
   Direction direction;
 
-  Player (int initX, int initY) {
-
-    x = initX;
-    y = initY;
-    direction = Direction::North;
-
-  }
+  Player () { }
 
   boolean moveLegal(Level *myLevel, int row, int col) {
 
-    if (myLevel->getMapElement(col, row, false) == MapElements::Floor) { //worldGrid[row][col] < 1) {
+    if (myLevel->getMapElement(col, row) == MapElement::Floor) {
       return true;
     } 
     else {
@@ -30,7 +24,7 @@ struct Player {
 
   }  
 
-  void movePlayer(Level *myLevel, Buttons button) {
+  void movePlayer(Level *myLevel, Button button) {
 
     switch (direction) {
 
@@ -38,22 +32,25 @@ struct Player {
       
         switch (button) {
 
-          case Buttons::Up:
+          case Button::Up:
             if (moveLegal(myLevel, y - 1, x)) { --y; }; direction = Direction::North; break;
-
-          case Buttons::Down:
-            if (moveLegal(myLevel, y + 1, x)) { ++y; }; break;
 /*
-          case Buttons::Left:
+          case Button::Down:
+            if (moveLegal(myLevel, y + 1, x)) { ++y; }; break;
+
+          case Button::Left:
             if (moveLegal(myLevel, y, x - 1)) { --x; }; direction = Direction::West; break;
 
-          case Buttons::Right:
+          case Button::Right:
             if (moveLegal(myLevel, y, x + 1)) { ++x; }; direction = Direction::East; break;
 */
-          case Buttons::Left:
+          case Button::Down:
+            direction = Direction::South; break;
+
+          case Button::Left:
             direction = Direction::West; break;
 
-          case Buttons::Right:
+          case Button::Right:
             direction = Direction::East; break;
             
         }
@@ -63,22 +60,25 @@ struct Player {
       
         switch (button) {
 
-          case Buttons::Up:
+          case Button::Up:
             if (moveLegal(myLevel, y, x + 1)) { ++x; }; direction = Direction::East; break;
-
-          case Buttons::Down:
-            if (moveLegal(myLevel, y, x - 1)) { --x; }; break;
 /*
-          case Buttons::Left:
+          case Button::Down:
+            if (moveLegal(myLevel, y, x - 1)) { --x; }; break;
+
+          case Button::Left:
             if (moveLegal(myLevel, y - 1, x)) { --y; }; direction = Direction::North; break;
 
-          case Buttons::Right:
+          case Button::Right:
             if (moveLegal(myLevel, y + 1, x)) { ++y; }; direction = Direction::South; break;
 */
-          case Buttons::Left:
+          case Button::Down:
+            direction = Direction::West; break;
+
+          case Button::Left:
             direction = Direction::North; break;
 
-          case Buttons::Right:
+          case Button::Right:
             direction = Direction::South; break;
             
         }
@@ -88,22 +88,25 @@ struct Player {
 
         switch (button) {
 
-          case Buttons::Up:
+          case Button::Up:
             if (moveLegal(myLevel, y + 1, x)) { ++y; }; direction = Direction::South; break;
-
-          case Buttons::Down:
-            if (moveLegal(myLevel, y - 1, x)) { --y; }; break;
 /*
-          case Buttons::Left:
+          case Button::Down:
+            if (moveLegal(myLevel, y - 1, x)) { --y; }; break;
+
+          case Button::Left:
             if (moveLegal(myLevel, y, x + 1)) { ++x; }; direction = Direction::East; break;
 
-          case Buttons::Right:
+          case Button::Right:
             if (moveLegal(myLevel, y, x - 1)) { --x; }; direction = Direction::West; break;
 */
-          case Buttons::Left:
+          case Button::Down:
+            direction = Direction::North; break;
+
+          case Button::Left:
             direction = Direction::East; break;
 
-          case Buttons::Right:
+          case Button::Right:
             direction = Direction::West; break;
 
         }
@@ -113,22 +116,25 @@ struct Player {
       
         switch (button) {
 
-          case Buttons::Up:
+          case Button::Up:
             if (moveLegal(myLevel, y, x - 1)) { --x; }; direction = Direction::West; break;
-
-          case Buttons::Down:
-            if (moveLegal(myLevel, y, x + 1)) { ++x; }; break;
 /*
-          case Buttons::Left:
+          case Button::Down:
+            if (moveLegal(myLevel, y, x + 1)) { ++x; }; break;
+
+          case Button::Left:
             if (moveLegal(myLevel, y + 1, x)) { ++y; }; direction = Direction::South; break;
 
-          case Buttons::Right:
+          case Button::Right:
             if (moveLegal(myLevel, y - 1, x)) { --y; }; direction = Direction::North; break;
 */
-          case Buttons::Left:
+          case Button::Down:
+            direction = Direction::East; break;
+
+          case Button::Left:
             direction = Direction::South; break;
 
-          case Buttons::Right:
+          case Button::Right:
             direction = Direction::North; break;
 
         }
