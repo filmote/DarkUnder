@@ -130,7 +130,7 @@ void playLoop() {
 #define VISION_Y_OFFSET   4
 
 void playerVision (Player *myHero, Level *myLevel) { //draw the walls by checking row and cols ahead of player
-
+myLevel->getMapElement(myHero->x, myHero->y, true);
   bool horizon3Plus = false;
   bool horizon2Plus = false;
 
@@ -246,7 +246,7 @@ void playerVision (Player *myHero, Level *myLevel) { //draw the walls by checkin
   // Far front wall ..
   
   if (horizon3Plus) {
-    if ((MapElements)myLevel->getMapElement(myHero->x + farFrontX, myHero->y + farFrontY) > MapElements::Floor) {        //worldGrid[myHero->y + farFrontY][myHero->x + farFrontX] > MapElements::Floor) {
+    if ((MapElements)myLevel->getMapElement(myHero->x + farFrontX, myHero->y + farFrontY, false) > MapElements::Floor) {        //worldGrid[myHero->y + farFrontY][myHero->x + farFrontX] > MapElements::Floor) {
       Sprites::drawSelfMasked(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 27, myLevel->map_images[MAP_IMAGE_FAR_FRONT], 0);
     }
   }
@@ -255,7 +255,7 @@ void playerVision (Player *myHero, Level *myLevel) { //draw the walls by checkin
   // Far left wall ..
   
   if (horizon2Plus) {
-    if ((MapElements)myLevel->getMapElement(myHero->x + farLeftX, myHero->y + farLeftY) > MapElements::Floor) {        //worldGrid[myHero->y + farLeftY][myHero->x + farLeftX] > MapElements::Floor) {
+    if ((MapElements)myLevel->getMapElement(myHero->x + farLeftX, myHero->y + farLeftY, false) > MapElements::Floor) {        //worldGrid[myHero->y + farLeftY][myHero->x + farLeftX] > MapElements::Floor) {
       Sprites::drawExternalMask(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 23, myLevel->map_images[MAP_IMAGE_FAR_LEFT], myLevel->map_masks[MAP_MASK_FAR_LEFT], 0, 0);
     }
   }
@@ -264,7 +264,7 @@ void playerVision (Player *myHero, Level *myLevel) { //draw the walls by checkin
   // Far right wall ..
 
   if (horizon2Plus) {
-    if ((MapElements)myLevel->getMapElement(myHero->x + farRightX, myHero->y + farRightY) > MapElements::Floor) {        //worldGrid[myHero->y + farRightY][myHero->x + farRightX] > MapElements::Floor) {
+    if ((MapElements)myLevel->getMapElement(myHero->x + farRightX, myHero->y + farRightY, false) > MapElements::Floor) {        //worldGrid[myHero->y + farRightY][myHero->x + farRightX] > MapElements::Floor) {
       Sprites::drawExternalMask(VISION_X_OFFSET + 34, VISION_Y_OFFSET + 23, myLevel->map_images[MAP_IMAGE_FAR_RIGHT], myLevel->map_masks[MAP_MASK_FAR_RIGHT], 0, 0);
     }
   }
@@ -273,7 +273,7 @@ void playerVision (Player *myHero, Level *myLevel) { //draw the walls by checkin
   // Mid front wall ..
   
   if (horizon2Plus) {
-    if ((MapElements)myLevel->getMapElement(myHero->x + middleFrontX, myHero->y + middleFrontY) > MapElements::Floor) {        //worldGrid[myHero->y + middleFrontY][myHero->x + middleFrontX] > MapElements::Floor) {
+    if ((MapElements)myLevel->getMapElement(myHero->x + middleFrontX, myHero->y + middleFrontY, false) > MapElements::Floor) {        //worldGrid[myHero->y + middleFrontY][myHero->x + middleFrontX] > MapElements::Floor) {
       Sprites::drawExternalMask(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 23, myLevel->map_images[MAP_IMAGE_MID_FRONT], myLevel->map_masks[MAP_MASK_MID_FRONT], 0, 0);
     }
   }
@@ -281,35 +281,35 @@ void playerVision (Player *myHero, Level *myLevel) { //draw the walls by checkin
 
   // Mid left wall ..
 
-  if ((MapElements)myLevel->getMapElement(myHero->x + middleLeftX, myHero->y + middleLeftY) > MapElements::Floor) {       //worldGrid[myHero->y + middleLeftY][myHero->x + middleLeftX] > MapElements::Floor) {
+  if ((MapElements)myLevel->getMapElement(myHero->x + middleLeftX, myHero->y + middleLeftY, false) > MapElements::Floor) {       //worldGrid[myHero->y + middleLeftY][myHero->x + middleLeftX] > MapElements::Floor) {
     Sprites::drawExternalMask(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 14, myLevel->map_images[MAP_IMAGE_MID_LEFT], myLevel->map_masks[MAP_MASK_MID_LEFT], 0, 0);
   }
 
 
   // Mid right wall ..
   
-  if ((MapElements)myLevel->getMapElement(myHero->x + middleRightX, myHero->y + middleRightY) > MapElements::Floor) {    //worldGrid[myHero->y + middleRightY][myHero->x + middleRightX] > MapElements::Floor) {
+  if ((MapElements)myLevel->getMapElement(myHero->x + middleRightX, myHero->y + middleRightY, false) > MapElements::Floor) {    //worldGrid[myHero->y + middleRightY][myHero->x + middleRightX] > MapElements::Floor) {
     Sprites::drawExternalMask(VISION_X_OFFSET + 38, VISION_Y_OFFSET + 14, myLevel->map_images[MAP_IMAGE_MID_RIGHT], myLevel->map_masks[MAP_MASK_MID_RIGHT], 0, 0);
   }
   
 
   // Close front wall ..
   
-  if ((MapElements)myLevel->getMapElement(myHero->x + closeFrontX, myHero->y + closeFrontY) > MapElements::Floor) {  // worldGrid[myHero->y + closeFrontY][myHero->x + closeFrontX] > MapElements::Floor) {
+  if ((MapElements)myLevel->getMapElement(myHero->x + closeFrontX, myHero->y + closeFrontY, false) > MapElements::Floor) {  // worldGrid[myHero->y + closeFrontY][myHero->x + closeFrontX] > MapElements::Floor) {
     Sprites::drawExternalMask(VISION_X_OFFSET, VISION_Y_OFFSET + 14, myLevel->map_images[MAP_IMAGE_CLOSE_FRONT], myLevel->map_masks[MAP_MASK_CLOSE_FRONT], 0, 0);
   }
 
 
   // Close left wall ..
 
-  if ((MapElements)myLevel->getMapElement(myHero->x + closeLeftX, myHero->y + closeLeftY) > MapElements::Floor) {   //worldGrid[myHero->y + closeLeftY][myHero->x + closeLeftX] > MapElements::Floor) {
+  if ((MapElements)myLevel->getMapElement(myHero->x + closeLeftX, myHero->y + closeLeftY, false) > MapElements::Floor) {   //worldGrid[myHero->y + closeLeftY][myHero->x + closeLeftX] > MapElements::Floor) {
     Sprites::drawExternalMask(VISION_X_OFFSET, VISION_Y_OFFSET, myLevel->map_images[MAP_IMAGE_CLOSE_LEFT], myLevel->map_masks[MAP_MASK_CLOSE_LEFT], 0, 0);
   }
 
   
   // Close right wall ..
   
-  if (myLevel->getMapElement(myHero->x + closeRightX, myHero->y + closeRightY) > MapElements::Floor) {    //[myHero->y + closeRightY][myHero->x + closeRightX] > MapElements::Floor) {
+  if (myLevel->getMapElement(myHero->x + closeRightX, myHero->y + closeRightY, false) > MapElements::Floor) {    //[myHero->y + closeRightY][myHero->x + closeRightX] > MapElements::Floor) {
     Sprites::drawExternalMask(VISION_X_OFFSET + 48, VISION_Y_OFFSET, myLevel->map_images[MAP_IMAGE_CLOSE_RIGHT], myLevel->map_masks[MAP_MASK_CLOSE_RIGHT], 0, 0);
   }
 
@@ -332,7 +332,7 @@ void worldDrawGrid(Arduboy2 *arduboy, Player *myHero, Level *myLevel) {
 
       if (mapY >= 0 && mapY < (int16_t)myLevel->height && mapX >= 0 && mapX < (int16_t)myLevel->width && !(drawX == 4 && drawY == 0) ) { 
         
-        switch (myLevel->getMapElement(mapX, mapY)) { // worldGrid[mapY][mapX]) {
+        switch (myLevel->getMapElement(mapX, mapY, false)) { // worldGrid[mapY][mapX]) {
   
           case MapElements::Floor:
             arduboy->fillRect(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), TILE_SIZE, TILE_SIZE, WHITE);
@@ -376,10 +376,22 @@ void drawDirectionIndicator(Player *myHero) {
 
 
 void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
-
+Serial.println((uint16_t)&level);
+Serial.println((uint16_t)level_00[0]);
+Serial.println((uint16_t)level_00[1]);
+Serial.println((uint16_t)level_00[2]);
+Serial.println((uint16_t)level_00[3]);
+Serial.println((uint16_t)level_00[4]);
+Serial.println((uint16_t)level_00[5]);
+Serial.println((uint16_t)level_00[6]);
+Serial.println((uint16_t)&level_00[0]);
   uint8_t idx = 0;
 
+Serial.print("x: ");
+Serial.println(pgm_read_byte(&level[idx]));
   myHero->x = pgm_read_byte(&level[idx++]);
+Serial.print("y: ");
+Serial.println(pgm_read_byte(&level[idx]));
   myHero->y = pgm_read_byte(&level[idx++]);
   myHero->direction = (Direction)pgm_read_byte(&level[idx++]);
 
@@ -387,7 +399,9 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   myLevel->height = pgm_read_byte(&level[idx++]);
 
   idx++;
+Serial.println((uint16_t)&level + idx);
   
+  myLevel->level = level;
   myLevel->map_images = map_images_00;
   myLevel->map_masks = map_masks;
   

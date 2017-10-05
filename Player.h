@@ -21,7 +21,7 @@ struct Player {
 
   boolean moveLegal(Level *myLevel, int row, int col) {
 
-    if (myLevel->getMapElement(col, row) == MapElements::Floor) { //worldGrid[row][col] < 1) {
+    if (myLevel->getMapElement(col, row, false) == MapElements::Floor) { //worldGrid[row][col] < 1) {
       return true;
     } 
     else {

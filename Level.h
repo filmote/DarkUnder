@@ -4,6 +4,7 @@
 #include <Arduboy2.h>
 #include "Enums.h"
 #include "Player.h"
+#include "MapData.h"
 
 struct Level {
 
@@ -27,6 +28,7 @@ struct Level {
   uint32_t width = 3;
   uint32_t height = 1;
 
+  const uint8_t * level;
   const uint8_t * const * map_tiles;
   const uint8_t * const * map_images;
   const uint8_t * const * map_masks;
@@ -39,13 +41,41 @@ struct Level {
   //   // myEnemies.add(new Stalker(2, 6));
   // };
   
-    MapElements getMapElement(uint32_t x, uint32_t y) {
+    MapElements getMapElement(uint32_t x, uint32_t y, bool debug) {
 
-      uint8_t tile = pgm_read_byte(x / MAP_TILE_WIDTH) + ((y / MAP_TILE_HEIGHT) * width);
+      uint8_t tile = pgm_read_byte(&level[startPos + (x / MAP_TILE_WIDTH) + ((y / MAP_TILE_HEIGHT) * width)]);
+if (debug) {
+  Serial.print("startPos: ");
+Serial.print(startPos);
+  Serial.print(", s2: ");
+Serial.print(startPos + (x / MAP_TILE_WIDTH) + ((y / MAP_TILE_HEIGHT) * width));
+  Serial.print(", x: ");
+Serial.print(x);
+Serial.print(", y: ");
+Serial.print(y);
+Serial.print(", tile: ");
+Serial.print(tile);
+}
       const uint8_t *tileStart = map_tiles[tile];
+if (debug) {
+Serial.print(", tileStart: ");
+Serial.print((uint16_t)&tileStart);
+Serial.print(" ");
+Serial.print((uint16_t)&tile_00);
+Serial.print(", (x % MAP_TILE_WIDTH): ");
+Serial.print((x % MAP_TILE_WIDTH));
+Serial.print(", (((y % MAP_TILE_HEIGHT) * width) / 8): ");
+Serial.print((((y % MAP_TILE_HEIGHT) * width) / 8));
+Serial.print(", 1 << (y % MAP_TILE_HEIGHT % 8): ");
+Serial.print(1 << (y % MAP_TILE_HEIGHT % 8));
 
-      return (MapElements)(pgm_read_byte(tileStart + (x % MAP_TILE_WIDTH) + (((y % MAP_TILE_HEIGHT) / 8) * width)) & (1 << ((y % MAP_TILE_HEIGHT) % 8)));
-      
+}
+      byte t = pgm_read_byte(&tileStart[(x % MAP_TILE_WIDTH)  + (((y % MAP_TILE_HEIGHT) * width) / 8)]) & (1 << (y % MAP_TILE_HEIGHT % 8));
+if (debug) {
+Serial.print(", t: ");
+Serial.println((uint16_t)t);
+}
+      return (MapElements)t;
     }
 
 };
