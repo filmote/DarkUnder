@@ -39,11 +39,13 @@ uint8_t level = 0;      // Current Level
 
 void setup() {
 
-  myLevel.setMapTiles(map_tiles);
-  arduboy.begin();
-  arduboy.setFrameRate(75);
+  arduboy.boot();
+  arduboy.flashlight(); 
+  arduboy.audio.begin();
   arduboy.initRandomSeed();  
 
+  myLevel.setMapTiles(map_tiles);
+  
 }
 
 void loop() {
@@ -108,10 +110,10 @@ void playLoop() {
   drawMap(&myHero, &myLevel);
   drawDirectionIndicator(&myHero);
 
-  if (arduboy.justPressed(UP_BUTTON))       { playerMoved = myHero.move(&myLevel, Button::Up); }
-  if (arduboy.justPressed(DOWN_BUTTON))     { myHero.move(&myLevel, Button::Down); }
-  if (arduboy.justPressed(LEFT_BUTTON))     { myHero.move(&myLevel, Button::Left); }
-  if (arduboy.justPressed(RIGHT_BUTTON))    { myHero.move(&myLevel, Button::Right); }
+  if (arduboy.justPressed(UP_BUTTON))       { playerMoved = movePlayer(&myHero, enemies, &myLevel, Button::Up); }
+  if (arduboy.justPressed(DOWN_BUTTON))     { movePlayer(&myHero, enemies, &myLevel, Button::Down); }
+  if (arduboy.justPressed(LEFT_BUTTON))     { movePlayer(&myHero, enemies, &myLevel, Button::Left); }
+  if (arduboy.justPressed(RIGHT_BUTTON))    { movePlayer(&myHero, enemies, &myLevel, Button::Right); }
   if (arduboy.justPressed(A_BUTTON))        { /* myUI.activated = true; */ }
   if (arduboy.justPressed(B_BUTTON))        { /* myUI.back = true; */ }
 
@@ -124,7 +126,7 @@ void playLoop() {
       
       if (enemies[i].getEnabled()) {
 
-        enemies[i].move(&myLevel, myHero.getPosition() );
+        moveEnemy(&enemies[i], enemies, &myHero, &myLevel);
 
       }
 

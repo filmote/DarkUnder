@@ -10,10 +10,6 @@ class Enemy {
   public:
 
     Enemy();
-    void move(Level *level, Point playerPosition);
-    boolean canMoveTowardsPlayer(Level *level, Point playerPosition);
-    boolean moveToVacantSquare(Level *level, Direction playerDirection);    
-    boolean moveLegal(Level *level, int x, int y);
 
     const bool getEnabled();
     const EnemyType getEnemyType();

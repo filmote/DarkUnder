@@ -75,7 +75,8 @@ enum class Direction : uint8_t {
   North,
   East,
   South,
-  West
+  West,
+  Count
 };
 
 inline Direction &operator++( Direction &c ) { 
