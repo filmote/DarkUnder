@@ -90,7 +90,15 @@ void moveEnemy(Enemy *enemy, Enemy *enemies, Player *player, Level *level) {
   
 boolean moveEnemyTowardsPlayer(Enemy *enemy, Enemy *enemies, Player *player, Level *level) {
 
-  if (player->getY() < enemy->getY() && moveLegalEnemy(enemies, player, level, enemy->getX(), enemy->getY() - 1))                { enemy->setY(enemy->getY() - 1); } 
+
+  // If the enemy is only one cell away from the player, do not move ..
+
+  if ((abs(player->getX() - enemy->getX()) == 1) ^ (abs(player->getY() - enemy->getY()) == 1))                                   { return true; } 
+
+
+  // Otherwise attempt to move close to the player ..
+
+  else if (player->getY() < enemy->getY() && moveLegalEnemy(enemies, player, level, enemy->getX(), enemy->getY() - 1))           { enemy->setY(enemy->getY() - 1); } 
   else if (player->getY() > enemy->getY() && moveLegalEnemy(enemies, player, level, enemy->getX(), enemy->getY() + 1))           { enemy->setY(enemy->getY() + 1); } 
   else if (player->getX() > enemy->getX() && moveLegalEnemy(enemies, player, level, enemy->getX() + 1, enemy->getY()))           { enemy->setX(enemy->getX() + 1); }  
   else if (player->getX() < enemy->getX() && moveLegalEnemy(enemies, player, level, enemy->getX() - 1, enemy->getY()))           { enemy->setX(enemy->getX() - 1); } 
