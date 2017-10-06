@@ -8,6 +8,7 @@
 #define TILE_OFFSET               5
 #define UNIT                      TILE_SIZE / 4
 
+#define NUMBER_OF_ITEMS           10
 #define NUMBER_OF_ENEMIES         10
 #define ENEMY_BEHOLDER_POSITION   Point {6, 5}
 
@@ -51,13 +52,6 @@ enum class Button : uint8_t {
   Right
 };
 
-enum class Direction : uint8_t {
-  North,
-  East,
-  South,
-  West
-};
-
 enum class MapElement : uint8_t {
   Floor,
   Wall
@@ -71,5 +65,47 @@ enum class EnemyType : uint8_t {
   Dragon
 };
 
+enum class ItemType : uint8_t {
+  Potion,
+  Key
+};
+
+
+enum class Direction : uint8_t {
+  North,
+  East,
+  South,
+  West
+};
+
+inline Direction &operator++( Direction &c ) { 
+  
+  c = ( c == Direction::West ) ? Direction::North : static_cast<Direction>( static_cast<uint8_t>(c) + 1 );
+  return c;
+
+}
+
+inline Direction operator++( Direction &c, int ) {
+
+  Direction result = c;
+  ++c;
+  return result;
+
+}
+
+inline Direction &operator--( Direction & c ) {
+
+  c = ( c == Direction::North ) ? Direction::West : static_cast<Direction>( static_cast<uint8_t>(c) - 1 );
+  return c;
+
+}
+
+inline Direction operator--( Direction & c, int ) {
+
+  Direction result = c;
+  --c;
+  return result;
+
+}
 
 #endif

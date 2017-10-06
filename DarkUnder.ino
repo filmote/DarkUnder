@@ -1,16 +1,19 @@
 #include <Arduboy2.h>
 
 #include "Enums.h"
+#include "Level.h"
 #include "Images.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Item.h"
 #include "MapData.h"
 
 
-Arduboy2 arduboy;
+Arduboy2Base arduboy;
 
 //ArrayList<Object>myObjects = new ArrayList<Object>();
 
+Item items[NUMBER_OF_ITEMS];
 Enemy enemies[NUMBER_OF_ENEMIES];
 
 const uint8_t *levels[] = { level_00, level_01 };
@@ -36,7 +39,7 @@ uint8_t level = 0;      // Current Level
 
 void setup() {
 
-  myLevel.map_tiles = map_tiles;
+  myLevel.setMapTiles(map_tiles);
   arduboy.begin();
   arduboy.setFrameRate(75);
   arduboy.initRandomSeed();  
@@ -97,19 +100,37 @@ void loop() {
 
 }
 
-
 void playLoop() {
 
+  bool playerMoved = false ;
+
   drawPlayerVision(&myHero, &myLevel);
-  drawMap(&arduboy, &myHero, &myLevel);
+  drawMap(&myHero, &myLevel);
   drawDirectionIndicator(&myHero);
-  
-  if (arduboy.justPressed(UP_BUTTON))       { myHero.movePlayer(&myLevel, Button::Up); }
-  if (arduboy.justPressed(DOWN_BUTTON))     { myHero.movePlayer(&myLevel, Button::Down); }
-  if (arduboy.justPressed(LEFT_BUTTON))     { myHero.movePlayer(&myLevel, Button::Left); }
-  if (arduboy.justPressed(RIGHT_BUTTON))    { myHero.movePlayer(&myLevel, Button::Right); }
+
+  if (arduboy.justPressed(UP_BUTTON))       { playerMoved = myHero.move(&myLevel, Button::Up); }
+  if (arduboy.justPressed(DOWN_BUTTON))     { myHero.move(&myLevel, Button::Down); }
+  if (arduboy.justPressed(LEFT_BUTTON))     { myHero.move(&myLevel, Button::Left); }
+  if (arduboy.justPressed(RIGHT_BUTTON))    { myHero.move(&myLevel, Button::Right); }
   if (arduboy.justPressed(A_BUTTON))        { /* myUI.activated = true; */ }
   if (arduboy.justPressed(B_BUTTON))        { /* myUI.back = true; */ }
+
+
+  // If the player moved then so should the enemies ..
+
+  if (playerMoved) {
+
+    for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {
+      
+      if (enemies[i].getEnabled()) {
+
+        enemies[i].move(&myLevel, myHero.getPosition() );
+
+      }
+
+    }  
+
+  }
 
 }
 
@@ -117,26 +138,26 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
 
   uint8_t idx = 0;
 
-  myHero->x = pgm_read_byte(&level[idx++]);
-  myHero->y = pgm_read_byte(&level[idx++]);
-  myHero->direction = (Direction)pgm_read_byte(&level[idx++]);
+  myHero->setX(pgm_read_byte(&level[idx++]));
+  myHero->setY(pgm_read_byte(&level[idx++]));
+  myHero->setDirection((Direction)pgm_read_byte(&level[idx++]));
 
-  myLevel->width = pgm_read_byte(&level[idx++]);
-  myLevel->height = pgm_read_byte(&level[idx++]);
+  myLevel->setWidth(pgm_read_byte(&level[idx++]));
+  myLevel->setHeight(pgm_read_byte(&level[idx++]));
 
 
   // Set the image and mask arrays ..
     
   idx++;
-  myLevel->level = level;
-  myLevel->map_images = map_images_00;
-  myLevel->map_masks = map_masks;
+  myLevel->setLevel(level);
+  myLevel->setMapImages(map_images_00);
+  myLevel->setMapMasks(map_masks);
 
 
   // Disable all enemies ..
   
   for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {
-    enemies[i].enabled = false;
+    enemies[i].setEnabled(false);
   }  
 
 
@@ -146,14 +167,35 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
 
   for (uint8_t i = 0; i < numberOfEnemies; ++i) {  
 
-    enemies[i].enabled = true;
-    enemies[i].enemyType = (EnemyType)pgm_read_byte(&level[idx++]);
-    enemies[i].x = pgm_read_byte(&level[idx++]);
-    enemies[i].y = pgm_read_byte(&level[idx++]);
+    enemies[i].setEnabled(true);
+    enemies[i].setEnemyType((EnemyType)pgm_read_byte(&level[idx++]));
+    enemies[i].setX(pgm_read_byte(&level[idx++]));
+    enemies[i].setY(pgm_read_byte(&level[idx++]));
      
   }
-    
-  myLevel->startPos = idx;
+  
+
+  // Disable all items ..
+  
+  for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {
+    items[i].setEnabled(false);
+  }  
+
+
+  // Create all items ..
+  
+  uint8_t numberOfItems = pgm_read_byte(&level[idx++]);
+
+  for (uint8_t i = 0; i < numberOfItems; ++i) {  
+
+    items[i].setEnabled(true);
+    items[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
+    items[i].setX(pgm_read_byte(&level[idx++]));
+    items[i].setY(pgm_read_byte(&level[idx++]));
+     
+  }  
+
+  myLevel->setStartPos(idx);
   gameState = GameState::Play;
 
 }

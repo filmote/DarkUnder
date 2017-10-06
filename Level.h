@@ -3,30 +3,44 @@
 
 #include <Arduboy2.h>
 #include "Enums.h"
-#include "Player.h"
 #include "MapData.h"
+#include "Item.h"
 
-struct Level {
+class Level {
 
-  String levelDescription="Hallway of \nthe dead";
+  public:
 
-  uint32_t startPos = 0;
-  uint32_t width = 3;
-  uint32_t height = 1;
+    Level();
+    const MapElement getMapElement(uint32_t x, uint32_t y);
 
-  const uint8_t * level;
-  const uint8_t * const * map_tiles;
-  const uint8_t * const * map_images;
-  const uint8_t * const * map_masks;
-  
-  MapElement getMapElement(uint32_t x, uint32_t y) {
+    const uint32_t getStartPos();
+    const uint32_t getWidth();
+    const uint32_t getHeight();
 
-    uint8_t tile = pgm_read_byte(&level[startPos + (x / MAP_TILE_WIDTH) + ((y / MAP_TILE_HEIGHT) * width)]);
-    const uint8_t *tileStart = map_tiles[tile];
-    uint16_t mapElement = pgm_read_byte(&tileStart[(x % MAP_TILE_WIDTH)  + ((y/8) * MAP_TILE_WIDTH)]) & (1 << (y % MAP_TILE_HEIGHT % 8));
-    return (MapElement)mapElement;
+    const uint8_t * getLevel();
+    const uint8_t * const * getMapTiles();
+    const uint8_t * const * getMapImages();
+    const uint8_t * const * getMapMasks();
 
-  }
+    void setStartPos(const uint32_t value);
+    void setWidth(const uint32_t value);
+    void setHeight(const uint32_t value);
+
+    void setLevel(const uint8_t *value);
+    void setMapTiles(const uint8_t * const *value);
+    void setMapImages(const uint8_t * const *value);
+    void setMapMasks(const uint8_t * const *value);
+
+  private:
+
+    uint32_t _startPos;
+    uint32_t _width;
+    uint32_t _height;
+
+    const uint8_t * _level;
+    const uint8_t * const * _map_tiles;
+    const uint8_t * const * _map_images;
+    const uint8_t * const * _map_masks;
 
 };
 

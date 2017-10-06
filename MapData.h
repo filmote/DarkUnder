@@ -41,6 +41,13 @@ const uint8_t PROGMEM level_00[] = {
 (uint8_t)EnemyType::Beholder,         // Enemy type
 15, 15,                               // Starting position
 
+1,                                    // Number of items
+                                      // Item 1
+(uint8_t)ItemType::Potion,            // Item type
+22, 15,                               // Starting position
+
+
+
 0, 0, 0,                              // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
 
 };
