@@ -351,3 +351,9 @@ void drawDirectionIndicator(Player *myHero) {
   Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, direction_images[(uint8_t)myHero->getDirection()], 0);
   
 }
+
+
+void drawInventory() {
+  Sprites::drawSelfMasked(70, 14, font_letters[7], 0);
+  Sprites::drawSelfMasked(74, 14, font_letters[15], 0);
+}

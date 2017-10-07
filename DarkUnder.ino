@@ -7,6 +7,7 @@
 #include "Enemy.h"
 #include "Item.h"
 #include "MapData.h"
+#include "Font.h"
 #include "PlayerController.h"
 #include "EnemyController.h"
 
@@ -17,6 +18,13 @@ Arduboy2Base arduboy;
 
 Item items[NUMBER_OF_ITEMS];
 Enemy enemies[NUMBER_OF_ENEMIES];
+
+// Font images ..
+
+const uint8_t *font_letters[] = { FONT_A, FONT_B, FONT_C, FONT_D, FONT_E, FONT_F, FONT_G, FONT_H, FONT_I, FONT_J, FONT_K, FONT_L, FONT_M, 
+                                  FONT_N, FONT_O, FONT_P, FONT_Q, FONT_R, FONT_S, FONT_T, FONT_U, FONT_V, FONT_W, FONT_X, FONT_Y ,FONT_Z };
+
+const uint8_t *font_numbers[] = { FONT_0, FONT_1, FONT_2, FONT_3, FONT_4, FONT_5, FONT_6, FONT_7, FONT_8, FONT_9 };   
 
 const uint8_t *levels[] = { level_00, level_01 };
 const uint8_t *map_tiles[] = { tile_00, tile_01 };
@@ -121,7 +129,8 @@ void playLoop() {
   drawPlayerVision(&myHero, &myLevel);
   drawMap(&myHero, &myLevel);
   drawDirectionIndicator(&myHero);
-
+  drawInventory();
+  
   if (arduboy.justPressed(UP_BUTTON))       { playerMoved = PlayerController::move(&myHero, enemies, &myLevel, Button::Up); }
   if (arduboy.justPressed(DOWN_BUTTON))     { PlayerController::move(&myHero, enemies, &myLevel, Button::Down); }
   if (arduboy.justPressed(LEFT_BUTTON))     { PlayerController::move(&myHero, enemies, &myLevel, Button::Left); }
@@ -201,7 +210,7 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   uint8_t numberOfItems = pgm_read_byte(&level[idx++]);
 
   for (uint8_t i = 0; i < numberOfItems; ++i) {  
-Serial.println("sdfsd0");
+
     items[i].setEnabled(true);
     items[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
     items[i].setX(pgm_read_byte(&level[idx++]));

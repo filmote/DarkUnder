@@ -1,0 +1,185 @@
+#ifndef FONTS_H
+#define FONTS_H
+
+const unsigned char PROGMEM FONT_A[] = {
+4, 7,
+0x1F, 0x05, 0x1F, 0x00,
+};
+
+const unsigned char PROGMEM FONT_B[] = {
+4, 7,
+0x1F, 0x15, 0x1B, 0x00,
+};
+
+const unsigned char PROGMEM FONT_C[] = {
+4, 7,
+0x1F, 0x11, 0x11, 0x00,
+};
+
+const unsigned char PROGMEM FONT_D[] = {
+4, 7,
+0x1F, 0x11, 0x0E, 0x00,
+};
+
+const unsigned char PROGMEM FONT_E[] = {
+4, 7,
+0x1F, 0x15, 0x11, 0x00,
+};
+
+const unsigned char PROGMEM FONT_F[] = {
+4, 7,
+0x1F, 0x05, 0x01, 0x00,
+};
+
+const unsigned char PROGMEM FONT_G[] = {
+4, 7,
+0x1F, 0x11, 0x1D, 0x00,
+};
+
+const unsigned char PROGMEM FONT_H[] = {
+4, 7,
+0x1F, 0x04, 0x1F, 0x00,
+};
+
+const unsigned char PROGMEM FONT_I[] = {
+4, 7,
+0x00, 0x1F, 0x00, 0x00,
+};
+
+const unsigned char PROGMEM FONT_J[] = {
+4, 7,
+0x10, 0x10, 0x1F, 0x00,
+};
+
+const unsigned char PROGMEM FONT_K[] = {
+4, 7,
+0x1F, 0x04, 0x1B, 0x00,
+};
+
+const unsigned char PROGMEM FONT_L[] = {
+4, 7,
+0x1F, 0x10, 0x10, 0x00,
+};
+
+const unsigned char PROGMEM FONT_M[] = {
+4, 7,
+0x1F, 0x06, 0x1F, 0x00,
+};
+
+const unsigned char PROGMEM FONT_N[] = {
+4, 7,
+0x1F, 0x01, 0x1F, 0x00,
+};
+
+const unsigned char PROGMEM FONT_O[] = {
+4, 7,
+0x1F, 0x11, 0x1F, 0x00,
+};
+
+const unsigned char PROGMEM FONT_P[] = {
+4, 7,
+0x1F, 0x05, 0x07, 0x00,
+};
+
+const unsigned char PROGMEM FONT_Q[] = {
+4, 7,
+0x1F, 0x31, 0x1F, 0x00,
+};
+
+const unsigned char PROGMEM FONT_R[] = {
+4, 7,
+0x1F, 0x05, 0x1B, 0x00, 
+};
+
+const unsigned char PROGMEM FONT_S[] = {
+4, 7,
+0x17, 0x15, 0x1D, 0x00, 
+};
+
+const unsigned char PROGMEM FONT_T[] = {
+4, 7,
+0x01, 0x1F, 0x01, 0x00, 
+};
+
+const unsigned char PROGMEM FONT_U[] = {
+4, 7,
+0x1F, 0x10, 0x1F, 0x00, 
+};
+
+const unsigned char PROGMEM FONT_V[] = {
+4, 7,
+0x0F, 0x10, 0x0F, 0x00, 
+};
+
+const unsigned char PROGMEM FONT_W[] = {
+4, 7,
+0x1F, 0x0C, 0x1F, 0x00, 
+};
+
+const unsigned char PROGMEM FONT_X[] = {
+4, 7,
+0x1B, 0x04, 0x1B, 0x00, 
+};
+
+const unsigned char PROGMEM FONT_Y[] = {
+4, 7,
+0x07, 0x1C, 0x07, 0x00, 
+};
+
+const unsigned char PROGMEM FONT_Z[] = {
+4, 7,
+0x19, 0x15, 0x13, 0x00,
+};
+
+const unsigned char PROGMEM FONT_0[] = {
+4, 7,
+
+0x1F, 0x11, 0x1F, 0x00, 
+};
+
+const unsigned char PROGMEM FONT_1[] = {
+4, 7,
+0x00, 0x1F, 0x00, 0x00, 
+};
+
+const unsigned char PROGMEM FONT_2[] = {
+4, 7,
+0x1D, 0x15, 0x17, 0x00, 
+};
+
+const unsigned char PROGMEM FONT_3[] = {
+4, 7,
+0x11, 0x15, 0x1F, 0x00, 
+};
+
+const unsigned char PROGMEM FONT_4[] = {
+4, 7,
+0x07, 0x04, 0x1F, 0x00, 
+};
+
+const unsigned char PROGMEM FONT_5[] = {
+4, 7,
+0x17, 0x15, 0x1D, 0x00, 
+};
+
+const unsigned char PROGMEM FONT_6[] = {
+4, 7,
+0x1F, 0x15, 0x1D, 0x00, 
+};
+
+const unsigned char PROGMEM FONT_7[] = {
+4, 7,
+0x01, 0x01, 0x1F, 0x00, 
+};
+
+const unsigned char PROGMEM FONT_8[] = {
+4, 7,
+0x1F, 0x15, 0x1F, 0x00, 
+};
+
+const unsigned char PROGMEM FONT_9[] = {
+4, 7,
+0x17, 0x15, 0x1F, 0x00,
+};
+
+#endif                      
