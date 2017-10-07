@@ -1,0 +1,26 @@
+#ifndef ENEMYCONTROLLER_H
+#define ENEMYCONTROLLER_H
+
+#include <Arduboy2.h>
+#include "Enums.h"
+#include "Level.h"
+#include "Images.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "Item.h"
+#include "MapData.h"
+
+class EnemyController {
+
+  public:
+
+    EnemyController();
+
+    static void move(Enemy *thisEnemy, Enemy *allEnemies, Player *player, Level *level); 
+    static boolean moveTowardsPlayer(Enemy *thisEnemy, Enemy *allEnemies, Player *player, Level *level);
+    static boolean moveToVacantSquare(Enemy *thisEnemy, Enemy *allEnemies, Player *player, Level *level, Direction playerDirection);
+    static boolean moveLegal(Enemy *allEnemies, Player *player, Level *level, int x, int y);
+
+};
+
+#endif

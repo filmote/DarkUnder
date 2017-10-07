@@ -190,6 +190,8 @@ void drawPlayerVision (Player *myHero, Level *myLevel) { //draw the walls by che
 
   // Render enemies ..
 
+  bool renderEnemy = false;
+
   for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {  
 
     if (enemies[i].getEnabled()) {
@@ -210,13 +212,52 @@ void drawPlayerVision (Player *myHero, Level *myLevel) { //draw the walls by che
 
         uint8_t enemyType = (uint8_t)enemies[i].getEnemyType();
         Sprites::drawExternalMask(enemy_offset[enemyType].x, enemy_offset[enemyType].y, enemy_images[enemyType], enemy_masks[enemyType], 0, 0);
-      
+        renderEnemy = true;
+        break;
+
       }
             
     }
          
   }
-  
+
+
+  // Render items if no enemy has been rendered .. 
+
+  if (!renderEnemy) {
+    
+    for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
+
+      if (items[i].getEnabled()) {
+
+        int8_t offsetX = 0;
+        int8_t offsetY = 0;
+        
+        switch (myHero->getDirection()) {
+
+          case Direction::North:    offsetX =  0;  offsetY = -1;  break;
+          case Direction::East:     offsetX =  1;  offsetY =  0;  break;
+          case Direction::South:    offsetX =  0;  offsetY =  1;  break;
+          case Direction::West:     offsetX = -1;  offsetY =  0;  break;
+          
+        }
+
+        if (items[i].getX() == myHero->getX() + offsetX && items[i].getY() == myHero->getY() + offsetY) {
+
+          uint8_t itemType = (uint8_t)items[i].getItemType();
+          arduboy.fillRect(16, 16, 32, 32, WHITE);
+          Sprites::drawErase(item_offset[itemType].x, item_offset[itemType].y, item_images[itemType], 0);
+          renderEnemy = true;
+          break;
+
+        }
+              
+      }
+          
+    }
+
+  }
+
 }
 
 

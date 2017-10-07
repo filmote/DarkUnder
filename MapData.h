@@ -43,8 +43,8 @@ const uint8_t PROGMEM level_00[] = {
 
 1,                                    // Number of items
                                       // Item 1
-(uint8_t)ItemType::Potion,            // Item type
-22, 15,                               // Starting position
+(uint8_t)ItemType::HPPotion,          // Item type
+31, 15,                               // Starting position
 
 
 

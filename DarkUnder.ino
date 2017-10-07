@@ -7,6 +7,8 @@
 #include "Enemy.h"
 #include "Item.h"
 #include "MapData.h"
+#include "PlayerController.h"
+#include "EnemyController.h"
 
 
 Arduboy2Base arduboy;
@@ -20,12 +22,22 @@ const uint8_t *levels[] = { level_00, level_01 };
 const uint8_t *map_tiles[] = { tile_00, tile_01 };
 const uint8_t *map_images_00[] = { visionBack, closeWallFront, closeWallLeft, closeWallRight, midWallFront, midWallLeft, midWallRight, farWallFront, farWallLeft, farWallRight };
 const uint8_t *map_masks[] = { closeWallFront_Mask, closeWallLeft_Mask, closeWallRight_Mask, midWallFront_Mask, midWallLeft_Mask, midWallRight_Mask, farWallLeft_Mask, farWallRight_Mask };
+const uint8_t *direction_images[] = { directionN, directionE, directionS, directionW };
+
+
+// Enemy details ..
 
 const uint8_t *enemy_images[] = { Enemy_Beholder };
 const uint8_t *enemy_masks[] = { Enemy_Beholder_Mask };
 const Point enemy_offset[] = { ENEMY_BEHOLDER_POSITION };
 
-const uint8_t *direction_images[] = { directionN, directionE, directionS, directionW };
+
+// Item details ..
+
+const uint8_t *item_images[] = { icnHPPotion };
+const uint8_t *item_masks[] = { icnHPPotion };
+const Point item_offset[] = { ITEM_HPPOTION_POSITION };
+
 
 GameState gameState = GameState::Splash; 
 
@@ -110,10 +122,10 @@ void playLoop() {
   drawMap(&myHero, &myLevel);
   drawDirectionIndicator(&myHero);
 
-  if (arduboy.justPressed(UP_BUTTON))       { playerMoved = movePlayer(&myHero, enemies, &myLevel, Button::Up); }
-  if (arduboy.justPressed(DOWN_BUTTON))     { movePlayer(&myHero, enemies, &myLevel, Button::Down); }
-  if (arduboy.justPressed(LEFT_BUTTON))     { movePlayer(&myHero, enemies, &myLevel, Button::Left); }
-  if (arduboy.justPressed(RIGHT_BUTTON))    { movePlayer(&myHero, enemies, &myLevel, Button::Right); }
+  if (arduboy.justPressed(UP_BUTTON))       { playerMoved = PlayerController::move(&myHero, enemies, &myLevel, Button::Up); }
+  if (arduboy.justPressed(DOWN_BUTTON))     { PlayerController::move(&myHero, enemies, &myLevel, Button::Down); }
+  if (arduboy.justPressed(LEFT_BUTTON))     { PlayerController::move(&myHero, enemies, &myLevel, Button::Left); }
+  if (arduboy.justPressed(RIGHT_BUTTON))    { PlayerController::move(&myHero, enemies, &myLevel, Button::Right); }
   if (arduboy.justPressed(A_BUTTON))        { /* myUI.activated = true; */ }
   if (arduboy.justPressed(B_BUTTON))        { /* myUI.back = true; */ }
 
@@ -126,7 +138,7 @@ void playLoop() {
       
       if (enemies[i].getEnabled()) {
 
-        moveEnemy(&enemies[i], enemies, &myHero, &myLevel);
+        EnemyController::move(&enemies[i], enemies, &myHero, &myLevel);
 
       }
 
@@ -189,7 +201,7 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   uint8_t numberOfItems = pgm_read_byte(&level[idx++]);
 
   for (uint8_t i = 0; i < numberOfItems; ++i) {  
-
+Serial.println("sdfsd0");
     items[i].setEnabled(true);
     items[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
     items[i].setX(pgm_read_byte(&level[idx++]));
