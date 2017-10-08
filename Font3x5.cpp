@@ -1,5 +1,14 @@
-#ifndef FONTS_H
-#define FONTS_H
+#include <Arduino.h>
+#include <Print.h>
+#include <Sprites.h>
+#include "Font3x5.h"
+
+#define FONT3X5_WIDTH 3
+#define FONT3X5_HEIGHT 6
+
+const unsigned char PROGMEM FONT_MASK[] = {
+0x7F, 0x7F, 0x7F, 0x7F,
+};
 
 const unsigned char PROGMEM FONT_A[] = {
 4, 7,
@@ -182,4 +191,69 @@ const unsigned char PROGMEM FONT_9[] = {
 0x17, 0x15, 0x1F, 0x00,
 };
 
-#endif                      
+const uint8_t * const font_letters[] PROGMEM = { FONT_A, FONT_B, FONT_C, FONT_D, FONT_E, FONT_F, FONT_G, FONT_H, FONT_I, FONT_J, FONT_K, FONT_L, FONT_M, 
+                                                 FONT_N, FONT_O, FONT_P, FONT_Q, FONT_R, FONT_S, FONT_T, FONT_U, FONT_V, FONT_W, FONT_X, FONT_Y ,FONT_Z };
+const uint8_t * const font_numbers[] PROGMEM = { FONT_0, FONT_1, FONT_2, FONT_3, FONT_4, FONT_5, FONT_6, FONT_7, FONT_8, FONT_9 };   
+
+Font3x5::Font3x5(uint8_t *screenBuffer, int16_t width, int16_t height) {
+
+  sBuffer = screenBuffer;
+  sWidth = width;
+  sHeight = height;
+
+  // default values
+  lineHeight = FONT3X5_HEIGHT + 1;
+  letterSpacing = 1;
+
+  cursorX = cursorY = baseX = 0;
+  textColor = 1;
+
+}
+
+size_t Font3x5::write(uint8_t c) {
+
+  if (c == '\n')      { cursorX = baseX; cursorY += lineHeight; }
+  else if(c == '\t')  { cursorX += FONT3X5_WIDTH + 5; }
+  else {
+
+    printChar(c, cursorX, cursorY);
+    cursorX += FONT3X5_WIDTH + letterSpacing;
+
+  }
+
+  return 1;
+
+}
+
+void Font3x5::printChar(char c, int16_t x, int16_t y) {
+
+  // no need to draw at all of we're offscreen
+  if (x + FONT3X5_WIDTH <= 0 || x > sWidth - 1 || y + FONT3X5_HEIGHT <= 0 || y > sHeight - 1) return;
+
+  ++y;
+
+  if (c >= 65 && c <= 90) {
+    Sprites::drawExternalMask(x, y, pgm_read_word_near(&font_letters[c - 65]), FONT_MASK, 0, 0);
+  }
+  if (c >= 48 && c <= 57) {  
+    Sprites::drawExternalMask(x, y, pgm_read_word_near(&font_numbers[c - 48]), FONT_MASK, 0, 0);
+  }
+
+}
+
+void Font3x5::setCursor(int16_t x, int16_t y) {
+  cursorX = baseX = x;
+  cursorY = y;
+}
+
+const int16_t Font3x5::getCursorX(){
+  return cursorX;
+}
+
+const int16_t Font3x5::getCursorY(){
+  return cursorY;
+}
+
+void Font3x5::setTextColor(uint8_t color){
+  textColor = color;
+}

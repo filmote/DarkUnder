@@ -353,7 +353,12 @@ void drawDirectionIndicator(Player *myHero) {
 }
 
 
-void drawInventory() {
-  Sprites::drawSelfMasked(70, 14, font_letters[7], 0);
-  Sprites::drawSelfMasked(74, 14, font_letters[15], 0);
+void drawInventory(Level *level) {
+  Serial.println("sdfsd");
+  font3x5.setCursor(70,10);
+  font3x5.print("HP\nDF\nAP\nMG");
+  font3x5.setCursor(80,44);
+  font3x5.print(level->getTitleLine1());
+  font3x5.setCursor(80,52);
+  font3x5.print(level->getTitleLine2());
 }

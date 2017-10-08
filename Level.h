@@ -21,7 +21,9 @@ class Level {
     const uint8_t * const * getMapTiles();
     const uint8_t * const * getMapImages();
     const uint8_t * const * getMapMasks();
-
+    char * getTitleLine1();
+    char * getTitleLine2();
+    
     void setStartPos(const uint32_t value);
     void setWidth(const uint32_t value);
     void setHeight(const uint32_t value);
@@ -36,7 +38,9 @@ class Level {
     uint32_t _startPos;
     uint32_t _width;
     uint32_t _height;
-
+    char _titleLine1[12];
+    char _titleLine2[12];
+    
     const uint8_t * _level;
     const uint8_t * const * _map_tiles;
     const uint8_t * const * _map_images;

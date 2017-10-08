@@ -15,6 +15,9 @@ const uint8_t * const * Level::getMapTiles()                { return _map_tiles;
 const uint8_t * const * Level::getMapImages()               { return _map_images; }
 const uint8_t * const * Level::getMapMasks()                { return _map_masks; }
 
+char * Level::getTitleLine1()                               { return _titleLine1; }
+char * Level::getTitleLine2()                               { return _titleLine2; }
+
 void Level::setStartPos(const uint32_t value)               { _startPos = value; }
 void Level::setWidth(const uint32_t value)                  { _width = value; }
 void Level::setHeight(const uint32_t value)                 { _height = value; }

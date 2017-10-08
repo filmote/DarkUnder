@@ -26,50 +26,60 @@ const uint8_t PROGMEM tile_01[] = {
 //  Levels 
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-const uint8_t PROGMEM level_00[] = {
-27, 15,                               // Starting postion of player
-(uint8_t)Direction::East,             // Starting direction of player
-3, 1,                                 // Dimension of level in tiles (a tile is a 31x31 map)
-0,                                    // Wall texture of this level
-2,                                    // Number of enemies
+const uint8_t PROGMEM level_00[] = {  
 
-                                      // Enemy 1
-(uint8_t)EnemyType::Beholder,         // Enemy type
-24, 15,                               // Starting position
+// 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11      // Title, 22 characters
+   72, 65, 76, 76, 87, 65, 89, 32, 79, 70, 32, 
+   84, 72, 69, 32, 68, 69, 65, 68, 32, 32, 32,
 
-                                      // Enemy 2
-(uint8_t)EnemyType::Beholder,         // Enemy type
-15, 15,                               // Starting position
+27, 15,                                            // Starting postion of player
+(uint8_t)Direction::East,                          // Starting direction of player
+3, 1,                                              // Dimension of level in tiles (a tile is a 31x31 map)
+0,                                                 // Wall texture of this level
+2,                                                 // Number of enemies
 
-1,                                    // Number of items
-                                      // Item 1
-(uint8_t)ItemType::HPPotion,          // Item type
-31, 15,                               // Starting position
+                                                   // Enemy 1
+(uint8_t)EnemyType::Beholder,                      // Enemy type
+24, 15,                                            // Starting position
+
+                                                   // Enemy 2
+(uint8_t)EnemyType::Beholder,                      // Enemy type
+15, 15,                                            // Starting position
+
+1,                                                 // Number of items
+                                                   // Item 1
+(uint8_t)ItemType::HPPotion,                       // Item type
+31, 15,                                            // Starting position
 
 
 
-0, 0, 0,                              // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
+0, 0, 0,                                           // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
 
 };
 
 // ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    
 
 const uint8_t PROGMEM level_01[] = {
-27, 15,                               // Starting postion of player
-(uint8_t)Direction::East,             // Starting direction of player
-3, 1,                                 // Dimension of level in tiles (a tile is a 31x31 map)
-0,                                    // Wall texture of this level
-2,                                    // Number of enemies
 
-                                      // Enemy 1
-(uint8_t)EnemyType::Beholder,         // Enemy type
-24, 15,                               // Starting position
+// 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11      // Title, 22 characters
+   72, 65, 76, 76, 87, 65, 89, 32, 79, 70, 32, 
+   84, 72, 69, 32, 68, 69, 65, 68, 32, 32, 32,
 
-                                      // Enemy 2
-(uint8_t)EnemyType::Beholder,         // Enemy type
-15, 15,                               // Starting position
+27, 15,                                            // Starting postion of player
+(uint8_t)Direction::East,                          // Starting direction of player
+3, 1,                                              // Dimension of level in tiles (a tile is a 31x31 map)
+0,                                                 // Wall texture of this level
+2,                                                 // Number of enemies
 
-0, 0, 0,                              // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
+                                                   // Enemy 1
+(uint8_t)EnemyType::Beholder,                      // Enemy type
+24, 15,                                            // Starting position
+
+                                                   // Enemy 2
+(uint8_t)EnemyType::Beholder,                      // Enemy type
+15, 15,                                            // Starting position
+
+0, 0, 0,                                           // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
 
 };
 
