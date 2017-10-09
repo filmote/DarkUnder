@@ -36,10 +36,9 @@ const uint8_t PROGMEM level_00[] = {
 (uint8_t)Direction::East,                          // Starting direction of player
 2, 2,                                              // Dimension of level in tiles (a tile is a 15x15 map)
 0,                                                 // Wall texture of this level
-2,                                                 // Number of enemies
 
-                                                   // Enemies
-(uint8_t)EnemyType::Dragon, 3, 1,                // Enemy type, starting position
+2,                                                 // Number of enemies
+(uint8_t)EnemyType::Dragon, 3, 1,                  // Enemy type, starting position
 (uint8_t)EnemyType::Displacer, 5, 1,               // Enemy type, starting position
 
 1,                                                 // Number of items
@@ -64,9 +63,8 @@ const uint8_t PROGMEM level_01[] = {
 (uint8_t)Direction::East,                          // Starting direction of player
 2, 2,                                              // Dimension of level in tiles (a tile is a 15x15 map)
 0,                                                 // Wall texture of this level
-2,                                                 // Number of enemies
 
-                                                   // Enemies
+2,                                                 // Number of enemies
 (uint8_t)EnemyType::Beholder, 3, 1,                // Enemy type, starting position
 (uint8_t)EnemyType::Beholder, 5, 1,                // Enemy type, starting position
 
@@ -92,9 +90,8 @@ const uint8_t PROGMEM level_02[] = {
 (uint8_t)Direction::East,                          // Starting direction of player
 2, 2,                                              // Dimension of level in tiles (a tile is a 15x15 map)
 0,                                                 // Wall texture of this level
-2,                                                 // Number of enemies
 
-                                                   // Enemies
+2,                                                 // Number of enemies
 (uint8_t)EnemyType::Dragon, 3, 1,                  // Enemy type, starting position
 (uint8_t)EnemyType::Displacer, 5, 1,               // Enemy type, starting position
 
