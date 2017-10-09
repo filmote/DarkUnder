@@ -3,6 +3,9 @@
 #include "Enums.h"
 #include "Level.h"
 #include "Images.h"
+#include "Images_Dungeons.h"
+#include "Images_Enemies.h"
+#include "Images_Fight.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Item.h"
@@ -28,18 +31,20 @@ Enemy enemies[NUMBER_OF_ENEMIES];
 
 // const uint8_t *font_numbers[] = { FONT_0, FONT_1, FONT_2, FONT_3, FONT_4, FONT_5, FONT_6, FONT_7, FONT_8, FONT_9 };   
 
-const uint8_t *levels[] = { level_00, level_01 };
-const uint8_t *map_tiles[] = { tile_00, tile_01 };
-const uint8_t *map_images_00[] = { visionBack, closeWallFront, closeWallLeft, closeWallRight, midWallFront, midWallLeft, midWallRight, farWallFront, farWallLeft, farWallRight };
+const uint8_t *levels[] = { level_00, level_01, level_02 };
+const uint8_t *map_tiles[] = { tile_00, tile_01, tile_02 };
+const uint8_t *map_images_00[] = { visionBack, closeWallFront_00, closeWallLeft_00, closeWallRight_00, midWallFront_00, midWallLeft_00, midWallRight_00, farWallFront_00, farWallLeft_00, farWallRight_00 };
+const uint8_t *map_images_01[] = { visionBack, closeWallFront_01, closeWallLeft_01, closeWallRight_01, midWallFront_01, midWallLeft_01, midWallRight_01, farWallFront_01, farWallLeft_01, farWallRight_01 };
+const uint8_t *map_images_02[] = { visionBack, closeWallFront_02, closeWallLeft_02, closeWallRight_02, midWallFront_02, midWallLeft_02, midWallRight_02, farWallFront_02, farWallLeft_02, farWallRight_02 };
 const uint8_t *map_masks[] = { closeWallFront_Mask, closeWallLeft_Mask, closeWallRight_Mask, midWallFront_Mask, midWallLeft_Mask, midWallRight_Mask, farWallLeft_Mask, farWallRight_Mask };
 const uint8_t *direction_images[] = { directionN, directionE, directionS, directionW };
 
 
 // Enemy details ..
 
-const uint8_t *enemy_images[] = { Enemy_Beholder };
-const uint8_t *enemy_masks[] = { Enemy_Beholder_Mask };
-const Point enemy_offset[] = { ENEMY_BEHOLDER_POSITION };
+const uint8_t *enemy_images[] = { enemy_beholder, enemy_skeleton, enemy_displacer, enemy_wraith, enemy_dragon };
+const uint8_t *enemy_masks[] = { enemy_beholder_Mask, enemy_skeleton_Mask, enemy_displacer_Mask, enemy_wraith_Mask, enemy_dragon_Mask };
+const Point enemy_offset[] = { ENEMY_BEHOLDER_POSITION, ENEMY_SKELETON_POSITION, ENEMY_DISPLACER_POSITION, ENEMY_WRAITH_POSITION, ENEMY_DRAGON_POSITION };
 
 
 // Item details ..
@@ -187,9 +192,11 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
 
   // Set the image and mask arrays ..
     
-  idx++;
   myLevel->setLevel(level);
-  myLevel->setMapImages(map_images_00);
+  uint8_t dungeonStyle = pgm_read_byte(&level[idx++]);
+  if (dungeonStyle == 0) { myLevel->setMapImages(map_images_00); }
+  if (dungeonStyle == 1) { myLevel->setMapImages(map_images_01); }
+  if (dungeonStyle == 2) { myLevel->setMapImages(map_images_02); }
   myLevel->setMapMasks(map_masks);
 
 

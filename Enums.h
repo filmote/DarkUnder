@@ -1,8 +1,10 @@
 #ifndef VISION_H
 #define VISION_H
 
-#define MAP_TILE_WIDTH            31
-#define MAP_TILE_HEIGHT           31
+#define MAP_TILE_WIDTH            15
+#define MAP_TILE_HEIGHT           15
+#define MAP_TILE_PHYSICAL_WIDTH   16
+#define MAP_TILE_PHYSICAL_HEIGHT  16
 
 #define TILE_SIZE                 4
 #define TILE_OFFSET               5
@@ -10,10 +12,13 @@
 
 #define NUMBER_OF_ENEMIES         10
 #define ENEMY_BEHOLDER_POSITION   Point {6, 5}
+#define ENEMY_SKELETON_POSITION   Point {11, 5}
+#define ENEMY_DISPLACER_POSITION  Point {8, 16}
+#define ENEMY_WRAITH_POSITION     Point {16, 3}
+#define ENEMY_DRAGON_POSITION     Point {3, 5}
 
 #define NUMBER_OF_ITEMS           10
 #define ITEM_HPPOTION_POSITION    Point {20, 20}
-
 
 #define MAP_IMAGE_BACK            0
 #define MAP_IMAGE_CLOSE_FRONT     1
@@ -63,7 +68,7 @@ enum class MapElement : uint8_t {
 enum class EnemyType : uint8_t {
   Beholder,
   Skeleton,
-  DisplacerBeast,
+  Displacer,
   Wraith,
   Dragon
 };
@@ -73,6 +78,13 @@ enum class ItemType : uint8_t {
   Key
 };
 
+
+enum class Rotation : uint8_t {
+  Rotation_0 = 0,
+  Rotation_90 = 64,
+  Rotation_180 = 128,
+  Rotation_270 = 192,
+};
 
 enum class Direction : uint8_t {
   North,

@@ -12,17 +12,17 @@ class Player {
     Player();
 
     const Direction getDirection();
-    const uint16_t getX();
-    const uint16_t getY();
+    const int16_t getX();
+    const int16_t getY();
     
     void setDirection(const Direction value);
-    void setX(const uint16_t value);
-    void setY(const uint16_t value);
+    void setX(const int16_t value);
+    void setY(const int16_t value);
 
   private:
 
-    int _x;
-    int _y;
+    int16_t _x;
+    int16_t _y;
     Direction _direction;
 
 };

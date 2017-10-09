@@ -4,7 +4,9 @@
 #include "MapData.h"
 #include "Item.h"
 
-Level::Level() {}
+#define reverseBits(b) (((b)&1?128:0)|((b)&2?64:0)|((b)&4?32:0)|((b)&8?16:0)|((b)&16?8:0)|((b)&32?4:0)|((b)&64?2:0)|((b)&128?1:0))
+
+Level::Level() {_tileNumber = 255; }
 
 const uint32_t Level::getStartPos()                         { return _startPos; }
 const uint32_t Level::getWidth()                            { return _width; }
@@ -29,9 +31,131 @@ void Level::setMapMasks(const uint8_t * const *value)       { _map_masks = value
   
 const MapElement Level::getMapElement(uint32_t x, uint32_t y) {
 
-  uint8_t tile = pgm_read_byte(&_level[_startPos + (x / MAP_TILE_WIDTH) + ((y / MAP_TILE_HEIGHT) * _width)]);
-  const uint8_t *tileStart = _map_tiles[tile];
-  uint16_t mapElement = pgm_read_byte(&tileStart[(x % MAP_TILE_WIDTH)  + ((y/8) * MAP_TILE_WIDTH)]) & (1 << (y % MAP_TILE_HEIGHT % 8));
+  uint8_t tileNumber = pgm_read_byte(&_level[_startPos + (x / MAP_TILE_WIDTH) + ((y / MAP_TILE_HEIGHT) * _width)]);
+  loadTile((Rotation)(tileNumber & 0xC0), tileNumber, _map_tiles[(tileNumber & 0x3F)]);
+  uint16_t mapElement = _tileData[(x % MAP_TILE_WIDTH) + (((y % MAP_TILE_HEIGHT) / 8) * MAP_TILE_PHYSICAL_WIDTH)] & (1 << (y % MAP_TILE_HEIGHT % 8));
+
   return (MapElement)mapElement;
+
+}
+
+void Level::rotate(bool ccw, const uint8_t *a) {
+
+  memset(_tileData, 0, 32);
+
+  uint16_t bit = (ccw ? 128 : 1);
+  uint8_t outputIdx = (ccw ? 16 : 0);
+
+  for (uint8_t inputIdx = 0; inputIdx < 16; ++inputIdx) {
+  
+    uint8_t y1 = (ccw ? pgm_read_byte(&a[inputIdx]) : reverseBits(pgm_read_byte(&a[inputIdx + 16])));
+
+    for (uint8_t x = 0; x < 8; ++x) {
+      _tileData[outputIdx + x] = _tileData[outputIdx + x] | ((y1 & (1 << x)) > 0 ? bit : 0);
+    }
+
+    y1 = (ccw ? pgm_read_byte(&a[inputIdx + 16]) : reverseBits(pgm_read_byte(&a[inputIdx])));
+    
+    for (uint8_t x = 0; x < 8; ++x) {
+      _tileData[outputIdx + 8 + x] = _tileData[outputIdx + 8 + x] | ((y1 & (1 << x)) > 0 ? bit : 0);
+    }
+
+    if (ccw) {
+    
+      bit = bit >> 1;
+      if (bit == 0) { 
+        bit = 128;
+        outputIdx = outputIdx - 16;
+      }
+    
+    }
+    else {
+    
+      bit = bit << 1;
+      if (bit == 256) { 
+        bit = 1;
+        outputIdx = outputIdx + 16;
+      }
+    
+    }
+
+  }
+
+  if (ccw) {
+    
+    for (uint8_t x = 0; x < 16; ++x) {
+      
+      _tileData[x] = (_tileData[x] >> 1) | ((_tileData[x + 16] & 1) == 1 ? 128 : 0);
+      _tileData[x + 16] = (_tileData[x + 16] >> 1);
+      
+    }
+
+  }
+  else {
+
+    for (uint8_t x = 0; x < 15; ++x) {
+      _tileData[x] = _tileData[x + 1];
+      _tileData[x + 16] = _tileData[x + 17];
+    }
+   
+  }
+
+}
+
+void Level::rotate180(const uint8_t *a) {
+
+  for (uint8_t x = 0; x < 32; ++x) {
+  
+    _tileData[31 - x] = reverseBits(pgm_read_byte(&a[x]));
+
+  }
+
+  for (uint8_t x = 0; x < 15; ++x) {
+    
+    _tileData[x] = (_tileData[x + 1] >> 1) | ((_tileData[x + 17] & 1) == 1 ? 128 : 0);
+    _tileData[x + 16] = (_tileData[x + 17] >> 1);
+
+  }
+
+}
+
+void Level::rotate0(const uint8_t *a) {
+ 
+  for (uint8_t x = 0; x < 16; ++x) {
+
+    _tileData[x] = pgm_read_byte(&a[x]);
+    _tileData[x + 16] = pgm_read_byte(&a[x + 16]);
+    
+  }
+
+}
+
+void Level::loadTile(Rotation rotation, uint8_t tileNumber, const uint8_t *a) {
+
+  if (tileNumber != _tileNumber) {
+    
+    switch (rotation) {
+
+      case Rotation::Rotation_0:
+        Level::rotate0(a);
+        break;
+
+      case Rotation::Rotation_90:
+        Level::rotate(false, a);
+        break;
+
+      case Rotation::Rotation_180:
+        Level::rotate180(a);
+        break;
+
+      case Rotation::Rotation_270:
+        Level::rotate(true, a);
+        break;
+
+    }
+
+  }
+
+  _tileNumber = tileNumber;
 
 }

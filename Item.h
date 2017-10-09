@@ -12,20 +12,20 @@ class Item {
 
     const bool getEnabled();
     const ItemType getItemType();
-    const uint16_t getX();
-    const uint16_t getY();
+    const int16_t getX();
+    const int16_t getY();
 
     void setEnabled(const bool value);
     void setItemType(const ItemType value);
-    void setX(const uint16_t value);
-    void setY(const uint16_t value);
+    void setX(const int16_t value);
+    void setY(const int16_t value);
 
   private:
     
     bool _enabled;
     ItemType _itemType;
-    int _x;
-    int _y;
+    int16_t _x;
+    int16_t _y;
 
 };
 

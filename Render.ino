@@ -272,10 +272,10 @@ void drawMap(Player *myHero, Level *myLevel) {
   uint8_t drawY = 0;
 
   bool renderFloor = false;
-  
-  for (int16_t mapY = myHero->getY() - 3; mapY <= myHero->getY() + 3; mapY++) {
 
-    for (int16_t mapX = myHero->getX() - 2; mapX <= myHero->getX() + 2; mapX++) {
+  for (int16_t mapY = myHero->getY() - 3; mapY <= myHero->getY() + 3; ++mapY) {
+
+    for (int16_t mapX = myHero->getX() - 2; mapX <= myHero->getX() + 2; ++mapX) {
 
       if (mapX >= 0 && mapX < ((int16_t)myLevel->getWidth() * MAP_TILE_WIDTH) && mapY >= 0 && mapY < ((int16_t)myLevel->getHeight() * MAP_TILE_HEIGHT) && !(drawX == 4 && drawY == 0) ) { 
         
@@ -354,11 +354,19 @@ void drawDirectionIndicator(Player *myHero) {
 
 
 void drawInventory(Level *level) {
-  Serial.println("sdfsd");
+
   font3x5.setCursor(70,10);
   font3x5.print("HP\nDF\nAP\nMG");
   font3x5.setCursor(80,44);
   font3x5.print(level->getTitleLine1());
   font3x5.setCursor(80,52);
   font3x5.print(level->getTitleLine2());
+
+  //Junk
+  if (true) {
+    Sprites::drawOverwrite(128, 0, fight_HP_power, 0);
+    Sprites::drawExternalMask(128, 0, fight_hero_strike, fight_hero_strike_Mask, 0, 0);
+    Sprites::drawExternalMask(128, 0, fight_scratch, fight_scratch_Mask, 0, 0);
+  }
+
 }
