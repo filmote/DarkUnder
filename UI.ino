@@ -1,4 +1,4 @@
-SplashButtons splashStatus = SplashButtons::Play;
+
 
 void displaySplash() {
   

@@ -343,8 +343,7 @@ void drawMap(Player *myHero, Level *myLevel) {
 
 }
 
-#define DIRECTION_X_OFFSET 66
-#define DIRECTION_Y_OFFSET 43
+
 
 void drawDirectionIndicator(Player *myHero) {
 
@@ -364,9 +363,9 @@ void drawInventory(Level *level) {
 
   //Junk
   if (true) {
-    Sprites::drawOverwrite(128, 0, fight_HP_power, 0);
     Sprites::drawExternalMask(128, 0, fight_hero_strike, fight_hero_strike_Mask, 0, 0);
     Sprites::drawExternalMask(128, 0, fight_scratch, fight_scratch_Mask, 0, 0);
   }
 
 }
+

@@ -6,6 +6,7 @@
 #include "Images_Dungeons.h"
 #include "Images_Enemies.h"
 #include "Images_Fight.h"
+#include "Images_Map.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Item.h"
@@ -18,19 +19,12 @@
 Arduboy2Base arduboy;
 Font3x5 font3x5 = Font3x5(arduboy.sBuffer, Arduboy2::width(), Arduboy2::height());
 
-
-//ArrayList<Object>myObjects = new ArrayList<Object>();
-
 Item items[NUMBER_OF_ITEMS];
 Enemy enemies[NUMBER_OF_ENEMIES];
 
-// Font images ..
+uint8_t attackingEnemyIdx = 0;
 
-// const uint8_t *font_letters[] = { FONT_A, FONT_B, FONT_C, FONT_D, FONT_E, FONT_F, FONT_G, FONT_H, FONT_I, FONT_J, FONT_K, FONT_L, FONT_M, 
-//                                   FONT_N, FONT_O, FONT_P, FONT_Q, FONT_R, FONT_S, FONT_T, FONT_U, FONT_V, FONT_W, FONT_X, FONT_Y ,FONT_Z };
-
-// const uint8_t *font_numbers[] = { FONT_0, FONT_1, FONT_2, FONT_3, FONT_4, FONT_5, FONT_6, FONT_7, FONT_8, FONT_9 };   
-
+const uint8_t *die[] = { dice_00, dice_01, dice_02, dice_03, dice_04, dice_05, dice_06 };
 const uint8_t *levels[] = { level_00, level_01, level_02 };
 const uint8_t *map_tiles[] = { tile_00, tile_01, tile_02 };
 const uint8_t *map_images_00[] = { visionBack, closeWallFront_00, closeWallLeft_00, closeWallRight_00, midWallFront_00, midWallLeft_00, midWallRight_00, farWallFront_00, farWallLeft_00, farWallRight_00 };
@@ -56,13 +50,16 @@ const Point item_offset[] = { ITEM_HPPOTION_POSITION };
 
 GameState gameState = GameState::Splash; 
 
-//boolean aiTurn =true;
-
-
 Level myLevel;
 Player myHero;
 
+SplashButtons splashStatus = SplashButtons::Play;
+FightButtons fightButton = FightButtons::Attack;
+
+
 uint8_t level = 0;      // Current Level
+int16_t diceDelay = DICE_NO_ACTION;
+uint8_t diceNumber = 0;
 
 void setup() {
 
@@ -82,7 +79,7 @@ void loop() {
   arduboy.clear();
   arduboy.pollButtons();
   
-  switch (gameState){
+  switch (gameState) {
 
     case GameState::InitGame:
       level = 0;
@@ -93,39 +90,196 @@ void loop() {
       initialiseLevel(&myHero, &myLevel, levels[level]);
       break;
     
-    case GameState::Play: //running
-//      worldDrawGrid(&arduboy, &myHero, &myLevel);
-//      myHero.display(&arduboy);
-      //-- display/remove objects
-          // for (int i=0; i<myObjects.size (); i++) {
-          //   Object o=myObjects.get(i);
-          //   o.display();
-          // }
-          //-- display/remove enemies
-          // for (int i=0; i<myEnemies.size (); i++) {
-          //   Enemy e=myEnemies.get(i);
-          //   e.display();
-          //   if (aiTurn) {
-          //     e.moveEnemy();
-          //     aiTurn=false;//enemy moved, wait for player's turn
-          //   }
-          // }
-//      playerVision(&myHero, &myLevel);
-//      displayGame();
-        playLoop();
+    case GameState::Move: 
+      playLoop();
+      arduboy.display();
+      break;
+    
+    case GameState::Battle_EnemyAttacks_Init:
+    case GameState::Battle_EnemyAttacks:
+    case GameState::Battle_PlayerDecides:
+    case GameState::Battle_PlayerAttacks:
+    battleLoop();
       break;
     
     case GameState::Splash: 
       displaySplash();
+      arduboy.display();
       break;
 
     case GameState::About: 
       displayLogo();
+      arduboy.display();
       break;
-
+      
   }
 
-  arduboy.display();
+}
+
+
+void battleLoop() {
+  
+  drawPlayerVision(&myHero, &myLevel);
+  Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, fight_icon, 0);
+
+  font3x5.setCursor(80,44);
+
+  switch (gameState) {
+
+    case GameState::Battle_EnemyAttacks_Init:
+      
+      switch (enemies[attackingEnemyIdx].getEnemyType()) {
+
+        case EnemyType::Beholder:
+          font3x5.print(F("A BEHOLDER"));
+          break;
+
+        case EnemyType::Displacer:
+          font3x5.print(F("A DISPLACER"));
+          break;
+
+        case EnemyType::Dragon:
+          font3x5.print(F("A DRAGON"));
+          break;
+
+        case EnemyType::Skeleton:
+          font3x5.print(F("A SKELETON"));
+          break;
+
+        case EnemyType::Wraith:
+          font3x5.print(F("A WRAITH"));
+          break;
+
+      }
+
+      diceDelay = DICE_DELAY_START;
+      font3x5.setCursor(80,52);
+      font3x5.print(F("ATTACKS!"));
+      gameState = GameState::Battle_EnemyAttacks;
+
+      arduboy.fillRect(5, 48, 40, 12, BLACK);
+      Sprites::drawSelfMasked(5, 48, fight_HP_bar, 0);
+      arduboy.display();
+      delay(2000);
+      break;
+
+    case GameState::Battle_EnemyAttacks:
+
+      if (diceDelay >= DICE_DELAY_START && diceDelay < DICE_DELAY_END) {
+
+        Sprites::drawOverwrite(DICE_X_POS, DICE_Y_POS, die[diceNumber], 0);
+
+        if (diceDelay < 1) {
+          diceNumber = random(0, 7);
+          diceDelay++;
+          Serial.println(diceDelay);
+        }
+        else {  
+          if (arduboy.everyXFrames(diceDelay)) {
+            diceNumber = random(0, 7);
+            diceDelay = diceDelay * 2;
+            Serial.println(diceDelay);
+          }
+        }
+
+        arduboy.fillRect(5, 48, 40, 12, BLACK);
+        Sprites::drawSelfMasked(5, 48, fight_HP_bar, 0);
+        arduboy.display();
+        
+      }
+      else {
+
+        if (diceDelay >= DICE_DELAY_END) {  // Do once.
+  
+          diceNumber = random(0, ENEMY_MAX_ATTACK);
+          diceDelay = DICE_NO_ACTION;
+
+        }
+
+        Sprites::drawOverwrite(DICE_X_POS, DICE_Y_POS, die[diceNumber], 0);
+        Sprites::drawExternalMask(12, 12, fight_scratch, fight_scratch_Mask, 0, 0);
+        font3x5.print(F("YOU TAKE"));
+        font3x5.setCursor(80, 52);
+        font3x5.print(diceNumber);
+        font3x5.print(F(" DAMAGE!"));
+        font3x5.setCursor(33, 26);
+        font3x5.print(diceNumber);
+        arduboy.fillRect(5, 48, 40, 12, BLACK);
+        Sprites::drawSelfMasked(5, 48, fight_HP_bar, 0);
+        arduboy.display();
+        delay(2000);
+        gameState = GameState::Battle_PlayerDecides;
+
+      }
+      break;
+
+    case GameState::Battle_PlayerDecides:
+
+      Sprites::drawOverwrite(80, 44, fight_actions, 0);
+      Sprites::drawSelfMasked(80 + (((uint8_t)fightButton) * 12), 56, icnSelect, 0);
+
+      if (arduboy.justPressed(LEFT_BUTTON) && (uint8_t)fightButton > 0)                                 { fightButton = (FightButtons)((uint8_t)fightButton - 1); }
+      if (arduboy.justPressed(RIGHT_BUTTON) && (uint8_t)fightButton < (uint8_t)FightButtons::Defend)    { fightButton = (FightButtons)((uint8_t)fightButton + 1); }
+      if (arduboy.justPressed(A_BUTTON))                                                                { diceDelay = DICE_DELAY_START; gameState = GameState::Battle_PlayerAttacks; }
+
+      arduboy.fillRect(5, 48, 40, 12, BLACK);
+      Sprites::drawSelfMasked(5, 48, fight_HP_bar, 0);
+      arduboy.display();
+      break;
+
+    case GameState::Battle_PlayerAttacks:
+   
+      if (diceDelay >= DICE_DELAY_START && diceDelay < DICE_DELAY_END) {
+
+        Sprites::drawOverwrite(DICE_X_POS, DICE_Y_POS, die[diceNumber], 0);
+
+        if (diceDelay < 1) {
+          diceNumber = random(0, 7);
+          diceDelay++;
+          Serial.println(diceDelay);
+        }
+        else {  
+          if (arduboy.everyXFrames(diceDelay)) {
+            diceNumber = random(0, 7);
+            diceDelay = diceDelay * 2;
+            Serial.println(diceDelay);
+          }
+        }
+
+        arduboy.fillRect(5, 48, 40, 12, BLACK);
+        Sprites::drawSelfMasked(5, 48, fight_HP_bar, 0);
+        arduboy.display();
+        
+      }
+      else {
+
+        if (diceDelay >= DICE_DELAY_END) {  // Do once.
+
+          diceNumber = random(0, HUMNAN_MAX_ATTACK);
+          diceDelay = DICE_NO_ACTION;
+
+        }
+
+        Sprites::drawOverwrite(DICE_X_POS, DICE_Y_POS, die[diceNumber], 0);
+        Sprites::drawExternalMask(18, 19, fight_hero_strike, fight_hero_strike_Mask, 0, 0);
+        font3x5.print(F("YOU DEAL"));
+        font3x5.setCursor(80, 52);
+        font3x5.print(diceNumber);
+        font3x5.print(F(" DAMAGE!"));
+        font3x5.setCursor(31, 24);
+        font3x5.print(diceNumber);
+        arduboy.fillRect(5, 48, 40, 12, BLACK);
+        Sprites::drawSelfMasked(5, 48, fight_HP_bar, 0);
+             
+        arduboy.display();
+        delay(2000);
+
+        gameState = GameState::Battle_EnemyAttacks_Init;
+
+      }
+      break;   
+
+  }
 
 }
 
@@ -142,8 +296,6 @@ void playLoop() {
   if (arduboy.justPressed(DOWN_BUTTON))     { PlayerController::move(&myHero, enemies, &myLevel, Button::Down); }
   if (arduboy.justPressed(LEFT_BUTTON))     { PlayerController::move(&myHero, enemies, &myLevel, Button::Left); }
   if (arduboy.justPressed(RIGHT_BUTTON))    { PlayerController::move(&myHero, enemies, &myLevel, Button::Right); }
-  if (arduboy.justPressed(A_BUTTON))        { /* myUI.activated = true; */ }
-  if (arduboy.justPressed(B_BUTTON))        { /* myUI.back = true; */ }
 
 
   // If the player moved then so should the enemies ..
@@ -161,6 +313,26 @@ void playLoop() {
     }  
 
   }
+
+
+  // If the player is 'touching' an enemy then enter battle mode ..
+
+  for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {
+    
+    if (enemies[i].getEnabled()) {
+
+      if ((abs(myHero.getX() - enemies[i].getX()) == 1) ^ (abs(myHero.getY() - enemies[i].getY()) == 1))  {
+
+        attackingEnemyIdx = i;
+        gameState = GameState::Battle_EnemyAttacks_Init;
+        break;
+
+      } 
+
+    }
+
+  }  
+
 
 }
 
@@ -242,6 +414,6 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   }  
 
   myLevel->setStartPos(idx);
-  gameState = GameState::Play;
+  gameState = GameState::Move;
 
 }

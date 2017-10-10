@@ -40,17 +40,39 @@
 #define MAP_MASK_FAR_LEFT         6
 #define MAP_MASK_FAR_RIGHT        7
 
+#define DICE_X_POS                103
+#define DICE_Y_POS                16
+#define DICE_NO_ACTION            -15
+#define DICE_DELAY_START          DICE_NO_ACTION + 1
+#define DICE_DELAY_END            64
+
+#define ENEMY_MAX_ATTACK          4
+#define HUMNAN_MAX_ATTACK         4
+
+#define DIRECTION_X_OFFSET        66
+#define DIRECTION_Y_OFFSET        43
+
 enum class GameState : uint8_t {
   Splash,
   About,
   InitGame,
   InitLevel,
-  Play
+  Move,
+  Battle_EnemyAttacks_Init,
+  Battle_EnemyAttacks,
+  Battle_PlayerDecides,
+  Battle_PlayerAttacks,
 };
 
 enum class SplashButtons : uint8_t {
   Play,
   About
+};
+
+enum class FightButtons : uint8_t {
+  Attack,
+  Defend,
+  Count
 };
 
 enum class Button : uint8_t {
@@ -77,7 +99,6 @@ enum class ItemType : uint8_t {
   HPPotion,
   Key
 };
-
 
 enum class Rotation : uint8_t {
   Rotation_0 = 0,
