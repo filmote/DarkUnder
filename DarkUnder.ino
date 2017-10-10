@@ -119,6 +119,8 @@ void loop() {
 
 void battleLoop() {
   
+  uint16_t delayLength = 0;
+
   drawPlayerVision(&myHero, &myLevel);
   Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, fight_icon, 0);
 
@@ -157,10 +159,7 @@ void battleLoop() {
       font3x5.print(F("ATTACKS!"));
       gameState = GameState::Battle_EnemyAttacks;
 
-      arduboy.fillRect(5, 48, 40, 12, BLACK);
-      Sprites::drawSelfMasked(5, 48, fight_HP_bar, 0);
-      arduboy.display();
-      delay(2000);
+      delayLength = 2000;
       break;
 
     case GameState::Battle_EnemyAttacks:
@@ -170,21 +169,21 @@ void battleLoop() {
         Sprites::drawOverwrite(DICE_X_POS, DICE_Y_POS, die[diceNumber], 0);
 
         if (diceDelay < 1) {
+
           diceNumber = random(0, 7);
           diceDelay++;
           Serial.println(diceDelay);
+
         }
         else {  
+
           if (arduboy.everyXFrames(diceDelay)) {
             diceNumber = random(0, 7);
             diceDelay = diceDelay * 2;
             Serial.println(diceDelay);
           }
-        }
 
-        arduboy.fillRect(5, 48, 40, 12, BLACK);
-        Sprites::drawSelfMasked(5, 48, fight_HP_bar, 0);
-        arduboy.display();
+        }
         
       }
       else {
@@ -204,12 +203,10 @@ void battleLoop() {
         font3x5.print(F(" DAMAGE!"));
         font3x5.setCursor(33, 26);
         font3x5.print(diceNumber);
-        arduboy.fillRect(5, 48, 40, 12, BLACK);
-        Sprites::drawSelfMasked(5, 48, fight_HP_bar, 0);
-        arduboy.display();
-        delay(2000);
         gameState = GameState::Battle_PlayerDecides;
 
+        delayLength = 2000;
+        
       }
       break;
 
@@ -222,9 +219,6 @@ void battleLoop() {
       if (arduboy.justPressed(RIGHT_BUTTON) && (uint8_t)fightButton < (uint8_t)FightButtons::Defend)    { fightButton = (FightButtons)((uint8_t)fightButton + 1); }
       if (arduboy.justPressed(A_BUTTON))                                                                { diceDelay = DICE_DELAY_START; gameState = GameState::Battle_PlayerAttacks; }
 
-      arduboy.fillRect(5, 48, 40, 12, BLACK);
-      Sprites::drawSelfMasked(5, 48, fight_HP_bar, 0);
-      arduboy.display();
       break;
 
     case GameState::Battle_PlayerAttacks:
@@ -245,10 +239,6 @@ void battleLoop() {
             Serial.println(diceDelay);
           }
         }
-
-        arduboy.fillRect(5, 48, 40, 12, BLACK);
-        Sprites::drawSelfMasked(5, 48, fight_HP_bar, 0);
-        arduboy.display();
         
       }
       else {
@@ -268,11 +258,8 @@ void battleLoop() {
         font3x5.print(F(" DAMAGE!"));
         font3x5.setCursor(31, 24);
         font3x5.print(diceNumber);
-        arduboy.fillRect(5, 48, 40, 12, BLACK);
-        Sprites::drawSelfMasked(5, 48, fight_HP_bar, 0);
              
-        arduboy.display();
-        delay(2000);
+        delayLength = 2000;
 
         gameState = GameState::Battle_EnemyAttacks_Init;
 
@@ -280,6 +267,13 @@ void battleLoop() {
       break;   
 
   }
+
+  arduboy.fillRect(5, 48, 40, 12, BLACK);
+  Sprites::drawSelfMasked(5, 48, fight_HP_bar, 0);
+  
+  arduboy.display();
+  delay(delayLength);
+  delayLength = 0;
 
 }
 
