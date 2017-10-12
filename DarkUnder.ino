@@ -1,4 +1,5 @@
 #include <Arduboy2.h>
+#include <ArduboyTones.h>
 
 #include "Enums.h"
 #include "Level.h"
@@ -17,6 +18,8 @@
 
 
 Arduboy2Base arduboy;
+ArduboyTones sound(arduboy.audio.enabled);
+
 Font3x5 font3x5 = Font3x5(arduboy.sBuffer, Arduboy2::width(), Arduboy2::height());
 
 Item items[NUMBER_OF_ITEMS];
@@ -24,7 +27,6 @@ Enemy enemies[NUMBER_OF_ENEMIES];
 
 uint8_t attackingEnemyIdx = 0;
 
-const uint8_t *die[] = { dice_00, dice_01, dice_02, dice_03, dice_04, dice_05, dice_06 };
 const uint8_t *levels[] = { level_00, level_01, level_02 };
 const uint8_t *map_tiles[] = { tile_00, tile_01, tile_02 };
 const uint8_t *map_images_00[] = { visionBack, closeWallFront_00, closeWallLeft_00, closeWallRight_00, midWallFront_00, midWallLeft_00, midWallRight_00, farWallFront_00, farWallLeft_00, farWallRight_00 };
@@ -33,12 +35,24 @@ const uint8_t *map_images_02[] = { visionBack, closeWallFront_02, closeWallLeft_
 const uint8_t *map_masks[] = { closeWallFront_Mask, closeWallLeft_Mask, closeWallRight_Mask, midWallFront_Mask, midWallLeft_Mask, midWallRight_Mask, farWallLeft_Mask, farWallRight_Mask };
 const uint8_t *direction_images[] = { directionN, directionE, directionS, directionW };
 
+const char enemyName_00[] PROGMEM = { "BEHOLDER\0" };
+const char enemyName_01[] PROGMEM = { "DISPLACER\0" };
+const char enemyName_02[] PROGMEM = { "DRAGON\0" };
+const char enemyName_03[] PROGMEM = { "SKELETON\0" };
+const char enemyName_04[] PROGMEM = { "WRAITH\0" };
+const char enemyName_05[] PROGMEM = { "RAT\0" };
+const char enemyName_06[] PROGMEM = { "SLIME\0" };
+
+const char* const enemyNames[] PROGMEM = { 
+  enemyName_00, enemyName_01, enemyName_02, enemyName_03, enemyName_04, enemyName_05, enemyName_06
+};
+
 
 // Enemy details ..
 
-const uint8_t *enemy_images[] = { enemy_beholder, enemy_skeleton, enemy_displacer, enemy_wraith, enemy_dragon };
-const uint8_t *enemy_masks[] = { enemy_beholder_Mask, enemy_skeleton_Mask, enemy_displacer_Mask, enemy_wraith_Mask, enemy_dragon_Mask };
-const Point enemy_offset[] = { ENEMY_BEHOLDER_POSITION, ENEMY_SKELETON_POSITION, ENEMY_DISPLACER_POSITION, ENEMY_WRAITH_POSITION, ENEMY_DRAGON_POSITION };
+const uint8_t *enemy_images[] = { enemy_beholder, enemy_skeleton, enemy_displacer, enemy_wraith, enemy_dragon, enemy_rat, enemy_slime };
+const uint8_t *enemy_masks[] = { enemy_beholder_Mask, enemy_skeleton_Mask, enemy_displacer_Mask, enemy_wraith_Mask, enemy_dragon_Mask, enemy_rat_Mask, enemy_slime_Mask };
+const Point enemy_offset[] = { ENEMY_BEHOLDER_POSITION, ENEMY_SKELETON_POSITION, ENEMY_DISPLACER_POSITION, ENEMY_WRAITH_POSITION, ENEMY_DRAGON_POSITION, ENEMY_RAT_POSITION, ENEMY_SLIME_POSITION };
 
 
 // Item details ..
@@ -74,6 +88,8 @@ void setup() {
 
 void loop() {
   
+  uint16_t delayLength;
+
   if (!(arduboy.nextFrame())) return;
   
   arduboy.clear();
@@ -92,36 +108,41 @@ void loop() {
     
     case GameState::Move: 
       playLoop();
-      arduboy.display();
       break;
     
     case GameState::Battle_EnemyAttacks_Init:
     case GameState::Battle_EnemyAttacks:
+    case GameState::Battle_EnemyDies:
     case GameState::Battle_PlayerDecides:
     case GameState::Battle_PlayerAttacks:
-    battleLoop();
+    case GameState::Battle_PlayerShields:
+    case GameState::Battle_PlayerDies:
+      delayLength = battleLoop();
       break;
     
     case GameState::Splash: 
       displaySplash();
-      arduboy.display();
       break;
 
     case GameState::About: 
       displayLogo();
-      arduboy.display();
       break;
       
   }
 
+  arduboy.display();
+  delay(delayLength);
+  
 }
 
 
-void battleLoop() {
-  
+uint16_t battleLoop() {
+
+  char buffer[10];
   uint16_t delayLength = 0;
 
   drawPlayerVision(&myHero, &myLevel);
+  drawStatistics(&myHero);
   Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, fight_icon, 0);
 
   font3x5.setCursor(80,44);
@@ -130,60 +151,23 @@ void battleLoop() {
 
     case GameState::Battle_EnemyAttacks_Init:
       
-      switch (enemies[attackingEnemyIdx].getEnemyType()) {
-
-        case EnemyType::Beholder:
-          font3x5.print(F("A BEHOLDER"));
-          break;
-
-        case EnemyType::Displacer:
-          font3x5.print(F("A DISPLACER"));
-          break;
-
-        case EnemyType::Dragon:
-          font3x5.print(F("A DRAGON"));
-          break;
-
-        case EnemyType::Skeleton:
-          font3x5.print(F("A SKELETON"));
-          break;
-
-        case EnemyType::Wraith:
-          font3x5.print(F("A WRAITH"));
-          break;
-
-      }
-
+      font3x5.print("A ");
+      strcpy_P(buffer, (char*)pgm_read_word(&(enemyNames[attackingEnemyIdx])) );
+      font3x5.print(buffer);
+      font3x5.print(F("\nATTACKS!"));
+      
       diceDelay = DICE_DELAY_START;
-      font3x5.setCursor(80,52);
-      font3x5.print(F("ATTACKS!"));
       gameState = GameState::Battle_EnemyAttacks;
-
-      delayLength = 2000;
+      delayLength = FIGHT_DELAY;
       break;
 
     case GameState::Battle_EnemyAttacks:
 
+      Sprites::drawExternalMask(12, 12, fight_scratch, fight_scratch_Mask, 0, 0);
+    
       if (diceDelay >= DICE_DELAY_START && diceDelay < DICE_DELAY_END) {
 
-        Sprites::drawOverwrite(DICE_X_POS, DICE_Y_POS, die[diceNumber], 0);
-
-        if (diceDelay < 1) {
-
-          diceNumber = random(0, 7);
-          diceDelay++;
-          Serial.println(diceDelay);
-
-        }
-        else {  
-
-          if (arduboy.everyXFrames(diceDelay)) {
-            diceNumber = random(0, 7);
-            diceDelay = diceDelay * 2;
-            Serial.println(diceDelay);
-          }
-
-        }
+        rollDice(33, 26);
         
       }
       else {
@@ -195,17 +179,16 @@ void battleLoop() {
 
         }
 
-        Sprites::drawOverwrite(DICE_X_POS, DICE_Y_POS, die[diceNumber], 0);
-        Sprites::drawExternalMask(12, 12, fight_scratch, fight_scratch_Mask, 0, 0);
-        font3x5.print(F("YOU TAKE"));
-        font3x5.setCursor(80, 52);
+        font3x5.print(F("YOU TAKE\n"));
         font3x5.print(diceNumber);
         font3x5.print(F(" DAMAGE!"));
         font3x5.setCursor(33, 26);
         font3x5.print(diceNumber);
-        gameState = GameState::Battle_PlayerDecides;
 
-        delayLength = 2000;
+        myHero.setHitPoints(myHero.getHitPoints() - diceNumber);
+        gameState = GameState::Battle_PlayerDecides;
+        delayLength = FIGHT_DELAY;
+        break;
         
       }
       break;
@@ -217,63 +200,103 @@ void battleLoop() {
 
       if (arduboy.justPressed(LEFT_BUTTON) && (uint8_t)fightButton > 0)                                 { fightButton = (FightButtons)((uint8_t)fightButton - 1); }
       if (arduboy.justPressed(RIGHT_BUTTON) && (uint8_t)fightButton < (uint8_t)FightButtons::Defend)    { fightButton = (FightButtons)((uint8_t)fightButton + 1); }
-      if (arduboy.justPressed(A_BUTTON))                                                                { diceDelay = DICE_DELAY_START; gameState = GameState::Battle_PlayerAttacks; }
+      if (arduboy.justPressed(A_BUTTON))  {
+        
+        diceDelay = DICE_DELAY_START; 
+        gameState = GameState::Battle_PlayerAttacks; 
+      
+      }
 
       break;
 
     case GameState::Battle_PlayerAttacks:
-   
+    case GameState::Battle_PlayerShields:
+    
+      switch (gameState) {
+
+        case GameState::Battle_PlayerAttacks:
+          Sprites::drawExternalMask(18, 19, fight_hero_strike, fight_hero_strike_Mask, 0, 0);
+          break;
+
+        case GameState::Battle_PlayerShields:
+          Sprites::drawExternalMask(18, 19, fight_hero_strike, fight_hero_strike_Mask, 0, 0);
+          break;
+        
+      }
+    
       if (diceDelay >= DICE_DELAY_START && diceDelay < DICE_DELAY_END) {
 
-        Sprites::drawOverwrite(DICE_X_POS, DICE_Y_POS, die[diceNumber], 0);
-
-        if (diceDelay < 1) {
-          diceNumber = random(0, 7);
-          diceDelay++;
-          Serial.println(diceDelay);
-        }
-        else {  
-          if (arduboy.everyXFrames(diceDelay)) {
-            diceNumber = random(0, 7);
-            diceDelay = diceDelay * 2;
-            Serial.println(diceDelay);
-          }
-        }
+        rollDice(31, 24);
         
       }
       else {
 
         if (diceDelay >= DICE_DELAY_END) {  // Do once.
 
-          diceNumber = random(0, HUMNAN_MAX_ATTACK);
+          diceNumber = random(0, HUMAN_MAX_ATTACK) + 1;
           diceDelay = DICE_NO_ACTION;
 
         }
 
-        Sprites::drawOverwrite(DICE_X_POS, DICE_Y_POS, die[diceNumber], 0);
-        Sprites::drawExternalMask(18, 19, fight_hero_strike, fight_hero_strike_Mask, 0, 0);
-        font3x5.print(F("YOU DEAL"));
-        font3x5.setCursor(80, 52);
+        font3x5.print(F("YOU DEAL\n"));
         font3x5.print(diceNumber);
         font3x5.print(F(" DAMAGE!"));
         font3x5.setCursor(31, 24);
         font3x5.print(diceNumber);
-             
-        delayLength = 2000;
+        
+        enemies[attackingEnemyIdx].decHitPoints(diceNumber);
 
-        gameState = GameState::Battle_EnemyAttacks_Init;
+        if (enemies[attackingEnemyIdx].getHitPoints() > 0) {
+          gameState = GameState::Battle_EnemyAttacks_Init;
+        }
+        else {
+          gameState = GameState::Battle_EnemyDies;
+        }
+
+        delayLength = FIGHT_DELAY;
 
       }
+
       break;   
+
+    case GameState::Battle_EnemyDies:
+      Sprites::drawExternalMask(18, 19, fight_hero_strike, fight_hero_strike_Mask, 0, 0);
+      gameState = GameState::Move;
+      delayLength = FIGHT_DELAY;
+      break;
 
   }
 
-  arduboy.fillRect(5, 48, 40, 12, BLACK);
-  Sprites::drawSelfMasked(5, 48, fight_HP_bar, 0);
-  
-  arduboy.display();
-  delay(delayLength);
-  delayLength = 0;
+  drawEnemyHitPointsBar(enemies[attackingEnemyIdx].getHitPoints());
+  return delayLength;
+
+}
+
+void rollDice(uint8_t x, uint8_t y) {
+
+  font3x5.setCursor(x, y);
+  font3x5.print(diceNumber);
+
+  if (diceDelay < 1) {
+
+    diceNumber = random(0, 4);
+    diceDelay++;
+
+    sound.tone(NOTE_A1, 20);
+    
+  }
+  else {  
+
+    if (arduboy.everyXFrames(diceDelay)) {
+
+      sound.tone(NOTE_A1, 20);
+      
+      diceNumber = random(0, 4);
+      diceDelay = diceDelay * 2;
+
+    }
+
+  }
 
 }
 
@@ -284,7 +307,8 @@ void playLoop() {
   drawPlayerVision(&myHero, &myLevel);
   drawMap(&myHero, &myLevel);
   drawDirectionIndicator(&myHero);
-  drawInventory(&myLevel);
+  drawLevelDescription(&myLevel);
+  drawStatistics(&myHero);
   
   if (arduboy.justPressed(UP_BUTTON))       { playerMoved = PlayerController::move(&myHero, enemies, &myLevel, Button::Up); }
   if (arduboy.justPressed(DOWN_BUTTON))     { PlayerController::move(&myHero, enemies, &myLevel, Button::Down); }
@@ -327,8 +351,8 @@ void playLoop() {
 
   }  
 
-
 }
+
 
 void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
 
@@ -383,7 +407,8 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
     enemies[i].setEnemyType((EnemyType)pgm_read_byte(&level[idx++]));
     enemies[i].setX(pgm_read_byte(&level[idx++]));
     enemies[i].setY(pgm_read_byte(&level[idx++]));
-     
+    enemies[i].setHitPoints(ENEMY_MAX_HITPOINTS);
+    
   }
   
 

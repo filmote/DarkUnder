@@ -38,8 +38,8 @@ const uint8_t PROGMEM level_00[] = {
 0,                                                 // Wall texture of this level
 
 2,                                                 // Number of enemies
-(uint8_t)EnemyType::Dragon, 3, 1,                  // Enemy type, starting position
-(uint8_t)EnemyType::Displacer, 5, 1,               // Enemy type, starting position
+(uint8_t)EnemyType::Displacer, 3, 1,               // Enemy type, starting position
+(uint8_t)EnemyType::Slime, 13, 1,                  // Enemy type, starting position
 
 1,                                                 // Number of items
 (uint8_t)ItemType::HPPotion, 10, 1,                // Item type, starting position

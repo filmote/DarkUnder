@@ -3,14 +3,23 @@
 #include "Enums.h"
 #include "Level.h"
 
-Player::Player() {}
+Player::Player() : Base() {
 
-const Direction Player::getDirection()             { return _direction; }
-const int16_t Player::getX()                       { return _x; }
-const int16_t Player::getY()                       { return _y; }
+    _hitPoints = 15;
+    _defence = 10;
+    _attackPower = 0;
+    _magic = 0;
+    
+}
 
-void Player::setDirection(const Direction value)   { _direction = value; }
-void Player::setX(const int16_t value)             { _x = value; }
-void Player::setY(const int16_t value)             { _y = value; }
+const Direction Player::getDirection()              { return _direction; }
+const int8_t Player::getHitPoints()                 { return _hitPoints; }
+const int8_t Player::getDefence()                   { return _defence; }
+const int8_t Player::getAttackPower()               { return _attackPower; }
+const int8_t Player::getMagic()                     { return _magic; }
 
-
+void Player::setDirection(const Direction value)    { _direction = value; }
+void Player::setHitPoints(const int8_t value)       { _hitPoints = value; }
+void Player::setDefence(const int8_t value)         { _defence = value; }
+void Player::setAttackPower(const int8_t value)     { _attackPower = value; }
+void Player::setMagic(const int8_t value)           { _magic = value; }

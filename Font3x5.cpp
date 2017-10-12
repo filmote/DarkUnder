@@ -207,7 +207,7 @@ Font3x5::Font3x5(uint8_t *screenBuffer, int16_t width, int16_t height) {
   sHeight = height;
 
   // default values
-  lineHeight = FONT3X5_HEIGHT + 1;
+  lineHeight = FONT3X5_HEIGHT + 2;
   letterSpacing = 1;
 
   cursorX = cursorY = baseX = 0;

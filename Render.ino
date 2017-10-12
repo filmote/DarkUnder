@@ -351,21 +351,33 @@ void drawDirectionIndicator(Player *myHero) {
   
 }
 
+void drawLevelDescription(Level *level) {
 
-void drawInventory(Level *level) {
-
-  font3x5.setCursor(70,10);
-  font3x5.print("HP\nDF\nAP\nMG");
   font3x5.setCursor(80,44);
   font3x5.print(level->getTitleLine1());
   font3x5.setCursor(80,52);
   font3x5.print(level->getTitleLine2());
 
-  //Junk
-  if (true) {
-    Sprites::drawExternalMask(128, 0, fight_hero_strike, fight_hero_strike_Mask, 0, 0);
-    Sprites::drawExternalMask(128, 0, fight_scratch, fight_scratch_Mask, 0, 0);
-  }
+}
+
+void drawStatistics(Player *player) {
+
+  font3x5.setCursor(70, 8);
+  font3x5.print("HP  ");
+  font3x5.print(player->getHitPoints());
+  font3x5.print("\nDF  ");
+  font3x5.print(player->getDefence());
+  font3x5.print("\nAP  ");
+  font3x5.print(player->getAttackPower());
+  font3x5.print("\nMG  ");
+  font3x5.print(player->getMagic());
 
 }
 
+void drawEnemyHitPointsBar(uint8_t hitPoints) {
+
+  arduboy.fillRect(5, 48, 40, 12, BLACK);
+  Sprites::drawSelfMasked(5, 48, fight_HP_bar, 0);
+  arduboy.drawRect(19, 53, hitPoints, 2);  
+  
+}

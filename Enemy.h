@@ -2,32 +2,31 @@
 #define ENEMY_H
 
 #include <Arduboy2.h>
+#include "Base.h"
 #include "Level.h"
 #include "Enums.h"
 
-class Enemy {
+class Enemy : public Base {
 
   public:
 
     Enemy();
 
-    const bool getEnabled();
     const EnemyType getEnemyType();
-    const int16_t getX();
-    const int16_t getY();
+    const bool getEnabled();
+    const int8_t getHitPoints();
 
-    void setEnabled(const bool value);
     void setEnemyType(const EnemyType value);
-    void setX(const int16_t value);
-    void setY(const int16_t value);
+    void setEnabled(const bool value);    
+    void setHitPoints(const int8_t value);   
+    void decHitPoints(const int8_t value);   
     
   private:
 
-    bool _enabled;
     EnemyType _enemyType;
-    int16_t _x;
-    int16_t _y;
+    int8_t _hitPoints;
+    bool _enabled;
 
-};
+  };
 
 #endif

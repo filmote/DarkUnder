@@ -1,5 +1,5 @@
-#ifndef VISION_H
-#define VISION_H
+#ifndef ENUMS_H
+#define ENUMS_H
 
 #define MAP_TILE_WIDTH            15
 #define MAP_TILE_HEIGHT           15
@@ -13,9 +13,11 @@
 #define NUMBER_OF_ENEMIES         10
 #define ENEMY_BEHOLDER_POSITION   Point {6, 5}
 #define ENEMY_SKELETON_POSITION   Point {11, 5}
-#define ENEMY_DISPLACER_POSITION  Point {8, 16}
+#define ENEMY_DISPLACER_POSITION  Point {8, 10}
 #define ENEMY_WRAITH_POSITION     Point {16, 3}
 #define ENEMY_DRAGON_POSITION     Point {3, 5}
+#define ENEMY_RAT_POSITION        Point {23, 16}
+#define ENEMY_SLIME_POSITION      Point {13, 22}
 
 #define NUMBER_OF_ITEMS           10
 #define ITEM_HPPOTION_POSITION    Point {20, 20}
@@ -40,14 +42,17 @@
 #define MAP_MASK_FAR_LEFT         6
 #define MAP_MASK_FAR_RIGHT        7
 
-#define DICE_X_POS                103
-#define DICE_Y_POS                16
+//#define DICE_X_POS                103
+//#define DICE_Y_POS                16
 #define DICE_NO_ACTION            -15
 #define DICE_DELAY_START          DICE_NO_ACTION + 1
 #define DICE_DELAY_END            64
+#define FIGHT_DELAY               1500
 
 #define ENEMY_MAX_ATTACK          4
-#define HUMNAN_MAX_ATTACK         4
+#define ENEMY_MAX_HITPOINTS       10
+
+#define HUMAN_MAX_ATTACK          4
 
 #define DIRECTION_X_OFFSET        66
 #define DIRECTION_Y_OFFSET        43
@@ -60,8 +65,11 @@ enum class GameState : uint8_t {
   Move,
   Battle_EnemyAttacks_Init,
   Battle_EnemyAttacks,
+  Battle_EnemyDies,
   Battle_PlayerDecides,
   Battle_PlayerAttacks,
+  Battle_PlayerShields,
+  Battle_PlayerDies,
 };
 
 enum class SplashButtons : uint8_t {
@@ -92,7 +100,9 @@ enum class EnemyType : uint8_t {
   Skeleton,
   Displacer,
   Wraith,
-  Dragon
+  Dragon,
+  Rat,
+  Slime
 };
 
 enum class ItemType : uint8_t {
