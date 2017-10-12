@@ -364,12 +364,19 @@ void drawStatistics(Player *player) {
 
   font3x5.setCursor(70, 8);
   font3x5.print("HP  ");
+  if (player->getHitPoints() < 10) font3x5.print(" ");
   font3x5.print(player->getHitPoints());
+
   font3x5.print("\nDF  ");
+  if (player->getDefence() < 10) font3x5.print(" ");
   font3x5.print(player->getDefence());
+
   font3x5.print("\nAP  ");
+  if (player->getAttackPower() < 10) font3x5.print(" ");
   font3x5.print(player->getAttackPower());
+
   font3x5.print("\nMG  ");
+  if (player->getMagic() < 10) font3x5.print(" ");
   font3x5.print(player->getMagic());
 
 }
