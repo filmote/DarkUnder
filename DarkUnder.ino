@@ -35,18 +35,6 @@ const uint8_t *map_images_02[] = { visionBack, closeWallFront_02, closeWallLeft_
 const uint8_t *map_masks[] = { closeWallFront_Mask, closeWallLeft_Mask, closeWallRight_Mask, midWallFront_Mask, midWallLeft_Mask, midWallRight_Mask, farWallLeft_Mask, farWallRight_Mask };
 const uint8_t *direction_images[] = { directionN, directionE, directionS, directionW };
 
-const char enemyName_00[] PROGMEM = { "BEHOLDER\0" };
-const char enemyName_01[] PROGMEM = { "DISPLACER\0" };
-const char enemyName_02[] PROGMEM = { "DRAGON\0" };
-const char enemyName_03[] PROGMEM = { "SKELETON\0" };
-const char enemyName_04[] PROGMEM = { "WRAITH\0" };
-const char enemyName_05[] PROGMEM = { "RAT\0" };
-const char enemyName_06[] PROGMEM = { "SLIME\0" };
-
-const char* const enemyNames[] PROGMEM = { 
-  enemyName_00, enemyName_01, enemyName_02, enemyName_03, enemyName_04, enemyName_05, enemyName_06
-};
-
 
 // Enemy details ..
 
@@ -138,7 +126,6 @@ void loop() {
 
 uint16_t battleLoop() {
 
-  char buffer[10];
   uint16_t delayLength = 0;
 
   drawPlayerVision(&myHero, &myLevel);
@@ -151,9 +138,38 @@ uint16_t battleLoop() {
 
     case GameState::Battle_EnemyAttacks_Init:
       
-      font3x5.print("A ");
-      strcpy_P(buffer, (char*)pgm_read_word(&(enemyNames[attackingEnemyIdx])) );
-      font3x5.print(buffer);
+      switch (enemies[attackingEnemyIdx].getEnemyType()) {
+      
+        case EnemyType::Beholder:
+          font3x5.print(F("A BEHOLDER"));
+          break;
+
+        case EnemyType::Displacer:
+          font3x5.print(F("A DISPLACER"));
+          break;
+
+        case EnemyType::Dragon:
+          font3x5.print(F("A DRAGON"));
+          break;
+
+        case EnemyType::Skeleton:
+          font3x5.print(F("A SKELETON"));
+          break;
+
+        case EnemyType::Wraith:
+          font3x5.print(F("A WRAITH"));
+          break;
+
+        case EnemyType::Rat:
+          font3x5.print(F("A RAT"));
+          break;
+
+        case EnemyType::Slime:
+          font3x5.print(F("A SLIME"));
+          break;
+
+      }
+
       font3x5.print(F("\nATTACKS!"));
       
       diceDelay = DICE_DELAY_START;
