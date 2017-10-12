@@ -281,7 +281,8 @@ uint16_t battleLoop() {
       break;   
 
     case GameState::Battle_EnemyDies:
-      Sprites::drawExternalMask(18, 19, fight_hero_strike, fight_hero_strike_Mask, 0, 0);
+      arduboy.drawCompressed(18, 19, fight_hero_strike_Mask, BLACK);
+      arduboy.drawCompressed(18, 19, fight_hero_strike, WHITE);
       gameState = GameState::Move;
       delayLength = FIGHT_DELAY;
       break;
