@@ -113,7 +113,8 @@ void drawPlayerVision (Player *myHero, Level *myLevel) { //draw the walls by che
   }
 
   
-  Sprites::drawOverwrite(0, 0, frames, 0);
+  // Sprites::drawOverwrite(0, 0, frames, 0);
+  arduboy.drawCompressed(0, 0, frames2, WHITE);
   Sprites::drawSelfMasked(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 1, myLevel->getMapImages()[MAP_IMAGE_BACK], 0);
 
  
@@ -211,8 +212,10 @@ void drawPlayerVision (Player *myHero, Level *myLevel) { //draw the walls by che
       if (enemies[i].getX() == myHero->getX() + offsetX && enemies[i].getY() == myHero->getY() + offsetY) {
 
         uint8_t enemyType = (uint8_t)enemies[i].getEnemyType();
-        Sprites::drawExternalMask(enemy_offset[enemyType].x, enemy_offset[enemyType].y, enemy_images[enemyType], enemy_masks[enemyType], 0, 0);
-        renderEnemy = true;
+//        Sprites::drawExternalMask(enemy_offset[enemyType].x, enemy_offset[enemyType].y, enemy_images[enemyType], enemy_masks[enemyType], 0, 0);
+arduboy.drawCompressed(enemy_offset[enemyType].x, enemy_offset[enemyType].y, enemy_masks[enemyType], BLACK);
+arduboy.drawCompressed(enemy_offset[enemyType].x, enemy_offset[enemyType].y, enemy_images[enemyType], WHITE);
+renderEnemy = true;
         break;
 
       }

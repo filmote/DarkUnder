@@ -31,7 +31,8 @@ void displaySplash() {
 
 void displayLogo(){
 
-  Sprites::drawOverwrite(0, 0, garCo, 0);  
+//  Sprites::drawOverwrite(0, 0, garCo, 0);  
+  arduboy.drawCompressed(0, 0, garCol, WHITE);
 
   if (arduboy.justPressed(A_BUTTON)) {
     gameState = GameState::Splash;

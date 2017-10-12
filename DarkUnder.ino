@@ -163,7 +163,9 @@ uint16_t battleLoop() {
 
     case GameState::Battle_EnemyAttacks:
 
-      Sprites::drawExternalMask(12, 12, fight_scratch, fight_scratch_Mask, 0, 0);
+      //Sprites::drawExternalMask(12, 12, fight_scratch, fight_scratch_Mask, 0, 0);
+      arduboy.drawCompressed(12, 12, fight_scratch_Mask1, BLACK);
+      arduboy.drawCompressed(12, 12, fight_scratch1, WHITE);
     
       if (diceDelay >= DICE_DELAY_START && diceDelay < DICE_DELAY_END) {
 
@@ -195,7 +197,8 @@ uint16_t battleLoop() {
 
     case GameState::Battle_PlayerDecides:
 
-      Sprites::drawOverwrite(80, 44, fight_actions, 0);
+//      Sprites::drawOverwrite(80, 44, fight_actions, 0);
+      arduboy.drawCompressed(80, 44, fight_actions, WHITE);
       Sprites::drawSelfMasked(80 + (((uint8_t)fightButton) * 12), 56, icnSelect, 0);
 
       if (arduboy.justPressed(LEFT_BUTTON) && (uint8_t)fightButton > 0)                                 { fightButton = (FightButtons)((uint8_t)fightButton - 1); }
@@ -215,8 +218,10 @@ uint16_t battleLoop() {
       switch (gameState) {
 
         case GameState::Battle_PlayerAttacks:
-          Sprites::drawExternalMask(18, 19, fight_hero_strike, fight_hero_strike_Mask, 0, 0);
-          break;
+//          Sprites::drawExternalMask(18, 19, fight_hero_strike, fight_hero_strike_Mask, 0, 0);
+        arduboy.drawCompressed(18, 19, fight_hero_strike_Mask, BLACK);
+        arduboy.drawCompressed(18, 19, fight_hero_strike, WHITE);
+        break;
 
         case GameState::Battle_PlayerShields:
           Sprites::drawExternalMask(18, 19, fight_hero_strike, fight_hero_strike_Mask, 0, 0);
