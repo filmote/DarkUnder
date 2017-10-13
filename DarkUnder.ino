@@ -275,7 +275,7 @@ uint16_t battleLoop() {
 
         rollDice(17, 35);
         font3x5.setCursor(48, 17);
-        font3x5.print(diceDefence);        
+        font3x5.print("1");        
 
       }
       else {
@@ -283,7 +283,6 @@ uint16_t battleLoop() {
         if (diceDelay >= DICE_DELAY_END) {  // Do once.
 
           diceAttack = random(0, HUMAN_MAX_ATTACK) + 1;
-          diceDefence = random(0, HUMAN_MAX_ATTACK) + 1;
           diceDelay = DICE_NO_ACTION;
 
         }
@@ -291,14 +290,12 @@ uint16_t battleLoop() {
         font3x5.print(F("TAKE "));
         font3x5.print(diceAttack);
         font3x5.print(F(" DMG\n"));
-        font3x5.print(F("DEAL "));
-        font3x5.print(diceDefence);
-        font3x5.print(F(" DMG\n"));
+        font3x5.print(F("DEAL 1 DMG\n"));
         font3x5.setCursor(17, 35);
         font3x5.print(diceAttack);
         font3x5.setCursor(48, 17);
         font3x5.print(diceDefence);
-        enemies[attackingEnemyIdx].decHitPoints((diceAttack - diceDefence > 0 ? diceAttack - diceDefence : 0));
+        enemies[attackingEnemyIdx].decHitPoints(1);
         
         if (enemies[attackingEnemyIdx].getHitPoints() > 0) {
           gameState = GameState::Battle_EnemyAttacks_Init;
@@ -335,7 +332,6 @@ void rollDice(uint8_t x, uint8_t y) {
   if (diceDelay < 1) {
 
     diceAttack = random(0, 4);
-    diceDefence = random(0, 4);
     diceDelay++;
 
     sound.tone(NOTE_A1, 20);
@@ -348,7 +344,6 @@ void rollDice(uint8_t x, uint8_t y) {
       sound.tone(NOTE_A1, 20);
       
       diceAttack = random(0, 4);
-      diceDefence = random(0, 4);
       diceDelay = diceDelay * 2;
 
     }
@@ -398,12 +393,6 @@ void playLoop() {
 
       if ( ((abs(myHero.getX() - enemies[i].getX()) == 1) && myHero.getY() == enemies[i].getY()) || 
            ((abs(myHero.getY() - enemies[i].getY()) == 1) && myHero.getX() == enemies[i].getX()) )  {
-        Serial.println("attack1");
-        Serial.println(i);
-        Serial.println(myHero.getX());
-        Serial.println(myHero.getY());
-        Serial.println(enemies[i].getX());
-        Serial.println(enemies[i].getY());
         
         attackingEnemyIdx = i;
         gameState = GameState::Battle_EnemyAttacks_Init;
