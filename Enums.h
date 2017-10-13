@@ -46,7 +46,7 @@
 //#define DICE_Y_POS                16
 #define DICE_NO_ACTION            -15
 #define DICE_DELAY_START          DICE_NO_ACTION + 1
-#define DICE_DELAY_END            64
+#define DICE_DELAY_END            32
 #define FIGHT_DELAY               1500
 
 #define ENEMY_MAX_ATTACK          4
@@ -68,7 +68,7 @@ enum class GameState : uint8_t {
   Battle_EnemyDies,
   Battle_PlayerDecides,
   Battle_PlayerAttacks,
-  Battle_PlayerShields,
+  Battle_PlayerDefends,
   Battle_PlayerDies,
 };
 

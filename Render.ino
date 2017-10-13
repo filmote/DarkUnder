@@ -113,8 +113,7 @@ void drawPlayerVision (Player *myHero, Level *myLevel) { //draw the walls by che
   }
 
   
-  // Sprites::drawOverwrite(0, 0, frames, 0);
-  arduboy.drawCompressed(0, 0, frames2, WHITE);
+  arduboy.drawCompressed(0, 0, frames, WHITE);
   Sprites::drawSelfMasked(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 1, myLevel->getMapImages()[MAP_IMAGE_BACK], 0);
 
  
