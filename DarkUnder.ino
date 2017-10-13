@@ -62,7 +62,7 @@ FightButtons fightButton = FightButtons::Attack;
 uint8_t level = 0;      // Current Level
 int16_t diceDelay = DICE_NO_ACTION;
 uint8_t diceAttack = 0;
-uint8_t diceDefence = 0;
+
 
 void setup() {
 
@@ -274,8 +274,8 @@ uint16_t battleLoop() {
       if (diceDelay >= DICE_DELAY_START && diceDelay < DICE_DELAY_END) {
 
         rollDice(17, 35);
-        font3x5.setCursor(48, 17);
-        font3x5.print("1");        
+        // font3x5.setCursor(48, 17);
+        // font3x5.print("1");        
 
       }
       else {
@@ -293,8 +293,8 @@ uint16_t battleLoop() {
         font3x5.print(F("DEAL 1 DMG\n"));
         font3x5.setCursor(17, 35);
         font3x5.print(diceAttack);
-        font3x5.setCursor(48, 17);
-        font3x5.print(diceDefence);
+        // font3x5.setCursor(48, 17);
+        // font3x5.print("1");
         enemies[attackingEnemyIdx].decHitPoints(1);
         
         if (enemies[attackingEnemyIdx].getHitPoints() > 0) {

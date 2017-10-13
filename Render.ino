@@ -211,10 +211,9 @@ void drawPlayerVision (Player *myHero, Level *myLevel) { //draw the walls by che
       if (enemies[i].getX() == myHero->getX() + offsetX && enemies[i].getY() == myHero->getY() + offsetY) {
 
         uint8_t enemyType = (uint8_t)enemies[i].getEnemyType();
-//        Sprites::drawExternalMask(enemy_offset[enemyType].x, enemy_offset[enemyType].y, enemy_images[enemyType], enemy_masks[enemyType], 0, 0);
-arduboy.drawCompressed(enemy_offset[enemyType].x, enemy_offset[enemyType].y, enemy_masks[enemyType], BLACK);
-arduboy.drawCompressed(enemy_offset[enemyType].x, enemy_offset[enemyType].y, enemy_images[enemyType], WHITE);
-renderEnemy = true;
+        arduboy.drawCompressed(enemy_offset[enemyType].x, enemy_offset[enemyType].y, enemy_masks[enemyType], BLACK);
+        arduboy.drawCompressed(enemy_offset[enemyType].x, enemy_offset[enemyType].y, enemy_images[enemyType], WHITE);
+        renderEnemy = true;
         break;
 
       }
@@ -385,7 +384,7 @@ void drawStatistics(Player *player) {
 
 void drawEnemyHitPointsBar(uint8_t hitPoints) {
 
-  arduboy.fillRect(5, 48, 40, 12, BLACK);
+  arduboy.fillRect(5, 48, 38, 12, BLACK);
   Sprites::drawSelfMasked(5, 48, fight_HP_bar, 0);
   arduboy.drawRect(19, 53, hitPoints, 2);  
   
