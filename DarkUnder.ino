@@ -37,7 +37,7 @@ const uint8_t *map_images[] = { visionBack, closeWallFront, closeDoorLocked, clo
                                 farWallFront, farWallFrontDoorLocked, farWallFrontDoorUnlocked, farWallLeft, farWallRight };
 const uint8_t *map_masks[] = { closeWallFront_Mask, closeDoor_Mask, closeWallLeft_Mask, closeWallRight_Mask, 
                                midWallFront_Mask, midWallLeft_Mask, midWallRight_Mask, 
-                               farWallFrontDoor_Mask, farWallLeft_Mask, farWallRight_Mask };
+                               farWallFront_Mask, farWallFrontDoor_Mask, farWallLeft_Mask, farWallRight_Mask };
 const uint8_t *direction_images[] = { directionN, directionE, directionS, directionW };
 
 
@@ -99,7 +99,6 @@ void setup() {
 void loop() {
   
   uint16_t delayLength;
-
   if (!(arduboy.nextFrame())) return;
   
   arduboy.clear();
@@ -323,7 +322,7 @@ uint16_t battleLoop() {
   switch (gameState) {
 
     case GameState::Battle_EnemyAttacks_Init:
-      
+
       switch (enemies[attackingEnemyIdx].getEnemyType()) {
       
         case EnemyType::Beholder:
@@ -364,9 +363,8 @@ uint16_t battleLoop() {
       break;
 
     case GameState::Battle_EnemyAttacks:
-
       arduboy.drawCompressed(12, 12, fight_scratch_Mask, BLACK);
-      arduboy.drawCompressed(12, 12, fight_scratch1, WHITE);
+      arduboy.drawCompressed(12, 12, fight_scratch, WHITE);
     
       if (diceDelay >= DICE_DELAY_START && diceDelay < DICE_DELAY_END) {
 
@@ -391,7 +389,6 @@ uint16_t battleLoop() {
         myHero.setHitPoints(myHero.getHitPoints() - diceAttack);
         gameState = GameState::Battle_PlayerDecides;
         delayLength = FIGHT_DELAY;
-        break;
         
       }
       break;
@@ -440,7 +437,7 @@ uint16_t battleLoop() {
         font3x5.print(F("YOU DEAL\n"));
         font3x5.print(diceAttack);
         font3x5.print(F(" DAMAGE!\n"));
-        font3x5.setCursor(31, 24);
+        font3x5.setCursor(32, 24);
         font3x5.print(diceAttack);
         enemies[attackingEnemyIdx].decHitPoints(diceAttack);
         

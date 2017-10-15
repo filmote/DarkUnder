@@ -37,11 +37,11 @@ const uint8_t PROGMEM level_00[] = {
 2, 2,                                              // Dimension of level in tiles (a tile is a 15x15 map)
 
 2,                                                 // Number of enemies
-(uint8_t)EnemyType::Wraith, 21, 1,                 // Enemy type, starting position
+(uint8_t)EnemyType::Wraith, 4, 1,                 // Enemy type, starting position
 (uint8_t)EnemyType::Slime, 23, 1,                  // Enemy type, starting position
 
 1,                                                 // Number of items
-(uint8_t)ItemType::Scroll, 3, 1,                   // Item type, starting position
+(uint8_t)ItemType::Scroll, 13, 1,                   // Item type, starting position
 
 1,                                                 // Number of doors
 (uint8_t)ItemType::LockedDoor, 6, 1,               // Item type, starting position

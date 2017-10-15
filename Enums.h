@@ -53,9 +53,10 @@
 #define MAP_MASK_MID_FRONT                4 
 #define MAP_MASK_MID_LEFT                 5
 #define MAP_MASK_MID_RIGHT                6
-#define MAP_MASK_FAR_FRONT_DOOR           7
-#define MAP_MASK_FAR_LEFT                 8
-#define MAP_MASK_FAR_RIGHT                9
+#define MAP_MASK_FAR_FRONT                7
+#define MAP_MASK_FAR_FRONT_DOOR           8
+#define MAP_MASK_FAR_LEFT                 9
+#define MAP_MASK_FAR_RIGHT                10
 
 #define DICE_NO_ACTION                    -15
 #define DICE_DELAY_START                  DICE_NO_ACTION + 1
@@ -77,13 +78,13 @@
 #define ITEM_ACTION_DELETE                1
 
 enum class GameState : uint8_t {
-  Splash,
+  Splash,   
   About,
   InitGame,
   InitLevel,
   Move,
   Battle_EnemyAttacks_Init,
-  Battle_EnemyAttacks,
+  Battle_EnemyAttacks,          
   Battle_EnemyDies,
   Battle_PlayerDecides,
   Battle_PlayerAttacks,

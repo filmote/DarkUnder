@@ -149,7 +149,8 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
       
       }
         
-      Sprites::drawSelfMasked(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 27, myLevel->getMapImages()[MAP_IMAGE_FAR_FRONT], 0);
+      arduboy.drawCompressed(VISION_X_OFFSET, VISION_Y_OFFSET + 27, myLevel->getMapMasks()[MAP_MASK_FAR_FRONT], BLACK);
+      arduboy.drawCompressed(VISION_X_OFFSET, VISION_Y_OFFSET + 27, myLevel->getMapImages()[MAP_IMAGE_FAR_FRONT], WHITE);
 
       if (imageIndex > 0) {
         Sprites::drawExternalMask(VISION_X_OFFSET + 29, VISION_Y_OFFSET + 27, myLevel->getMapImages()[imageIndex], myLevel->getMapMasks()[maskIndex], 0, 0);
@@ -165,7 +166,8 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   
   if (horizon2Plus) {
     if ((MapElement)myLevel->getMapElement(myHero->getX() + farLeftX, myHero->getY() + farLeftY) > MapElement::Floor) {
-      Sprites::drawExternalMask(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_LEFT], myLevel->getMapMasks()[MAP_MASK_FAR_LEFT], 0, 0);
+      arduboy.drawCompressed(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 23, myLevel->getMapMasks()[MAP_MASK_FAR_LEFT], BLACK);
+      arduboy.drawCompressed(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_LEFT], WHITE);
     }
   }
  
@@ -174,7 +176,8 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   if (horizon2Plus) {
     if ((MapElement)myLevel->getMapElement(myHero->getX() + farRightX, myHero->getY() + farRightY) > MapElement::Floor) {
-      Sprites::drawExternalMask(VISION_X_OFFSET + 34, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_RIGHT], myLevel->getMapMasks()[MAP_MASK_FAR_RIGHT], 0, 0);
+      arduboy.drawCompressed(VISION_X_OFFSET + 34, VISION_Y_OFFSET + 23, myLevel->getMapMasks()[MAP_MASK_FAR_RIGHT], BLACK);
+      arduboy.drawCompressed(VISION_X_OFFSET + 34, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_RIGHT], WHITE);
     }
   }
  
@@ -211,8 +214,9 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
       
       }
       
-      Sprites::drawExternalMask(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 22, myLevel->getMapImages()[MAP_IMAGE_MID_FRONT], myLevel->getMapMasks()[MAP_MASK_MID_FRONT], 0, 0);
-      
+      arduboy.drawCompressed(VISION_X_OFFSET, VISION_Y_OFFSET + 23, myLevel->getMapMasks()[MAP_MASK_MID_FRONT], BLACK);
+      arduboy.drawCompressed(VISION_X_OFFSET, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_MID_FRONT], WHITE);
+           
       if (imageIndex > 0) {
         Sprites::drawOverwrite(VISION_X_OFFSET + 27, VISION_Y_OFFSET + 25, myLevel->getMapImages()[imageIndex], 0);
       }
@@ -225,14 +229,16 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   // Mid left wall ..
 
   if ((MapElement)myLevel->getMapElement(myHero->getX() + middleLeftX, myHero->getY() + middleLeftY) > MapElement::Floor) {
-    Sprites::drawExternalMask(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_MID_LEFT], myLevel->getMapMasks()[MAP_MASK_MID_LEFT], 0, 0);
+    arduboy.drawCompressed(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 14, myLevel->getMapMasks()[MAP_MASK_MID_LEFT], BLACK);
+    arduboy.drawCompressed(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_MID_LEFT], WHITE);    
   }
 
 
   // Mid right wall ..
   
   if ((MapElement)myLevel->getMapElement(myHero->getX() + middleRightX, myHero->getY() + middleRightY) > MapElement::Floor) {
-    Sprites::drawExternalMask(VISION_X_OFFSET + 38, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_MID_RIGHT], myLevel->getMapMasks()[MAP_MASK_MID_RIGHT], 0, 0);
+    arduboy.drawCompressed(VISION_X_OFFSET + 38, VISION_Y_OFFSET + 14, myLevel->getMapMasks()[MAP_MASK_MID_RIGHT], BLACK);
+    arduboy.drawCompressed(VISION_X_OFFSET + 38, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_MID_RIGHT], WHITE);    
   }
   
 
@@ -267,7 +273,8 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
     
     }
       
-    Sprites::drawExternalMask(VISION_X_OFFSET, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_CLOSE_FRONT], myLevel->getMapMasks()[MAP_MASK_CLOSE_FRONT], 0, 0);
+    arduboy.drawCompressed(VISION_X_OFFSET, VISION_Y_OFFSET + 14, myLevel->getMapMasks()[MAP_MASK_CLOSE_FRONT], BLACK);
+    arduboy.drawCompressed(VISION_X_OFFSET, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_CLOSE_FRONT], WHITE);
 
     if (imageIndex > 0) {
       arduboy.drawCompressed(VISION_X_OFFSET + 21, VISION_Y_OFFSET + 21, myLevel->getMapMasks()[maskIndex], BLACK);
@@ -280,14 +287,16 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   // Close left wall ..
 
   if ((MapElement)myLevel->getMapElement(myHero->getX() + closeLeftX, myHero->getY() + closeLeftY) > MapElement::Floor) {
-    Sprites::drawExternalMask(VISION_X_OFFSET, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_LEFT], myLevel->getMapMasks()[MAP_MASK_CLOSE_LEFT], 0, 0);
+    arduboy.drawCompressed(VISION_X_OFFSET, VISION_Y_OFFSET, myLevel->getMapMasks()[MAP_MASK_CLOSE_LEFT], BLACK);
+    arduboy.drawCompressed(VISION_X_OFFSET, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_LEFT], WHITE);
   }
 
   
   // Close right wall ..
   
   if (myLevel->getMapElement(myHero->getX() + closeRightX, myHero->getY() + closeRightY) > MapElement::Floor) {
-    Sprites::drawExternalMask(VISION_X_OFFSET + 48, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_RIGHT], myLevel->getMapMasks()[MAP_MASK_CLOSE_RIGHT], 0, 0);
+    arduboy.drawCompressed(VISION_X_OFFSET + 48, VISION_Y_OFFSET, myLevel->getMapMasks()[MAP_MASK_CLOSE_RIGHT], BLACK);
+    arduboy.drawCompressed(VISION_X_OFFSET + 48, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_RIGHT], WHITE);
   }
 
 
@@ -316,6 +325,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
         uint8_t enemyType = (uint8_t)enemies[i].getEnemyType();
         arduboy.drawCompressed(enemy_offset[enemyType].x, enemy_offset[enemyType].y, enemy_masks[enemyType], BLACK);
         arduboy.drawCompressed(enemy_offset[enemyType].x, enemy_offset[enemyType].y, enemy_images[enemyType], WHITE);
+        if (gameState == GameState::Move) gameState = GameState::Battle_EnemyAttacks_Init;
         renderEnemy = true;
         break;
 
@@ -418,7 +428,7 @@ void drawMap(Player *myHero, Level *myLevel) {
           for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {  
         
             if (enemies[i].getEnabled() && enemies[i].getX() == mapX && enemies[i].getY() == mapY) {
-        
+
               Sprites::drawSelfMasked(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), enemyMap, 0);
               renderMapElement = false;
               break;
@@ -565,9 +575,8 @@ void displaySplash() {
 
 }
 
-void displayLogo(){
+void displayLogo() {
 
-//  Sprites::drawOverwrite(0, 0, garCo, 0);  
   arduboy.drawCompressed(0, 0, garCol, WHITE);
 
   if (arduboy.justPressed(A_BUTTON)) {
