@@ -627,24 +627,22 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   myLevel->setHeight(pgm_read_byte(&level[idx++]));
 
 
-  // Disable all enemies ..
-  
-  for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {
-    enemies[i].setEnabled(false);
-  }  
-
-
   // Create all enemies ..
   
   uint8_t numberOfEnemies = pgm_read_byte(&level[idx++]);
 
   for (uint8_t i = 0; i < numberOfEnemies; ++i) {  
 
-    enemies[i].setEnabled(true);
-    enemies[i].setEnemyType((EnemyType)pgm_read_byte(&level[idx++]));
-    enemies[i].setX(pgm_read_byte(&level[idx++]));
-    enemies[i].setY(pgm_read_byte(&level[idx++]));
-    enemies[i].setHitPoints(ENEMY_MAX_HITPOINTS);
+    if(i < numberOfEnemies) {
+      enemies[i].setEnabled(true);
+      enemies[i].setEnemyType((EnemyType)pgm_read_byte(&level[idx++]));
+     enemies[i].setX(pgm_read_byte(&level[idx++]));
+      enemies[i].setY(pgm_read_byte(&level[idx++]));
+      enemies[i].setHitPoints(ENEMY_MAX_HITPOINTS);
+    }
+    else {
+      enemies[i].setEnabled(false);
+    }
     
   }
   
