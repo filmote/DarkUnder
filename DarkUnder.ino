@@ -636,7 +636,7 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
     if(i < numberOfEnemies) {
       enemies[i].setEnabled(true);
       enemies[i].setEnemyType((EnemyType)pgm_read_byte(&level[idx++]));
-     enemies[i].setX(pgm_read_byte(&level[idx++]));
+      enemies[i].setX(pgm_read_byte(&level[idx++]));
       enemies[i].setY(pgm_read_byte(&level[idx++]));
       enemies[i].setHitPoints(ENEMY_MAX_HITPOINTS);
     }
@@ -646,45 +646,35 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
     
   }
   
-
-  // Disable all items ..
-  
-  for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {
-    items[i].setEnabled(false);
-  }  
-
-
   // Create all items ..
   
-  uint8_t cnt = pgm_read_byte(&level[idx++]);
+  uint8_t numberOfItems = pgm_read_byte(&level[idx++]);
 
-  for (uint8_t i = 0; i < cnt; ++i) {  
+  for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
 
-    items[i].setEnabled(true);
-    items[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
-    items[i].setX(pgm_read_byte(&level[idx++]));
-    items[i].setY(pgm_read_byte(&level[idx++]));
-     
+    if(i < numberOfItems) {
+      items[i].setEnabled(true);
+      items[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
+      items[i].setX(pgm_read_byte(&level[idx++]));
+      items[i].setY(pgm_read_byte(&level[idx++]));
+    }
+    else {
+      items[i].setEnabled(false);
+    }
   }  
-
-
-  // Disable all doors ..
-  
-  for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
-    doors[i].setEnabled(false);
-  }  
-
 
   // Create all doors ..
   
-  cnt = pgm_read_byte(&level[idx++]);
+  uint8_t numberOfDoors = pgm_read_byte(&level[idx++]);
 
-  for (uint8_t i = 0; i < cnt; ++i) {  
+  for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {  
 
-    doors[i].setEnabled(true);
-    doors[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
-    doors[i].setX(pgm_read_byte(&level[idx++]));
-    doors[i].setY(pgm_read_byte(&level[idx++]));
+    if(i < numberOfDoors) {
+      doors[i].setEnabled(true);
+      doors[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
+      doors[i].setX(pgm_read_byte(&level[idx++]));
+      doors[i].setY(pgm_read_byte(&level[idx++]));
+    }
 
   }  
   
