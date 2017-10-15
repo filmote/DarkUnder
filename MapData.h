@@ -35,14 +35,16 @@ const uint8_t PROGMEM level_00[] = {
 1, 1,                                              // Starting postion of player
 (uint8_t)Direction::East,                          // Starting direction of player
 2, 2,                                              // Dimension of level in tiles (a tile is a 15x15 map)
-0,                                                 // Wall texture of this level
 
 2,                                                 // Number of enemies
-(uint8_t)EnemyType::Wraith, 3, 1,                     // Enemy type, starting position
-(uint8_t)EnemyType::Slime, 13, 1,                  // Enemy type, starting position
+(uint8_t)EnemyType::Wraith, 21, 1,                 // Enemy type, starting position
+(uint8_t)EnemyType::Slime, 23, 1,                  // Enemy type, starting position
 
 1,                                                 // Number of items
-(uint8_t)ItemType::HPPotion, 10, 1,                // Item type, starting position
+(uint8_t)ItemType::Scroll, 3, 1,                   // Item type, starting position
+
+1,                                                 // Number of doors
+(uint8_t)ItemType::LockedDoor, 6, 1,               // Item type, starting position
 
                                                    // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
 
@@ -62,14 +64,16 @@ const uint8_t PROGMEM level_01[] = {
 1, 1,                                              // Starting postion of player
 (uint8_t)Direction::East,                          // Starting direction of player
 2, 2,                                              // Dimension of level in tiles (a tile is a 15x15 map)
-0,                                                 // Wall texture of this level
 
 2,                                                 // Number of enemies
 (uint8_t)EnemyType::Beholder, 3, 1,                // Enemy type, starting position
 (uint8_t)EnemyType::Beholder, 5, 1,                // Enemy type, starting position
 
 1,                                                 // Number of items
-(uint8_t)ItemType::HPPotion, 10, 1,                // Item type, starting position
+(uint8_t)ItemType::HPPotion, 3, 1,                 // Item type, starting position
+
+1,                                                 // Number of doors
+(uint8_t)ItemType::LockedDoor, 6, 1,               // Item type, starting position
 
                                                    // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
 
@@ -89,7 +93,6 @@ const uint8_t PROGMEM level_02[] = {
 1, 1,                                              // Starting postion of player
 (uint8_t)Direction::East,                          // Starting direction of player
 2, 2,                                              // Dimension of level in tiles (a tile is a 15x15 map)
-0,                                                 // Wall texture of this level
 
 2,                                                 // Number of enemies
 (uint8_t)EnemyType::Dragon, 3, 1,                  // Enemy type, starting position
@@ -97,6 +100,9 @@ const uint8_t PROGMEM level_02[] = {
 
 1,                                                 // Number of items
 (uint8_t)ItemType::HPPotion, 10, 1,                // Item type, starting position
+
+1,                                                 // Number of doors
+(uint8_t)ItemType::LockedDoor, 4, 1,               // Item type, starting position
 
                                                    // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
 

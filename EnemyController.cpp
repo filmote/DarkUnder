@@ -63,8 +63,9 @@ bool EnemyController::moveToVacantSquare(Enemy *thisEnemy, Enemy *allEnemies, Pl
     
 bool EnemyController::moveLegal(Enemy *allEnemies, Player *player, Level *level, int x, int y) {
   
-  if (level->getMapElement(x, y) == MapElement::Floor) {
-
+  if ((level->getMapElement(x, y) == MapElement::Floor) ||
+      (level->getMapElement(x, y) == MapElement::UnlockedDoor)) {
+      
 
     // Is another enemy in the same position ?
 

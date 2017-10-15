@@ -57,8 +57,10 @@ bool PlayerController::move(Player *player, Enemy *allEnemies, Level *level, But
 
 bool PlayerController::moveLegal(Enemy *allEnemies, Level *level, int x, int y) {
   
-  if (level->getMapElement(x, y) == MapElement::Floor) {
-
+  if ((level->getMapElement(x, y) == MapElement::Floor) ||
+      (level->getMapElement(x, y) == MapElement::UnlockedDoor) ||
+      (level->getMapElement(x, y) == MapElement::LevelUnlockedDoor)) {
+        
 
     // Is another enemy in the same position ?
 

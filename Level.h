@@ -4,6 +4,7 @@
 #include <Arduboy2.h>
 #include "Enums.h"
 #include "MapData.h"
+#include "Item.h"
 
 class Level {
 
@@ -17,6 +18,7 @@ class Level {
     const uint32_t getWidth();
     const uint32_t getHeight();
 
+    const Item * getDoors();
     const uint8_t * getLevel();
     const uint8_t * const * getMapTiles();
     const uint8_t * const * getMapImages();
@@ -24,6 +26,7 @@ class Level {
     char * getTitleLine1();
     char * getTitleLine2();
     
+    void setDoors(const Item *value);
     void setStartPos(const uint32_t value);
     void setWidth(const uint32_t value);
     void setHeight(const uint32_t value);
@@ -53,6 +56,9 @@ class Level {
     const uint8_t * const * _map_tiles;
     const uint8_t * const * _map_images;
     const uint8_t * const * _map_masks;
+
+    const Item * _doors;
+
 
 };
 

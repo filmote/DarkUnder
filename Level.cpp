@@ -10,6 +10,7 @@ Level::Level() {_tileNumber = 255; }
 const uint32_t Level::getStartPos()                         { return _startPos; }
 const uint32_t Level::getWidth()                            { return _width; }
 const uint32_t Level::getHeight()                           { return _height; }
+const Item * Level::getDoors()                              { return _doors; }
 
 const uint8_t * Level::getLevel()                           { return _level; }
 const uint8_t * const * Level::getMapTiles()                { return _map_tiles; }
@@ -19,6 +20,7 @@ const uint8_t * const * Level::getMapMasks()                { return _map_masks;
 char * Level::getTitleLine1()                               { return _titleLine1; }
 char * Level::getTitleLine2()                               { return _titleLine2; }
 
+void Level::setDoors(const Item *value)                     { _doors = value; }
 void Level::setStartPos(const uint32_t value)               { _startPos = value; }
 void Level::setWidth(const uint32_t value)                  { _width = value; }
 void Level::setHeight(const uint32_t value)                 { _height = value; }
@@ -30,7 +32,18 @@ void Level::setMapMasks(const uint8_t * const *value)       { _map_masks = value
   
 const MapElement Level::getMapElement(uint32_t x, uint32_t y) {
 
+  for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
+
+    if (_doors[i].getEnabled() && _doors[i].getX() == x && _doors[i].getY() == y) {
+
+      return (MapElement)((uint8_t)_doors[i].getItemType());
+
+    }
+
+  }
+
   uint8_t tileNumber = pgm_read_byte(&_level[_startPos + (x / MAP_TILE_WIDTH) + ((y / MAP_TILE_HEIGHT) * _width)]);
+
   loadTile((Rotation)(tileNumber & 0xC0), tileNumber, _map_tiles[(tileNumber & 0x3F)]);
   uint16_t mapElement = _tileData[(x % MAP_TILE_WIDTH) + (((y % MAP_TILE_HEIGHT) / 8) * MAP_TILE_PHYSICAL_WIDTH)] & (1 << (y % MAP_TILE_HEIGHT % 8));
 

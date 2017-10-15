@@ -17,12 +17,15 @@ class Player : public Base {
     const int8_t getDefence();
     const int8_t getAttackPower();
     const int8_t getMagic();
+    const Inventory getInventory(uint8_t slot);
+    const int8_t getConsumableSlot();
     
     void setDirection(const Direction value);
     void setHitPoints(const int8_t value);   
     void setDefence(const int8_t value);   
     void setAttackPower(const int8_t value);   
     void setMagic(const int8_t value);   
+    void setInventory(const int8_t slot, const Inventory item);   
     
   private:
 
@@ -31,6 +34,7 @@ class Player : public Base {
     int8_t _defence;
     int8_t _attackPower;
     int8_t _magic;
+    Inventory _inventory[5];
     
   };
 

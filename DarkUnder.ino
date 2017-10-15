@@ -8,6 +8,8 @@
 #include "Images_Enemies.h"
 #include "Images_Fight.h"
 #include "Images_Map.h"
+#include "Images_Inventory.h"
+#include "Images_Items.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Item.h"
@@ -23,17 +25,28 @@ ArduboyTones sound(arduboy.audio.enabled);
 Font3x5 font3x5 = Font3x5(arduboy.sBuffer, Arduboy2::width(), Arduboy2::height());
 
 Item items[NUMBER_OF_ITEMS];
+Item doors[NUMBER_OF_DOORS];
 Enemy enemies[NUMBER_OF_ENEMIES];
 
 uint8_t attackingEnemyIdx = 0;
 
 const uint8_t *levels[] = { level_00, level_01, level_02 };
 const uint8_t *map_tiles[] = { tile_00, tile_01, tile_02 };
-const uint8_t *map_images_00[] = { visionBack, closeWallFront_00, closeWallLeft_00, closeWallRight_00, midWallFront_00, midWallLeft_00, midWallRight_00, farWallFront_00, farWallLeft_00, farWallRight_00 };
-const uint8_t *map_images_01[] = { visionBack, closeWallFront_01, closeWallLeft_01, closeWallRight_01, midWallFront_01, midWallLeft_01, midWallRight_01, farWallFront_01, farWallLeft_01, farWallRight_01 };
-const uint8_t *map_images_02[] = { visionBack, closeWallFront_02, closeWallLeft_02, closeWallRight_02, midWallFront_02, midWallLeft_02, midWallRight_02, farWallFront_02, farWallLeft_02, farWallRight_02 };
-const uint8_t *map_masks[] = { closeWallFront_Mask, closeWallLeft_Mask, closeWallRight_Mask, midWallFront_Mask, midWallLeft_Mask, midWallRight_Mask, farWallLeft_Mask, farWallRight_Mask };
+const uint8_t *map_images[] = { visionBack, closeWallFront, closeDoorLocked, closeDoorLevelLocked, closeDoorUnlocked, closeDoorLevelUnlocked, closeWallLeft, closeWallRight, 
+                                midWallFront, midDoorLocked, midDoorLevelLocked, midDoorUnlocked, midDoorLevelUnlocked, midWallLeft, midWallRight, 
+                                farWallFront, farWallFrontDoorLocked, farWallFrontDoorUnlocked, farWallLeft, farWallRight };
+const uint8_t *map_masks[] = { closeWallFront_Mask, closeDoor_Mask, closeWallLeft_Mask, closeWallRight_Mask, 
+                               midWallFront_Mask, midWallLeft_Mask, midWallRight_Mask, 
+                               farWallFrontDoor_Mask, farWallLeft_Mask, farWallRight_Mask };
 const uint8_t *direction_images[] = { directionN, directionE, directionS, directionW };
+
+
+// Inventory settings ..
+
+const uint8_t *inventory_images[] = { NULL, inv_key, inv_potion, inv_scroll, inv_shield, inv_sword };
+const Point inventory_Coords[] = { Point{11, 8}, Point{28, 8}, Point{45, 8}, Point{28, 35}, Point{45, 35} };
+uint8_t inventory_selection = 0;
+uint8_t inventory_action = 0;
 
 
 // Enemy details ..
@@ -45,12 +58,14 @@ const Point enemy_offset[] = { ENEMY_BEHOLDER_POSITION, ENEMY_SKELETON_POSITION,
 
 // Item details ..
 
-const uint8_t *item_images[] = { icnHPPotion };
-const uint8_t *item_masks[] = { icnHPPotion };
-const Point item_offset[] = { ITEM_HPPOTION_POSITION };
-
+const uint8_t *item_images[] = { NULL, item_key, item_potion, item_mascroll, NULL, NULL };
+const Point item_offset[] = { Point{0, 0}, ITEM_KEY_POSITION, ITEM_HPPOTION_POSITION, ITEM_SCROLL_POSITION };
+uint8_t item_action = 0;
+uint8_t savedItem = 0;
+bool item_no_slots = false;
 
 GameState gameState = GameState::Splash; 
+GameState savedState = GameState::Splash; 
 
 Level myLevel;
 Player myHero;
@@ -72,6 +87,12 @@ void setup() {
   arduboy.initRandomSeed();  
 
   myLevel.setMapTiles(map_tiles);
+
+  myHero.setInventory(0, Inventory::Key);
+  myHero.setInventory(1, Inventory::Potion);
+  myHero.setInventory(2, Inventory::Scroll);
+  myHero.setInventory(3, Inventory::Shield);
+  myHero.setInventory(4, Inventory::Sword);
   
 }
 
@@ -96,6 +117,7 @@ void loop() {
       break;
     
     case GameState::Move: 
+    case GameState::ItemIgnore: 
       playLoop();
       break;
     
@@ -108,7 +130,16 @@ void loop() {
     case GameState::Battle_PlayerDies:
       delayLength = battleLoop();
       break;
-    
+
+    case GameState::InventorySelect: 
+    case GameState::InventoryAction: 
+      inventoryLoop();
+      break;
+
+    case GameState::ItemSelect: 
+      itemLoop();
+      break;
+      
     case GameState::Splash: 
       displaySplash();
       break;
@@ -124,6 +155,160 @@ void loop() {
   
 }
 
+void itemLoop() {
+
+  drawPlayerVision(&myHero, &myLevel);
+  drawMap(&myHero, &myLevel);
+  drawStatistics(&myHero);
+
+  if (item_action == INVENTORY_ACTION_USE)     arduboy.drawCompressed(71, 56, inv_select, WHITE);
+  if (item_action == INVENTORY_ACTION_DELETE)  arduboy.drawCompressed(83, 56, inv_select, WHITE);
+
+  arduboy.drawCompressed(70, 45, inv_hand, WHITE);
+  arduboy.drawCompressed(81, 45, inv_trash, WHITE);
+
+  if (item_no_slots) {
+    font3x5.setCursor(95, 44);
+    font3x5.print(F("NO INV\nSLOTS!"));
+  }
+
+  if (arduboy.justPressed(LEFT_BUTTON) && item_action > ITEM_ACTION_USE)         { --item_action; item_no_slots = false; }
+  if (arduboy.justPressed(RIGHT_BUTTON) && item_action < ITEM_ACTION_DELETE)     { ++item_action; item_no_slots = false; }
+
+  if (arduboy.justPressed(A_BUTTON)) {
+    savedState = gameState;
+    gameState = GameState::InventorySelect;
+  }
+ 
+  if (arduboy.justPressed(B_BUTTON)) {
+
+    if (item_action == ITEM_ACTION_USE) {
+
+      switch (items[savedItem].getItemType()) {
+
+        case ItemType::Key:
+        case ItemType::HPPotion:
+        case ItemType::Scroll:
+
+          if (myHero.getConsumableSlot() >= 0) {
+
+            myHero.setInventory(myHero.getConsumableSlot(), (Inventory)((uint8_t)items[savedItem].getItemType()));
+            items[savedItem].setEnabled(false);
+            item_no_slots = false;
+
+          }
+          else {
+          
+            item_no_slots = true;
+
+          }
+
+      }
+
+    }
+
+    if (item_action == ITEM_ACTION_DELETE)  { 
+      
+      gameState = GameState::ItemIgnore;
+      item_no_slots = false;
+    
+    }
+
+  }
+
+}
+
+void inventoryLoop() {
+ 
+  arduboy.drawCompressed(0, 0, frames, WHITE);  
+  arduboy.drawCompressed(4, 4, inv_background, WHITE);
+
+  drawMap(&myHero, &myLevel);
+  drawStatistics(&myHero);
+
+  for (uint8_t i = 0; i < 5; ++i) {
+
+    if (myHero.getInventory(i) != Inventory::None) {
+
+      arduboy.fillRect(inventory_Coords[i].x, inventory_Coords[i].y, 14, 16, BLACK);
+      arduboy.drawCompressed(inventory_Coords[i].x, inventory_Coords[i].y, inventory_images[(uint8_t)myHero.getInventory(i)], WHITE);
+
+    }
+
+  }
+
+  arduboy.drawCompressed(inventory_Coords[inventory_selection].x + 3, inventory_Coords[inventory_selection].y + 11, inv_select, BLACK);
+  
+  switch (gameState) {
+
+    case GameState::InventorySelect:
+      if (arduboy.justPressed(LEFT_BUTTON) && inventory_selection > 0)      { --inventory_selection; }
+      if (arduboy.justPressed(RIGHT_BUTTON) && inventory_selection < 4)     { ++inventory_selection; }
+      if (arduboy.justPressed(A_BUTTON))                                    { gameState = GameState::Move;}
+
+      if (arduboy.justPressed(B_BUTTON)) { 
+        if (myHero.getInventory(inventory_selection) != Inventory::None) {
+          gameState = GameState::InventoryAction;
+        }
+      }
+
+      break;
+
+    case GameState::InventoryAction:
+
+      if (inventory_action == INVENTORY_ACTION_USE)     arduboy.drawCompressed(71, 56, inv_select, WHITE);
+      if (inventory_action == INVENTORY_ACTION_DELETE)  arduboy.drawCompressed(83, 56, inv_select, WHITE);
+
+      arduboy.drawCompressed(70, 45, inv_hand, WHITE);
+      arduboy.drawCompressed(81, 45, inv_trash, WHITE);
+  
+      if (arduboy.justPressed(LEFT_BUTTON) && inventory_action > INVENTORY_ACTION_USE)         { --inventory_action; }
+      if (arduboy.justPressed(RIGHT_BUTTON) && inventory_action < INVENTORY_ACTION_DELETE)     { ++inventory_action; }
+      if (arduboy.justPressed(A_BUTTON))                                                       { gameState = GameState::InventorySelect;}
+
+      if (arduboy.justPressed(B_BUTTON)) { 
+        
+        if (inventory_action == INVENTORY_ACTION_USE) {
+         
+          switch (myHero.getInventory(inventory_selection)) {
+
+            case Inventory::Key:
+              for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
+                
+                if (doors[i].getEnabled() && (doors[i].getItemType() == ItemType::LevelLockedDoor || doors[i].getItemType() == ItemType::LockedDoor) && 
+                    abs(doors[i].getX() - myHero.getX()) <= 1 && abs(doors[i].getY() - myHero.getY()) <= 1) {
+
+                  if (doors[i].getItemType() ==ItemType::LockedDoor)       doors[i].setItemType(ItemType::UnlockedDoor);
+                  if (doors[i].getItemType() ==ItemType::LevelLockedDoor)  doors[i].setItemType(ItemType::LevelUnlockedDoor);
+                      
+                  myHero.setInventory(inventory_selection, Inventory::None);
+                  inventory_action = INVENTORY_ACTION_USE;
+                  gameState = GameState::InventorySelect;
+            
+                }
+
+              }
+              break;
+          }
+
+        }
+
+        if (inventory_action == INVENTORY_ACTION_DELETE) {
+
+          myHero.setInventory(inventory_selection, Inventory::None);
+          inventory_action = INVENTORY_ACTION_USE;
+          gameState = GameState::InventorySelect;
+          item_no_slots = false;
+
+        }
+
+      }
+
+      break;
+
+  }
+
+}
 
 uint16_t battleLoop() {
 
@@ -218,7 +403,13 @@ uint16_t battleLoop() {
 
       if (arduboy.justPressed(LEFT_BUTTON) && (uint8_t)fightButton > 0)                                 { fightButton = (FightButtons)((uint8_t)fightButton - 1); }
       if (arduboy.justPressed(RIGHT_BUTTON) && (uint8_t)fightButton < (uint8_t)FightButtons::Defend)    { fightButton = (FightButtons)((uint8_t)fightButton + 1); }
+
       if (arduboy.justPressed(A_BUTTON))  {
+        savedState = gameState;
+        gameState = GameState::InventorySelect;
+      }
+        
+      if (arduboy.justPressed(B_BUTTON))  {
         
         diceDelay = DICE_DELAY_START; 
         gameState = (fightButton == FightButtons::Attack ? GameState::Battle_PlayerAttacks : GameState::Battle_PlayerDefends); 
@@ -229,8 +420,8 @@ uint16_t battleLoop() {
 
     case GameState::Battle_PlayerAttacks:
     
-      arduboy.drawCompressed(18, 19, fight_hero_strike_Mask, BLACK);
-      arduboy.drawCompressed(18, 19, fight_hero_strike, WHITE);
+      arduboy.drawCompressed(19, 19, fight_hero_strike_Mask, BLACK);
+      arduboy.drawCompressed(19, 19, fight_hero_strike, WHITE);
     
       if (diceDelay >= DICE_DELAY_START && diceDelay < DICE_DELAY_END) {
 
@@ -274,8 +465,6 @@ uint16_t battleLoop() {
       if (diceDelay >= DICE_DELAY_START && diceDelay < DICE_DELAY_END) {
 
         rollDice(17, 35);
-        // font3x5.setCursor(48, 17);
-        // font3x5.print("1");        
 
       }
       else {
@@ -287,14 +476,14 @@ uint16_t battleLoop() {
 
         }
 
-        font3x5.print(F("TAKE "));
+        font3x5.print(F("SAVE "));
         font3x5.print(diceAttack);
-        font3x5.print(F(" DMG\n"));
+        font3x5.print(F(" hp\n"));
         font3x5.print(F("DEAL 1 DMG\n"));
         font3x5.setCursor(17, 35);
         font3x5.print(diceAttack);
-        // font3x5.setCursor(48, 17);
-        // font3x5.print("1");
+
+        myHero.setHitPoints(myHero.getHitPoints() + diceAttack);
         enemies[attackingEnemyIdx].decHitPoints(1);
         
         if (enemies[attackingEnemyIdx].getHitPoints() > 0) {
@@ -366,11 +555,20 @@ void playLoop() {
   if (arduboy.justPressed(DOWN_BUTTON))     { PlayerController::move(&myHero, enemies, &myLevel, Button::Down); }
   if (arduboy.justPressed(LEFT_BUTTON))     { PlayerController::move(&myHero, enemies, &myLevel, Button::Left); }
   if (arduboy.justPressed(RIGHT_BUTTON))    { PlayerController::move(&myHero, enemies, &myLevel, Button::Right); }
-
+  
+  if (arduboy.justPressed(A_BUTTON))        { 
+  
+    savedState = gameState;
+    gameState = GameState::InventorySelect; 
+  
+  }
+  
 
   // If the player moved then so should the enemies ..
 
   if (playerMoved) {
+
+    gameState = GameState::Move;        // Play could be at game state ItemIgnore, in which case we only want to ignore this first item only. 
 
     for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {
       
@@ -391,8 +589,7 @@ void playLoop() {
     
     if (enemies[i].getEnabled()) {
 
-      if ( ((abs(myHero.getX() - enemies[i].getX()) == 1) && myHero.getY() == enemies[i].getY()) || 
-           ((abs(myHero.getY() - enemies[i].getY()) == 1) && myHero.getX() == enemies[i].getX()) )  {
+      if ((abs(myHero.getX() - enemies[i].getX()) <= 1) && (abs(myHero.getY() - enemies[i].getY()) == 1))  {
         
         attackingEnemyIdx = i;
         gameState = GameState::Battle_EnemyAttacks_Init;
@@ -433,16 +630,6 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   myLevel->setHeight(pgm_read_byte(&level[idx++]));
 
 
-  // Set the image and mask arrays ..
-    
-  myLevel->setLevel(level);
-  uint8_t dungeonStyle = pgm_read_byte(&level[idx++]);
-  if (dungeonStyle == 0) { myLevel->setMapImages(map_images_00); }
-  if (dungeonStyle == 1) { myLevel->setMapImages(map_images_01); }
-  if (dungeonStyle == 2) { myLevel->setMapImages(map_images_02); }
-  myLevel->setMapMasks(map_masks);
-
-
   // Disable all enemies ..
   
   for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {
@@ -474,9 +661,9 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
 
   // Create all items ..
   
-  uint8_t numberOfItems = pgm_read_byte(&level[idx++]);
+  uint8_t cnt = pgm_read_byte(&level[idx++]);
 
-  for (uint8_t i = 0; i < numberOfItems; ++i) {  
+  for (uint8_t i = 0; i < cnt; ++i) {  
 
     items[i].setEnabled(true);
     items[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
@@ -485,6 +672,31 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
      
   }  
 
+
+  // Disable all doors ..
+  
+  for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
+    doors[i].setEnabled(false);
+  }  
+
+
+  // Create all doors ..
+  
+  cnt = pgm_read_byte(&level[idx++]);
+
+  for (uint8_t i = 0; i < cnt; ++i) {  
+
+    doors[i].setEnabled(true);
+    doors[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
+    doors[i].setX(pgm_read_byte(&level[idx++]));
+    doors[i].setY(pgm_read_byte(&level[idx++]));
+
+  }  
+  
+  myLevel->setLevel(level);
+  myLevel->setMapImages(map_images);
+  myLevel->setMapMasks(map_masks);
+  myLevel->setDoors(doors);
   myLevel->setStartPos(idx);
   gameState = GameState::Move;
 
