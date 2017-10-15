@@ -334,7 +334,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   // Render items if no enemy has been rendered .. 
 
-  if (!renderEnemy) {
+  if (!renderEnemy && (gameState == GameState::Move || gameState == GameState::ItemSelect)) {
     
     for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
 
@@ -345,7 +345,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
         int8_t offsetX = offsetXTable[selector];
         int8_t offsetY = offsetYTable[selector];
 
-        if ((gameState == GameState::Move || gameState == GameState::ItemSelect) && items[i].getX() == myHero->getX() + offsetX && items[i].getY() == myHero->getY() + offsetY) {
+        if (items[i].getX() == myHero->getX() + offsetX && items[i].getY() == myHero->getY() + offsetY) {
 
           arduboy.fillRect(14, 11, 41, 43, BLACK);
           arduboy.fillRect(15, 12, 39, 41, WHITE);
