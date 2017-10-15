@@ -340,17 +340,10 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
       if (items[i].getEnabled()) {
 
-        int8_t offsetX = 0;
-        int8_t offsetY = 0;
-        
-        switch (myHero->getDirection()) {
+        uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
 
-          case Direction::North:    offsetX =  0;  offsetY = -1;  break;
-          case Direction::East:     offsetX =  1;  offsetY =  0;  break;
-          case Direction::South:    offsetX =  0;  offsetY =  1;  break;
-          case Direction::West:     offsetX = -1;  offsetY =  0;  break;
-          
-        }
+        int8_t offsetX = offsetXTable[selector];
+        int8_t offsetY = offsetYTable[selector];
 
         if ((gameState == GameState::Move || gameState == GameState::ItemSelect) && items[i].getX() == myHero->getX() + offsetX && items[i].getY() == myHero->getY() + offsetY) {
 
