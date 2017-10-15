@@ -63,9 +63,9 @@ void Level::rotate(bool ccw, const uint8_t *a) {
     uint8_t y1 = (ccw ? pgm_read_byte(&a[inputIdx]) : reverseBits(pgm_read_byte(&a[inputIdx + 16])));
     uint8_t y2 = (ccw ? pgm_read_byte(&a[inputIdx + 16]) : reverseBits(pgm_read_byte(&a[inputIdx])));
 
-    for (uint8_t x = 0; x < 8; ++x) {
-      _tileData[outputIdx + x] = _tileData[outputIdx + x] | ((y1 & (1 << x)) > 0 ? bit : 0);
-      _tileData[outputIdx + 8 + x] = _tileData[outputIdx + 8 + x] | ((y2 & (1 << x)) > 0 ? bit : 0);
+    for (uint8_t x = 0, s = 1; x < 8; ++x, s <<= 1) {
+      _tileData[outputIdx + x] = _tileData[outputIdx + x] | ((y1 & s) > 0 ? bit : 0);
+      _tileData[outputIdx + 8 + x] = _tileData[outputIdx + 8 + x] | ((y2 & s) > 0 ? bit : 0);
     }
 
     if (ccw) {
