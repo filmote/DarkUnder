@@ -607,17 +607,10 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
 
   // Read level title ..
 
-  for (uint8_t i = 0; i < 11; ++i) {
-    
-    myLevel->getTitleLine1()[i] = pgm_read_byte(&level[idx++]);
-
-  }
-
-  for (uint8_t i = 0; i < 11; ++i) {
-    
-    myLevel->getTitleLine2()[i] = pgm_read_byte(&level[idx++]);
-    
-  }
+  memcpy_P(myLevel->getTitleLine1(), &level[idx], sizeof(char) * 11);
+  idx += 11;
+  memcpy_P(myLevel->getTitleLine2(), &level[idx], sizeof(char) * 11);
+  idx += 11;
             
   myHero->setX(pgm_read_byte(&level[idx++]));
   myHero->setY(pgm_read_byte(&level[idx++]));
