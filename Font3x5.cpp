@@ -200,9 +200,8 @@ const uint8_t * const font_letters[] PROGMEM = { FONT_A, FONT_B, FONT_C, FONT_D,
                                                  FONT_N, FONT_O, FONT_P, FONT_Q, FONT_R, FONT_S, FONT_T, FONT_U, FONT_V, FONT_W, FONT_X, FONT_Y ,FONT_Z };
 const uint8_t * const font_numbers[] PROGMEM = { FONT_0, FONT_1, FONT_2, FONT_3, FONT_4, FONT_5, FONT_6, FONT_7, FONT_8, FONT_9 };   
 
-Font3x5::Font3x5(uint8_t *screenBuffer, int16_t width, int16_t height) {
+Font3x5::Font3x5(int16_t width, int16_t height) {
 
-  sBuffer = screenBuffer;
   sWidth = width;
   sHeight = height;
 

@@ -22,7 +22,7 @@
 Arduboy2Base arduboy;
 ArduboyTones sound(arduboy.audio.enabled);
 
-Font3x5 font3x5 = Font3x5(arduboy.sBuffer, Arduboy2::width(), Arduboy2::height());
+Font3x5 font3x5 = Font3x5(Arduboy2::width(), Arduboy2::height());
 
 Item items[NUMBER_OF_ITEMS];
 Item doors[NUMBER_OF_DOORS];
