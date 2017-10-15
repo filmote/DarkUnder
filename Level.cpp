@@ -93,7 +93,7 @@ void Level::rotate(bool ccw, const uint8_t *a) {
     
     for (uint8_t x = 0; x < 16; ++x) {
       
-      _tileData[x] = (_tileData[x] >> 1) | ((_tileData[x + 16] & 1) == 1 ? 128 : 0);
+      _tileData[x] = (_tileData[x] >> 1) | ((_tileData[x + 16] & 1) << 7);
       _tileData[x + 16] = (_tileData[x + 16] >> 1);
       
     }
