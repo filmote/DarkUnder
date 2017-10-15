@@ -554,12 +554,13 @@ void displaySplash() {
     splashStatus = SplashButtons::About;
   }
 
-  if (arduboy.justPressed(A_BUTTON) && splashStatus == SplashButtons::Play) {
-    gameState = GameState::InitGame;
-  }
-
-  if (arduboy.justPressed(A_BUTTON) && splashStatus == SplashButtons::About) {
-    gameState = GameState::About;
+  if (arduboy.justPressed(A_BUTTON)) {
+    if(splashStatus == SplashButtons::Play) {
+      gameState = GameState::InitGame;
+    }
+    if(splashStatus == SplashButtons::About) {
+      gameState = GameState::About;
+    }
   }
 
 }
