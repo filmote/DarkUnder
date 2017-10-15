@@ -12,8 +12,8 @@ class Item : public Base {
 
     Item();
 
-    const ItemType getItemType();
-    const bool getEnabled();
+    const ItemType getItemType() const;
+    const bool getEnabled() const;
 
     void setItemType(const ItemType value);
     void setEnabled(const bool value);
