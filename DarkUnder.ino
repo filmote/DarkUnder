@@ -675,6 +675,9 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
       doors[i].setX(pgm_read_byte(&level[idx++]));
       doors[i].setY(pgm_read_byte(&level[idx++]));
     }
+    else {
+      doors[i].setEnabled(false);
+    }
 
   }  
   
