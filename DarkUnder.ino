@@ -631,7 +631,7 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   
   uint8_t numberOfEnemies = pgm_read_byte(&level[idx++]);
 
-  for (uint8_t i = 0; i < numberOfEnemies; ++i) {  
+  for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {  
 
     if(i < numberOfEnemies) {
       enemies[i].setEnabled(true);
