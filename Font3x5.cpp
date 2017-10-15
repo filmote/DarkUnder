@@ -237,29 +237,21 @@ void Font3x5::printChar(char c, int16_t x, int16_t y) {
 
   ++y;
 
+  const uint8_t * glyph = nullptr;
+  if (c >= 65 && c <= 90) {
+    glyph = reinterpret_cast<const uint8_t *>(pgm_read_word_near(&font_letters[c - 65]));
+  }
+  if (c >= 48 && c <= 57) {  
+    glyph = reinterpret_cast<const uint8_t *>(pgm_read_word_near(&font_numbers[c - 48]));
+  }
+  if (c == 33) {  
+    glyph = FONT_EXCLAMATION;
+  }
   if (textColor == WHITE) {
-    if (c >= 65 && c <= 90) {
-      Sprites::drawSelfMasked(x, y, pgm_read_word_near(&font_letters[c - 65]), 0);
-    }
-    if (c >= 48 && c <= 57) {  
-      Sprites::drawSelfMasked(x, y, pgm_read_word_near(&font_numbers[c - 48]), 0);
-    }
-    if (c == 33) {  
-      Sprites::drawSelfMasked(x, y, FONT_EXCLAMATION, 0);
-    }
+    Sprites::drawSelfMasked(x, y, glyph, 0);
   }
   else {
-
-    if (c >= 65 && c <= 90) {
-      Sprites::drawErase(x, y, pgm_read_word_near(&font_letters[c - 65]), 0);
-    }
-    if (c >= 48 && c <= 57) {  
-      Sprites::drawErase(x, y, pgm_read_word_near(&font_numbers[c - 48]), 0);
-    }
-    if (c == 33) {  
-      Sprites::drawErase(x, y, FONT_EXCLAMATION, 0);
-    }
-    
+    Sprites::drawErase(x, y, glyph, 0);
   }
 
 }
