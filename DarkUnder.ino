@@ -475,7 +475,7 @@ uint16_t battleLoop() {
 
         font3x5.print(F("SAVE "));
         font3x5.print(diceAttack);
-        font3x5.print(F(" hp\n"));
+        font3x5.print(F(" HP\n"));
         font3x5.print(F("DEAL 1 DMG\n"));
         font3x5.setCursor(17, 35);
         font3x5.print(diceAttack);
