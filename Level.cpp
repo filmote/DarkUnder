@@ -120,7 +120,7 @@ void Level::rotate180(const uint8_t *a) {
 
   for (uint8_t x = 0; x < 15; ++x) {
     
-    _tileData[x] = (_tileData[x + 1] >> 1) | ((_tileData[x + 17] & 1) == 1 ? 128 : 0);
+    _tileData[x] = (_tileData[x + 1] >> 1) | ((_tileData[x + 17] & 1) << 7);
     _tileData[x + 16] = (_tileData[x + 17] >> 1);
 
   }
