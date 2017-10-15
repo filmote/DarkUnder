@@ -172,7 +172,7 @@ enum class Direction : uint8_t {
 
 inline Direction &operator++( Direction &c ) { 
   
-  c = ( c == Direction::West ) ? Direction::North : static_cast<Direction>( static_cast<uint8_t>(c) + 1 );
+  c = static_cast<Direction>( (static_cast<uint8_t>(c) + 1) & 0x03 );
   return c;
 
 }
@@ -187,7 +187,7 @@ inline Direction operator++( Direction &c, int ) {
 
 inline Direction &operator--( Direction & c ) {
 
-  c = ( c == Direction::North ) ? Direction::West : static_cast<Direction>( static_cast<uint8_t>(c) - 1 );
+  c = static_cast<Direction>( (static_cast<uint8_t>(c) - 1) & 0x03 );
   return c;
 
 }

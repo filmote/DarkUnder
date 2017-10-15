@@ -3,6 +3,9 @@
 #define VISION_X_OFFSET   3
 #define VISION_Y_OFFSET   4
 
+const int8_t offsetXTable[] = { 0, 1, 0, -1 };
+const int8_t offsetYTable[] = { -1, 0, 1, 0 };
+
 void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by checking row and cols ahead of player
 
   bool horizon3Plus = false;
@@ -308,17 +311,10 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
     if (enemies[i].getEnabled()) {
 
-      int8_t offsetX = 0;
-      int8_t offsetY = 0;
-      
-      switch (myHero->getDirection()) {
+      uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
 
-        case Direction::North:    offsetX =  0;  offsetY = -1;  break;
-        case Direction::East:     offsetX =  1;  offsetY =  0;  break;
-        case Direction::South:    offsetX =  0;  offsetY =  1;  break;
-        case Direction::West:     offsetX = -1;  offsetY =  0;  break;
-        
-      }
+      int8_t offsetX = offsetXTable[selector];
+      int8_t offsetY = offsetYTable[selector];
 
       if (enemies[i].getX() == myHero->getX() + offsetX && enemies[i].getY() == myHero->getY() + offsetY) {
 
@@ -338,25 +334,18 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   // Render items if no enemy has been rendered .. 
 
-  if (!renderEnemy) {
+  if (!renderEnemy && (gameState == GameState::Move || gameState == GameState::ItemSelect)) {
     
     for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
 
       if (items[i].getEnabled()) {
 
-        int8_t offsetX = 0;
-        int8_t offsetY = 0;
-        
-        switch (myHero->getDirection()) {
+        uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
 
-          case Direction::North:    offsetX =  0;  offsetY = -1;  break;
-          case Direction::East:     offsetX =  1;  offsetY =  0;  break;
-          case Direction::South:    offsetX =  0;  offsetY =  1;  break;
-          case Direction::West:     offsetX = -1;  offsetY =  0;  break;
-          
-        }
+        int8_t offsetX = offsetXTable[selector];
+        int8_t offsetY = offsetYTable[selector];
 
-        if ((gameState == GameState::Move || gameState == GameState::ItemSelect) && items[i].getX() == myHero->getX() + offsetX && items[i].getY() == myHero->getY() + offsetY) {
+        if (items[i].getX() == myHero->getX() + offsetX && items[i].getY() == myHero->getY() + offsetY) {
 
           arduboy.fillRect(14, 11, 41, 43, BLACK);
           arduboy.fillRect(15, 12, 39, 41, WHITE);
@@ -565,12 +554,13 @@ void displaySplash() {
     splashStatus = SplashButtons::About;
   }
 
-  if (arduboy.justPressed(A_BUTTON) && splashStatus == SplashButtons::Play) {
-    gameState = GameState::InitGame;
-  }
-
-  if (arduboy.justPressed(A_BUTTON) && splashStatus == SplashButtons::About) {
-    gameState = GameState::About;
+  if (arduboy.justPressed(A_BUTTON)) {
+    if(splashStatus == SplashButtons::Play) {
+      gameState = GameState::InitGame;
+    }
+    if(splashStatus == SplashButtons::About) {
+      gameState = GameState::About;
+    }
   }
 
 }

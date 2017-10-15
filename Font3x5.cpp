@@ -200,9 +200,8 @@ const uint8_t * const font_letters[] PROGMEM = { FONT_A, FONT_B, FONT_C, FONT_D,
                                                  FONT_N, FONT_O, FONT_P, FONT_Q, FONT_R, FONT_S, FONT_T, FONT_U, FONT_V, FONT_W, FONT_X, FONT_Y ,FONT_Z };
 const uint8_t * const font_numbers[] PROGMEM = { FONT_0, FONT_1, FONT_2, FONT_3, FONT_4, FONT_5, FONT_6, FONT_7, FONT_8, FONT_9 };   
 
-Font3x5::Font3x5(uint8_t *screenBuffer, int16_t width, int16_t height) {
+Font3x5::Font3x5(int16_t width, int16_t height) {
 
-  sBuffer = screenBuffer;
   sWidth = width;
   sHeight = height;
 
@@ -237,29 +236,21 @@ void Font3x5::printChar(char c, int16_t x, int16_t y) {
 
   ++y;
 
+  const uint8_t * glyph = nullptr;
+  if (c >= 65 && c <= 90) {
+    glyph = reinterpret_cast<const uint8_t *>(pgm_read_word_near(&font_letters[c - 65]));
+  }
+  if (c >= 48 && c <= 57) {  
+    glyph = reinterpret_cast<const uint8_t *>(pgm_read_word_near(&font_numbers[c - 48]));
+  }
+  if (c == 33) {  
+    glyph = FONT_EXCLAMATION;
+  }
   if (textColor == WHITE) {
-    if (c >= 65 && c <= 90) {
-      Sprites::drawSelfMasked(x, y, pgm_read_word_near(&font_letters[c - 65]), 0);
-    }
-    if (c >= 48 && c <= 57) {  
-      Sprites::drawSelfMasked(x, y, pgm_read_word_near(&font_numbers[c - 48]), 0);
-    }
-    if (c == 33) {  
-      Sprites::drawSelfMasked(x, y, FONT_EXCLAMATION, 0);
-    }
+    Sprites::drawSelfMasked(x, y, glyph, 0);
   }
   else {
-
-    if (c >= 65 && c <= 90) {
-      Sprites::drawErase(x, y, pgm_read_word_near(&font_letters[c - 65]), 0);
-    }
-    if (c >= 48 && c <= 57) {  
-      Sprites::drawErase(x, y, pgm_read_word_near(&font_numbers[c - 48]), 0);
-    }
-    if (c == 33) {  
-      Sprites::drawErase(x, y, FONT_EXCLAMATION, 0);
-    }
-    
+    Sprites::drawErase(x, y, glyph, 0);
   }
 
 }

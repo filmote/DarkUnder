@@ -8,7 +8,7 @@ class Font3x5 : public Print {
     
   public:
 
-    Font3x5(uint8_t *screenBuffer, int16_t width, int16_t height);   
+    Font3x5(int16_t width, int16_t height);   
 
     virtual size_t write(uint8_t); // used by the Arduino Print class
 
@@ -69,7 +69,6 @@ class Font3x5 : public Print {
 
   private:
 
-    uint8_t *sBuffer;
     int16_t sWidth;
     int16_t sHeight;
 
