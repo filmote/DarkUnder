@@ -3,6 +3,9 @@
 #define VISION_X_OFFSET   3
 #define VISION_Y_OFFSET   4
 
+const int8_t offsetXTable[] = { 0, 1, 0, -1 };
+const int8_t offsetYTable[] = { -1, 0, 1, 0 };
+
 void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by checking row and cols ahead of player
 
   bool horizon3Plus = false;
@@ -308,17 +311,10 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
     if (enemies[i].getEnabled()) {
 
-      int8_t offsetX = 0;
-      int8_t offsetY = 0;
-      
-      switch (myHero->getDirection()) {
+      uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
 
-        case Direction::North:    offsetX =  0;  offsetY = -1;  break;
-        case Direction::East:     offsetX =  1;  offsetY =  0;  break;
-        case Direction::South:    offsetX =  0;  offsetY =  1;  break;
-        case Direction::West:     offsetX = -1;  offsetY =  0;  break;
-        
-      }
+      int8_t offsetX = offsetXTable[selector];
+      int8_t offsetY = offsetYTable[selector];
 
       if (enemies[i].getX() == myHero->getX() + offsetX && enemies[i].getY() == myHero->getY() + offsetY) {
 
