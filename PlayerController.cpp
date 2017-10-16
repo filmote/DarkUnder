@@ -6,7 +6,7 @@
 #include "Enemy.h"
 
 
-PlayerController::PlayerController() {}
+PlayerController::PlayerController() : BaseController() {}
     
 bool PlayerController::move(Player *player, Enemy *allEnemies, Level *level, Button button) {
 
@@ -17,19 +17,19 @@ bool PlayerController::move(Player *player, Enemy *allEnemies, Level *level, But
     switch (player->getDirection()) {
 
       case Direction::North:
-        if (PlayerController::moveLegal(allEnemies, level, player->getX(), player->getY() - 1))    { player->setY(player->getY() - 1); movement = true; };   
+        if (PlayerController::moveLegal(allEnemies, nullptr, level, player->getX(), player->getY() - 1))    { player->setY(player->getY() - 1); movement = true; };   
         break;
       
       case Direction::East:
-        if (PlayerController::moveLegal(allEnemies, level, player->getX() + 1, player->getY()))   { player->setX(player->getX() + 1); movement = true; };
+        if (PlayerController::moveLegal(allEnemies, nullptr, level, player->getX() + 1, player->getY()))   { player->setX(player->getX() + 1); movement = true; };
         break;
                             
       case Direction::South:
-        if (PlayerController::moveLegal(allEnemies, level, player->getX(), player->getY() + 1))   { player->setY(player->getY() + 1); movement = true; };
+        if (PlayerController::moveLegal(allEnemies, nullptr, level, player->getX(), player->getY() + 1))   { player->setY(player->getY() + 1); movement = true; };
         break;
       
       case Direction::West:
-        if (PlayerController::moveLegal(allEnemies, level, player->getX() - 1, player->getY()))   { player->setX(player->getX() - 1); movement = true; };
+        if (PlayerController::moveLegal(allEnemies, nullptr, level, player->getX() - 1, player->getY()))   { player->setX(player->getX() - 1); movement = true; };
         break;
       
     }
@@ -54,34 +54,3 @@ bool PlayerController::move(Player *player, Enemy *allEnemies, Level *level, But
   return movement;
 
 }
-
-bool PlayerController::moveLegal(Enemy *allEnemies, Level *level, int x, int y) {
-  
-  if ((level->getMapElement(x, y) == MapElement::Floor) ||
-      (level->getMapElement(x, y) == MapElement::UnlockedDoor) ||
-      (level->getMapElement(x, y) == MapElement::LevelUnlockedDoor)) {
-        
-
-    // Is another enemy in the same position ?
-
-    for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {
-      
-      if (allEnemies[i].getEnabled()) {
-
-        if (allEnemies[i].getX() == x && allEnemies[i].getY() == y) { return false; }
-
-      }
-
-    }  
-
-    return true;
-
-  }
-  else {
-
-    return false;
-
-  }
-  
-}
-    

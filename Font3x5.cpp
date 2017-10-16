@@ -80,33 +80,49 @@ size_t Font3x5::write(uint8_t c) {
 
 }
 
+#define CHAR_EXCLAMATION 33
+#define CHAR_LETTER_A 65
+#define CHAR_LETTER_Z 90
+#define CHAR_NUMBER_0 48
+#define CHAR_NUMBER_9 57
+
+#define FONT_EXCLAMATION_INDEX 36
+#define FONT_NUMBER_INDEX 26
+
 void Font3x5::printChar(char c, int16_t x, int16_t y) {
 
-  uint8_t idx = 0;
+  int8_t idx = -1;
 
   // no need to draw at all of we're offscreen
   if (x + FONT3X5_WIDTH <= 0 || x > sWidth - 1 || y + FONT3X5_HEIGHT <= 0 || y > sHeight - 1) return;
 
   ++y;
 
-//  const uint8_t * glyph = nullptr;
-  if (c >= 65 && c <= 90) {
-//    glyph = reinterpret_cast<const uint8_t *>(pgm_read_word_near(&font_letters[c - 65]));
-    idx = c - 65;
+  switch (c) {
+    
+    case CHAR_LETTER_A ... CHAR_LETTER_Z:
+      idx = c - CHAR_LETTER_A;
+      break;
+
+    case CHAR_NUMBER_0 ... CHAR_NUMBER_9:
+      idx = c - CHAR_NUMBER_0 + FONT_NUMBER_INDEX;
+      break;
+      
+    case CHAR_EXCLAMATION:
+      idx = FONT_EXCLAMATION_INDEX;
+      break;
+
   }
-  if (c >= 48 && c <= 57) {  
-//    glyph = reinterpret_cast<const uint8_t *>(pgm_read_word_near(&font_numbers[c - 48]));
-    idx = c - 48 + 26;
-  }
-  if (c == 33) {  
-//    glyph = FONT_EXCLAMATION;
-    idx = 36;
-  }
-  if (textColor == WHITE) {
-    Sprites::drawSelfMasked(x, y, font_images, idx);
-  }
-  else {
-    Sprites::drawErase(x, y, font_images, idx);
+
+  if (idx > -1) {
+    
+    if (textColor == WHITE) {
+      Sprites::drawSelfMasked(x, y, font_images, idx);
+    }
+    else {
+      Sprites::drawErase(x, y, font_images, idx);
+    }
+
   }
 
 }

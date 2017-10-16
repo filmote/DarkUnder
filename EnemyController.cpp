@@ -7,7 +7,7 @@
 #include "Utils.h"
 
 
-EnemyController::EnemyController() {}
+EnemyController::EnemyController() : BaseController() {}
 
 
 void EnemyController::move(Enemy *thisEnemy, Enemy *allEnemies, Player *player, Level *level) {
@@ -61,36 +61,3 @@ bool EnemyController::moveToVacantSquare(Enemy *thisEnemy, Enemy *allEnemies, Pl
   return moved;
   
 }
-    
-bool EnemyController::moveLegal(Enemy *allEnemies, Player *player, Level *level, int x, int y) {
-  
-  if ((level->getMapElement(x, y) == MapElement::Floor) ||
-      (level->getMapElement(x, y) == MapElement::UnlockedDoor)) {
-      
-
-    // Is another enemy in the same position ?
-
-    for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {
-      
-      if (allEnemies[i].getEnabled()) {
-
-        if (allEnemies[i].getX() == x && allEnemies[i].getY() == y)   { return false; }
-
-      }
-
-    }  
-
-    // Position is already occupied by the player ?
-
-    if (player->getX() == x && player->getY() == y)             { return false; }
-
-    return true;
-
-  }
-  else {
-    
-    return false;
-
-  }
-
-}  

@@ -546,15 +546,17 @@ void displaySplash() {
     Sprites::drawSelfMasked(63, 54, hMarker, 0);
   }
 
-  if (arduboy.justPressed(LEFT_BUTTON)) {
+  uint8_t buttons = arduboy.justPressedButtons();
+
+  if (buttons & LEFT_BUTTON_MASK) {
     splashStatus = SplashButtons::Play;
   }
 
-  if (arduboy.justPressed(RIGHT_BUTTON)) {
+  if (buttons & RIGHT_BUTTON_MASK) {
     splashStatus = SplashButtons::About;
   }
 
-  if (arduboy.justPressed(A_BUTTON)) {
+  if (buttons & SELECT_BUTTON_MASK) {
     if(splashStatus == SplashButtons::Play) {
       gameState = GameState::InitGame;
     }
@@ -568,8 +570,8 @@ void displaySplash() {
 void displayLogo() {
 
   arduboy.drawCompressed(0, 0, garCol, WHITE);
-
-  if (arduboy.justPressed(A_BUTTON)) {
+  
+  if (arduboy.justPressed(BACK_BUTTON)) {
     gameState = GameState::Splash;
   }
 

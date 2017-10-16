@@ -1,6 +1,7 @@
 #include <Arduboy2.h>
 #include <ArduboyTones.h>
 
+#include "Arduboy2Ext.h"
 #include "Enums.h"
 #include "Level.h"
 #include "Images.h"
@@ -19,7 +20,7 @@
 #include "Font3x5.h"
 
 
-Arduboy2Base arduboy;
+Arduboy2Ext arduboy;
 ArduboyTones sound(arduboy.audio.enabled);
 
 Font3x5 font3x5 = Font3x5(Arduboy2::width(), Arduboy2::height());
@@ -171,15 +172,17 @@ void itemLoop() {
     font3x5.print(F("NO INV\nSLOTS!"));
   }
 
-  if (arduboy.justPressed(LEFT_BUTTON) && item_action > ITEM_ACTION_USE)         { --item_action; item_no_slots = false; }
-  if (arduboy.justPressed(RIGHT_BUTTON) && item_action < ITEM_ACTION_DELETE)     { ++item_action; item_no_slots = false; }
+  uint8_t buttons = arduboy.justPressedButtons();
+  
+  if ((buttons & LEFT_BUTTON_MASK) && item_action > ITEM_ACTION_USE)         { --item_action; item_no_slots = false; }
+  if ((buttons & RIGHT_BUTTON_MASK) && item_action < ITEM_ACTION_DELETE)     { ++item_action; item_no_slots = false; }
 
-  if (arduboy.justPressed(A_BUTTON)) {
+  if (buttons & BACK_BUTTON) {
     savedState = gameState;
     gameState = GameState::InventorySelect;
   }
  
-  if (arduboy.justPressed(B_BUTTON)) {
+  if (buttons & SELECT_BUTTON) {
 
     if (item_action == ITEM_ACTION_USE) {
 
@@ -237,15 +240,16 @@ void inventoryLoop() {
   }
 
   arduboy.drawCompressed(inventory_Coords[inventory_selection].x + 3, inventory_Coords[inventory_selection].y + 11, inv_select, BLACK);
-  
+  uint8_t buttons = arduboy.justPressedButtons();
+
   switch (gameState) {
 
     case GameState::InventorySelect:
-      if (arduboy.justPressed(LEFT_BUTTON) && inventory_selection > 0)      { --inventory_selection; }
-      if (arduboy.justPressed(RIGHT_BUTTON) && inventory_selection < 4)     { ++inventory_selection; }
-      if (arduboy.justPressed(A_BUTTON))                                    { gameState = GameState::Move;}
+      if ((buttons & LEFT_BUTTON_MASK) && inventory_selection > 0)      { --inventory_selection; }
+      if ((buttons & RIGHT_BUTTON_MASK) && inventory_selection < 4)     { ++inventory_selection; }
+      if (buttons & BACK_BUTTON_MASK)                                   { gameState = GameState::Move;}
 
-      if (arduboy.justPressed(B_BUTTON)) { 
+      if (buttons & SELECT_BUTTON_MASK) { 
         if (myHero.getInventory(inventory_selection) != Inventory::None) {
           gameState = GameState::InventoryAction;
         }
@@ -261,11 +265,11 @@ void inventoryLoop() {
       arduboy.drawCompressed(70, 45, inv_hand, WHITE);
       arduboy.drawCompressed(81, 45, inv_trash, WHITE);
   
-      if (arduboy.justPressed(LEFT_BUTTON) && inventory_action > INVENTORY_ACTION_USE)         { --inventory_action; }
-      if (arduboy.justPressed(RIGHT_BUTTON) && inventory_action < INVENTORY_ACTION_DELETE)     { ++inventory_action; }
-      if (arduboy.justPressed(A_BUTTON))                                                       { gameState = GameState::InventorySelect;}
+      if ((buttons & LEFT_BUTTON_MASK) && inventory_action > INVENTORY_ACTION_USE)         { --inventory_action; }
+      if ((buttons & RIGHT_BUTTON_MASK) && inventory_action < INVENTORY_ACTION_DELETE)     { ++inventory_action; }
+      if (buttons & BACK_BUTTON_MASK)                                                      { gameState = GameState::InventorySelect;}
 
-      if (arduboy.justPressed(B_BUTTON)) { 
+      if (buttons & SELECT_BUTTON_MASK) { 
         
         if (inventory_action == INVENTORY_ACTION_USE) {
          
@@ -318,6 +322,7 @@ uint16_t battleLoop() {
   Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, fight_icon, 0);
 
   font3x5.setCursor(80,44);
+  uint8_t buttons = arduboy.justPressedButtons();
 
   switch (gameState) {
 
@@ -398,15 +403,15 @@ uint16_t battleLoop() {
       arduboy.drawCompressed(80, 44, fight_actions, WHITE);
       Sprites::drawSelfMasked(80 + (((uint8_t)fightButton) * 12), 56, icnSelect, 0);
 
-      if (arduboy.justPressed(LEFT_BUTTON) && (uint8_t)fightButton > 0)                                 { fightButton = (FightButtons)((uint8_t)fightButton - 1); }
-      if (arduboy.justPressed(RIGHT_BUTTON) && (uint8_t)fightButton < (uint8_t)FightButtons::Defend)    { fightButton = (FightButtons)((uint8_t)fightButton + 1); }
+      if ((buttons & LEFT_BUTTON_MASK) && (uint8_t)fightButton > 0)                                 { fightButton = (FightButtons)((uint8_t)fightButton - 1); }
+      if ((buttons & RIGHT_BUTTON_MASK) && (uint8_t)fightButton < (uint8_t)FightButtons::Defend)    { fightButton = (FightButtons)((uint8_t)fightButton + 1); }
 
-      if (arduboy.justPressed(A_BUTTON))  {
+      if (buttons & BACK_BUTTON_MASK)  {
         savedState = gameState;
         gameState = GameState::InventorySelect;
       }
         
-      if (arduboy.justPressed(B_BUTTON))  {
+      if (buttons & SELECT_BUTTON_MASK)  {
         
         diceDelay = DICE_DELAY_START; 
         gameState = (fightButton == FightButtons::Attack ? GameState::Battle_PlayerAttacks : GameState::Battle_PlayerDefends); 
@@ -422,7 +427,7 @@ uint16_t battleLoop() {
     
       if (diceDelay >= DICE_DELAY_START && diceDelay < DICE_DELAY_END) {
 
-        rollDice(31, 24);
+        rollDice(32, 24);
 
       }
       else {
@@ -548,12 +553,14 @@ void playLoop() {
   drawLevelDescription(&myLevel);
   drawStatistics(&myHero);
   
-  if (arduboy.justPressed(UP_BUTTON))       { playerMoved = PlayerController::move(&myHero, enemies, &myLevel, Button::Up); }
-  if (arduboy.justPressed(DOWN_BUTTON))     { PlayerController::move(&myHero, enemies, &myLevel, Button::Down); }
-  if (arduboy.justPressed(LEFT_BUTTON))     { PlayerController::move(&myHero, enemies, &myLevel, Button::Left); }
-  if (arduboy.justPressed(RIGHT_BUTTON))    { PlayerController::move(&myHero, enemies, &myLevel, Button::Right); }
+  uint8_t buttons = arduboy.justPressedButtons();
   
-  if (arduboy.justPressed(A_BUTTON))        { 
+  if (buttons & UP_BUTTON_MASK)       { playerMoved = PlayerController::move(&myHero, enemies, &myLevel, Button::Up); }
+  if (buttons & DOWN_BUTTON_MASK)     { PlayerController::move(&myHero, enemies, &myLevel, Button::Down); }
+  if (buttons & LEFT_BUTTON_MASK)     { PlayerController::move(&myHero, enemies, &myLevel, Button::Left); }
+  if (buttons & RIGHT_BUTTON_MASK)    { PlayerController::move(&myHero, enemies, &myLevel, Button::Right); }
+  
+  if (buttons & BACK_BUTTON_MASK)     { 
   
     savedState = gameState;
     gameState = GameState::InventorySelect; 
