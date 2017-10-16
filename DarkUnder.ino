@@ -319,6 +319,7 @@ uint16_t battleLoop() {
 
   drawPlayerVision(&myHero, &myLevel);
   drawStatistics(&myHero);
+  drawMap(&myHero, &myLevel);  
   Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, fight_icon, 0);
 
   font3x5.setCursor(80,44);
