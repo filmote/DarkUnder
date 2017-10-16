@@ -35,10 +35,10 @@ const uint8_t *levels[] = { level_00, level_01, level_02 };
 const uint8_t *map_tiles[] = { tile_00, tile_01, tile_02 };
 const uint8_t *map_images[] = { visionBack, closeWallFront, closeDoorLocked, closeDoorLevelLocked, closeDoorUnlocked, closeDoorLevelUnlocked, closeWallLeft, closeWallRight, 
                                 midWallFront, midDoorLocked, midDoorLevelLocked, midDoorUnlocked, midDoorLevelUnlocked, midWallLeft, midWallRight, 
-                                farWallFront, farWallFrontDoorLocked, farWallFrontDoorUnlocked, farWallLeft, farWallRight };
+                                farWallFrontDoorLocked, farWallFrontDoorUnlocked, farWallLeft, farWallRight };
 const uint8_t *map_masks[] = { closeWallFront_Mask, closeDoor_Mask, closeWallLeft_Mask, closeWallRight_Mask, 
                                midWallFront_Mask, midWallLeft_Mask, midWallRight_Mask, 
-                               farWallFront_Mask, farWallFrontDoor_Mask, farWallLeft_Mask, farWallRight_Mask };
+                               farWallFrontDoor_Mask, farWallLeft_Mask, farWallRight_Mask };
 const uint8_t *direction_images[] = { directionN, directionE, directionS, directionW };
 
 

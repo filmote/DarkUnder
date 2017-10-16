@@ -52,11 +52,10 @@
 #define MAP_IMAGE_MID_LEVEL_UNLOCKED      12
 #define MAP_IMAGE_MID_LEFT                13
 #define MAP_IMAGE_MID_RIGHT               14
-#define MAP_IMAGE_FAR_FRONT               15
-#define MAP_IMAGE_FAR_LOCKED              16
-#define MAP_IMAGE_FAR_UNLOCKED            17
-#define MAP_IMAGE_FAR_LEFT                18
-#define MAP_IMAGE_FAR_RIGHT               19
+#define MAP_IMAGE_FAR_LOCKED              15
+#define MAP_IMAGE_FAR_UNLOCKED            16
+#define MAP_IMAGE_FAR_LEFT                17
+#define MAP_IMAGE_FAR_RIGHT               18
 
 #define MAP_MASK_CLOSE_FRONT              0
 #define MAP_MASK_CLOSE_FRONT_DOOR         1
@@ -65,10 +64,9 @@
 #define MAP_MASK_MID_FRONT                4 
 #define MAP_MASK_MID_LEFT                 5
 #define MAP_MASK_MID_RIGHT                6
-#define MAP_MASK_FAR_FRONT                7
-#define MAP_MASK_FAR_FRONT_DOOR           8
-#define MAP_MASK_FAR_LEFT                 9
-#define MAP_MASK_FAR_RIGHT                10
+#define MAP_MASK_FAR_FRONT_DOOR           7
+#define MAP_MASK_FAR_LEFT                 8
+#define MAP_MASK_FAR_RIGHT                9
 
 #define DICE_NO_ACTION                    -15
 #define DICE_DELAY_START                  DICE_NO_ACTION + 1

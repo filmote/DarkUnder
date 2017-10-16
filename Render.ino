@@ -151,9 +151,11 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
           break;
       
       }
-        
-      arduboy.drawCompressed(VISION_X_OFFSET, VISION_Y_OFFSET + 27, myLevel->getMapMasks()[MAP_MASK_FAR_FRONT], BLACK);
-      arduboy.drawCompressed(VISION_X_OFFSET, VISION_Y_OFFSET + 27, myLevel->getMapImages()[MAP_IMAGE_FAR_FRONT], WHITE);
+
+      for (uint8_t i = VISION_X_OFFSET; i < VISION_X_OFFSET + 62; ++i) {  
+        arduboy.drawPixel(i, VISION_Y_OFFSET + 27 + (i %2), WHITE);
+      }
+
 
       if (imageIndex > 0) {
         Sprites::drawExternalMask(VISION_X_OFFSET + 29, VISION_Y_OFFSET + 27, myLevel->getMapImages()[imageIndex], myLevel->getMapMasks()[maskIndex], 0, 0);
