@@ -4,6 +4,7 @@
 #include "Level.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Utils.h"
 
 
 EnemyController::EnemyController() {}
@@ -28,7 +29,7 @@ bool EnemyController::moveTowardsPlayer(Enemy *thisEnemy, Enemy *allEnemies, Pla
 
   // If the enemy is only one cell away from the player, do not move ..
 
-  if ((abs(player->getX() - thisEnemy->getX()) == 1) ^ (abs(player->getY() - thisEnemy->getY()) == 1))                                   { return true; } 
+  if ((absT(player->getX() - thisEnemy->getX()) == 1) ^ (absT(player->getY() - thisEnemy->getY()) == 1))                                   { return true; } 
 
 
   // Otherwise attempt to move close to the player ..

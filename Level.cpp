@@ -61,15 +61,11 @@ void Level::rotate(bool ccw, const uint8_t *a) {
   for (uint8_t inputIdx = 0; inputIdx < 16; ++inputIdx) {
   
     uint8_t y1 = (ccw ? pgm_read_byte(&a[inputIdx]) : reverseBits(pgm_read_byte(&a[inputIdx + 16])));
+    uint8_t y2 = (ccw ? pgm_read_byte(&a[inputIdx + 16]) : reverseBits(pgm_read_byte(&a[inputIdx])));
 
-    for (uint8_t x = 0; x < 8; ++x) {
-      _tileData[outputIdx + x] = _tileData[outputIdx + x] | ((y1 & (1 << x)) > 0 ? bit : 0);
-    }
-
-    y1 = (ccw ? pgm_read_byte(&a[inputIdx + 16]) : reverseBits(pgm_read_byte(&a[inputIdx])));
-    
-    for (uint8_t x = 0; x < 8; ++x) {
-      _tileData[outputIdx + 8 + x] = _tileData[outputIdx + 8 + x] | ((y1 & (1 << x)) > 0 ? bit : 0);
+    for (uint8_t x = 0, s = 1; x < 8; ++x, s <<= 1) {
+      _tileData[outputIdx + x] = _tileData[outputIdx + x] | ((y1 & s) > 0 ? bit : 0);
+      _tileData[outputIdx + 8 + x] = _tileData[outputIdx + 8 + x] | ((y2 & s) > 0 ? bit : 0);
     }
 
     if (ccw) {
@@ -97,7 +93,7 @@ void Level::rotate(bool ccw, const uint8_t *a) {
     
     for (uint8_t x = 0; x < 16; ++x) {
       
-      _tileData[x] = (_tileData[x] >> 1) | ((_tileData[x + 16] & 1) == 1 ? 128 : 0);
+      _tileData[x] = (_tileData[x] >> 1) | ((_tileData[x + 16] & 1) << 7);
       _tileData[x + 16] = (_tileData[x + 16] >> 1);
       
     }
@@ -124,7 +120,7 @@ void Level::rotate180(const uint8_t *a) {
 
   for (uint8_t x = 0; x < 15; ++x) {
     
-    _tileData[x] = (_tileData[x + 1] >> 1) | ((_tileData[x + 17] & 1) == 1 ? 128 : 0);
+    _tileData[x] = (_tileData[x + 1] >> 1) | ((_tileData[x + 17] & 1) << 7);
     _tileData[x + 16] = (_tileData[x + 17] >> 1);
 
   }

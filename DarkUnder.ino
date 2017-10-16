@@ -22,7 +22,7 @@
 Arduboy2Base arduboy;
 ArduboyTones sound(arduboy.audio.enabled);
 
-Font3x5 font3x5 = Font3x5(arduboy.sBuffer, Arduboy2::width(), Arduboy2::height());
+Font3x5 font3x5 = Font3x5(Arduboy2::width(), Arduboy2::height());
 
 Item items[NUMBER_OF_ITEMS];
 Item doors[NUMBER_OF_DOORS];
@@ -607,17 +607,10 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
 
   // Read level title ..
 
-  for (uint8_t i = 0; i < 11; ++i) {
-    
-    myLevel->getTitleLine1()[i] = pgm_read_byte(&level[idx++]);
-
-  }
-
-  for (uint8_t i = 0; i < 11; ++i) {
-    
-    myLevel->getTitleLine2()[i] = pgm_read_byte(&level[idx++]);
-    
-  }
+  memcpy_P(myLevel->getTitleLine1(), &level[idx], sizeof(char) * 11);
+  idx += 11;
+  memcpy_P(myLevel->getTitleLine2(), &level[idx], sizeof(char) * 11);
+  idx += 11;
             
   myHero->setX(pgm_read_byte(&level[idx++]));
   myHero->setY(pgm_read_byte(&level[idx++]));
@@ -627,66 +620,57 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   myLevel->setHeight(pgm_read_byte(&level[idx++]));
 
 
-  // Disable all enemies ..
-  
-  for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {
-    enemies[i].setEnabled(false);
-  }  
-
-
   // Create all enemies ..
   
   uint8_t numberOfEnemies = pgm_read_byte(&level[idx++]);
 
-  for (uint8_t i = 0; i < numberOfEnemies; ++i) {  
+  for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {  
 
-    enemies[i].setEnabled(true);
-    enemies[i].setEnemyType((EnemyType)pgm_read_byte(&level[idx++]));
-    enemies[i].setX(pgm_read_byte(&level[idx++]));
-    enemies[i].setY(pgm_read_byte(&level[idx++]));
-    enemies[i].setHitPoints(ENEMY_MAX_HITPOINTS);
+    if(i < numberOfEnemies) {
+      enemies[i].setEnabled(true);
+      enemies[i].setEnemyType((EnemyType)pgm_read_byte(&level[idx++]));
+      enemies[i].setX(pgm_read_byte(&level[idx++]));
+      enemies[i].setY(pgm_read_byte(&level[idx++]));
+      enemies[i].setHitPoints(ENEMY_MAX_HITPOINTS);
+    }
+    else {
+      enemies[i].setEnabled(false);
+    }
     
   }
   
-
-  // Disable all items ..
-  
-  for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {
-    items[i].setEnabled(false);
-  }  
-
-
   // Create all items ..
   
-  uint8_t cnt = pgm_read_byte(&level[idx++]);
+  uint8_t numberOfItems = pgm_read_byte(&level[idx++]);
 
-  for (uint8_t i = 0; i < cnt; ++i) {  
+  for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
 
-    items[i].setEnabled(true);
-    items[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
-    items[i].setX(pgm_read_byte(&level[idx++]));
-    items[i].setY(pgm_read_byte(&level[idx++]));
-     
+    if(i < numberOfItems) {
+      items[i].setEnabled(true);
+      items[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
+      items[i].setX(pgm_read_byte(&level[idx++]));
+      items[i].setY(pgm_read_byte(&level[idx++]));
+    }
+    else {
+      items[i].setEnabled(false);
+    }
   }  
-
-
-  // Disable all doors ..
-  
-  for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
-    doors[i].setEnabled(false);
-  }  
-
 
   // Create all doors ..
   
-  cnt = pgm_read_byte(&level[idx++]);
+  uint8_t numberOfDoors = pgm_read_byte(&level[idx++]);
 
-  for (uint8_t i = 0; i < cnt; ++i) {  
+  for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {  
 
-    doors[i].setEnabled(true);
-    doors[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
-    doors[i].setX(pgm_read_byte(&level[idx++]));
-    doors[i].setY(pgm_read_byte(&level[idx++]));
+    if(i < numberOfDoors) {
+      doors[i].setEnabled(true);
+      doors[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
+      doors[i].setX(pgm_read_byte(&level[idx++]));
+      doors[i].setY(pgm_read_byte(&level[idx++]));
+    }
+    else {
+      doors[i].setEnabled(false);
+    }
 
   }  
   
