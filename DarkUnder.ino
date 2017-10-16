@@ -59,7 +59,7 @@ const Point enemy_offset[] = { ENEMY_BEHOLDER_POSITION, ENEMY_SKELETON_POSITION,
 
 // Item details ..
 
-const uint8_t *item_images[] = { NULL, item_key, item_potion, item_mascroll, NULL, NULL };
+const uint8_t *item_images[] = { NULL, item_key, item_potion, item_mascroll };
 const Point item_offset[] = { Point{0, 0}, ITEM_KEY_POSITION, ITEM_HPPOTION_POSITION, ITEM_SCROLL_POSITION };
 uint8_t item_action = 0;
 uint8_t savedItem = 0;
@@ -247,7 +247,7 @@ void inventoryLoop() {
     case GameState::InventorySelect:
       if ((buttons & LEFT_BUTTON_MASK) && inventory_selection > 0)      { --inventory_selection; }
       if ((buttons & RIGHT_BUTTON_MASK) && inventory_selection < 4)     { ++inventory_selection; }
-      if (buttons & BACK_BUTTON_MASK)                                   { gameState = GameState::Move;}
+      if (buttons & BACK_BUTTON_MASK)                                   { gameState = savedState;}
 
       if (buttons & SELECT_BUTTON_MASK) { 
         if (myHero.getInventory(inventory_selection) != Inventory::None) {
@@ -661,6 +661,7 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
     else {
       items[i].setEnabled(false);
     }
+
   }  
 
   // Create all doors ..
