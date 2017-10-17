@@ -1,6 +1,9 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+#undef  WALL_STYLE_1
+#define WALL_STYLE_2
+
 #define UP_BUTTON_MASK                    128
 #define DOWN_BUTTON_MASK                  16
 #define LEFT_BUTTON_MASK                  32
@@ -10,8 +13,8 @@
 
 #define SELECT_BUTTON_MASK                A_BUTTON_MASK
 #define BACK_BUTTON_MASK                  B_BUTTON_MASK
-#define SELECT_BUTTON                A_BUTTON_MASK
-#define BACK_BUTTON                  B_BUTTON_MASK
+#define SELECT_BUTTON                     A_BUTTON_MASK
+#define BACK_BUTTON                       B_BUTTON_MASK
 
 #define MAP_TILE_WIDTH                    15
 #define MAP_TILE_HEIGHT                   15

@@ -37,9 +37,13 @@ const uint8_t *map_tiles[] = { tile_00, tile_01, tile_02 };
 const uint8_t *map_images[] = { visionBack, closeWallFront, closeDoorLocked, closeDoorLevelLocked, closeDoorUnlocked, closeDoorLevelUnlocked, closeWallLeft, closeWallRight, 
                                 midWallFront, midDoorLocked, midDoorLevelLocked, midDoorUnlocked, midDoorLevelUnlocked, midWallLeft, midWallRight, 
                                 farWallFrontDoorLocked, farWallFrontDoorUnlocked, farWallLeft, farWallRight };
+
+#ifdef WALL_STYLE_1
 const uint8_t *map_masks[] = { closeWallFront_Mask, closeDoor_Mask, closeWallLeft_Mask, closeWallRight_Mask, 
                                midWallFront_Mask, midWallLeft_Mask, midWallRight_Mask, 
                                farWallFrontDoor_Mask, farWallLeft_Mask, farWallRight_Mask };
+#endif 
+
 const uint8_t *direction_images[] = { directionN, directionE, directionS, directionW };
 
 
@@ -684,8 +688,12 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   }  
   
   myLevel->setLevel(level);
-  myLevel->setMapImages(map_images);
+  myLevel->setMapImages(map_images);  
+
+  #ifdef WALL_STYLE_1
   myLevel->setMapMasks(map_masks);
+  #endif
+
   myLevel->setDoors(doors);
   myLevel->setStartPos(idx);
   gameState = GameState::Move;
