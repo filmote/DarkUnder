@@ -1,6 +1,4 @@
 #include <Arduboy2.h>
-#include <ArduboyTones.h>
-
 #include "Arduboy2Ext.h"
 #include "Enums.h"
 #include "Level.h"
@@ -20,9 +18,14 @@
 #include "Font3x5.h"
 #include "Utils.h"
 
+#ifdef USE_SOUNDS
+#include <ArduboyTones.h>
+#endif
 
 Arduboy2Ext arduboy;
+#ifdef USE_SOUNDS
 ArduboyTones sound(arduboy.audio.enabled);
+#endif
 
 Font3x5 font3x5 = Font3x5(Arduboy2::width(), Arduboy2::height());
 
@@ -88,10 +91,16 @@ uint8_t diceAttack = 0;
 void setup() {
 
   arduboy.boot();
-  arduboy.flashlight(); 
+
+  #ifdef USE_FLASHLIGHT
+  arduboy.flashlight();
+  #endif
+
+  #ifdef USE_SOUNDS
   arduboy.audio.begin();
   arduboy.initRandomSeed();  
-
+  #endif
+  
   myLevel.setMapTiles(map_tiles);
 
   myHero.setInventory(0, Inventory::Key);
@@ -227,22 +236,37 @@ void itemLoop() {
 void inventoryLoop() {
  
   arduboy.drawCompressed(0, 0, frames, WHITE);  
+  #ifdef INV_STYLE_BONW
   arduboy.drawCompressed(4, 4, inv_background, WHITE);
-
+  #endif
+  #ifdef INV_STYLE_WONB
+  Sprites::drawOverwrite(8, 32, inv_lhs_icons, 0);
+  #endif
+  
   drawMapAndStatistics(&myHero, &myLevel);
 
   for (uint8_t i = 0; i < 5; ++i) {
 
     if (myHero.getInventory(i) != Inventory::None) {
 
+      #ifdef INV_STYLE_BONW
       arduboy.fillRect(inventory_Coords[i].x, inventory_Coords[i].y, 14, 16, BLACK);
       arduboy.drawCompressed(inventory_Coords[i].x, inventory_Coords[i].y, inventory_images[(uint8_t)myHero.getInventory(i)], WHITE);
-
+      #endif
+      #ifdef INV_STYLE_WONB
+      arduboy.drawCompressed(inventory_Coords[i].x, inventory_Coords[i].y, inventory_images[(uint8_t)myHero.getInventory(i)], BLACK);
+      #endif
+      
     }
 
   }
 
+  #ifdef INV_STYLE_BONW
   arduboy.drawCompressed(inventory_Coords[inventory_selection].x + 3, inventory_Coords[inventory_selection].y + 11, inv_select, BLACK);
+  #endif
+  #ifdef INV_STYLE_WONB
+  arduboy.drawCompressed(inventory_Coords[inventory_selection].x + 3, inventory_Coords[inventory_selection].y + 11, inv_select, WHITE);
+  #endif
   uint8_t buttons = arduboy.justPressedButtons();
 
   switch (gameState) {
@@ -528,14 +552,18 @@ void rollDice(uint8_t x, uint8_t y) {
     diceAttack = random(0, 4);
     diceDelay++;
 
+    #ifdef USE_SOUNDS
     sound.tone(NOTE_A1, 20);
+    #endif
     
   }
   else {  
 
     if (arduboy.everyXFrames(diceDelay)) {
 
+      #ifdef USE_SOUNDS
       sound.tone(NOTE_A1, 20);
+      #endif
       
       diceAttack = random(0, 4);
       diceDelay = diceDelay * 2;
