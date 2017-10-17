@@ -18,6 +18,7 @@
 #include "PlayerController.h"
 #include "EnemyController.h"
 #include "Font3x5.h"
+#include "Utils.h"
 
 
 Arduboy2Ext arduboy;
@@ -277,12 +278,15 @@ void inventoryLoop() {
 
             case Inventory::Key:
               for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
+
+                int16_t deltaX = doors[i].getX() - myHero.getX();
+                int16_t deltaY = doors[i].getY() - myHero.getY();
                 
                 if (doors[i].getEnabled() && (doors[i].getItemType() == ItemType::LevelLockedDoor || doors[i].getItemType() == ItemType::LockedDoor) && 
-                    abs(doors[i].getX() - myHero.getX()) <= 1 && abs(doors[i].getY() - myHero.getY()) <= 1) {
+                    absT(deltaX) <= 1 && absT(deltaY) <= 1) {
 
-                  if (doors[i].getItemType() ==ItemType::LockedDoor)       doors[i].setItemType(ItemType::UnlockedDoor);
-                  if (doors[i].getItemType() ==ItemType::LevelLockedDoor)  doors[i].setItemType(ItemType::LevelUnlockedDoor);
+                  if (doors[i].getItemType() == ItemType::LockedDoor)       doors[i].setItemType(ItemType::UnlockedDoor);
+                  if (doors[i].getItemType() == ItemType::LevelLockedDoor)  doors[i].setItemType(ItemType::LevelUnlockedDoor);
                       
                   myHero.setInventory(inventory_selection, Inventory::None);
                   inventory_action = INVENTORY_ACTION_USE;
@@ -313,6 +317,17 @@ void inventoryLoop() {
 
 }
 
+void diceDoOnce(uint8_t maxValue, uint8_t offset) {
+
+  if (diceDelay >= DICE_DELAY_END) {  // Do once.
+
+    diceAttack = random(0, maxValue) + offset;
+    diceDelay = DICE_NO_ACTION;
+
+  }
+
+}
+        
 uint16_t battleLoop() {
 
   uint16_t delayLength = 0;
@@ -369,6 +384,7 @@ uint16_t battleLoop() {
       break;
 
     case GameState::Battle_EnemyAttacks:
+    
       arduboy.drawCompressed(12, 12, fight_scratch_Mask, BLACK);
       arduboy.drawCompressed(12, 12, fight_scratch, WHITE);
     
@@ -379,12 +395,7 @@ uint16_t battleLoop() {
       }
       else {
 
-        if (diceDelay >= DICE_DELAY_END) {  // Do once.
-  
-          diceAttack = random(0, ENEMY_MAX_ATTACK);
-          diceDelay = DICE_NO_ACTION;
-
-        }
+        diceDoOnce(ENEMY_MAX_ATTACK, 0);
 
         font3x5.print(F("YOU TAKE\n"));
         font3x5.print(diceAttack);
@@ -433,12 +444,7 @@ uint16_t battleLoop() {
       }
       else {
 
-        if (diceDelay >= DICE_DELAY_END) {  // Do once.
-
-          diceAttack = random(0, HUMAN_MAX_ATTACK) + 1;
-          diceDelay = DICE_NO_ACTION;
-
-        }
+        diceDoOnce(HUMAN_MAX_ATTACK, 1);
 
         font3x5.print(F("YOU DEAL\n"));
         font3x5.print(diceAttack);
@@ -472,12 +478,7 @@ uint16_t battleLoop() {
       }
       else {
 
-        if (diceDelay >= DICE_DELAY_END) {  // Do once.
-
-          diceAttack = random(0, HUMAN_MAX_ATTACK) + 1;
-          diceDelay = DICE_NO_ACTION;
-
-        }
+        diceDoOnce(HUMAN_MAX_ATTACK, 1);
 
         font3x5.print(F("SAVE "));
         font3x5.print(diceAttack);
@@ -594,7 +595,10 @@ void playLoop() {
     
     if (enemies[i].getEnabled()) {
 
-      if ((abs(myHero.getX() - enemies[i].getX()) <= 1) && (abs(myHero.getY() - enemies[i].getY()) == 1))  {
+      int16_t deltaX = myHero.getX() - enemies[i].getX();
+      int16_t deltaY = myHero.getY() - enemies[i].getY();
+
+      if ((absT(deltaX) <= 1) && (absT(deltaY) == 1))  {
         
         attackingEnemyIdx = i;
         gameState = GameState::Battle_EnemyAttacks_Init;

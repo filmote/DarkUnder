@@ -14,7 +14,7 @@ class Base {
     
     void setX(const int16_t value);
     void setY(const int16_t value);
-    
+
   private:
 
     int16_t _x;

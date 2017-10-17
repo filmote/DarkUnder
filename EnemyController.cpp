@@ -29,7 +29,10 @@ bool EnemyController::moveTowardsPlayer(Enemy *thisEnemy, Enemy *allEnemies, Pla
 
   // If the enemy is only one cell away from the player, do not move ..
 
-  if ((absT(player->getX() - thisEnemy->getX()) == 1) ^ (absT(player->getY() - thisEnemy->getY()) == 1))                                                   { return true; } 
+  int16_t deltaX = player->getX() - thisEnemy->getX();
+  int16_t deltaY = player->getY() - thisEnemy->getY();
+   
+  if ((absT(deltaX) == 1) ^ (absT(deltaY) == 1)) { return true; } 
 
 
   // Otherwise attempt to move close to the player ..
