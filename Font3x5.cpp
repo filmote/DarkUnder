@@ -68,7 +68,6 @@ Font3x5::Font3x5(int16_t width, int16_t height) {
 size_t Font3x5::write(uint8_t c) {
 
   if (c == '\n')      { cursorX = baseX; cursorY += lineHeight; }
-  else if(c == '\t')  { cursorX += FONT3X5_WIDTH + 5; }
   else {
 
     printChar(c, cursorX, cursorY);
@@ -94,7 +93,7 @@ void Font3x5::printChar(char c, int16_t x, int16_t y) {
   int8_t idx = -1;
 
   // no need to draw at all of we're offscreen
-  if (x + FONT3X5_WIDTH <= 0 || x > sWidth - 1 || y + FONT3X5_HEIGHT <= 0 || y > sHeight - 1) return;
+  //if (x + FONT3X5_WIDTH <= 0 || x > sWidth - 1 || y + FONT3X5_HEIGHT <= 0 || y > sHeight - 1) return;
 
   ++y;
 

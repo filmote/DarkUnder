@@ -159,8 +159,7 @@ void loop() {
 void itemLoop() {
 
   drawPlayerVision(&myHero, &myLevel);
-  drawMap(&myHero, &myLevel);
-  drawStatistics(&myHero);
+  drawMapAndStatistics(&myHero, &myLevel);
 
   if (item_action == INVENTORY_ACTION_USE)     arduboy.drawCompressed(71, 56, inv_select, WHITE);
   if (item_action == INVENTORY_ACTION_DELETE)  arduboy.drawCompressed(83, 56, inv_select, WHITE);
@@ -226,8 +225,7 @@ void inventoryLoop() {
   arduboy.drawCompressed(0, 0, frames, WHITE);  
   arduboy.drawCompressed(4, 4, inv_background, WHITE);
 
-  drawMap(&myHero, &myLevel);
-  drawStatistics(&myHero);
+  drawMapAndStatistics(&myHero, &myLevel);
 
   for (uint8_t i = 0; i < 5; ++i) {
 
@@ -333,8 +331,7 @@ uint16_t battleLoop() {
   uint16_t delayLength = 0;
 
   drawPlayerVision(&myHero, &myLevel);
-  drawStatistics(&myHero);
-  drawMap(&myHero, &myLevel);  
+  drawMapAndStatistics(&myHero, &myLevel);  
   Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, fight_icon, 0);
 
   font3x5.setCursor(80,44);
@@ -550,10 +547,9 @@ void playLoop() {
   bool playerMoved = false ;
 
   drawPlayerVision(&myHero, &myLevel);
-  drawMap(&myHero, &myLevel);
+  drawMapAndStatistics(&myHero, &myLevel);
   drawDirectionIndicator(&myHero);
   drawLevelDescription(&myLevel);
-  drawStatistics(&myHero);
   
   uint8_t buttons = arduboy.justPressedButtons();
   
@@ -599,7 +595,7 @@ void playLoop() {
       int16_t deltaY = myHero.getY() - enemies[i].getY();
 
       if ((absT(deltaX) <= 1) && (absT(deltaY) == 1))  {
-        
+
         attackingEnemyIdx = i;
         gameState = GameState::Battle_EnemyAttacks_Init;
         break;

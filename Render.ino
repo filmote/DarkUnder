@@ -394,16 +394,16 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 #define MAP_X_OFFSET   98
 #define MAP_Y_OFFSET   6
 
-void drawMap(Player *myHero, Level *myLevel) {
+void drawMapAndStatistics(Player *player, Level *myLevel) {
 
   uint8_t drawX = 0;
   uint8_t drawY = 0;
 
   bool renderMapElement = false;
 
-  for (int16_t mapY = myHero->getY() - 3; mapY <= myHero->getY() + 3; ++mapY) {
+  for (int16_t mapY = player->getY() - 3; mapY <= player->getY() + 3; ++mapY) {
 
-    for (int16_t mapX = myHero->getX() - 2; mapX <= myHero->getX() + 2; ++mapX) {
+    for (int16_t mapX = player->getX() - 2; mapX <= player->getX() + 2; ++mapX) {
 
       if (mapX >= 0 && mapX < ((int16_t)myLevel->getWidth() * MAP_TILE_WIDTH) && mapY >= 0 && mapY < ((int16_t)myLevel->getHeight() * MAP_TILE_HEIGHT) && !(drawX == 4 && drawY == 0) ) { 
         
@@ -489,27 +489,9 @@ void drawMap(Player *myHero, Level *myLevel) {
 
   Sprites::drawExternalMask(MAP_X_OFFSET + 10, MAP_Y_OFFSET + 15, playerMap, playerMap_Mask, 0, 0);
 
-}
 
-
-
-void drawDirectionIndicator(Player *myHero) {
-
-  Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, direction_images[(uint8_t)myHero->getDirection()], 0);
+  // Render statistics ..
   
-}
-
-void drawLevelDescription(Level *level) {
-
-  font3x5.setCursor(80,44);
-  font3x5.print(level->getTitleLine1());
-  font3x5.setCursor(80,52);
-  font3x5.print(level->getTitleLine2());
-
-}
-
-void drawStatistics(Player *player) {
-
   font3x5.setCursor(70, 8);
   font3x5.print("HP  ");
   if (player->getHitPoints() < 10) font3x5.print(" ");
@@ -526,6 +508,22 @@ void drawStatistics(Player *player) {
   font3x5.print("\nMG  ");
   if (player->getMagic() < 10) font3x5.print(" ");
   font3x5.print(player->getMagic());
+
+}
+
+
+void drawDirectionIndicator(Player *myHero) {
+
+  Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, direction_images[(uint8_t)myHero->getDirection()], 0);
+  
+}
+
+void drawLevelDescription(Level *level) {
+
+  font3x5.setCursor(80,44);
+  font3x5.print(level->getTitleLine1());
+  font3x5.setCursor(80,52);
+  font3x5.print(level->getTitleLine2());
 
 }
 
