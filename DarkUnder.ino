@@ -17,6 +17,7 @@
 #include "EnemyController.h"
 #include "Font3x5.h"
 #include "Utils.h"
+#include "EnemyNames.h"
 
 #ifdef USE_SOUNDS
 #include <ArduboyTones.h>
@@ -430,38 +431,8 @@ uint16_t battleLoop() {
   switch (gameState) {
 
     case GameState::Battle_EnemyAttacks_Init:
-
-      switch (enemies[attackingEnemyIdx].getEnemyType()) {
       
-        case EnemyType::Beholder:
-          font3x5.print(F("A BEHOLDER"));
-          break;
-
-        case EnemyType::Displacer:
-          font3x5.print(F("A DISPLACER"));
-          break;
-
-        case EnemyType::Dragon:
-          font3x5.print(F("A DRAGON"));
-          break;
-
-        case EnemyType::Skeleton:
-          font3x5.print(F("A SKELETON"));
-          break;
-
-        case EnemyType::Wraith:
-          font3x5.print(F("A WRAITH"));
-          break;
-
-        case EnemyType::Rat:
-          font3x5.print(F("A RAT"));
-          break;
-
-        case EnemyType::Slime:
-          font3x5.print(F("A SLIME"));
-          break;
-
-      }
+      font3x5.print(getEnemyName(enemies[attackingEnemyIdx].getEnemyType()));
 
       font3x5.print(F("\nATTACKS!"));
       
