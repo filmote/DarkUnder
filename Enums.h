@@ -113,6 +113,10 @@ enum class GameState : uint8_t {
   InitGame,
   InitLevel,
   Move,
+  InventorySelect,
+  InventoryAction,
+  ItemSelect,
+  ItemIgnore,
   Battle_EnemyAttacks_Init,
   Battle_EnemyAttacks,          
   Battle_EnemyDies,
@@ -120,10 +124,6 @@ enum class GameState : uint8_t {
   Battle_PlayerAttacks,
   Battle_PlayerDefends,
   Battle_PlayerDies,
-  InventorySelect,
-  InventoryAction,
-  ItemSelect,
-  ItemIgnore
 };
 
 enum class Inventory: uint8_t {
