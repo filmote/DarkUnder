@@ -21,15 +21,15 @@ bool PlayerController::move(Player *player, Enemy *allEnemies, Level *level, But
         break;
       
       case Direction::East:
-        if (PlayerController::moveLegal(allEnemies, nullptr, level, player->getX() + 1, player->getY()))   { player->setX(player->getX() + 1); movement = true; };
+        if (PlayerController::moveLegal(allEnemies, nullptr, level, player->getX() + 1, player->getY()))    { player->setX(player->getX() + 1); movement = true; };
         break;
                             
       case Direction::South:
-        if (PlayerController::moveLegal(allEnemies, nullptr, level, player->getX(), player->getY() + 1))   { player->setY(player->getY() + 1); movement = true; };
+        if (PlayerController::moveLegal(allEnemies, nullptr, level, player->getX(), player->getY() + 1))    { player->setY(player->getY() + 1); movement = true; };
         break;
       
       case Direction::West:
-        if (PlayerController::moveLegal(allEnemies, nullptr, level, player->getX() - 1, player->getY()))   { player->setX(player->getX() - 1); movement = true; };
+        if (PlayerController::moveLegal(allEnemies, nullptr, level, player->getX() - 1, player->getY()))    { player->setX(player->getX() - 1); movement = true; };
         break;
       
     }

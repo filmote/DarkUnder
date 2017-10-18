@@ -1,6 +1,4 @@
 #include <Arduboy2.h>
-#include <ArduboyTones.h>
-
 #include "Arduboy2Ext.h"
 #include "Enums.h"
 #include "Level.h"
@@ -20,9 +18,14 @@
 #include "Font3x5.h"
 #include "Utils.h"
 
+#ifdef USE_SOUNDS
+#include <ArduboyTones.h>
+#endif
 
 Arduboy2Ext arduboy;
+#ifdef USE_SOUNDS
 ArduboyTones sound(arduboy.audio.enabled);
+#endif
 
 Font3x5 font3x5 = Font3x5(Arduboy2::width(), Arduboy2::height());
 
@@ -85,13 +88,23 @@ int16_t diceDelay = DICE_NO_ACTION;
 uint8_t diceAttack = 0;
 
 
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Setup ..
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 void setup() {
 
   arduboy.boot();
-  arduboy.flashlight(); 
+
+  #ifdef USE_FLASHLIGHT
+  arduboy.flashlight();
+  #endif
+
+  #ifdef USE_SOUNDS
   arduboy.audio.begin();
   arduboy.initRandomSeed();  
-
+  #endif
+  
   myLevel.setMapTiles(map_tiles);
 
   myHero.setInventory(0, Inventory::Key);
@@ -102,6 +115,11 @@ void setup() {
   
 }
 
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Main loop ..
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 void loop() {
   
   uint16_t delayLength;
@@ -160,6 +178,20 @@ void loop() {
   
 }
 
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Item loop.  
+ *  
+ *  Controls the selection or discarding of an item the player has stumbled over.  If a user choses to ignore an item found in 
+ *  the maze, the GameState is updated to ItemIgnore which will allow them to progress beyond the item.  If th user returns to
+ *  the same position in the maze, they will be re-prompted to collect / discard the same item.
+ *  
+ *  The player can press the BACK_BUTTON (as defined in Enums.h) to bring up the inventory management dialogue if they need to 
+ *  delete an existing inventory item to make space for the new item.  The current GameState is retained in the 'savedState' 
+ *  field allowing for control to return back to this action after the dialogue is dismissed.
+ *  
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 void itemLoop() {
 
   drawPlayerVision(&myHero, &myLevel);
@@ -224,25 +256,54 @@ void itemLoop() {
 
 }
 
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Inventory loop.  
+ *  
+ *  Controls the management and use of the inventory panel.  As a player transitions to this panel, the current GameState is 
+ *  saved in a variable named 'savedState' which allows the player to exit the panel and return to whence they came.
+ *  
+ *  GameStates:
+ *  
+ *  InventorySelect     - navigate through the five inventory slots.
+ *  InventoryAction     - after selecting an item, the user can use or delete an item.
+ *  
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 void inventoryLoop() {
  
   arduboy.drawCompressed(0, 0, frames, WHITE);  
+  #ifdef INV_STYLE_BONW
   arduboy.drawCompressed(4, 4, inv_background, WHITE);
-
+  #endif
+  #ifdef INV_STYLE_WONB
+  Sprites::drawOverwrite(8, 32, inv_lhs_icons, 0);
+  #endif
+  
   drawMapAndStatistics(&myHero, &myLevel);
 
   for (uint8_t i = 0; i < 5; ++i) {
 
     if (myHero.getInventory(i) != Inventory::None) {
 
+      #ifdef INV_STYLE_BONW
       arduboy.fillRect(inventory_Coords[i].x, inventory_Coords[i].y, 14, 16, BLACK);
       arduboy.drawCompressed(inventory_Coords[i].x, inventory_Coords[i].y, inventory_images[(uint8_t)myHero.getInventory(i)], WHITE);
-
+      #endif
+      #ifdef INV_STYLE_WONB
+      arduboy.drawCompressed(inventory_Coords[i].x, inventory_Coords[i].y, inventory_images[(uint8_t)myHero.getInventory(i)], BLACK);
+      #endif
+      
     }
 
   }
 
+  #ifdef INV_STYLE_BONW
   arduboy.drawCompressed(inventory_Coords[inventory_selection].x + 3, inventory_Coords[inventory_selection].y + 11, inv_select, BLACK);
+  #endif
+  #ifdef INV_STYLE_WONB
+  arduboy.drawCompressed(inventory_Coords[inventory_selection].x + 3, inventory_Coords[inventory_selection].y + 11, inv_select, WHITE);
+  #endif
   uint8_t buttons = arduboy.justPressedButtons();
 
   switch (gameState) {
@@ -279,6 +340,7 @@ void inventoryLoop() {
           switch (myHero.getInventory(inventory_selection)) {
 
             case Inventory::Key:
+            
               for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
 
                 int16_t deltaX = doors[i].getX() - myHero.getX();
@@ -319,6 +381,14 @@ void inventoryLoop() {
 
 }
 
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Dice control.  
+ *  
+ *  Transition the dice rolling to the final state.  The variable 'diceAttack' stores the final dice value.
+ *  
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 void diceDoOnce(uint8_t maxValue, uint8_t offset) {
 
   if (diceDelay >= DICE_DELAY_END) {  // Do once.
@@ -329,7 +399,22 @@ void diceDoOnce(uint8_t maxValue, uint8_t offset) {
   }
 
 }
-        
+
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Battle Loop  
+ *  
+ *  GameStates:
+ *  
+ *  Battle_EnemyAttacks_Init -    Displays the initial '{enemy} attacks !' message and prepares for and enemy attck.
+ *  Battle_EnemyAttacks -         Displays the dice animation and inflicts damage to the player.  
+ *  Battle_PlayerDecides -        Presents the players battle options including attack, defend, cast a spell ..
+ *  Battle_PlayerAttacks -        Throws the dice and inflicts damage on the enemy.
+ *  Battle_PlayerDefends -        Inflicts 1 point of damage on the user and randomly gains player hit points.
+ *  Battle_EnemyDies -            Handles and end of battel where the enemy dies.
+ *  
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 uint16_t battleLoop() {
 
   uint16_t delayLength = 0;
@@ -528,14 +613,18 @@ void rollDice(uint8_t x, uint8_t y) {
     diceAttack = random(0, 4);
     diceDelay++;
 
+    #ifdef USE_SOUNDS
     sound.tone(NOTE_A1, 20);
+    #endif
     
   }
   else {  
 
     if (arduboy.everyXFrames(diceDelay)) {
 
+      #ifdef USE_SOUNDS
       sound.tone(NOTE_A1, 20);
+      #endif
       
       diceAttack = random(0, 4);
       diceDelay = diceDelay * 2;
@@ -599,6 +688,15 @@ void playLoop() {
       int16_t deltaY = myHero.getY() - enemies[i].getY();
 
       if ((absT(deltaX) <= 1) && (absT(deltaY) == 1))  {
+
+
+        // Rotate the player if the enemy os attacking from the side ..
+        
+        if (deltaX < 0) { myHero.setDirection(Direction::West); }
+        if (deltaX > 0) { myHero.setDirection(Direction::East); }
+
+        if (deltaY < 0) { myHero.setDirection(Direction::North); }
+        if (deltaY > 0) { myHero.setDirection(Direction::South); }
 
         attackingEnemyIdx = i;
         gameState = GameState::Battle_EnemyAttacks_Init;

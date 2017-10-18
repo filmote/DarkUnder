@@ -1,9 +1,24 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+// ----  Memory saving switches -------
+
+        // 46 bytes
+#define USE_FLASHLIGHT
+
+        // 834 bytes
+#define USE_SOUNDS
+
+        // 1080 bytes in favour of WALL_STYLE_2
 #undef  WALL_STYLE_1
 #undef  WALL_STYLE_2
 #define WALL_STYLE_3
+
+        // 250 bytes in favour of BONW
+#define INV_STYLE_WONB
+#undef  INV_STYLE_BONW
+
+// ------------------------------------
 
 #define UP_BUTTON_MASK                    128
 #define DOWN_BUTTON_MASK                  16
@@ -26,7 +41,7 @@
 #define TILE_OFFSET                       5
 #define UNIT                              TILE_SIZE / 4
 
-#define NUMBER_OF_ENEMIES                 10
+#define NUMBER_OF_ENEMIES                 20
 #define ENEMY_BEHOLDER_POSITION           Point {6, 5}
 #define ENEMY_SKELETON_POSITION           Point {11, 5}
 #define ENEMY_DISPLACER_POSITION          Point {8, 10}
@@ -35,8 +50,8 @@
 #define ENEMY_RAT_POSITION                Point {23, 16}
 #define ENEMY_SLIME_POSITION              Point {13, 22}
 
-#define NUMBER_OF_DOORS                   3
-#define NUMBER_OF_ITEMS                   10
+#define NUMBER_OF_DOORS                   5
+#define NUMBER_OF_ITEMS                   20
 #define ITEM_HPPOTION_POSITION            Point {23, 19}
 #define ITEM_KEY_POSITION                 Point {20, 20}
 #define ITEM_SCROLL_POSITION              Point {20, 18}
