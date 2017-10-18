@@ -95,7 +95,11 @@ uint8_t diceAttack = 0;
  */
 void setup() {
 
+  #ifdef USE_BEGIN
+  arduboy.begin()
+  #else
   arduboy.boot();
+  #endif
 
   #ifdef USE_FLASHLIGHT
   arduboy.flashlight();
