@@ -696,10 +696,10 @@ void playLoop() {
         // Rotate the player if the enemy is attacking from the side ..
         
         if (deltaX < 0) { myHero.setDirection(Direction::West); }
-        if (deltaX > 0) { myHero.setDirection(Direction::East); }
+        else if (deltaX > 0) { myHero.setDirection(Direction::East); }
 
         if (deltaY < 0) { myHero.setDirection(Direction::North); }
-        if (deltaY > 0) { myHero.setDirection(Direction::South); }
+        else if (deltaY > 0) { myHero.setDirection(Direction::South); }
 
         attackingEnemyIdx = i;
         gameState = GameState::Battle_EnemyAttacks_Init;
