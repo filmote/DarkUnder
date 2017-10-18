@@ -88,6 +88,10 @@ int16_t diceDelay = DICE_NO_ACTION;
 uint8_t diceAttack = 0;
 
 
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Setup ..
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 void setup() {
 
   arduboy.boot();
@@ -111,6 +115,11 @@ void setup() {
   
 }
 
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Main loop ..
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 void loop() {
   
   uint16_t delayLength;
@@ -169,6 +178,20 @@ void loop() {
   
 }
 
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Item loop.  
+ *  
+ *  Controls the selection or discarding of an item the player has stumbled over.  If a user choses to ignore an item found in 
+ *  the maze, the GameState is updated to ItemIgnore which will allow them to progress beyond the item.  If th user returns to
+ *  the same position in the maze, they will be re-prompted to collect / discard the same item.
+ *  
+ *  The player can press the BACK_BUTTON (as defined in Enums.h) to bring up the inventory management dialogue if they need to 
+ *  delete an existing inventory item to make space for the new item.  The current GameState is retained in the 'savedState' 
+ *  field allowing for control to return back to this action after the dialogue is dismissed.
+ *  
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 void itemLoop() {
 
   drawPlayerVision(&myHero, &myLevel);
@@ -233,6 +256,20 @@ void itemLoop() {
 
 }
 
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Inventory loop.  
+ *  
+ *  Controls the management and use of the inventory panel.  As a player transitions to this panel, the current GameState is 
+ *  saved in a variable named 'savedState' which allows the player to exit the panel and return to whence they came.
+ *  
+ *  GameStates:
+ *  
+ *  InventorySelect     - navigate through the five inventory slots.
+ *  InventoryAction     - after selecting an item, the user can use or delete an item.
+ *  
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 void inventoryLoop() {
  
   arduboy.drawCompressed(0, 0, frames, WHITE);  
@@ -303,6 +340,7 @@ void inventoryLoop() {
           switch (myHero.getInventory(inventory_selection)) {
 
             case Inventory::Key:
+            
               for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
 
                 int16_t deltaX = doors[i].getX() - myHero.getX();
@@ -343,6 +381,14 @@ void inventoryLoop() {
 
 }
 
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Dice control.  
+ *  
+ *  Transition the dice rolling to the final state.  The variable 'diceAttack' stores the final dice value.
+ *  
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 void diceDoOnce(uint8_t maxValue, uint8_t offset) {
 
   if (diceDelay >= DICE_DELAY_END) {  // Do once.
@@ -353,7 +399,22 @@ void diceDoOnce(uint8_t maxValue, uint8_t offset) {
   }
 
 }
-        
+
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Battle Loop  
+ *  
+ *  GameStates:
+ *  
+ *  Battle_EnemyAttacks_Init -    Displays the initial '{enemy} attacks !' message and prepares for and enemy attck.
+ *  Battle_EnemyAttacks -         Displays the dice animation and inflicts damage to the player.  
+ *  Battle_PlayerDecides -        Presents the players battle options including attack, defend, cast a spell ..
+ *  Battle_PlayerAttacks -        Throws the dice and inflicts damage on the enemy.
+ *  Battle_PlayerDefends -        Inflicts 1 point of damage on the user and randomly gains player hit points.
+ *  Battle_EnemyDies -            Handles and end of battel where the enemy dies.
+ *  
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 uint16_t battleLoop() {
 
   uint16_t delayLength = 0;
@@ -627,6 +688,15 @@ void playLoop() {
       int16_t deltaY = myHero.getY() - enemies[i].getY();
 
       if ((absT(deltaX) <= 1) && (absT(deltaY) == 1))  {
+
+
+        // Rotate the player if the enemy os attacking from the side ..
+        
+        if (deltaX < 0) { myHero.setDirection(Direction::West); }
+        if (deltaX > 0) { myHero.setDirection(Direction::East); }
+
+        if (deltaY < 0) { myHero.setDirection(Direction::North); }
+        if (deltaY > 0) { myHero.setDirection(Direction::South); }
 
         attackingEnemyIdx = i;
         gameState = GameState::Battle_EnemyAttacks_Init;
