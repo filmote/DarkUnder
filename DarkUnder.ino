@@ -685,13 +685,15 @@ void playLoop() {
     
     if (enemies[i].getEnabled()) {
 
-      int16_t deltaX = myHero.getX() - enemies[i].getX();
-      int16_t deltaY = myHero.getY() - enemies[i].getY();
+      const int16_t deltaX = myHero.getX() - enemies[i].getX();
+      const int16_t deltaY = myHero.getY() - enemies[i].getY();
+      const uint16_t absDeltaX = absT(deltaX);
+      const uint16_t absDeltaY = absT(deltaY);
 
-      if ((absT(deltaX) <= 1) && (absT(deltaY) == 1))  {
+      if ((absDeltaX <= 1) && (absDeltaY <= 1))  {
 
 
-        // Rotate the player if the enemy os attacking from the side ..
+        // Rotate the player if the enemy is attacking from the side ..
         
         if (deltaX < 0) { myHero.setDirection(Direction::West); }
         if (deltaX > 0) { myHero.setDirection(Direction::East); }
