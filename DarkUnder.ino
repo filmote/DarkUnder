@@ -291,7 +291,8 @@ void inventoryLoop() {
       arduboy.drawCompressed(inventory_Coords[i].x, inventory_Coords[i].y, inventory_images[(uint8_t)myHero.getInventory(i)], WHITE);
       #endif
       #ifdef INV_STYLE_WONB
-      arduboy.drawCompressed(inventory_Coords[i].x, inventory_Coords[i].y, inventory_images[(uint8_t)myHero.getInventory(i)], BLACK);
+      arduboy.drawRect(inventory_Coords[i].x - 1, inventory_Coords[i].y - 1, 16, 16);
+      arduboy.drawCompressed(inventory_Coords[i].x, inventory_Coords[i].y, inventory_images[(uint8_t)myHero.getInventory(i)], WHITE);
       #endif
       
     }

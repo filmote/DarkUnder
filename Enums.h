@@ -15,9 +15,9 @@
 #undef  WALL_STYLE_2
 #define WALL_STYLE_3
 
-        // 250 bytes in favour of BONW
-#define INV_STYLE_WONB
+        // 180 bytes in favour of WONB
 #undef  INV_STYLE_BONW
+#define INV_STYLE_WONB
 
 // ------------------------------------
 
