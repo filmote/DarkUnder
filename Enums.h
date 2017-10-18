@@ -10,6 +10,7 @@
 #define USE_SOUNDS
 
         // 1080 bytes in favour of WALL_STYLE_2
+        // 0576 bytes in favour of WALL STYLE 3
 #undef  WALL_STYLE_1
 #undef  WALL_STYLE_2
 #define WALL_STYLE_3

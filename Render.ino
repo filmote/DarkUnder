@@ -120,7 +120,15 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   
   arduboy.drawCompressed(0, 0, frames, WHITE);
+  #ifdef WALL_STYLE_1
   arduboy.drawCompressed(VISION_X_OFFSET, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_BACK], WHITE);
+  #endif
+  #ifdef WALL_STYLE_2
+  arduboy.drawCompressed(VISION_X_OFFSET, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_BACK], WHITE);
+  #endif
+  #ifdef WALL_STYLE_3
+  arduboy.drawCompressed(VISION_X_OFFSET + 1, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_BACK], WHITE);
+  #endif
 
   
   // Far front wall ..
@@ -226,7 +234,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
     #endif
     #ifdef WALL_STYLE_3
     if ((MapElement)myLevel->getMapElement(myHero->getX() + farRightX, myHero->getY() + farRightY) > MapElement::Floor) {
-      Sprites::drawOverwrite(VISION_X_OFFSET + 34, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_RIGHT], 0);
+      Sprites::drawOverwrite(VISION_X_OFFSET + 35, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_RIGHT], 0);
     }
     #endif
   }
@@ -319,7 +327,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   #endif
   #ifdef WALL_STYLE_3
   if ((MapElement)myLevel->getMapElement(myHero->getX() + middleRightX, myHero->getY() + middleRightY) > MapElement::Floor) {
-    Sprites::drawOverwrite(VISION_X_OFFSET + 38, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_MID_RIGHT], 0);    
+    Sprites::drawOverwrite(VISION_X_OFFSET + 39, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_MID_RIGHT], 0);    
   }
   #endif
   
