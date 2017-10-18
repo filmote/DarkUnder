@@ -2,7 +2,8 @@
 #define ENUMS_H
 
 #undef  WALL_STYLE_1
-#define WALL_STYLE_2
+#undef  WALL_STYLE_2
+#define WALL_STYLE_3
 
 #define UP_BUTTON_MASK                    128
 #define DOWN_BUTTON_MASK                  16
