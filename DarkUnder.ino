@@ -17,6 +17,7 @@
 #include "EnemyController.h"
 #include "Font3x5.h"
 #include "Utils.h"
+#include "EnemyNames.h"
 
 #ifdef USE_SOUNDS
 #include <ArduboyTones.h>
@@ -94,7 +95,11 @@ uint8_t diceAttack = 0;
  */
 void setup() {
 
+  #ifdef USE_BEGIN
+  arduboy.begin()
+  #else
   arduboy.boot();
+  #endif
 
   #ifdef USE_FLASHLIGHT
   arduboy.flashlight();
@@ -143,16 +148,6 @@ void loop() {
     case GameState::ItemIgnore: 
       playLoop();
       break;
-    
-    case GameState::Battle_EnemyAttacks_Init:
-    case GameState::Battle_EnemyAttacks:
-    case GameState::Battle_EnemyDies:
-    case GameState::Battle_PlayerDecides:
-    case GameState::Battle_PlayerAttacks:
-    case GameState::Battle_PlayerDefends:
-    case GameState::Battle_PlayerDies:
-      delayLength = battleLoop();
-      break;
 
     case GameState::InventorySelect: 
     case GameState::InventoryAction: 
@@ -169,6 +164,16 @@ void loop() {
 
     case GameState::About: 
       displayLogo();
+      break;
+    
+    case GameState::Battle_EnemyAttacks_Init:
+    case GameState::Battle_EnemyAttacks:
+    case GameState::Battle_EnemyDies:
+    case GameState::Battle_PlayerDecides:
+    case GameState::Battle_PlayerAttacks:
+    case GameState::Battle_PlayerDefends:
+    case GameState::Battle_PlayerDies:
+      delayLength = battleLoop();
       break;
       
   }
@@ -430,38 +435,8 @@ uint16_t battleLoop() {
   switch (gameState) {
 
     case GameState::Battle_EnemyAttacks_Init:
-
-      switch (enemies[attackingEnemyIdx].getEnemyType()) {
       
-        case EnemyType::Beholder:
-          font3x5.print(F("A BEHOLDER"));
-          break;
-
-        case EnemyType::Displacer:
-          font3x5.print(F("A DISPLACER"));
-          break;
-
-        case EnemyType::Dragon:
-          font3x5.print(F("A DRAGON"));
-          break;
-
-        case EnemyType::Skeleton:
-          font3x5.print(F("A SKELETON"));
-          break;
-
-        case EnemyType::Wraith:
-          font3x5.print(F("A WRAITH"));
-          break;
-
-        case EnemyType::Rat:
-          font3x5.print(F("A RAT"));
-          break;
-
-        case EnemyType::Slime:
-          font3x5.print(F("A SLIME"));
-          break;
-
-      }
+      font3x5.print(getEnemyName(enemies[attackingEnemyIdx].getEnemyType()));
 
       font3x5.print(F("\nATTACKS!"));
       
@@ -495,6 +470,13 @@ uint16_t battleLoop() {
         delayLength = FIGHT_DELAY;
         
       }
+      break;
+
+    case GameState::Battle_EnemyDies:
+      arduboy.drawCompressed(18, 12, enemy_defeated_Mask, BLACK);
+      arduboy.drawCompressed(18, 12, enemy_defeated, WHITE);
+      gameState = GameState::Move;
+      delayLength = FIGHT_DELAY;
       break;
 
     case GameState::Battle_PlayerDecides:
@@ -590,13 +572,6 @@ uint16_t battleLoop() {
 
       break;   
 
-    case GameState::Battle_EnemyDies:
-      arduboy.drawCompressed(18, 12, enemy_defeated_Mask, BLACK);
-      arduboy.drawCompressed(18, 12, enemy_defeated, WHITE);
-      gameState = GameState::Move;
-      delayLength = FIGHT_DELAY;
-      break;
-
   }
 
   drawEnemyHitPointsBar(enemies[attackingEnemyIdx].getHitPoints());
@@ -685,19 +660,21 @@ void playLoop() {
     
     if (enemies[i].getEnabled()) {
 
-      int16_t deltaX = myHero.getX() - enemies[i].getX();
-      int16_t deltaY = myHero.getY() - enemies[i].getY();
+      const int16_t deltaX = enemies[i].getX() - myHero.getX();
+      const int16_t deltaY = enemies[i].getY() - myHero.getY();
+      const uint16_t absDeltaX = absT(deltaX);
+      const uint16_t absDeltaY = absT(deltaY);
 
-      if ((absT(deltaX) <= 1) && (absT(deltaY) == 1))  {
+      if ((absDeltaX <= 1) && (absDeltaY <= 1))  {
 
 
-        // Rotate the player if the enemy os attacking from the side ..
+        // Rotate the player if the enemy is attacking from the side ..
         
         if (deltaX < 0) { myHero.setDirection(Direction::West); }
-        if (deltaX > 0) { myHero.setDirection(Direction::East); }
+        else if (deltaX > 0) { myHero.setDirection(Direction::East); }
 
         if (deltaY < 0) { myHero.setDirection(Direction::North); }
-        if (deltaY > 0) { myHero.setDirection(Direction::South); }
+        else if (deltaY > 0) { myHero.setDirection(Direction::South); }
 
         attackingEnemyIdx = i;
         gameState = GameState::Battle_EnemyAttacks_Init;
@@ -722,6 +699,7 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   idx += 11;
   memcpy_P(myLevel->getTitleLine2(), &level[idx], sizeof(char) * 11);
   idx += 11;
+  
             
   myHero->setX(pgm_read_byte(&level[idx++]));
   myHero->setY(pgm_read_byte(&level[idx++]));
