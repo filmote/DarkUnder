@@ -12,13 +12,13 @@ class Player : public Base {
 
     Player();
 
-    const Direction getDirection();
-    const int8_t getHitPoints();
-    const int8_t getDefence();
-    const int8_t getAttackPower();
-    const int8_t getMagic();
-    const Inventory getInventory(uint8_t slot);
-    const int8_t getConsumableSlot();
+    Direction getDirection();
+    int8_t getHitPoints();
+    int8_t getDefence();
+    int8_t getAttackPower();
+    int8_t getMagic();
+    Inventory getInventory(uint8_t slot);
+    int8_t getConsumableSlot();
     
     void setDirection(const Direction value);
     void setHitPoints(const int8_t value);   

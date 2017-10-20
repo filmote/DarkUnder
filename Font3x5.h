@@ -46,7 +46,7 @@ class Font3x5 : public Print {
      * The X coordinate returned is a pixel location with 0 indicating the
      * leftmost column.
      */
-    const int16_t getCursorX();
+    int16_t getCursorX();
 
     /** \brief
      * Get the Y coordinate of the current text cursor position.
@@ -57,7 +57,7 @@ class Font3x5 : public Print {
      * The Y coordinate returned is a pixel location with 0 indicating the
      * topmost row.
      */
-    const int16_t getCursorY();
+    int16_t getCursorY();
 
     /** \brief
      * Set the text foreground color.

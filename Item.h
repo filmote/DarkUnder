@@ -5,6 +5,7 @@
 #include "Item.h"
 #include "Base.h"
 #include "Enums.h"
+#include "LevelData.h"
 
 class Item : public Base {
 
@@ -12,8 +13,8 @@ class Item : public Base {
 
     Item();
 
-    const ItemType getItemType() const;
-    const bool getEnabled() const;
+    ItemType getItemType() const;
+    bool getEnabled() const;
 
     void setItemType(const ItemType value);
     void setEnabled(const bool value);

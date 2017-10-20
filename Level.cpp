@@ -7,9 +7,9 @@
 
 Level::Level() {_tileNumber = 255; }
 
-const uint32_t Level::getStartPos()                         { return _startPos; }
-const uint32_t Level::getWidth()                            { return _width; }
-const uint32_t Level::getHeight()                           { return _height; }
+uint32_t Level::getStartPos()                         { return _startPos; }
+uint32_t Level::getWidth()                            { return _width; }
+uint32_t Level::getHeight()                           { return _height; }
 const Item * Level::getDoors()                              { return _doors; }
 
 const uint8_t * Level::getLevel()                           { return _level; }
@@ -36,7 +36,7 @@ void Level::setMapImages(const uint8_t * const *value)      { _map_images = valu
 void Level::setMapMasks(const uint8_t * const *value)       { _map_masks = value; }
 #endif
   
-const MapElement Level::getMapElement(uint32_t x, uint32_t y) {
+MapElement Level::getMapElement(uint32_t x, uint32_t y) {
 
   for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
 

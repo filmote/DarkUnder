@@ -2,7 +2,7 @@
 
 Arduboy2Ext::Arduboy2Ext() : Arduboy2Base() { }
 
-const uint8_t Arduboy2Ext::justPressedButtons() {
+uint8_t Arduboy2Ext::justPressedButtons() {
 
   return (~previousButtonState & currentButtonState);
 
