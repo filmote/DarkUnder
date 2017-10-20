@@ -11,12 +11,6 @@
         // 834 bytes
 #define USE_SOUNDS
 
-        // 1080 bytes in favour of WALL_STYLE_2
-        // 0576 bytes in favour of WALL STYLE 3
-#undef  WALL_STYLE_1
-#undef  WALL_STYLE_2
-#define WALL_STYLE_3
-
         // 180 bytes in favour of WONB
 #undef  INV_STYLE_BONW
 #define INV_STYLE_WONB
@@ -44,7 +38,7 @@
 #define TILE_OFFSET                       5
 #define UNIT                              TILE_SIZE / 4
 
-#define NUMBER_OF_ENEMIES                 20
+#define NUMBER_OF_ENEMIES                 18
 #define ENEMY_BEHOLDER_POSITION           Point {6, 5}
 #define ENEMY_SKELETON_POSITION           Point {11, 5}
 #define ENEMY_DISPLACER_POSITION          Point {8, 10}
@@ -53,42 +47,37 @@
 #define ENEMY_RAT_POSITION                Point {23, 16}
 #define ENEMY_SLIME_POSITION              Point {13, 22}
 
-#define NUMBER_OF_DOORS                   5
-#define NUMBER_OF_ITEMS                   20
+#define NUMBER_OF_DOORS                   3
+#define NUMBER_OF_ITEMS                   18
 #define ITEM_HPPOTION_POSITION            Point {23, 19}
 #define ITEM_KEY_POSITION                 Point {20, 20}
 #define ITEM_SCROLL_POSITION              Point {20, 18}
 
 #define MAP_IMAGE_BACK                    0
 #define MAP_IMAGE_CLOSE_FRONT             1
-#define MAP_IMAGE_CLOSE_LOCKED            2
-#define MAP_IMAGE_CLOSE_LEVEL_LOCKED      3
-#define MAP_IMAGE_CLOSE_UNLOCKED          4
-#define MAP_IMAGE_CLOSE_LEVEL_UNLOCKED    5
-#define MAP_IMAGE_CLOSE_LEFT              6
-#define MAP_IMAGE_CLOSE_RIGHT             7
-#define MAP_IMAGE_MID_FRONT               8
-#define MAP_IMAGE_MID_LOCKED              9
-#define MAP_IMAGE_MID_LEVEL_LOCKED        10
-#define MAP_IMAGE_MID_UNLOCKED            11
-#define MAP_IMAGE_MID_LEVEL_UNLOCKED      12
+#define MAP_IMAGE_CLOSE_GATE_LOCKED       2
+#define MAP_IMAGE_CLOSE_DOOR_LOCKED       3
+#define MAP_IMAGE_CLOSE_DOOR_UNLOCKED     4
+#define MAP_IMAGE_CLOSE_LEFT              5
+#define MAP_IMAGE_CLOSE_RIGHT             6
+#define MAP_IMAGE_CLOSE_GATE_LEFT         7
+#define MAP_IMAGE_CLOSE_GATE_RIGHT        8
+
+#define MAP_IMAGE_MID_FRONT               9
+#define MAP_IMAGE_MID_GATE_LOCKED         10
+#define MAP_IMAGE_MID_DOOR_LOCKED         11
+#define MAP_IMAGE_MID_DOOR_UNLOCKED       12
 #define MAP_IMAGE_MID_LEFT                13
 #define MAP_IMAGE_MID_RIGHT               14
-#define MAP_IMAGE_FAR_LOCKED              15
-#define MAP_IMAGE_FAR_UNLOCKED            16
-#define MAP_IMAGE_FAR_LEFT                17
-#define MAP_IMAGE_FAR_RIGHT               18
+#define MAP_IMAGE_MID_GATE_LEFT           15
+#define MAP_IMAGE_MID_GATE_RIGHT          16
 
-#define MAP_MASK_CLOSE_FRONT              0
-#define MAP_MASK_CLOSE_FRONT_DOOR         1
-#define MAP_MASK_CLOSE_LEFT               2
-#define MAP_MASK_CLOSE_RIGHT              3
-#define MAP_MASK_MID_FRONT                4 
-#define MAP_MASK_MID_LEFT                 5
-#define MAP_MASK_MID_RIGHT                6
-#define MAP_MASK_FAR_FRONT_DOOR           7
-#define MAP_MASK_FAR_LEFT                 8
-#define MAP_MASK_FAR_RIGHT                9
+#define MAP_IMAGE_FAR_LOCKED              17
+#define MAP_IMAGE_FAR_LEVEL_LOCKED        18
+#define MAP_IMAGE_FAR_UNLOCKED            19
+#define MAP_IMAGE_FAR_LEVEL_UNLOCKED      20
+#define MAP_IMAGE_FAR_LEFT                21
+#define MAP_IMAGE_FAR_RIGHT               22
 
 #define DICE_NO_ACTION                    -15
 #define DICE_DELAY_START                  DICE_NO_ACTION + 1
@@ -158,10 +147,9 @@ enum class Button : uint8_t {
 enum class MapElement : uint8_t {
   Floor,
   Wall,
-  LockedDoor = 100,
+  LockedGate = 100,
+  LockedDoor,
   UnlockedDoor,
-  LevelLockedDoor,
-  LevelUnlockedDoor,
 };
 
 enum class EnemyType : uint8_t {
@@ -181,10 +169,9 @@ enum class ItemType : uint8_t {
   Scroll,
   Shield,
   Sword,
-  LockedDoor = 100,
+  LockedGate = 100,
+  LockedDoor,
   UnlockedDoor,
-  LevelLockedDoor,
-  LevelUnlockedDoor,
 };
 
 enum class Rotation : uint8_t {

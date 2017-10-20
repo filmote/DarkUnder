@@ -12,7 +12,6 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   bool horizon2Plus = false;
 
   int8_t imageIndex = -1;
-  int8_t maskIndex = -1;
 
   int8_t farLeftX = 0;
   int8_t farFrontX = 0;
@@ -120,15 +119,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   
   arduboy.drawCompressed(0, 0, frames, WHITE);
-  #ifdef WALL_STYLE_1
-  arduboy.drawCompressed(VISION_X_OFFSET, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_BACK], WHITE);
-  #endif
-  #ifdef WALL_STYLE_2
-  arduboy.drawCompressed(VISION_X_OFFSET, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_BACK], WHITE);
-  #endif
-  #ifdef WALL_STYLE_3
   arduboy.drawCompressed(VISION_X_OFFSET + 1, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_BACK], WHITE);
-  #endif
 
   
   // Far front wall ..
@@ -137,7 +128,6 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
     
     MapElement mapElement = (MapElement)myLevel->getMapElement(myHero->getX() + farFrontX, myHero->getY() + farFrontY);
     imageIndex = -1;
-    maskIndex = -1;
 
     if (mapElement > MapElement::Floor) {
 
@@ -146,49 +136,26 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
         case MapElement::Wall:
           break;
 
-        case MapElement::LockedDoor:
-        case MapElement::LevelLockedDoor:
+        case MapElement::LockedGate:
           imageIndex = MAP_IMAGE_FAR_LOCKED;
-          maskIndex = MAP_MASK_FAR_FRONT_DOOR;
           break;
 
+        case MapElement::LockedDoor:
+          imageIndex = MAP_IMAGE_FAR_LEVEL_LOCKED;
+          break;
+      
         case MapElement::UnlockedDoor:
-        case MapElement::LevelUnlockedDoor:
-          imageIndex = MAP_IMAGE_FAR_UNLOCKED;
-          maskIndex = MAP_MASK_FAR_FRONT_DOOR;
+          imageIndex = MAP_IMAGE_FAR_LEVEL_UNLOCKED;
           break;
       
       }
 
-      #ifdef WALL_STYLE_1
       for (uint8_t i = VISION_X_OFFSET; i < VISION_X_OFFSET + 62; ++i) {  
         arduboy.drawPixel(i, VISION_Y_OFFSET + 27 + (i %2), WHITE);
       }
-      #endif
-
-      #ifdef WALL_STYLE_2
-      for (uint8_t i = 31; i < 38; ++i) {  
-        arduboy.drawPixel(i, VISION_Y_OFFSET + 27 + (i %2), WHITE);
-      }
-      #endif
-
-      #ifdef WALL_STYLE_3
-      for (uint8_t i = VISION_X_OFFSET; i < VISION_X_OFFSET + 62; ++i) {  
-        arduboy.drawPixel(i, VISION_Y_OFFSET + 27 + (i %2), WHITE);
-      }
-      #endif
 
       if (imageIndex > 0) {
-        #ifdef WALL_STYLE_1
-        Sprites::drawExternalMask(VISION_X_OFFSET + 29, VISION_Y_OFFSET + 27, myLevel->getMapImages()[imageIndex], myLevel->getMapMasks()[maskIndex], 0, 0);
-        Sprites::drawExternalMask(VISION_X_OFFSET + 29, VISION_Y_OFFSET + 27, myLevel->getMapImages()[imageIndex], myLevel->getMapMasks()[maskIndex], 0, 0);
-        #endif
-        #ifdef WALL_STYLE_2
-        Sprites::drawOverwrite(VISION_X_OFFSET + 29, VISION_Y_OFFSET + 24, myLevel->getMapImages()[imageIndex], 0);
-        #endif
-        #ifdef WALL_STYLE_3
-        Sprites::drawOverwrite(VISION_X_OFFSET + 29, VISION_Y_OFFSET + 24, myLevel->getMapImages()[imageIndex], 0);
-        #endif
+        Sprites::drawOverwrite(VISION_X_OFFSET + 29, VISION_Y_OFFSET + 25, myLevel->getMapImages()[imageIndex], 0);
       }
       
     }
@@ -199,50 +166,27 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   // Far left wall ..
   
   if (horizon2Plus) {
-    #ifdef WALL_STYLE_1
-    if ((MapElement)myLevel->getMapElement(myHero->getX() + farLeftX, myHero->getY() + farLeftY) > MapElement::Floor) {
-      arduboy.drawCompressed(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 23, myLevel->getMapMasks()[MAP_MASK_FAR_LEFT], BLACK);
-      arduboy.drawCompressed(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_LEFT], WHITE);
-    }
-    #endif
-    #ifdef WALL_STYLE_2
-    if ((MapElement)myLevel->getMapElement(myHero->getX() + farLeftX, myHero->getY() + farLeftY) == MapElement::Floor) {
-      Sprites::drawOverwrite(VISION_X_OFFSET + 23, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_LEFT], 0);
-    }
-    #endif
-    #ifdef WALL_STYLE_3
     if ((MapElement)myLevel->getMapElement(myHero->getX() + farLeftX, myHero->getY() + farLeftY) > MapElement::Floor) {
       Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_LEFT], 0);
     }
-    #endif
   }
  
   
   // Far right wall ..
 
   if (horizon2Plus) {
-    #ifdef WALL_STYLE_1
-    if ((MapElement)myLevel->getMapElement(myHero->getX() + farRightX, myHero->getY() + farRightY) > MapElement::Floor) {
-      arduboy.drawCompressed(VISION_X_OFFSET + 34, VISION_Y_OFFSET + 23, myLevel->getMapMasks()[MAP_MASK_FAR_RIGHT], BLACK);
-      arduboy.drawCompressed(VISION_X_OFFSET + 34, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_RIGHT], WHITE);
-    }
-    #endif
-    #ifdef WALL_STYLE_2
-      if ((MapElement)myLevel->getMapElement(myHero->getX() + farRightX, myHero->getY() + farRightY) == MapElement::Floor) {
-      Sprites::drawOverwrite(VISION_X_OFFSET + 36, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_RIGHT], 0);
-    }
-    #endif
-    #ifdef WALL_STYLE_3
     if ((MapElement)myLevel->getMapElement(myHero->getX() + farRightX, myHero->getY() + farRightY) > MapElement::Floor) {
       Sprites::drawOverwrite(VISION_X_OFFSET + 35, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_RIGHT], 0);
     }
-    #endif
   }
  
 
   // Mid front wall ..
   
   if (horizon2Plus) {
+
+    uint8_t xOffset = 24;
+    uint8_t yOffset = 23;
 
     MapElement mapElement = (MapElement)myLevel->getMapElement(myHero->getX() + middleFrontX, myHero->getY() + middleFrontY);
     imageIndex = -1;
@@ -254,37 +198,30 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
         case MapElement::Wall:
           break;
 
+        case MapElement::LockedGate:
+          imageIndex = MAP_IMAGE_MID_GATE_LOCKED;
+          xOffset = 24;
+          yOffset = 23;
+          break;
+
         case MapElement::LockedDoor:
-          imageIndex = MAP_IMAGE_MID_LOCKED;
-          break;
-
-        case MapElement::LevelLockedDoor:
-          imageIndex = MAP_IMAGE_MID_LEVEL_LOCKED;
-          break;
-
-        case MapElement::UnlockedDoor:
-          imageIndex = MAP_IMAGE_MID_UNLOCKED;
+          imageIndex = MAP_IMAGE_MID_DOOR_LOCKED;
+          xOffset = 27;
+          yOffset = 25;
           break;
     
-        case MapElement::LevelUnlockedDoor:
-          imageIndex = MAP_IMAGE_MID_LEVEL_UNLOCKED;
+        case MapElement::UnlockedDoor:
+          imageIndex = MAP_IMAGE_MID_DOOR_UNLOCKED;
+          xOffset = 27;
+          yOffset = 25;
           break;
       
       }
       
-      #ifdef WALL_STYLE_1
-      arduboy.drawCompressed(VISION_X_OFFSET, VISION_Y_OFFSET + 23, myLevel->getMapMasks()[MAP_MASK_MID_FRONT], BLACK);
-      arduboy.drawCompressed(VISION_X_OFFSET, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_MID_FRONT], WHITE);
-      #endif
-      #ifdef WALL_STYLE_2
-      Sprites::drawOverwrite(VISION_X_OFFSET + 24, VISION_Y_OFFSET + 24, myLevel->getMapImages()[MAP_IMAGE_MID_FRONT], 0);
-      #endif
-      #ifdef WALL_STYLE_3
-      Sprites::drawOverwrite(VISION_X_OFFSET, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_MID_FRONT], 0);
-      #endif
-      
+      Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_MID_FRONT], 0);
+
       if (imageIndex > 0) {
-        Sprites::drawOverwrite(VISION_X_OFFSET + 27, VISION_Y_OFFSET + 25, myLevel->getMapImages()[imageIndex], 0);
+        Sprites::drawOverwrite(VISION_X_OFFSET + xOffset, VISION_Y_OFFSET + yOffset, myLevel->getMapImages()[imageIndex], 0);
       }
   
     } 
@@ -293,102 +230,71 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
 
   // Mid left wall ..
-
-  #ifdef WALL_STYLE_1
-  if ((MapElement)myLevel->getMapElement(myHero->getX() + middleLeftX, myHero->getY() + middleLeftY) > MapElement::Floor) {
-    arduboy.drawCompressed(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 14, myLevel->getMapMasks()[MAP_MASK_MID_LEFT], BLACK);
-    arduboy.drawCompressed(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_MID_LEFT], WHITE);    
-  }
-  #endif
-  #ifdef WALL_STYLE_2
-  if ((MapElement)myLevel->getMapElement(myHero->getX() + middleLeftX, myHero->getY() + middleLeftY) == MapElement::Floor) {
-    Sprites::drawOverwrite(VISION_X_OFFSET + 19, VISION_Y_OFFSET + 24, myLevel->getMapImages()[MAP_IMAGE_MID_LEFT], 0);    
-  }
-  #endif
-  #ifdef WALL_STYLE_3
-  if ((MapElement)myLevel->getMapElement(myHero->getX() + middleLeftX, myHero->getY() + middleLeftY) > MapElement::Floor) {
+  
+  MapElement leftMapElement = myLevel->getMapElement(myHero->getX() + middleLeftX, myHero->getY() + middleLeftY);
+  Serial.println((uint8_t)leftMapElement);
+  if (leftMapElement == MapElement::Wall) {
     Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_MID_LEFT], 0);    
   }
-  #endif
-  
+  else if (leftMapElement == MapElement::LockedGate) {
+    Sprites::drawOverwrite(VISION_X_OFFSET + 15, VISION_Y_OFFSET + 15, myLevel->getMapImages()[MAP_IMAGE_MID_GATE_LEFT], 0);    
+  }
 
   // Mid right wall ..
   
-  #ifdef WALL_STYLE_1
-  if ((MapElement)myLevel->getMapElement(myHero->getX() + middleRightX, myHero->getY() + middleRightY) > MapElement::Floor) {
-    arduboy.drawCompressed(VISION_X_OFFSET + 38, VISION_Y_OFFSET + 14, myLevel->getMapMasks()[MAP_MASK_MID_RIGHT], BLACK);
-    arduboy.drawCompressed(VISION_X_OFFSET + 38, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_MID_RIGHT], WHITE);    
-  }
-  #endif
-  #ifdef WALL_STYLE_2
-  if ((MapElement)myLevel->getMapElement(myHero->getX() + middleRightX, myHero->getY() + middleRightY) == MapElement::Floor) {
-    Sprites::drawOverwrite(VISION_X_OFFSET + 40, VISION_Y_OFFSET + 24, myLevel->getMapImages()[MAP_IMAGE_MID_RIGHT], 0);    
-  }
-  #endif
-  #ifdef WALL_STYLE_3
-  if ((MapElement)myLevel->getMapElement(myHero->getX() + middleRightX, myHero->getY() + middleRightY) > MapElement::Floor) {
+  MapElement rightMapElement = myLevel->getMapElement(myHero->getX() + middleRightX, myHero->getY() + middleRightY);
+
+  Serial.println((uint8_t)rightMapElement);
+
+  if (rightMapElement == MapElement::Wall) {
     Sprites::drawOverwrite(VISION_X_OFFSET + 39, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_MID_RIGHT], 0);    
   }
-  #endif
+  else if (rightMapElement == MapElement::LockedGate) {
+    Sprites::drawOverwrite(VISION_X_OFFSET + 39, VISION_Y_OFFSET + 15, myLevel->getMapImages()[MAP_IMAGE_MID_GATE_RIGHT], 0);    
+  }
   
 
   // Close front wall ..
   
   MapElement mapElement = (MapElement)myLevel->getMapElement(myHero->getX() + closeFrontX, myHero->getY() + closeFrontY);
+
   imageIndex = -1;
-  maskIndex = MAP_MASK_CLOSE_FRONT_DOOR;
+  uint8_t xOffset = 0;
+  uint8_t yOffset = 0;
   
   if (mapElement > MapElement::Floor) {
 
     switch (mapElement) {
 
       case MapElement::Wall:
+        imageIndex = MAP_IMAGE_CLOSE_FRONT;
+        xOffset = 0;
+        yOffset = 14;
+        break;
+
+      case MapElement::LockedGate:
+        imageIndex = MAP_IMAGE_CLOSE_GATE_LOCKED;
+        xOffset = 15;
+        yOffset = 14;
         break;
 
       case MapElement::LockedDoor:
-        imageIndex = MAP_IMAGE_CLOSE_LOCKED;
-        break;
-
-      case MapElement::LevelLockedDoor:
-        imageIndex = MAP_IMAGE_CLOSE_LEVEL_LOCKED;
+        imageIndex = MAP_IMAGE_CLOSE_DOOR_LOCKED;
+        xOffset = 22;
+        yOffset = 21;
         break;
 
       case MapElement::UnlockedDoor:
-        imageIndex = MAP_IMAGE_CLOSE_UNLOCKED;
-        break;
-
-      case MapElement::LevelUnlockedDoor:
-        imageIndex = MAP_IMAGE_CLOSE_LEVEL_UNLOCKED;
+        imageIndex = MAP_IMAGE_CLOSE_DOOR_UNLOCKED;
+        xOffset = 22;
+        yOffset = 21;
         break;
     
     }
-      
-    #ifdef WALL_STYLE_1
-    arduboy.drawCompressed(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 14, myLevel->getMapMasks()[MAP_MASK_CLOSE_FRONT], BLACK);
-    arduboy.drawCompressed(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_CLOSE_FRONT], WHITE);
-    #endif
-    #ifdef WALL_STYLE_2
-    Sprites::drawOverwrite(VISION_X_OFFSET + 14, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_CLOSE_FRONT], 0);
-    #endif
-    #ifdef WALL_STYLE_3
-    if (imageIndex == 0) {
-      Serial.println("asdasd");
-      Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_CLOSE_FRONT], 0);
-    }
-    #endif
 
-    if (imageIndex > 0) {
-      #ifdef WALL_STYLE_1
-      arduboy.drawCompressed(VISION_X_OFFSET + 21, VISION_Y_OFFSET + 21, myLevel->getMapMasks()[maskIndex], BLACK);
-      arduboy.drawCompressed(VISION_X_OFFSET + 21, VISION_Y_OFFSET + 21, myLevel->getMapImages()[imageIndex], WHITE);
-      #endif
-      #ifdef WALL_STYLE_2
-      Sprites::drawOverwrite(VISION_X_OFFSET + 21, VISION_Y_OFFSET + 21, myLevel->getMapImages()[imageIndex], 0);
-      #endif
-      #ifdef WALL_STYLE_3
-      Serial.println("zzz");
-//      Sprites::drawOverwrite(VISION_X_OFFSET + 15, VISION_Y_OFFSET + 9, myLevel->getMapImages()[imageIndex], 0);
-      #endif
+    Sprites::drawOverwrite(VISION_X_OFFSET, VISION_Y_OFFSET + 14, closeWallFront, 0);
+    if (imageIndex >= 0) {
+      Sprites::drawOverwrite(VISION_X_OFFSET + xOffset, VISION_Y_OFFSET + yOffset, myLevel->getMapImages()[imageIndex], 0);
     }
 
   }
@@ -396,42 +302,24 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   // Close left wall ..
 
-  #ifdef WALL_STYLE_1
-  if ((MapElement)myLevel->getMapElement(myHero->getX() + closeLeftX, myHero->getY() + closeLeftY) > MapElement::Floor) {
-    arduboy.drawCompressed(VISION_X_OFFSET, VISION_Y_OFFSET, myLevel->getMapMasks()[MAP_MASK_CLOSE_LEFT], BLACK);
-    arduboy.drawCompressed(VISION_X_OFFSET, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_LEFT], WHITE);
-  }
-  #endif
-  #ifdef WALL_STYLE_2
-  if ((MapElement)myLevel->getMapElement(myHero->getX() + closeLeftX, myHero->getY() + closeLeftY) == MapElement::Floor) {
-    Sprites::drawOverwrite(VISION_X_OFFSET + 4, VISION_Y_OFFSET + 16, myLevel->getMapImages()[MAP_IMAGE_CLOSE_LEFT], 0);
-  }
-  #endif
-  #ifdef WALL_STYLE_3
-  if ((MapElement)myLevel->getMapElement(myHero->getX() + closeLeftX, myHero->getY() + closeLeftY) > MapElement::Floor) {
+  leftMapElement = myLevel->getMapElement(myHero->getX() + closeLeftX, myHero->getY() + closeLeftY);
+  if (leftMapElement == MapElement::Wall) {
     Sprites::drawOverwrite(VISION_X_OFFSET, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_LEFT], 0);
   }
-  #endif
+  else if (leftMapElement == MapElement::LockedGate) {
+    Sprites::drawOverwrite(VISION_X_OFFSET, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_GATE_LEFT], 0);
+  }
   
 
   // Close right wall ..
   
-  #ifdef WALL_STYLE_1
-  if (myLevel->getMapElement(myHero->getX() + closeRightX, myHero->getY() + closeRightY) > MapElement::Floor) {
-    arduboy.drawCompressed(VISION_X_OFFSET + 48, VISION_Y_OFFSET, myLevel->getMapMasks()[MAP_MASK_CLOSE_RIGHT], BLACK);
-    arduboy.drawCompressed(VISION_X_OFFSET + 48, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_RIGHT], WHITE);
-  }
-  #endif
-  #ifdef WALL_STYLE_2
-  if (myLevel->getMapElement(myHero->getX() + closeRightX, myHero->getY() + closeRightY) == MapElement::Floor) {
-    Sprites::drawOverwrite(VISION_X_OFFSET + 49, VISION_Y_OFFSET + 16, myLevel->getMapImages()[MAP_IMAGE_CLOSE_RIGHT], 0);
-  }
-  #endif
-  #ifdef WALL_STYLE_3
-  if (myLevel->getMapElement(myHero->getX() + closeRightX, myHero->getY() + closeRightY) > MapElement::Floor) {
+  rightMapElement = myLevel->getMapElement(myHero->getX() + closeRightX, myHero->getY() + closeRightY);
+  if (rightMapElement == MapElement::Wall) {
     Sprites::drawOverwrite(VISION_X_OFFSET + 48, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_RIGHT], 0);
   }
-  #endif
+  else if (rightMapElement == MapElement::LockedGate) {
+    Sprites::drawOverwrite(VISION_X_OFFSET + 49, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_GATE_RIGHT], 0);
+  }
 
 
   // Render enemies ..
@@ -584,14 +472,13 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
                 arduboy.fillRect(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), TILE_SIZE, TILE_SIZE, WHITE);
                 break;
 
+              case MapElement::LockedGate:
               case MapElement::LockedDoor:
-              case MapElement::LevelLockedDoor:
                 arduboy.fillRect(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), TILE_SIZE, TILE_SIZE, WHITE);
                 arduboy.drawLine(MAP_X_OFFSET + (drawX * TILE_OFFSET) + 1, MAP_Y_OFFSET + (drawY * TILE_OFFSET) + 1, MAP_X_OFFSET + (drawX * TILE_OFFSET) + 1, MAP_Y_OFFSET + (drawY * TILE_OFFSET) + 2, BLACK);
                 break;
 
               case MapElement::UnlockedDoor:
-              case MapElement::LevelUnlockedDoor:
                 arduboy.fillRect(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), TILE_SIZE, TILE_SIZE, WHITE);
                 arduboy.drawLine(MAP_X_OFFSET + (drawX * TILE_OFFSET) + 2, MAP_Y_OFFSET + (drawY * TILE_OFFSET) + 1, MAP_X_OFFSET + (drawX * TILE_OFFSET) + 2, MAP_Y_OFFSET + (drawY * TILE_OFFSET) + 2, BLACK);
                 break;

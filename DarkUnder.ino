@@ -38,15 +38,10 @@ uint8_t attackingEnemyIdx = 0;
 
 const uint8_t *levels[] = { level_00, level_01, level_02 };
 const uint8_t *map_tiles[] = { tile_00, tile_01, tile_02 };
-const uint8_t *map_images[] = { visionBack, closeWallFront, closeDoorLocked, closeDoorLevelLocked, closeDoorUnlocked, closeDoorLevelUnlocked, closeWallLeft, closeWallRight, 
-                                midWallFront, midDoorLocked, midDoorLevelLocked, midDoorUnlocked, midDoorLevelUnlocked, midWallLeft, midWallRight, 
-                                farWallFrontDoorLocked, farWallFrontDoorUnlocked, farWallLeft, farWallRight };
 
-#ifdef WALL_STYLE_1
-const uint8_t *map_masks[] = { closeWallFront_Mask, closeDoor_Mask, closeWallLeft_Mask, closeWallRight_Mask, 
-                               midWallFront_Mask, midWallLeft_Mask, midWallRight_Mask, 
-                               farWallFrontDoor_Mask, farWallLeft_Mask, farWallRight_Mask };
-#endif 
+const uint8_t *map_images[] = { visionBack, closeWallFront, closeGateLocked, closeDoorLocked, closeDoorUnlocked, closeWallLeft, closeWallRight, closeGateLeft, closeGateRight,
+                                midWallFront, midDoorLocked, midDoorLevelLocked, midDoorLevelUnlocked, midWallLeft, midWallRight, midGateLeft, midGateRight,
+                                farDoorLocked, farDoorLevelLocked, farDoorUnlocked, farDoorLevelUnlocked, farWallLeft, farWallRight };
 
 const uint8_t *direction_images[] = { directionN, directionE, directionS, directionW };
 
@@ -352,11 +347,11 @@ void inventoryLoop() {
                 int16_t deltaX = doors[i].getX() - myHero.getX();
                 int16_t deltaY = doors[i].getY() - myHero.getY();
                 
-                if (doors[i].getEnabled() && (doors[i].getItemType() == ItemType::LevelLockedDoor || doors[i].getItemType() == ItemType::LockedDoor) && 
+                if (doors[i].getEnabled() && (doors[i].getItemType() == ItemType::LockedDoor || doors[i].getItemType() == ItemType::LockedGate) && 
                     absT(deltaX) <= 1 && absT(deltaY) <= 1) {
 
+                  if (doors[i].getItemType() == ItemType::LockedGate)       doors[i].setEnabled(false);
                   if (doors[i].getItemType() == ItemType::LockedDoor)       doors[i].setItemType(ItemType::UnlockedDoor);
-                  if (doors[i].getItemType() == ItemType::LevelLockedDoor)  doors[i].setItemType(ItemType::LevelUnlockedDoor);
                       
                   myHero.setInventory(inventory_selection, Inventory::None);
                   inventory_action = INVENTORY_ACTION_USE;
@@ -766,11 +761,6 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   
   myLevel->setLevel(level);
   myLevel->setMapImages(map_images);  
-
-  #ifdef WALL_STYLE_1
-  myLevel->setMapMasks(map_masks);
-  #endif
-
   myLevel->setDoors(doors);
   myLevel->setStartPos(idx);
   gameState = GameState::Move;

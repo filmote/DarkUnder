@@ -16,10 +16,6 @@ const uint8_t * Level::getLevel()                           { return _level; }
 const uint8_t * const * Level::getMapTiles()                { return _map_tiles; }
 const uint8_t * const * Level::getMapImages()               { return _map_images; }
 
-#ifdef WALL_STYLE_1
-const uint8_t * const * Level::getMapMasks()                { return _map_masks; }
-#endif
-
 char * Level::getTitleLine1()                               { return _titleLine1; }
 char * Level::getTitleLine2()                               { return _titleLine2; }
 
@@ -31,12 +27,11 @@ void Level::setHeight(const uint32_t value)                 { _height = value; }
 void Level::setLevel(const uint8_t *value)                  { _level = value; }
 void Level::setMapTiles(const uint8_t * const *value)       { _map_tiles = value; }
 void Level::setMapImages(const uint8_t * const *value)      { _map_images = value; }
-
-#ifdef WALL_STYLE_1
-void Level::setMapMasks(const uint8_t * const *value)       { _map_masks = value; }
-#endif
   
 const MapElement Level::getMapElement(uint32_t x, uint32_t y) {
+
+
+  // Is there a door in this location?
 
   for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
 
@@ -48,12 +43,20 @@ const MapElement Level::getMapElement(uint32_t x, uint32_t y) {
 
   }
 
+
+  // If the coordinates are for the outside bounday of the map then it has to be a wall ..
+
+  if (x == 0 || y == 0 || x == (_width * MAP_TILE_WIDTH) - 1 || y == (_height * MAP_TILE_HEIGHT) - 1)  { return MapElement::Wall; }
+
+
+  // Otherwise, work it out from the map ..
+
   uint8_t tileNumber = pgm_read_byte(&_level[_startPos + (x / MAP_TILE_WIDTH) + ((y / MAP_TILE_HEIGHT) * _width)]);
 
   loadTile((Rotation)(tileNumber & 0xC0), tileNumber, _map_tiles[(tileNumber & 0x3F)]);
   uint16_t mapElement = _tileData[(x % MAP_TILE_WIDTH) + (((y % MAP_TILE_HEIGHT) / 8) * MAP_TILE_PHYSICAL_WIDTH)] & (1 << (y % MAP_TILE_HEIGHT % 8));
-
-  return (MapElement)mapElement;
+ 
+  return (mapElement > 0 ? MapElement::Wall : MapElement::Floor);
 
 }
 
