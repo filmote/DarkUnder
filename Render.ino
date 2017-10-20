@@ -136,7 +136,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
         case MapElement::LockedGate:
           imageIndex = MAP_IMAGE_FAR_LOCKED;
-          xOffset = 28;
+          xOffset = 27;
           yOffset = 26;
           break;
 
@@ -150,7 +150,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
       
       }
 
-      for (uint8_t i = VISION_X_OFFSET; i < VISION_X_OFFSET + 62; ++i) {  
+      for (uint8_t i = VISION_X_OFFSET + 1; i < VISION_X_OFFSET + 62; ++i) {  
         arduboy.drawPixel(i, VISION_Y_OFFSET + 27 + (i %2), WHITE);
       }
 
@@ -167,7 +167,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   
   if (horizon2Plus) {
     if ((MapElement)myLevel->getMapElement(myHero->getX() + farLeftX, myHero->getY() + farLeftY) > MapElement::Floor) {
-      Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_LEFT], 0);
+     Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_LEFT], 0);
     }
   }
  
@@ -176,7 +176,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   if (horizon2Plus) {
     if ((MapElement)myLevel->getMapElement(myHero->getX() + farRightX, myHero->getY() + farRightY) > MapElement::Floor) {
-      Sprites::drawOverwrite(VISION_X_OFFSET + 35, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_RIGHT], 0);
+     Sprites::drawOverwrite(VISION_X_OFFSET + 35, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_RIGHT], 0);
     }
   }
  
