@@ -133,9 +133,6 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
       switch (mapElement) {
 
-        case MapElement::Wall:
-          break;
-
         case MapElement::LockedGate:
           imageIndex = MAP_IMAGE_FAR_LOCKED;
           break;
@@ -195,9 +192,6 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
       switch (mapElement) {
 
-        case MapElement::Wall:
-          break;
-
         case MapElement::LockedGate:
           imageIndex = MAP_IMAGE_MID_GATE_LOCKED;
           xOffset = 24;
@@ -231,32 +225,28 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   // Mid left wall ..
   
-  MapElement leftMapElement = myLevel->getMapElement(myHero->getX() + middleLeftX, myHero->getY() + middleLeftY);
-  Serial.println((uint8_t)leftMapElement);
-  if (leftMapElement == MapElement::Wall) {
+  MapElement mapElement = myLevel->getMapElement(myHero->getX() + middleLeftX, myHero->getY() + middleLeftY);
+  if (mapElement == MapElement::Wall) {
     Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_MID_LEFT], 0);    
   }
-  else if (leftMapElement == MapElement::LockedGate) {
+  else if (mapElement == MapElement::LockedGate) {
     Sprites::drawOverwrite(VISION_X_OFFSET + 15, VISION_Y_OFFSET + 15, myLevel->getMapImages()[MAP_IMAGE_MID_GATE_LEFT], 0);    
   }
 
   // Mid right wall ..
   
-  MapElement rightMapElement = myLevel->getMapElement(myHero->getX() + middleRightX, myHero->getY() + middleRightY);
-
-  Serial.println((uint8_t)rightMapElement);
-
-  if (rightMapElement == MapElement::Wall) {
+  mapElement = myLevel->getMapElement(myHero->getX() + middleRightX, myHero->getY() + middleRightY);
+  if (mapElement == MapElement::Wall) {
     Sprites::drawOverwrite(VISION_X_OFFSET + 39, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_MID_RIGHT], 0);    
   }
-  else if (rightMapElement == MapElement::LockedGate) {
+  else if (mapElement == MapElement::LockedGate) {
     Sprites::drawOverwrite(VISION_X_OFFSET + 39, VISION_Y_OFFSET + 15, myLevel->getMapImages()[MAP_IMAGE_MID_GATE_RIGHT], 0);    
   }
   
 
   // Close front wall ..
   
-  MapElement mapElement = (MapElement)myLevel->getMapElement(myHero->getX() + closeFrontX, myHero->getY() + closeFrontY);
+  mapElement = (MapElement)myLevel->getMapElement(myHero->getX() + closeFrontX, myHero->getY() + closeFrontY);
 
   imageIndex = -1;
   uint8_t xOffset = 0;
@@ -302,22 +292,22 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   // Close left wall ..
 
-  leftMapElement = myLevel->getMapElement(myHero->getX() + closeLeftX, myHero->getY() + closeLeftY);
-  if (leftMapElement == MapElement::Wall) {
+  mapElement = myLevel->getMapElement(myHero->getX() + closeLeftX, myHero->getY() + closeLeftY);
+  if (mapElement == MapElement::Wall) {
     Sprites::drawOverwrite(VISION_X_OFFSET, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_LEFT], 0);
   }
-  else if (leftMapElement == MapElement::LockedGate) {
+  else if (mapElement == MapElement::LockedGate) {
     Sprites::drawOverwrite(VISION_X_OFFSET, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_GATE_LEFT], 0);
   }
   
 
   // Close right wall ..
   
-  rightMapElement = myLevel->getMapElement(myHero->getX() + closeRightX, myHero->getY() + closeRightY);
-  if (rightMapElement == MapElement::Wall) {
+  mapElement = myLevel->getMapElement(myHero->getX() + closeRightX, myHero->getY() + closeRightY);
+  if (mapElement == MapElement::Wall) {
     Sprites::drawOverwrite(VISION_X_OFFSET + 48, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_RIGHT], 0);
   }
-  else if (rightMapElement == MapElement::LockedGate) {
+  else if (mapElement == MapElement::LockedGate) {
     Sprites::drawOverwrite(VISION_X_OFFSET + 49, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_GATE_RIGHT], 0);
   }
 
