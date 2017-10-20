@@ -371,7 +371,10 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
     Sprites::drawOverwrite(VISION_X_OFFSET + 14, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_CLOSE_FRONT], 0);
     #endif
     #ifdef WALL_STYLE_3
-    Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_CLOSE_FRONT], 0);
+    if (imageIndex == 0) {
+      Serial.println("asdasd");
+      Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_CLOSE_FRONT], 0);
+    }
     #endif
 
     if (imageIndex > 0) {
@@ -383,7 +386,8 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
       Sprites::drawOverwrite(VISION_X_OFFSET + 21, VISION_Y_OFFSET + 21, myLevel->getMapImages()[imageIndex], 0);
       #endif
       #ifdef WALL_STYLE_3
-      Sprites::drawOverwrite(VISION_X_OFFSET + 21, VISION_Y_OFFSET + 21, myLevel->getMapImages()[imageIndex], 0);
+      Serial.println("zzz");
+//      Sprites::drawOverwrite(VISION_X_OFFSET + 15, VISION_Y_OFFSET + 9, myLevel->getMapImages()[imageIndex], 0);
       #endif
     }
 

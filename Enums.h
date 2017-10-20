@@ -3,6 +3,8 @@
 
 // ----  Memory saving switches -------
 
+#undef  USE_BEGIN
+
         // 46 bytes
 #define USE_FLASHLIGHT
 
