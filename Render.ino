@@ -11,8 +11,6 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   bool horizon3Plus = false;
   bool horizon2Plus = false;
 
-  int8_t imageIndex = -1;
-
   int8_t farLeftX = 0;
   int8_t farFrontX = 0;
   int8_t farRightX = 0;
@@ -127,7 +125,10 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   if (horizon3Plus) {
     
     MapElement mapElement = (MapElement)myLevel->getMapElement(myHero->getX() + farFrontX, myHero->getY() + farFrontY);
-    imageIndex = -1;
+    
+    int8_t imageIndex = -1;
+    int8_t xOffset = 29;
+    int8_t yOffset = 25;
 
     if (mapElement > MapElement::Floor) {
 
@@ -135,6 +136,8 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
         case MapElement::LockedGate:
           imageIndex = MAP_IMAGE_FAR_LOCKED;
+          xOffset = 28;
+          yOffset = 26;
           break;
 
         case MapElement::LockedDoor:
@@ -152,7 +155,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
       }
 
       if (imageIndex > 0) {
-        Sprites::drawOverwrite(VISION_X_OFFSET + 29, VISION_Y_OFFSET + 25, myLevel->getMapImages()[imageIndex], 0);
+        Sprites::drawOverwrite(VISION_X_OFFSET + xOffset, VISION_Y_OFFSET + yOffset, myLevel->getMapImages()[imageIndex], 0);
       }
       
     }
@@ -182,11 +185,11 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   
   if (horizon2Plus) {
 
-    uint8_t xOffset = 24;
-    uint8_t yOffset = 23;
+    int8_t imageIndex = -1;
+    int8_t xOffset = 24;
+    int8_t yOffset = 23;
 
     MapElement mapElement = (MapElement)myLevel->getMapElement(myHero->getX() + middleFrontX, myHero->getY() + middleFrontY);
-    imageIndex = -1;
     
     if (mapElement > MapElement::Floor) {
 
@@ -247,13 +250,13 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   // Close front wall ..
   
   mapElement = (MapElement)myLevel->getMapElement(myHero->getX() + closeFrontX, myHero->getY() + closeFrontY);
-
-  imageIndex = -1;
-  uint8_t xOffset = 0;
-  uint8_t yOffset = 0;
   
   if (mapElement > MapElement::Floor) {
 
+    int8_t imageIndex = -1;
+    int8_t xOffset = 0;
+    int8_t yOffset = 0;
+  
     switch (mapElement) {
 
       case MapElement::Wall:
