@@ -245,6 +245,7 @@ void itemLoop() {
     font3x5.print(F("NO INV\nSLOTS!"));
 
           }
+        default: break;
 
       }
 
@@ -366,6 +367,7 @@ void inventoryLoop() {
 
               }
               break;
+            default: break;
           }
 
         }
@@ -382,6 +384,8 @@ void inventoryLoop() {
       }
 
       break;
+    default: break;
+
 
   }
 
@@ -571,6 +575,8 @@ uint16_t battleLoop() {
       }
 
       break;   
+    default: break;
+
 
   }
 
