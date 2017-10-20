@@ -127,7 +127,7 @@ void setup() {
  */
 void loop() {
   
-  uint16_t delayLength;
+  uint16_t delayLength = 0;
   if (!(arduboy.nextFrame())) return;
   
   arduboy.clear();
@@ -730,7 +730,7 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {  
 
     enemies[i].setEnabled(i < numberOfEnemies);
-    if(enemies[i].getEnabled()) {	
+    if(enemies[i].getEnabled()) {
       enemies[i].setHitPoints(ENEMY_MAX_HITPOINTS);
       enemies[i].setEnemyType((EnemyType)pgm_read_byte(&level[idx++]));
       enemies[i].setX(pgm_read_byte(&level[idx++]));
