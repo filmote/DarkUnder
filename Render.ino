@@ -12,7 +12,9 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   bool horizon2Plus = false;
 
   int8_t imageIndex = -1;
+  #ifdef WALL_STYLE_1
   int8_t maskIndex = -1;
+  #endif
 
   int8_t farLeftX = 0;
   int8_t farFrontX = 0;
@@ -138,7 +140,9 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
     
     MapElement mapElement = (MapElement)myLevel->getMapElement(myHero->getX() + farFrontX, myHero->getY() + farFrontY);
     imageIndex = -1;
+    #ifdef WALL_STYLE_1
     maskIndex = -1;
+    #endif
 
     if (mapElement > MapElement::Floor) {
 
@@ -150,13 +154,17 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
         case MapElement::LockedDoor:
         case MapElement::LevelLockedDoor:
           imageIndex = MAP_IMAGE_FAR_LOCKED;
+          #ifdef WALL_STYLE_1
           maskIndex = MAP_MASK_FAR_FRONT_DOOR;
+          #endif
           break;
 
         case MapElement::UnlockedDoor:
         case MapElement::LevelUnlockedDoor:
           imageIndex = MAP_IMAGE_FAR_UNLOCKED;
+          #ifdef WALL_STYLE_1
           maskIndex = MAP_MASK_FAR_FRONT_DOOR;
+          #endif
           break;
         default: break;
       
@@ -339,7 +347,9 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   
   MapElement mapElement = (MapElement)myLevel->getMapElement(myHero->getX() + closeFrontX, myHero->getY() + closeFrontY);
   imageIndex = -1;
+  #ifdef WALL_STYLE_1
   maskIndex = MAP_MASK_CLOSE_FRONT_DOOR;
+  #endif
   
   if (mapElement > MapElement::Floor) {
 
