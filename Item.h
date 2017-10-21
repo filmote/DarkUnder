@@ -5,7 +5,6 @@
 #include "Item.h"
 #include "Base.h"
 #include "Enums.h"
-#include "LevelData.h"
 
 class Item : public Base {
 

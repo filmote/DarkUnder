@@ -4,8 +4,6 @@
 
 Enemy::Enemy() : Base() { }
 
-
-
 const EnemyType Enemy::getEnemyType()             { return _enemyType; }
 const bool Enemy::getEnabled()                    { return _enabled; }
 const int8_t Enemy::getHitPoints()                { return _hitPoints; }

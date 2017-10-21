@@ -437,7 +437,6 @@ uint16_t battleLoop() {
     case GameState::Battle_EnemyAttacks_Init:
       
       font3x5.print(getEnemyName(enemies[attackingEnemyIdx].getEnemyType()));
-
       font3x5.print(F("\nATTACKS!"));
       
       diceDelay = DICE_DELAY_START;
