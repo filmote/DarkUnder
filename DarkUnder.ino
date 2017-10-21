@@ -49,7 +49,7 @@ const uint8_t *direction_images[] = { directionN, directionE, directionS, direct
 // Inventory settings ..
 
 const uint8_t *inventory_images[] = { NULL, inv_key, inv_potion, inv_scroll, inv_shield, inv_sword };
-const Point inventory_Coords[] = { Point{11, 8}, Point{28, 8}, Point{45, 8}, Point{28, 35}, Point{45, 35} };
+const Point inventory_Coords[] = { INVENTORY_POSITION_1, INVENTORY_POSITION_2, INVENTORY_POSITION_3, INVENTORY_POSITION_4, INVENTORY_POSITION_5 };
 uint8_t inventory_selection = 0;
 uint8_t inventory_action = 0;
 

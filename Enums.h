@@ -93,6 +93,11 @@
 
 #define INVENTORY_ACTION_USE              0
 #define INVENTORY_ACTION_DELETE           1
+#define INVENTORY_POSITION_1              Point{11, 8}
+#define INVENTORY_POSITION_2              Point{28, 8}
+#define INVENTORY_POSITION_3              Point{45, 8}
+#define INVENTORY_POSITION_4              Point{28, 35}
+#define INVENTORY_POSITION_5              Point{45, 35}
 
 #define ITEM_ACTION_USE                   0
 #define ITEM_ACTION_DELETE                1
