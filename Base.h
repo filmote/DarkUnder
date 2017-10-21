@@ -9,8 +9,8 @@ class Base {
 
     Base();
 
-    const int16_t getX() const;
-    const int16_t getY() const;
+    int16_t getX() const;
+    int16_t getY() const;
     
     void setX(const int16_t value);
     void setY(const int16_t value);

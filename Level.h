@@ -11,12 +11,12 @@ class Level {
   public:
 
     Level();
-    const MapElement getMapElement(uint32_t x, uint32_t y);
+    MapElement getMapElement(uint32_t x, uint32_t y);
     void loadTile(Rotation rotation, uint8_t tileNumber, const uint8_t *a);
 
-    const uint32_t getStartPos();
-    const uint32_t getWidth();
-    const uint32_t getHeight();
+    uint32_t getStartPos();
+    uint32_t getWidth();
+    uint32_t getHeight();
 
     const Item * getDoors();
     const uint8_t * getLevel();

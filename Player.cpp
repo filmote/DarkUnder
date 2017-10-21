@@ -12,12 +12,12 @@ Player::Player() : Base() {
     
 }
 
-const Direction Player::getDirection()              { return _direction; }
-const int8_t Player::getHitPoints()                 { return _hitPoints; }
-const int8_t Player::getDefence()                   { return _defence; }
-const int8_t Player::getAttackPower()               { return _attackPower; }
-const int8_t Player::getMagic()                     { return _magic; }
-const Inventory Player::getInventory(uint8_t slot)  { return _inventory[slot]; }
+Direction Player::getDirection()              { return _direction; }
+int8_t Player::getHitPoints()                 { return _hitPoints; }
+int8_t Player::getDefence()                   { return _defence; }
+int8_t Player::getAttackPower()               { return _attackPower; }
+int8_t Player::getMagic()                     { return _magic; }
+Inventory Player::getInventory(uint8_t slot)  { return _inventory[slot]; }
 
 void Player::setDirection(const Direction value)    { _direction = value; }
 void Player::setHitPoints(const int8_t value)       { _hitPoints = value; }
@@ -35,7 +35,7 @@ void Player::setInventory(const int8_t slot, const Inventory item) {
     
 }
 
-const int8_t Player::getConsumableSlot() { 
+int8_t Player::getConsumableSlot() { 
 
     if (_inventory[0] == Inventory::None) return 0;
     if (_inventory[1] == Inventory::None) return 1;
