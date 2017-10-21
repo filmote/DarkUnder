@@ -5,6 +5,8 @@
 
 #undef  USE_BEGIN
 
+#undef USE_DICE_ANIMATIONS
+
         // 46 bytes
 #define USE_FLASHLIGHT
 
@@ -86,7 +88,13 @@
 #define ENEMY_MAX_ATTACK                  4
 #define ENEMY_MAX_HITPOINTS               10
 
+#ifdef USE_DICE_ANIMATIONS
 #define HUMAN_MAX_ATTACK                  4
+#endif
+
+#ifndef USE_DICE_ANIMATIONS
+#define HUMAN_MAX_ATTACK                  5
+#endif
 
 #define DIRECTION_X_OFFSET                66
 #define DIRECTION_Y_OFFSET                43
