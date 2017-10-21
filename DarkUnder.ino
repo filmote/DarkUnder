@@ -167,6 +167,7 @@ void loop() {
     case GameState::Battle_PlayerDecides:
     case GameState::Battle_PlayerAttacks:
     case GameState::Battle_PlayerDefends:
+    case GameState::Battle_PlayerCastsSpell:
     case GameState::Battle_PlayerDies:
       delayLength = battleLoop();
       break;
@@ -566,6 +567,13 @@ uint16_t battleLoop() {
       }
 
       break;   
+
+    case GameState::Battle_PlayerCastsSpell:
+    
+      arduboy.drawCompressed(12, 15, fight_hero_spell_Mask, BLACK);
+      arduboy.drawCompressed(12, 15, fight_hero_spell, WHITE);
+
+      break;
 
   }
 

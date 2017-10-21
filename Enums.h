@@ -114,6 +114,7 @@ enum class GameState : uint8_t {
   Battle_PlayerDecides,
   Battle_PlayerAttacks,
   Battle_PlayerDefends,
+  Battle_PlayerCastsSpell,
   Battle_PlayerDies,
 };
 
