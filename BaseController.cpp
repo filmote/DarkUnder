@@ -12,8 +12,17 @@ BaseController::BaseController() {}
 bool BaseController::moveLegal(Enemy *allEnemies, Player *player, Level *level, int x, int y) {
     
   if ((level->getMapElement(x, y) == MapElement::Floor) ||
-      (level->getMapElement(x, y) == MapElement::UnlockedDoor) ||
-      (player != nullptr && level->getMapElement(x, y) == MapElement::LevelUnlockedDoor)) {
+      (player != nullptr && level->getMapElement(x, y) == MapElement::UnlockedDoor)) {
+
+
+
+    // Is there a locked door in the way ?
+
+    for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
+      
+      if (level->getDoors()[i].getEnabled() && level->getDoors()[i].getX() == x && level->getDoors()[i].getY() == y)     { return false; }
+  
+    }
 
 
     // Is another enemy in the same position ?
@@ -22,7 +31,7 @@ bool BaseController::moveLegal(Enemy *allEnemies, Player *player, Level *level, 
 
       if (allEnemies[i].getEnabled()) {
 
-        if (allEnemies[i].getX() == x && allEnemies[i].getY() == y)         { return false; }
+        if (allEnemies[i].getX() == x && allEnemies[i].getY() == y)           { return false; }
 
       }
 

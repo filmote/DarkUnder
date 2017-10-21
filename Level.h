@@ -23,10 +23,6 @@ class Level {
     const uint8_t * const * getMapTiles();
     const uint8_t * const * getMapImages();
 
-    #ifdef WALL_STYLE_1
-    const uint8_t * const * getMapMasks();
-    #endif
-
     char * getTitleLine1();
     char * getTitleLine2();
     
@@ -38,10 +34,6 @@ class Level {
     void setLevel(const uint8_t *value);
     void setMapTiles(const uint8_t * const *value);
     void setMapImages(const uint8_t * const *value);
-
-    #ifdef WALL_STYLE_1
-    void setMapMasks(const uint8_t * const *value);
-    #endif
     
   private:
 
@@ -62,11 +54,6 @@ class Level {
     const uint8_t * _level;
     const uint8_t * const * _map_tiles;
     const uint8_t * const * _map_images;
-
-    #ifdef WALL_STYLE_1
-    const uint8_t * const * _map_masks;
-    #endif
-
     const Item * _doors;
 
 

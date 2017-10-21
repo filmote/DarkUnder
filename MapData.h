@@ -43,8 +43,9 @@ const uint8_t PROGMEM level_00[] = {
 1,                                                 // Number of items
 (uint8_t)ItemType::Scroll, 13, 1,                   // Item type, starting position
 
-1,                                                 // Number of doors
+2,                                                 // Number of doors
 (uint8_t)ItemType::LockedDoor, 6, 1,               // Item type, starting position
+(uint8_t)ItemType::LockedGate, 3, 2,               // Item type, starting position
 
                                                    // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
 
