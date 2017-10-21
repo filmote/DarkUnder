@@ -379,7 +379,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
               font3x5.print(F("SOME KEYS"));
               break;
         
-            case ItemType::HPPotion:
+            case ItemType::Potion:
               font3x5.print(F("HP POTION"));
               break;
         

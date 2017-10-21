@@ -37,11 +37,11 @@ const uint8_t PROGMEM level_00[] = {
 2, 2,                                              // Dimension of level in tiles (a tile is a 15x15 map)
 
 2,                                                 // Number of enemies
-(uint8_t)EnemyType::Wraith, 14, 1,                 // Enemy type, starting position
+(uint8_t)EnemyType::Wraith, 1, 11,                 // Enemy type, starting position
 (uint8_t)EnemyType::Slime, 23, 1,                  // Enemy type, starting position
 
 1,                                                 // Number of items
-(uint8_t)ItemType::Scroll, 15, 1,                  // Item type, starting position
+(uint8_t)ItemType::Potion, 1, 5,                   // Item type, starting position
 
 2,                                                 // Number of doors
 (uint8_t)ItemType::LockedDoor, 6, 1,               // Item type, starting position
@@ -71,7 +71,7 @@ const uint8_t PROGMEM level_01[] = {
 (uint8_t)EnemyType::Beholder, 5, 1,                // Enemy type, starting position
 
 1,                                                 // Number of items
-(uint8_t)ItemType::HPPotion, 3, 1,                 // Item type, starting position
+(uint8_t)ItemType::Potion, 3, 1,                   // Item type, starting position
 
 1,                                                 // Number of doors
 (uint8_t)ItemType::LockedDoor, 6, 1,               // Item type, starting position
@@ -97,10 +97,10 @@ const uint8_t PROGMEM level_02[] = {
 
 2,                                                 // Number of enemies
 (uint8_t)EnemyType::Dragon, 3, 1,                  // Enemy type, starting position
-(uint8_t)EnemyType::Displacer, 5, 1,               // Enemy type, starting position
+(uint8_t)EnemyType::Displacer, 1, 11,               // Enemy type, starting position
 
 1,                                                 // Number of items
-(uint8_t)ItemType::HPPotion, 10, 1,                // Item type, starting position
+(uint8_t)ItemType::Potion, 10, 1,                  // Item type, starting position
 
 1,                                                 // Number of doors
 (uint8_t)ItemType::LockedDoor, 4, 1,               // Item type, starting position

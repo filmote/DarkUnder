@@ -5,7 +5,8 @@
 
 #undef  USE_BEGIN
 
-#undef USE_DICE_ANIMATIONS
+        // 558 bytes
+#undef  USE_DICE_ANIMATIONS
 
         // 46 bytes
 #define USE_FLASHLIGHT
@@ -106,6 +107,7 @@
 #define INVENTORY_POSITION_3              Point{45, 8}
 #define INVENTORY_POSITION_4              Point{28, 35}
 #define INVENTORY_POSITION_5              Point{45, 35}
+#define INVENTORY_POTION_HP_INC           5
 
 #define ITEM_ACTION_USE                   0
 #define ITEM_ACTION_DELETE                1
@@ -128,6 +130,7 @@ enum class GameState : uint8_t {
   Battle_PlayerDefends,
   Battle_PlayerCastsSpell,
   Battle_PlayerDies,
+  NextLevel,
 };
 
 enum class Inventory: uint8_t {
@@ -146,7 +149,9 @@ enum class SplashButtons : uint8_t {
 
 enum class FightButtons : uint8_t {
   Attack,
-  Defend,
+  Shield,
+  Magic,
+  Potion,
   Count
 };
 
@@ -178,7 +183,7 @@ enum class EnemyType : uint8_t {
 enum class ItemType : uint8_t {
   None,
   Key,
-  HPPotion,
+  Potion,
   Scroll,
   Shield,
   Sword,

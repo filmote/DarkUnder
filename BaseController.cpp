@@ -10,17 +10,28 @@
 BaseController::BaseController() {}
 
 bool BaseController::moveLegal(Enemy *allEnemies, Player *player, Level *level, int x, int y) {
-    
+   
+  Serial.print("dd ");
+  Serial.print((player != nullptr ? "t" : "f"));
+  Serial.print(" ");
+  Serial.println((uint8_t)level->getMapElement(x, y));
+
   if ((level->getMapElement(x, y) == MapElement::Floor) ||
       (player != nullptr && level->getMapElement(x, y) == MapElement::UnlockedDoor)) {
 
-
+        Serial.print("valid ");
+        Serial.print(x);
+        Serial.print(" ");
+        Serial.println(y);
+        
 
     // Is there a locked door in the way ?
 
     for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
       
-      if (level->getDoors()[i].getEnabled() && level->getDoors()[i].getX() == x && level->getDoors()[i].getY() == y)     { return false; }
+      Item door = level->getDoors()[i];
+
+      if ((door.getItemType() == ItemType::LockedDoor || door.getItemType() == ItemType::LockedGate) && door.getEnabled() && door.getX() == x && door.getY() == y)     { return false; }
   
     }
 

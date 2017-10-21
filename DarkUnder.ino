@@ -110,7 +110,7 @@ void setup() {
   myLevel.setMapTiles(map_tiles);
 
   myHero.setInventory(0, Inventory::Key);
-  myHero.setInventory(1, Inventory::Potion);
+//  myHero.setInventory(1, Inventory::Potion);
   myHero.setInventory(2, Inventory::Scroll);
   myHero.setInventory(3, Inventory::Shield);
   myHero.setInventory(4, Inventory::Sword);
@@ -174,6 +174,10 @@ void loop() {
       delayLength = battleLoop();
       break;
       
+    case GameState::NextLevel:
+      displayNextLevel();
+      break;
+
   }
 
   arduboy.display();
@@ -206,9 +210,6 @@ void itemLoop() {
   arduboy.drawCompressed(70, 45, inv_hand, WHITE);
   arduboy.drawCompressed(81, 45, inv_trash, WHITE);
 
-  if (item_no_slots) {
-  }
-
   uint8_t buttons = arduboy.justPressedButtons();
   
   if ((buttons & LEFT_BUTTON_MASK) && item_action > ITEM_ACTION_USE)         { --item_action; item_no_slots = false; }
@@ -223,26 +224,49 @@ void itemLoop() {
 
     if (item_action == ITEM_ACTION_USE) {
 
-      switch (items[savedItem].getItemType()) {
+      Inventory inventoryType = (Inventory)((uint8_t)items[savedItem].getItemType());
+      int8_t inventorySlot = -1;
 
-        case ItemType::Key:
-        case ItemType::HPPotion:
-        case ItemType::Scroll:
+      switch (inventoryType) {
 
-          if (myHero.getConsumableSlot() >= 0) {
+        case Inventory::Key:
 
-            myHero.setInventory(myHero.getConsumableSlot(), (Inventory)((uint8_t)items[savedItem].getItemType()));
+          inventorySlot = myHero.getConsumableSlot();
+          if (inventorySlot >= 0) {
+
+            myHero.setInventory(inventorySlot, inventoryType);
             items[savedItem].setEnabled(false);
             item_no_slots = false;
-
+            gameState = GameState::Move;
+            
           }
           else {
           
             item_no_slots = true;
-    font3x5.setCursor(95, 44);
-    font3x5.print(F("NO INV\nSLOTS!"));
 
           }
+          break;
+          
+        case Inventory::Potion:
+        case Inventory::Scroll:
+
+          inventorySlot = myHero.getSlotNumber(inventoryType);
+          if (inventorySlot < 0) { inventorySlot = myHero.getConsumableSlot(); }
+
+          if (inventorySlot >= 0) {
+
+            myHero.setInventory(inventorySlot, inventoryType);
+            items[savedItem].setEnabled(false);
+            item_no_slots = false;
+            gameState = GameState::Move;
+            
+          }
+          else {
+          
+            item_no_slots = true;
+
+          }
+
         default: break;
 
       }
@@ -255,6 +279,14 @@ void itemLoop() {
       item_no_slots = false;
     
     }
+
+  }
+
+
+  if (item_no_slots) {
+    
+    font3x5.setCursor(95, 44);
+    font3x5.print(F("NO INV\nSLOTS!"));
 
   }
 
@@ -365,7 +397,15 @@ void inventoryLoop() {
 
               }
               break;
-            default: break;
+
+          case Inventory::Potion:
+            myHero.setHitPoints(myHero.getHitPoints() + INVENTORY_POTION_HP_INC);
+            myHero.decInventoryCount(Inventory::Potion);
+            inventory_action = INVENTORY_ACTION_USE;
+            gameState = GameState::InventorySelect;
+            break;
+
+          default: break;
           }
 
         }
@@ -420,7 +460,8 @@ void diceDoOnce(uint8_t maxValue, uint8_t offset) {
  *  Battle_EnemyAttacks -         Displays the dice animation and inflicts damage to the player.  
  *  Battle_PlayerDecides -        Presents the players battle options including attack, defend, cast a spell ..
  *  Battle_PlayerAttacks -        Throws the dice and inflicts damage on the enemy.
- *  Battle_PlayerDefends -        Inflicts 1 point of damage on the user and randomly gains player hit points.
+ *  Battle_PlayerDefends -        Inflicts 1 point of damage on the enemy and randomly gains player hit points.
+ *  Battle_PlayerCastsSpell -     Inflicts 5 points of damage on the enemy.
  *  Battle_EnemyDies -            Handles and end of battel where the enemy dies.
  *  
  * -----------------------------------------------------------------------------------------------------------------------------
@@ -428,13 +469,12 @@ void diceDoOnce(uint8_t maxValue, uint8_t offset) {
 uint16_t battleLoop() {
 
   uint16_t delayLength = 0;
-
+  
   drawPlayerVision(&myHero, &myLevel);
   drawMapAndStatistics(&myHero, &myLevel);  
   Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, fight_icon, 0);
 
   font3x5.setCursor(80,44);
-  uint8_t buttons = arduboy.justPressedButtons();
 
   switch (gameState) {
 
@@ -500,27 +540,79 @@ uint16_t battleLoop() {
       break;
 
     case GameState::Battle_PlayerDecides:
+      {
+        bool fightButtons[4] = { true, false, false, false };
 
-      arduboy.drawCompressed(80, 44, fight_actions, WHITE);
-      Sprites::drawSelfMasked(80 + (((uint8_t)fightButton) * 12), 56, icnSelect, 0);
+        uint8_t buttons = arduboy.justPressedButtons();
+        fightButtons[(uint8_t)FightButtons::Shield] = true;
+        fightButtons[(uint8_t)FightButtons::Magic] = (myHero.getMagic() > 0);
+        fightButtons[(uint8_t)FightButtons::Potion] = (myHero.getInventoryCount(Inventory::Potion));
 
-      if ((buttons & LEFT_BUTTON_MASK) && (uint8_t)fightButton > 0)                                 { fightButton = (FightButtons)((uint8_t)fightButton - 1); }
-      if ((buttons & RIGHT_BUTTON_MASK) && (uint8_t)fightButton < (uint8_t)FightButtons::Defend)    { fightButton = (FightButtons)((uint8_t)fightButton + 1); }
-
-      if (buttons & BACK_BUTTON_MASK)  {
-        savedState = gameState;
-        gameState = GameState::InventorySelect;
-      }
+        arduboy.drawCompressed(80, 44, fight_actions_1, WHITE);
+        if (fightButtons[(uint8_t)FightButtons::Shield])   { arduboy.drawCompressed(91, 44, fight_actions_2, WHITE); }
+        if (fightButtons[(uint8_t)FightButtons::Magic])    { arduboy.drawCompressed(102, 44, fight_actions_3, WHITE); }
+        if (fightButtons[(uint8_t)FightButtons::Potion])   { arduboy.drawCompressed(113, 44, fight_actions_4, WHITE); }
+        Sprites::drawSelfMasked(81 + (((uint8_t)fightButton) * 11), 56, icnSelect, 0);
         
-      if (buttons & SELECT_BUTTON_MASK)  {
-        
-        #ifdef USE_DICE_ANIMATIONS
-        diceDelay = DICE_DELAY_START;
-        #endif
-        gameState = (fightButton == FightButtons::Attack ? GameState::Battle_PlayerAttacks : GameState::Battle_PlayerDefends); 
-      
-      }
+        if ((buttons & LEFT_BUTTON_MASK) && (uint8_t)fightButton > 0) { 
+          
+          for (uint8_t i = (uint8_t)fightButton - 1; i >= 0; --i) {
+            if (fightButtons[i]) { 
+              fightButton = (FightButtons)i;
+              break;
+            }
+          }
 
+        }
+
+        if (buttons & RIGHT_BUTTON_MASK) {
+          
+          for (uint8_t i = (uint8_t)fightButton + 1; i < (uint8_t)FightButtons::Count; ++i) {
+            if (fightButtons[i]) { 
+              fightButton = (FightButtons)i;
+              break;
+            }
+          }
+          
+        }
+
+        if (buttons & BACK_BUTTON_MASK)  {
+          savedState = gameState;
+          gameState = GameState::InventorySelect;
+        }
+          
+        if (buttons & SELECT_BUTTON_MASK)  {
+          
+          #ifdef USE_DICE_ANIMATIONS
+          diceDelay = DICE_DELAY_START;
+          #endif
+
+          switch (fightButton) {
+
+            case (FightButtons::Attack):
+              gameState = GameState::Battle_PlayerAttacks;
+              break;
+
+            case (FightButtons::Shield):
+              gameState = GameState::Battle_PlayerDefends;
+              break;
+
+            case (FightButtons::Magic):
+              gameState = GameState::Battle_PlayerCastsSpell;
+              fightButton = FightButtons::Attack;
+              break;
+
+            case (FightButtons::Potion):
+              myHero.setHitPoints(myHero.getHitPoints() + INVENTORY_POTION_HP_INC);
+              myHero.decInventoryCount(Inventory::Potion);
+              fightButton = FightButtons::Attack;
+              break;
+          
+          }
+        
+        }
+        
+      }
       break;
 
     case GameState::Battle_PlayerAttacks:
@@ -644,6 +736,17 @@ uint16_t battleLoop() {
       arduboy.drawCompressed(12, 15, fight_hero_spell_Mask, BLACK);
       arduboy.drawCompressed(12, 15, fight_hero_spell, WHITE);
 
+      enemies[attackingEnemyIdx].decHitPoints(diceAttack);
+      myHero.decInventoryCount(Inventory::Scroll);
+
+      if (enemies[attackingEnemyIdx].getHitPoints() > 0) {
+        gameState = GameState::Battle_EnemyAttacks_Init;
+      }
+      else {
+        gameState = GameState::Battle_EnemyDies;
+      }
+
+      delayLength = FIGHT_DELAY;
       break;
 
     default: break;
@@ -689,6 +792,15 @@ void rollDice(uint8_t x, uint8_t y) {
 }
 #endif
 
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Play loop.  
+ *  
+ *  Handles the players moves around the dungeon.  If the player has moved (as opposed to simply turned), the enemies can then
+ *  also move.  If the player and an enemy collide, the gameState is chaged to 'Battle_EnemyAttacks_Init'.
+ *  
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 void playLoop() {
 
   bool playerMoved = false ;
@@ -716,6 +828,13 @@ void playLoop() {
   // If the player moved then so should the enemies ..
 
   if (playerMoved) {
+
+    if (myLevel.getMapElement(myHero.getX(), myHero.getY()) == MapElement::UnlockedDoor) { 
+    
+      gameState = GameState::NextLevel; 
+      return;
+
+    }
 
     gameState = GameState::Move;        // Play could be at game state ItemIgnore, in which case we only want to ignore this first item only. 
 
@@ -766,10 +885,19 @@ void playLoop() {
 
 }
 
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Initialise Level.  
+ *  
+ *  Initialise the player, level and enemy details based on the current level.
+ *  
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
 
   uint8_t idx = 0;
 
+  
   // Read level title ..
 
   memcpy_P(myLevel->getTitleLine1(), &level[idx], sizeof(char) * 11);
@@ -784,11 +912,13 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   myLevel->setWidth(pgm_read_byte(&level[idx++]));
   myLevel->setHeight(pgm_read_byte(&level[idx++]));
 
+
   // Create all enemies ..
   
   idx = loadEnemies(level, enemies, idx, NUMBER_OF_ENEMIES);
   
-  // Create all items ..
+
+  // Create all items and doors ..
   
   idx = loadItems(level, items, idx, NUMBER_OF_ITEMS);
   idx = loadItems(level, doors, idx, NUMBER_OF_DOORS);
@@ -796,23 +926,28 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   myLevel->setLevel(level);
   myLevel->setMapImages(map_images);  
 
-  #ifdef WALL_STYLE_1
-  myLevel->setMapMasks(map_masks);
-  #endif
-
   myLevel->setDoors(doors);
   myLevel->setStartPos(idx);
   gameState = GameState::Move;
 
 }
 
-uint8_t loadItems(const uint8_t *level, Item * items, uint8_t idx, uint8_t max)
-{
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Initialise Level - load items.  
+ *  
+ *  Initialise the item and door items.
+ *  
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
+uint8_t loadItems(const uint8_t *level, Item * items, uint8_t idx, uint8_t max) {
+
   uint8_t numberOfItems = pgm_read_byte(&level[idx++]);
 
   for (uint8_t i = 0; i < max; ++i) {  
 
     items[i].setEnabled(false);
+
     if(i < numberOfItems) {
       items[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
       items[i].setX(pgm_read_byte(&level[idx++]));
@@ -825,8 +960,13 @@ uint8_t loadItems(const uint8_t *level, Item * items, uint8_t idx, uint8_t max)
   return idx;
 }
 
-uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t max)
-{
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Initialise Level - load enemies.  
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
+uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t max) {
+
   uint8_t numberOfEnemies = pgm_read_byte(&level[idx++]);
   
   for (uint8_t i = 0; i < max; ++i) {  
@@ -842,4 +982,41 @@ uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t
   }
   
   return idx;
+
+}
+
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Next Level Handler
+ * 
+ *  Display the 'Level Up' graphic and initialise the next level ready for play. 
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
+void displayNextLevel() {
+  
+  arduboy.drawCompressed(0, 0, frames, WHITE);
+  drawMapAndStatistics(&myHero, &myLevel);
+  drawDirectionIndicator(&myHero);
+  drawLevelDescription(&myLevel);
+
+  arduboy.drawCompressed(23, 5, levelUp, WHITE);
+
+  ++level;
+  font3x5.setCursor(20, 40);
+  font3x5.print(F("LEVEL "));
+  font3x5.print(level);
+  font3x5.setCursor(18, 47);
+  font3x5.print(F("YOU GAIN"));
+  font3x5.setCursor(26, 54);
+  font3x5.print(F("1 DF"));
+
+  uint8_t buttons = arduboy.justPressedButtons();
+  
+  if (buttons & SELECT_BUTTON_MASK) { 
+  
+    gameState = GameState::Move; 
+    initialiseLevel(&myHero, &myLevel, levels[level]);
+  
+  }
+  
 }
