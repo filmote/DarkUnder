@@ -12,8 +12,8 @@
 #define USE_SOUNDS
 
         // 180 bytes in favour of WONB
-#undef  INV_STYLE_BONW
-#define INV_STYLE_WONB
+#define INV_STYLE_BONW
+#undef  INV_STYLE_WONB
 
 // ------------------------------------
 
@@ -72,12 +72,11 @@
 #define MAP_IMAGE_MID_GATE_LEFT           15
 #define MAP_IMAGE_MID_GATE_RIGHT          16
 
-#define MAP_IMAGE_FAR_LOCKED              17
-#define MAP_IMAGE_FAR_LEVEL_LOCKED        18
-#define MAP_IMAGE_FAR_UNLOCKED            19
-#define MAP_IMAGE_FAR_LEVEL_UNLOCKED      20
-#define MAP_IMAGE_FAR_LEFT                21
-#define MAP_IMAGE_FAR_RIGHT               22
+#define MAP_IMAGE_FAR_GATE_LOCKED         17
+#define MAP_IMAGE_FAR_DOOR_LOCKED         18
+#define MAP_IMAGE_FAR_DOOR_UNLOCKED       19
+#define MAP_IMAGE_FAR_LEFT                20
+#define MAP_IMAGE_FAR_RIGHT               21
 
 #define DICE_NO_ACTION                    -15
 #define DICE_DELAY_START                  DICE_NO_ACTION + 1

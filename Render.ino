@@ -135,17 +135,17 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
       switch (mapElement) {
 
         case MapElement::LockedGate:
-          imageIndex = MAP_IMAGE_FAR_LOCKED;
+          imageIndex = MAP_IMAGE_FAR_GATE_LOCKED;
           xOffset = 27;
           yOffset = 26;
           break;
 
         case MapElement::LockedDoor:
-          imageIndex = MAP_IMAGE_FAR_LEVEL_LOCKED;
+          imageIndex = MAP_IMAGE_FAR_DOOR_LOCKED;
           break;
       
         case MapElement::UnlockedDoor:
-          imageIndex = MAP_IMAGE_FAR_LEVEL_UNLOCKED;
+          imageIndex = MAP_IMAGE_FAR_DOOR_UNLOCKED;
           break;
       
       }

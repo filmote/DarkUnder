@@ -41,7 +41,7 @@ const uint8_t *map_tiles[] = { tile_00, tile_01, tile_02 };
 
 const uint8_t *map_images[] = { visionBack, closeWallFront, closeGateLocked, closeDoorLocked, closeDoorUnlocked, closeWallLeft, closeWallRight, closeGateLeft, closeGateRight,
                                 midWallFront, midDoorLocked, midDoorLevelLocked, midDoorLevelUnlocked, midWallLeft, midWallRight, midGateLeft, midGateRight,
-                                farDoorLocked, farDoorLevelLocked, farDoorUnlocked, farDoorLevelUnlocked, farWallLeft, farWallRight };
+                                farGateLocked, farDoorLocked, farDoorUnlocked, farWallLeft, farWallRight };
 
 const uint8_t *direction_images[] = { directionN, directionE, directionS, directionW };
 
