@@ -122,7 +122,7 @@ void setup() {
  */
 void loop() {
   
-  uint16_t delayLength;
+  uint16_t delayLength = 0;
   if (!(arduboy.nextFrame())) return;
   
   arduboy.clear();
@@ -205,8 +205,6 @@ void itemLoop() {
   arduboy.drawCompressed(81, 45, inv_trash, WHITE);
 
   if (item_no_slots) {
-    font3x5.setCursor(95, 44);
-    font3x5.print(F("NO INV\nSLOTS!"));
   }
 
   uint8_t buttons = arduboy.justPressedButtons();
@@ -239,8 +237,11 @@ void itemLoop() {
           else {
           
             item_no_slots = true;
+    font3x5.setCursor(95, 44);
+    font3x5.print(F("NO INV\nSLOTS!"));
 
           }
+        default: break;
 
       }
 
@@ -362,6 +363,7 @@ void inventoryLoop() {
 
               }
               break;
+            default: break;
           }
 
         }
@@ -378,6 +380,8 @@ void inventoryLoop() {
       }
 
       break;
+    default: break;
+
 
   }
 
@@ -567,6 +571,8 @@ uint16_t battleLoop() {
       }
 
       break;   
+    default: break;
+
 
     case GameState::Battle_PlayerCastsSpell:
     
@@ -691,7 +697,6 @@ void playLoop() {
 
 }
 
-
 void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
 
   uint8_t idx = 0;
@@ -702,8 +707,7 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   idx += 11;
   memcpy_P(myLevel->getTitleLine2(), &level[idx], sizeof(char) * 11);
   idx += 11;
-  
-            
+              
   myHero->setX(pgm_read_byte(&level[idx++]));
   myHero->setY(pgm_read_byte(&level[idx++]));
   myHero->setDirection((Direction)pgm_read_byte(&level[idx++]));
@@ -711,66 +715,62 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   myLevel->setWidth(pgm_read_byte(&level[idx++]));
   myLevel->setHeight(pgm_read_byte(&level[idx++]));
 
-
   // Create all enemies ..
   
-  uint8_t numberOfEnemies = pgm_read_byte(&level[idx++]);
-
-  for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {  
-
-    if(i < numberOfEnemies) {
-      enemies[i].setEnabled(true);
-      enemies[i].setEnemyType((EnemyType)pgm_read_byte(&level[idx++]));
-      enemies[i].setX(pgm_read_byte(&level[idx++]));
-      enemies[i].setY(pgm_read_byte(&level[idx++]));
-      enemies[i].setHitPoints(ENEMY_MAX_HITPOINTS);
-    }
-    else {
-      enemies[i].setEnabled(false);
-    }
-    
-  }
+  idx = loadEnemies(level, enemies, idx, NUMBER_OF_ENEMIES);
   
   // Create all items ..
   
-  uint8_t numberOfItems = pgm_read_byte(&level[idx++]);
-
-  for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
-
-    if(i < numberOfItems) {
-      items[i].setEnabled(true);
-      items[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
-      items[i].setX(pgm_read_byte(&level[idx++]));
-      items[i].setY(pgm_read_byte(&level[idx++]));
-    }
-    else {
-      items[i].setEnabled(false);
-    }
-
-  }  
-
-  // Create all doors ..
-  
-  uint8_t numberOfDoors = pgm_read_byte(&level[idx++]);
-
-  for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {  
-
-    if(i < numberOfDoors) {
-      doors[i].setEnabled(true);
-      doors[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
-      doors[i].setX(pgm_read_byte(&level[idx++]));
-      doors[i].setY(pgm_read_byte(&level[idx++]));
-    }
-    else {
-      doors[i].setEnabled(false);
-    }
-
-  }  
+  idx = loadItems(level, items, idx, NUMBER_OF_ITEMS);
+  idx = loadItems(level, doors, idx, NUMBER_OF_DOORS);
   
   myLevel->setLevel(level);
   myLevel->setMapImages(map_images);  
+
+  #ifdef WALL_STYLE_1
+  myLevel->setMapMasks(map_masks);
+  #endif
+
   myLevel->setDoors(doors);
   myLevel->setStartPos(idx);
   gameState = GameState::Move;
 
+}
+
+uint8_t loadItems(const uint8_t *level, Item * items, uint8_t idx, uint8_t max)
+{
+  uint8_t numberOfItems = pgm_read_byte(&level[idx++]);
+
+  for (uint8_t i = 0; i < max; ++i) {  
+
+    items[i].setEnabled(false);
+    if(i < numberOfItems) {
+      items[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
+      items[i].setX(pgm_read_byte(&level[idx++]));
+      items[i].setY(pgm_read_byte(&level[idx++]));
+      items[i].setEnabled(true);
+    }
+
+  }  
+  
+  return idx;
+}
+
+uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t max)
+{
+  uint8_t numberOfEnemies = pgm_read_byte(&level[idx++]);
+  
+  for (uint8_t i = 0; i < max; ++i) {  
+
+    enemies[i].setEnabled(i < numberOfEnemies);
+    if(enemies[i].getEnabled()) {	
+      enemies[i].setHitPoints(ENEMY_MAX_HITPOINTS);
+      enemies[i].setEnemyType((EnemyType)pgm_read_byte(&level[idx++]));
+      enemies[i].setX(pgm_read_byte(&level[idx++]));
+      enemies[i].setY(pgm_read_byte(&level[idx++]));
+    }
+    
+  }
+  
+  return idx;
 }

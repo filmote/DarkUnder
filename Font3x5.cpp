@@ -131,11 +131,11 @@ void Font3x5::setCursor(int16_t x, int16_t y) {
   cursorY = y;
 }
 
-const int16_t Font3x5::getCursorX(){
+int16_t Font3x5::getCursorX(){
   return cursorX;
 }
 
-const int16_t Font3x5::getCursorY(){
+int16_t Font3x5::getCursorY(){
   return cursorY;
 }
 

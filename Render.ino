@@ -112,6 +112,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
       closeRightX = 0;    closeRightY = -1;
 
       break;    
+    default: break;
       
   }
 
@@ -147,6 +148,8 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
         case MapElement::UnlockedDoor:
           imageIndex = MAP_IMAGE_FAR_DOOR_UNLOCKED;
           break;
+          
+        default: break;
       
       }
 
@@ -212,6 +215,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
           xOffset = 27;
           yOffset = 25;
           break;
+        default: break;
       
       }
       
@@ -282,6 +286,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
         xOffset = 22;
         yOffset = 21;
         break;
+      default: break;
     
     }
 
@@ -381,6 +386,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
             case ItemType::Scroll:
               font3x5.print(F("A SCROLL"));
               break;
+            default: break;
 
           }
 
@@ -475,6 +481,7 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
                 arduboy.fillRect(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), TILE_SIZE, TILE_SIZE, WHITE);
                 arduboy.drawLine(MAP_X_OFFSET + (drawX * TILE_OFFSET) + 2, MAP_Y_OFFSET + (drawY * TILE_OFFSET) + 1, MAP_X_OFFSET + (drawX * TILE_OFFSET) + 2, MAP_Y_OFFSET + (drawY * TILE_OFFSET) + 2, BLACK);
                 break;
+              default: break;
             
             }
 
