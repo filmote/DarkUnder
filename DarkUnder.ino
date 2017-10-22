@@ -953,7 +953,6 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   idx = loadItems(level, doors, idx, NUMBER_OF_DOORS);
   
   myLevel->setLevel(level);
-  myLevel->setMapImages(map_images);  
   myLevel->setDoors(doors);
   myLevel->setStartPos(idx);
 

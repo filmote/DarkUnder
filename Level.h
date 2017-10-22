@@ -21,7 +21,6 @@ class Level {
     const Item * getDoors();
     const uint8_t * getLevel();
     const uint8_t * const * getMapTiles();
-    const uint8_t * const * getMapImages();
 
     char * getTitleLine1();
     char * getTitleLine2();
@@ -33,7 +32,6 @@ class Level {
 
     void setLevel(const uint8_t *value);
     void setMapTiles(const uint8_t * const *value);
-    void setMapImages(const uint8_t * const *value);
     
   private:
 
@@ -53,7 +51,6 @@ class Level {
     
     const uint8_t * _level;
     const uint8_t * const * _map_tiles;
-    const uint8_t * const * _map_images;
     const Item * _doors;
 
 

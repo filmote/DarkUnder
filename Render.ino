@@ -48,7 +48,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   uint16_t playerX = myHero->getX();
   uint16_t playerY = myHero->getY();
-  
+
   switch (myHero->getDirection()) {
 
     case Direction::North:
@@ -133,7 +133,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   
   arduboy.drawCompressed(0, 0, frames_outside, WHITE);
   arduboy.drawCompressed(66, 4, frames_inside, WHITE);
-  arduboy.drawCompressed(VISION_X_OFFSET + 1, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_BACK], WHITE);
+  arduboy.drawCompressed(VISION_X_OFFSET + 1, VISION_Y_OFFSET, map_images[MAP_IMAGE_BACK], WHITE);
 
   
   // Far front wall ..
@@ -177,7 +177,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
       }
 
       if (imageIndex > 0) {
-        Sprites::drawOverwrite(VISION_X_OFFSET + xOffset, VISION_Y_OFFSET + yOffset, myLevel->getMapImages()[imageIndex], 0);
+        Sprites::drawOverwrite(VISION_X_OFFSET + xOffset, VISION_Y_OFFSET + yOffset, map_images[imageIndex], 0);
       }
       
     }
@@ -189,7 +189,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   
   if (horizon2Plus) {
     if ((MapElement)myLevel->getMapElement(playerX + farLeftX, playerY + farLeftY) > MapElement::Floor) {
-     Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_LEFT], 0);
+     Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 23, map_images[MAP_IMAGE_FAR_LEFT], 0);
     }
   }
  
@@ -198,7 +198,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   if (horizon2Plus) {
     if ((MapElement)myLevel->getMapElement(playerX + farRightX, playerY + farRightY) > MapElement::Floor) {
-     Sprites::drawOverwrite(VISION_X_OFFSET + 35, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_RIGHT], 0);
+     Sprites::drawOverwrite(VISION_X_OFFSET + 35, VISION_Y_OFFSET + 23, map_images[MAP_IMAGE_FAR_RIGHT], 0);
     }
   }
  
@@ -239,10 +239,10 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
       
       }
       
-      Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_MID_FRONT], 0);
+      Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 23, map_images[MAP_IMAGE_MID_FRONT], 0);
 
       if (imageIndex > 0) {
-        Sprites::drawOverwrite(VISION_X_OFFSET + xOffset, VISION_Y_OFFSET + yOffset, myLevel->getMapImages()[imageIndex], 0);
+        Sprites::drawOverwrite(VISION_X_OFFSET + xOffset, VISION_Y_OFFSET + yOffset, map_images[imageIndex], 0);
       }
   
     } 
@@ -254,10 +254,10 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   
   MapElement mapElement = myLevel->getMapElement(playerX + middleLeftX, playerY + middleLeftY);
   if (mapElement == MapElement::Wall) {
-    Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_MID_LEFT], 0);    
+    Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 14, map_images[MAP_IMAGE_MID_LEFT], 0);    
   }
   else if (mapElement == MapElement::LockedGate) {
-    Sprites::drawOverwrite(VISION_X_OFFSET + 15, VISION_Y_OFFSET + 15, myLevel->getMapImages()[MAP_IMAGE_MID_GATE_LEFT], 0);    
+    Sprites::drawOverwrite(VISION_X_OFFSET + 15, VISION_Y_OFFSET + 15, map_images[MAP_IMAGE_MID_GATE_LEFT], 0);    
   }
 
 
@@ -265,10 +265,10 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   
   mapElement = myLevel->getMapElement(playerX + middleRightX, playerY + middleRightY);
   if (mapElement == MapElement::Wall) {
-    Sprites::drawOverwrite(VISION_X_OFFSET + 39, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_MID_RIGHT], 0);    
+    Sprites::drawOverwrite(VISION_X_OFFSET + 39, VISION_Y_OFFSET + 14, map_images[MAP_IMAGE_MID_RIGHT], 0);    
   }
   else if (mapElement == MapElement::LockedGate) {
-    Sprites::drawOverwrite(VISION_X_OFFSET + 39, VISION_Y_OFFSET + 15, myLevel->getMapImages()[MAP_IMAGE_MID_GATE_RIGHT], 0);    
+    Sprites::drawOverwrite(VISION_X_OFFSET + 39, VISION_Y_OFFSET + 15, map_images[MAP_IMAGE_MID_GATE_RIGHT], 0);    
   }
   
 
@@ -313,7 +313,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
     Sprites::drawOverwrite(VISION_X_OFFSET, VISION_Y_OFFSET + 14, closeWallFront, 0);
     if (imageIndex >= 0) {
-      Sprites::drawOverwrite(VISION_X_OFFSET + xOffset, VISION_Y_OFFSET + yOffset, myLevel->getMapImages()[imageIndex], 0);
+      Sprites::drawOverwrite(VISION_X_OFFSET + xOffset, VISION_Y_OFFSET + yOffset, map_images[imageIndex], 0);
     }
 
   }
@@ -323,10 +323,10 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   mapElement = myLevel->getMapElement(playerX + closeLeftX, playerY + closeLeftY);
   if (mapElement == MapElement::Wall) {
-    Sprites::drawOverwrite(VISION_X_OFFSET, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_LEFT], 0);
+    Sprites::drawOverwrite(VISION_X_OFFSET, VISION_Y_OFFSET, map_images[MAP_IMAGE_CLOSE_LEFT], 0);
   }
   else if (mapElement == MapElement::LockedGate) {
-    Sprites::drawOverwrite(VISION_X_OFFSET, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_GATE_LEFT], 0);
+    Sprites::drawOverwrite(VISION_X_OFFSET, VISION_Y_OFFSET, map_images[MAP_IMAGE_CLOSE_GATE_LEFT], 0);
   }
   
 
@@ -334,10 +334,10 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   
   mapElement = myLevel->getMapElement(playerX + closeRightX, playerY + closeRightY);
   if (mapElement == MapElement::Wall) {
-    Sprites::drawOverwrite(VISION_X_OFFSET + 48, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_RIGHT], 0);
+    Sprites::drawOverwrite(VISION_X_OFFSET + 48, VISION_Y_OFFSET, map_images[MAP_IMAGE_CLOSE_RIGHT], 0);
   }
   else if (mapElement == MapElement::LockedGate) {
-    Sprites::drawOverwrite(VISION_X_OFFSET + 49, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_GATE_RIGHT], 0);
+    Sprites::drawOverwrite(VISION_X_OFFSET + 49, VISION_Y_OFFSET, map_images[MAP_IMAGE_CLOSE_GATE_RIGHT], 0);
   }
 
 

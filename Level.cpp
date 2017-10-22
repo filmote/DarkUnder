@@ -14,7 +14,6 @@ const Item * Level::getDoors()                              { return _doors; }
 
 const uint8_t * Level::getLevel()                           { return _level; }
 const uint8_t * const * Level::getMapTiles()                { return _map_tiles; }
-const uint8_t * const * Level::getMapImages()               { return _map_images; }
 
 char * Level::getTitleLine1()                               { return _titleLine1; }
 char * Level::getTitleLine2()                               { return _titleLine2; }
@@ -26,7 +25,6 @@ void Level::setHeight(const uint32_t value)                 { _height = value; }
 
 void Level::setLevel(const uint8_t *value)                  { _level = value; }
 void Level::setMapTiles(const uint8_t * const *value)       { _map_tiles = value; }
-void Level::setMapImages(const uint8_t * const *value)      { _map_images = value; }
   
 MapElement Level::getMapElement(uint32_t x, uint32_t y) {
 
