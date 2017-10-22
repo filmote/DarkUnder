@@ -8,7 +8,6 @@ Player::Player() : Base() {
     _hitPoints = 15;
     _defence = 10;
     _attackPower = 0;
-//    _magic = 0;
     
 }
 
@@ -23,7 +22,6 @@ void Player::setDirection(const Direction value)    { _direction = value; }
 void Player::setHitPoints(const int8_t value)       { _hitPoints = value; }
 void Player::setDefence(const int8_t value)         { _defence = value; }
 void Player::setAttackPower(const int8_t value)     { _attackPower = value; }
-//void Player::setMagic(const int8_t value)           { _magic = value; }
 
 void Player::setInventory(const int8_t slot, const Inventory item) { 
 

@@ -14,26 +14,26 @@ bool PlayerController::move(Player *player, Enemy *allEnemies, Level *level, But
 
   if (button == Button::Up) {
 
+    int8_t deltaX = 0;
+    int8_t deltaY = 0;
+    
     switch (player->getDirection()) {
-
-      case Direction::North:
-        if (PlayerController::moveLegal(allEnemies, player, level, player->getX(), player->getY() - 1))    { player->setY(player->getY() - 1); movement = true; };   
-        break;
       
-      case Direction::East:
-        if (PlayerController::moveLegal(allEnemies, player, level, player->getX() + 1, player->getY()))    { player->setX(player->getX() + 1); movement = true; };
-        break;
-                            
-      case Direction::South:
-        if (PlayerController::moveLegal(allEnemies, player, level, player->getX(), player->getY() + 1))    { player->setY(player->getY() + 1); movement = true; };
-        break;
-      
-      case Direction::West:
-        if (PlayerController::moveLegal(allEnemies, player, level, player->getX() - 1, player->getY()))    { player->setX(player->getX() - 1); movement = true; };
-        break;
+      case Direction::North:      deltaY = -1;    break;
+      case Direction::East:       deltaX = 1;     break;
+      case Direction::South:      deltaY = 1;     break;
+      case Direction::West:       deltaX = -1;    break;
       
     }
 
+    if (PlayerController::moveLegal(allEnemies, player, level, player->getX() + deltaX, player->getY() + deltaY))    { 
+    
+      player->setX(player->getX() + deltaX); 
+      player->setY(player->getY() + deltaY); 
+      movement = true; 
+    
+    };
+    
   }
   else {
 

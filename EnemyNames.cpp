@@ -10,8 +10,7 @@ const char DragonName[] PROGMEM = "A DRAGON";
 const char RatName[] PROGMEM = "A RAT";
 const char SlimeName[] PROGMEM = "A SLIME";
 
-const __FlashStringHelper * EnemyNames[] =
-{
+const __FlashStringHelper * EnemyNames[] = {
     FlashString(BeholderName),
     FlashString(SkeletonName),
     FlashString(DisplacerName),
