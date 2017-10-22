@@ -109,6 +109,7 @@
 #define INVENTORY_POSITION_5              Point{45, 35}
 #define INVENTORY_POTION_HP_INC           5
 
+#define ITEM_DELAY                        1500
 #define ITEM_ACTION_USE                   0
 #define ITEM_ACTION_DELETE                1
 

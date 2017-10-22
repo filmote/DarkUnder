@@ -67,7 +67,6 @@ const uint8_t *item_images[] = { NULL, item_key, item_potion, item_mascroll };
 const Point item_offset[] = { Point{0, 0}, ITEM_KEY_POSITION, ITEM_HPPOTION_POSITION, ITEM_SCROLL_POSITION };
 uint8_t item_action = 0;
 uint8_t savedItem = 0;
-bool item_no_slots = false;
 
 GameState gameState = GameState::Splash; 
 GameState savedState = GameState::Splash; 
@@ -152,7 +151,7 @@ void loop() {
       break;
 
     case GameState::ItemSelect: 
-      itemLoop();
+      delayLength = itemLoop();
       break;
       
     case GameState::Splash: 
@@ -197,9 +196,13 @@ void loop() {
  *  delete an existing inventory item to make space for the new item.  The current GameState is retained in the 'savedState' 
  *  field allowing for control to return back to this action after the dialogue is dismissed.
  *  
+ *  Returns delay in milliseconds to wait.
+ *
  * -----------------------------------------------------------------------------------------------------------------------------
  */
-void itemLoop() {
+uint16_t itemLoop() {
+
+  bool item_no_slots = false;
 
   drawPlayerVision(&myHero, &myLevel);
   drawMapAndStatistics(&myHero, &myLevel);
@@ -212,14 +215,20 @@ void itemLoop() {
 
   uint8_t buttons = arduboy.justPressedButtons();
   
-  if ((buttons & LEFT_BUTTON_MASK) && item_action > ITEM_ACTION_USE)         { --item_action; item_no_slots = false; }
-  if ((buttons & RIGHT_BUTTON_MASK) && item_action < ITEM_ACTION_DELETE)     { ++item_action; item_no_slots = false; }
+  if ((buttons & LEFT_BUTTON_MASK) && item_action > ITEM_ACTION_USE)         { --item_action; }
+  if ((buttons & RIGHT_BUTTON_MASK) && item_action < ITEM_ACTION_DELETE)     { ++item_action; }
+
+
+  // Return to the previous game state if the user presses the back button ..
 
   if (buttons & BACK_BUTTON) {
     savedState = gameState;
     gameState = GameState::InventorySelect;
   }
- 
+
+  
+  // Handle the use of the selected item ..
+
   if (buttons & SELECT_BUTTON) {
 
     if (item_action == ITEM_ACTION_USE) {
@@ -236,7 +245,6 @@ void itemLoop() {
 
             myHero.setInventory(inventorySlot, inventoryType);
             items[savedItem].setEnabled(false);
-            item_no_slots = false;
             gameState = GameState::Move;
             
           }
@@ -257,7 +265,6 @@ void itemLoop() {
 
             myHero.setInventory(inventorySlot, inventoryType);
             items[savedItem].setEnabled(false);
-            item_no_slots = false;
             gameState = GameState::Move;
             
           }
@@ -276,19 +283,23 @@ void itemLoop() {
     if (item_action == ITEM_ACTION_DELETE)  { 
       
       gameState = GameState::ItemIgnore;
-      item_no_slots = false;
     
     }
 
   }
 
 
+  // Diplay a message if there are no inventory slots to pickup the item ..
+
   if (item_no_slots) {
     
     font3x5.setCursor(95, 44);
     font3x5.print(F("NO INV\nSLOTS!"));
+    return ITEM_DELAY;
 
   }
+
+  return 0;
 
 }
 
@@ -308,7 +319,9 @@ void itemLoop() {
  */
 void inventoryLoop() {
  
-  arduboy.drawCompressed(0, 0, frames, WHITE);  
+  arduboy.drawCompressed(0, 0, frames_outside, WHITE);  
+  arduboy.drawCompressed(66, 4, frames_inside, WHITE);
+
   #ifdef INV_STYLE_BONW
   arduboy.drawCompressed(4, 4, inv_background, WHITE);
   #endif
@@ -334,6 +347,9 @@ void inventoryLoop() {
     }
 
   }
+
+
+  // Render selector ..
 
   #ifdef INV_STYLE_BONW
   arduboy.drawCompressed(inventory_Coords[inventory_selection].x + 3, inventory_Coords[inventory_selection].y + 11, inv_select, BLACK);
@@ -398,14 +414,15 @@ void inventoryLoop() {
               }
               break;
 
-          case Inventory::Potion:
-            myHero.setHitPoints(myHero.getHitPoints() + INVENTORY_POTION_HP_INC);
-            myHero.decInventoryCount(Inventory::Potion);
-            inventory_action = INVENTORY_ACTION_USE;
-            gameState = GameState::InventorySelect;
-            break;
+            case Inventory::Potion:
+              myHero.setHitPoints(myHero.getHitPoints() + INVENTORY_POTION_HP_INC);
+              myHero.decInventoryCount(Inventory::Potion);
+              inventory_action = INVENTORY_ACTION_USE;
+              gameState = GameState::InventorySelect;
+              break;
 
-          default: break;
+            default: break;
+
           }
 
         }
@@ -415,15 +432,14 @@ void inventoryLoop() {
           myHero.setInventory(inventory_selection, Inventory::None);
           inventory_action = INVENTORY_ACTION_USE;
           gameState = GameState::InventorySelect;
-          item_no_slots = false;
 
         }
 
       }
 
       break;
-    default: break;
 
+    default: break;
 
   }
 
@@ -463,6 +479,8 @@ void diceDoOnce(uint8_t maxValue, uint8_t offset) {
  *  Battle_PlayerDefends -        Inflicts 1 point of damage on the enemy and randomly gains player hit points.
  *  Battle_PlayerCastsSpell -     Inflicts 5 points of damage on the enemy.
  *  Battle_EnemyDies -            Handles and end of battel where the enemy dies.
+ * 
+ *  Returns delay in milliseconds to wait.
  *  
  * -----------------------------------------------------------------------------------------------------------------------------
  */
@@ -869,8 +887,7 @@ void playLoop() {
         
         if (deltaX < 0) { myHero.setDirection(Direction::West); }
         else if (deltaX > 0) { myHero.setDirection(Direction::East); }
-
-        if (deltaY < 0) { myHero.setDirection(Direction::North); }
+        else if (deltaY < 0) { myHero.setDirection(Direction::North); }
         else if (deltaY > 0) { myHero.setDirection(Direction::South); }
 
         attackingEnemyIdx = i;
@@ -925,9 +942,9 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   
   myLevel->setLevel(level);
   myLevel->setMapImages(map_images);  
-
   myLevel->setDoors(doors);
   myLevel->setStartPos(idx);
+
   gameState = GameState::Move;
 
 }
@@ -936,7 +953,9 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
 /* -----------------------------------------------------------------------------------------------------------------------------
  *  Initialise Level - load items.  
  *  
- *  Initialise the item and door items.
+ *  Initialise the item and door items from progmem using the 'idx' variable as an index reference.  
+ * 
+ *  Returns the 'idx' index reference so the next process can continue reading from that location onwards.
  *  
  * -----------------------------------------------------------------------------------------------------------------------------
  */
@@ -963,6 +982,11 @@ uint8_t loadItems(const uint8_t *level, Item * items, uint8_t idx, uint8_t max) 
 
 /* -----------------------------------------------------------------------------------------------------------------------------
  *  Initialise Level - load enemies.  
+ *  
+ *  Initialise the enemies items from progmem using the 'idx' variable as an index reference.  
+ * 
+ *  Returns the 'idx' index reference so the next process can continue reading from that location onwards.
+ *  
  * -----------------------------------------------------------------------------------------------------------------------------
  */
 uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t max) {
@@ -990,11 +1014,12 @@ uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t
  *  Next Level Handler
  * 
  *  Display the 'Level Up' graphic and initialise the next level ready for play. 
+ * 
  * -----------------------------------------------------------------------------------------------------------------------------
  */
 void displayNextLevel() {
   
-  arduboy.drawCompressed(0, 0, frames, WHITE);
+  arduboy.drawCompressed(0, 0, frames_outside, WHITE);
   drawMapAndStatistics(&myHero, &myLevel);
   drawDirectionIndicator(&myHero);
   drawLevelDescription(&myLevel);

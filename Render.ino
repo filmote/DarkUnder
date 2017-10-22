@@ -117,7 +117,8 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   }
 
   
-  arduboy.drawCompressed(0, 0, frames, WHITE);
+  arduboy.drawCompressed(0, 0, frames_outside, WHITE);
+  arduboy.drawCompressed(66, 4, frames_inside, WHITE);
   arduboy.drawCompressed(VISION_X_OFFSET + 1, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_BACK], WHITE);
 
   
@@ -553,7 +554,8 @@ void drawEnemyHitPointsBar(uint8_t hitPoints) {
 
 void displaySplash() {
   
-  Sprites::drawOverwrite(0, 0, splash, 0);
+  arduboy.drawCompressed(0, 0, frames_outside, WHITE);
+  arduboy.drawCompressed(8, 4, splash, WHITE);
  
   if (splashStatus == SplashButtons::Play) {
     Sprites::drawSelfMasked(25, 54, hMarker, 0);
@@ -585,7 +587,19 @@ void displaySplash() {
 
 void displayLogo() {
 
-  arduboy.drawCompressed(0, 0, garCol, WHITE);
+  arduboy.drawCompressed(0, 0, frames_outside, WHITE);
+  arduboy.drawCompressed(42, 0, garCol_Mask, BLACK);
+  arduboy.drawCompressed(42, 0, garCol, WHITE);
+  
+  font3x5.setCursor(8, 24);
+  font3x5.print(F("CODE\nSIMON\nHOLMES"));
+
+  font3x5.setCursor(110, 24);
+  font3x5.print(F("ART"));
+  font3x5.setCursor(102, 32);
+  font3x5.print(F("CYRIL"));
+  font3x5.setCursor(90, 40);
+  font3x5.print(F("GUICHARD"));
   
   if (arduboy.justPressed(BACK_BUTTON)) {
     gameState = GameState::Splash;
