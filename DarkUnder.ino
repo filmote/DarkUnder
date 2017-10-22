@@ -176,6 +176,10 @@ void loop() {
     case GameState::NextLevel:
       displayNextLevel();
       break;
+      
+    case GameState::EndOfGame:
+      displayEndOfGame();
+      break;
 
   }
 
@@ -849,7 +853,15 @@ void playLoop() {
 
     if (myLevel.getMapElement(myHero.getX(), myHero.getY()) == MapElement::UnlockedDoor) { 
     
-      gameState = GameState::NextLevel; 
+      ++level;
+
+      if (level < MAX_LEVEL_COUNT) {
+        gameState = GameState::NextLevel; 
+      }
+      else {
+        gameState = GameState::EndOfGame;
+      }
+
       return;
 
     }
@@ -1020,13 +1032,14 @@ uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t
 void displayNextLevel() {
   
   arduboy.drawCompressed(0, 0, frames_outside, WHITE);
+  arduboy.drawCompressed(66, 4, frames_inside, WHITE);
+
   drawMapAndStatistics(&myHero, &myLevel);
   drawDirectionIndicator(&myHero);
   drawLevelDescription(&myLevel);
 
   arduboy.drawCompressed(23, 5, levelUp, WHITE);
 
-  ++level;
   font3x5.setCursor(20, 40);
   font3x5.print(F("LEVEL "));
   font3x5.print(level);
@@ -1034,14 +1047,41 @@ void displayNextLevel() {
   font3x5.print(F("YOU GAIN"));
   font3x5.setCursor(26, 54);
   font3x5.print(F("1 DF"));
+  
+  uint8_t buttons = arduboy.justPressedButtons();
+  
+  if (buttons & SELECT_BUTTON_MASK) { 
+  
+    if (level <= MAX_LEVEL_COUNT) { level = 0; }
+
+    gameState = GameState::Move; 
+    initialiseLevel(&myHero, &myLevel, levels[level]);
+  
+  }
+
+}
+
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  End of Game Handler
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
+void displayEndOfGame() {
+  
+  arduboy.drawCompressed(0, 0, frames_outside, WHITE);
+  arduboy.drawCompressed(43, 4, victory, WHITE);
+  font3x5.setCursor(9, 8);
+  font3x5.print(F("WELL DONE!\nTHE RICHES\nUNDER THE\nMOUNTAIN\nARE YOURS\nNOW!"));
+  level = 0;
 
   uint8_t buttons = arduboy.justPressedButtons();
   
   if (buttons & SELECT_BUTTON_MASK) { 
   
-    gameState = GameState::Move; 
-    initialiseLevel(&myHero, &myLevel, levels[level]);
+    if (level <= MAX_LEVEL_COUNT) { level = 0; }
+
+    gameState = GameState::Splash; 
   
   }
-  
+
 }

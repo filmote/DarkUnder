@@ -12,13 +12,16 @@
 #define USE_FLASHLIGHT
 
         // 834 bytes
-#define USE_SOUNDS
+#undef  USE_SOUNDS
 
         // 180 bytes in favour of WONB
 #define INV_STYLE_BONW
 #undef  INV_STYLE_WONB
 
+
 // ------------------------------------
+
+#define MAX_LEVEL_COUNT                   1
 
 #define UP_BUTTON_MASK                    128
 #define DOWN_BUTTON_MASK                  16
@@ -132,6 +135,7 @@ enum class GameState : uint8_t {
   Battle_PlayerCastsSpell,
   Battle_PlayerDies,
   NextLevel,
+  EndOfGame
 };
 
 enum class Inventory: uint8_t {
