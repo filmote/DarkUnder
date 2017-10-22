@@ -7,9 +7,9 @@
 
 Level::Level() {_tileNumber = 255; }
 
-uint32_t Level::getStartPos()                         { return _startPos; }
-uint32_t Level::getWidth()                            { return _width; }
-uint32_t Level::getHeight()                           { return _height; }
+uint32_t Level::getStartPos()                               { return _startPos; }
+uint32_t Level::getWidth()                                  { return _width; }
+uint32_t Level::getHeight()                                 { return _height; }
 const Item * Level::getDoors()                              { return _doors; }
 
 const uint8_t * Level::getLevel()                           { return _level; }
