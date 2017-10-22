@@ -10,7 +10,7 @@ class Arduboy2Ext : public Arduboy2Base {
    public:
      Arduboy2Ext();
 
-     uint8_t justPressedButtons();
+     uint8_t justPressedButtons() const;
 
 };
 #endif

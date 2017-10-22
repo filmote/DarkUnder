@@ -10,8 +10,6 @@ PlayerController::PlayerController() : BaseController() {}
     
 bool PlayerController::move(Player *player, Enemy *allEnemies, Level *level, Button button) {
 
-  bool movement = false;
-
   if (button == Button::Up) {
 
     int8_t deltaX = 0;
@@ -30,7 +28,7 @@ bool PlayerController::move(Player *player, Enemy *allEnemies, Level *level, But
     
       player->setX(player->getX() + deltaX); 
       player->setY(player->getY() + deltaY); 
-      movement = true; 
+      return true; 
     
     };
     
@@ -51,6 +49,6 @@ bool PlayerController::move(Player *player, Enemy *allEnemies, Level *level, But
 
   }
 
-  return movement;
+  return false;
 
 }

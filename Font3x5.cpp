@@ -88,7 +88,7 @@ size_t Font3x5::write(uint8_t c) {
 #define FONT_EXCLAMATION_INDEX 36
 #define FONT_NUMBER_INDEX 26
 
-void Font3x5::printChar(char c, int16_t x, int16_t y) {
+void Font3x5::printChar(const char c, const int16_t x, int16_t y) {
 
   int8_t idx = -1;
 
@@ -126,19 +126,19 @@ void Font3x5::printChar(char c, int16_t x, int16_t y) {
 
 }
 
-void Font3x5::setCursor(int16_t x, int16_t y) {
+void Font3x5::setCursor(const int16_t x, const int16_t y) {
   cursorX = baseX = x;
   cursorY = y;
 }
 
-int16_t Font3x5::getCursorX(){
+int16_t Font3x5::getCursorX() const {
   return cursorX;
 }
 
-int16_t Font3x5::getCursorY(){
+int16_t Font3x5::getCursorY() const {
   return cursorY;
 }
 
-void Font3x5::setTextColor(uint8_t color){
+void Font3x5::setTextColor(const uint8_t color){
   textColor = color;
 }

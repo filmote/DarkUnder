@@ -46,12 +46,15 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   int8_t closeFrontY = 0;
   int8_t closeRightY = 0;
 
+  uint16_t playerX = myHero->getX();
+  uint16_t playerY = myHero->getY();
+  
   switch (myHero->getDirection()) {
 
     case Direction::North:
     
-      horizon3Plus = (myHero->getY() - 3 >= 0);
-      horizon2Plus = (myHero->getY() - 2 >= 0);
+      horizon3Plus = (playerY - 3 >= 0);
+      horizon2Plus = (playerY - 2 >= 0);
 
       farFrontX = 0;      farFrontY = -3;
       farLeftX = -1;      farLeftY = -2;
@@ -69,8 +72,8 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
       
     case Direction::East:
     
-      horizon3Plus = (myHero->getX() + 3 >= 0);
-      horizon2Plus = (myHero->getX() + 2 >= 0);
+      horizon3Plus = (playerX + 3 >= 0);
+      horizon2Plus = (playerX + 2 >= 0);
       
       farFrontX = 3;      farFrontY = 0;
       farLeftX = 2;       farLeftY = -1;
@@ -88,8 +91,8 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
     case Direction::South:
     
-      horizon3Plus = (myHero->getY() + 3 >= 0);
-      horizon2Plus = (myHero->getY() + 2 >= 0);
+      horizon3Plus = (playerY + 3 >= 0);
+      horizon2Plus = (playerY + 2 >= 0);
 
       farFrontX = 0;      farFrontY = 3;
       farLeftX = 1;       farLeftY = 2;
@@ -107,8 +110,8 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
       
     case Direction::West:
     
-      horizon3Plus = (myHero->getX() - 3 >= 0);
-      horizon2Plus = (myHero->getX() - 2 >= 0);
+      horizon3Plus = (playerX - 3 >= 0);
+      horizon2Plus = (playerX - 2 >= 0);
       
       farFrontX = -3;     farFrontY = 0;
       farLeftX = -2;      farLeftY = 1;
@@ -137,7 +140,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   
   if (horizon3Plus) {
     
-    MapElement mapElement = (MapElement)myLevel->getMapElement(myHero->getX() + farFrontX, myHero->getY() + farFrontY);
+    MapElement mapElement = (MapElement)myLevel->getMapElement(playerX + farFrontX, playerY + farFrontY);
     
     int8_t imageIndex = -1;
     int8_t xOffset = 0;
@@ -185,7 +188,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   // Far left wall ..
   
   if (horizon2Plus) {
-    if ((MapElement)myLevel->getMapElement(myHero->getX() + farLeftX, myHero->getY() + farLeftY) > MapElement::Floor) {
+    if ((MapElement)myLevel->getMapElement(playerX + farLeftX, playerY + farLeftY) > MapElement::Floor) {
      Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_LEFT], 0);
     }
   }
@@ -194,7 +197,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   // Far right wall ..
 
   if (horizon2Plus) {
-    if ((MapElement)myLevel->getMapElement(myHero->getX() + farRightX, myHero->getY() + farRightY) > MapElement::Floor) {
+    if ((MapElement)myLevel->getMapElement(playerX + farRightX, playerY + farRightY) > MapElement::Floor) {
      Sprites::drawOverwrite(VISION_X_OFFSET + 35, VISION_Y_OFFSET + 23, myLevel->getMapImages()[MAP_IMAGE_FAR_RIGHT], 0);
     }
   }
@@ -208,7 +211,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
     int8_t xOffset = 0;
     int8_t yOffset = 0;
 
-    MapElement mapElement = (MapElement)myLevel->getMapElement(myHero->getX() + middleFrontX, myHero->getY() + middleFrontY);
+    MapElement mapElement = (MapElement)myLevel->getMapElement(playerX + middleFrontX, playerY + middleFrontY);
     
     if (mapElement > MapElement::Floor) {
 
@@ -249,7 +252,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   // Mid left wall ..
   
-  MapElement mapElement = myLevel->getMapElement(myHero->getX() + middleLeftX, myHero->getY() + middleLeftY);
+  MapElement mapElement = myLevel->getMapElement(playerX + middleLeftX, playerY + middleLeftY);
   if (mapElement == MapElement::Wall) {
     Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_MID_LEFT], 0);    
   }
@@ -260,7 +263,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   // Mid right wall ..
   
-  mapElement = myLevel->getMapElement(myHero->getX() + middleRightX, myHero->getY() + middleRightY);
+  mapElement = myLevel->getMapElement(playerX + middleRightX, playerY + middleRightY);
   if (mapElement == MapElement::Wall) {
     Sprites::drawOverwrite(VISION_X_OFFSET + 39, VISION_Y_OFFSET + 14, myLevel->getMapImages()[MAP_IMAGE_MID_RIGHT], 0);    
   }
@@ -271,7 +274,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   // Close front wall ..
   
-  mapElement = (MapElement)myLevel->getMapElement(myHero->getX() + closeFrontX, myHero->getY() + closeFrontY);
+  mapElement = (MapElement)myLevel->getMapElement(playerX + closeFrontX, playerY + closeFrontY);
   
   if (mapElement > MapElement::Floor) {
 
@@ -318,7 +321,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   // Close left wall ..
 
-  mapElement = myLevel->getMapElement(myHero->getX() + closeLeftX, myHero->getY() + closeLeftY);
+  mapElement = myLevel->getMapElement(playerX + closeLeftX, playerY + closeLeftY);
   if (mapElement == MapElement::Wall) {
     Sprites::drawOverwrite(VISION_X_OFFSET, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_LEFT], 0);
   }
@@ -329,7 +332,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   // Close right wall ..
   
-  mapElement = myLevel->getMapElement(myHero->getX() + closeRightX, myHero->getY() + closeRightY);
+  mapElement = myLevel->getMapElement(playerX + closeRightX, playerY + closeRightY);
   if (mapElement == MapElement::Wall) {
     Sprites::drawOverwrite(VISION_X_OFFSET + 48, VISION_Y_OFFSET, myLevel->getMapImages()[MAP_IMAGE_CLOSE_RIGHT], 0);
   }
@@ -351,7 +354,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
       int8_t offsetX = offsetXTable[selector];
       int8_t offsetY = offsetYTable[selector];
 
-      if (enemies[i].getX() == myHero->getX() + offsetX && enemies[i].getY() == myHero->getY() + offsetY) {
+      if (enemies[i].getX() == playerX + offsetX && enemies[i].getY() == playerY + offsetY) {
 
         uint8_t enemyType = (uint8_t)enemies[i].getEnemyType();
         Point enemyOffset = enemy_offset[enemyType];
@@ -383,7 +386,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
         int8_t offsetX = offsetXTable[selector];
         int8_t offsetY = offsetYTable[selector];
 
-        if (items[i].getX() == myHero->getX() + offsetX && items[i].getY() == myHero->getY() + offsetY) {
+        if (items[i].getX() == playerX + offsetX && items[i].getY() == playerY + offsetY) {
 
           arduboy.fillRect(14, 11, 41, 43, BLACK);
           arduboy.fillRect(15, 12, 39, 41, WHITE);

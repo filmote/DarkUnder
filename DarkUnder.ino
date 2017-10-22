@@ -206,8 +206,6 @@ void loop() {
  */
 uint16_t itemLoop() {
 
-  bool item_no_slots = false;
-
   drawPlayerVision(&myHero, &myLevel);
 
   if (item_action == INVENTORY_ACTION_USE)     arduboy.drawCompressed(71, 56, inv_select, WHITE);
@@ -238,7 +236,8 @@ uint16_t itemLoop() {
 
       Inventory inventoryType = (Inventory)((uint8_t)items[savedItem].getItemType());
       int8_t inventorySlot = -1;
-
+      bool item_no_slots = false;
+      
       switch (inventoryType) {
 
         case Inventory::Key:
@@ -281,6 +280,17 @@ uint16_t itemLoop() {
 
       }
 
+
+      // Diplay a message if there are no inventory slots to pickup the item ..
+
+      if (item_no_slots) {
+        
+        font3x5.setCursor(95, 44);
+        font3x5.print(F("NO INV\nSLOTS!"));
+        return ITEM_DELAY;
+
+      }
+      
     }
 
     if (item_action == ITEM_ACTION_DELETE)  { 
@@ -288,17 +298,6 @@ uint16_t itemLoop() {
       gameState = GameState::ItemIgnore;
     
     }
-
-  }
-
-
-  // Diplay a message if there are no inventory slots to pickup the item ..
-
-  if (item_no_slots) {
-    
-    font3x5.setCursor(95, 44);
-    font3x5.print(F("NO INV\nSLOTS!"));
-    return ITEM_DELAY;
 
   }
 
@@ -334,17 +333,20 @@ void inventoryLoop() {
   
   drawMapAndStatistics(&myHero, &myLevel);
 
+  // TODO: Attempted to roll the rendering below with the selector using an 'if (i == inventory_selection) ..' added 46 bytes.
   for (uint8_t i = 0; i < 5; ++i) {
 
     if (myHero.getInventory(i) != Inventory::None) {
 
+      Point inventoryCoords = inventory_Coords[i];
+
       #ifdef INV_STYLE_BONW
-      arduboy.fillRect(inventory_Coords[i].x, inventory_Coords[i].y, 14, 16, BLACK);
-      arduboy.drawCompressed(inventory_Coords[i].x, inventory_Coords[i].y, inventory_images[(uint8_t)myHero.getInventory(i)], WHITE);
+      arduboy.fillRect(inventoryCoords.x, inventoryCoords.y, 14, 16, BLACK);
+      arduboy.drawCompressed(inventoryCoords.x, inventoryCoords.y, inventory_images[(uint8_t)myHero.getInventory(i)], WHITE);
       #endif
       #ifdef INV_STYLE_WONB
-      arduboy.drawRect(inventory_Coords[i].x - 1, inventory_Coords[i].y - 1, 16, 16);
-      arduboy.drawCompressed(inventory_Coords[i].x, inventory_Coords[i].y, inventory_images[(uint8_t)myHero.getInventory(i)], WHITE);
+      arduboy.drawRect(inventoryCoords.x - 1, inventoryCoords.y - 1, 16, 16);
+      arduboy.drawCompressed(inventoryCoords.x, inventoryCoords.y, inventory_images[(uint8_t)myHero.getInventory(i)], WHITE);
       #endif
       
     }
@@ -354,11 +356,12 @@ void inventoryLoop() {
 
   // Render selector ..
 
+  Point inventoryCoords = inventory_Coords[inventory_selection];
   #ifdef INV_STYLE_BONW
-  arduboy.drawCompressed(inventory_Coords[inventory_selection].x + 3, inventory_Coords[inventory_selection].y + 11, inv_select, BLACK);
+  arduboy.drawCompressed(inventoryCoords.x + 3, inventoryCoords.y + 11, inv_select, BLACK);
   #endif
   #ifdef INV_STYLE_WONB
-  arduboy.drawCompressed(inventory_Coords[inventory_selection].x + 3, inventory_Coords[inventory_selection].y + 11, inv_select, WHITE);
+  arduboy.drawCompressed(inventoryCoords.x + 3, inventoryCoords.y + 11, inv_select, WHITE);
   #endif
   uint8_t buttons = arduboy.justPressedButtons();
 

@@ -18,7 +18,7 @@ class Font3x5 : public Print {
      * \details
      * Every character outside the range will be a blank.
      */
-    void printChar(char c, int16_t x, int16_t y);
+    void printChar(const char c, const int16_t x, int16_t y);
 
 
     /** \brief
@@ -35,7 +35,7 @@ class Font3x5 : public Print {
      * the display. The cursor location will be the top left corner of the next
      * character written.
      */
-    void setCursor(int16_t x, int16_t y);
+    void setCursor(const int16_t x, const int16_t y);
 
     /** \brief
      * Get the X coordinate of the current text cursor position.
@@ -46,7 +46,7 @@ class Font3x5 : public Print {
      * The X coordinate returned is a pixel location with 0 indicating the
      * leftmost column.
      */
-    int16_t getCursorX();
+    int16_t getCursorX() const;
 
     /** \brief
      * Get the Y coordinate of the current text cursor position.
@@ -57,14 +57,14 @@ class Font3x5 : public Print {
      * The Y coordinate returned is a pixel location with 0 indicating the
      * topmost row.
      */
-    int16_t getCursorY();
+    int16_t getCursorY() const;
 
     /** \brief
      * Set the text foreground color.
      *
      * \param color The color to be used for following text.
      */
-    void setTextColor(uint8_t color);
+    void setTextColor(const uint8_t color);
 
 
   private:
