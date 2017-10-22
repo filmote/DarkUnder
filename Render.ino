@@ -129,8 +129,8 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
     MapElement mapElement = (MapElement)myLevel->getMapElement(myHero->getX() + farFrontX, myHero->getY() + farFrontY);
     
     int8_t imageIndex = -1;
-    int8_t xOffset = 29;
-    int8_t yOffset = 25;
+    int8_t xOffset = 0;
+    int8_t yOffset = 0;
 
     if (mapElement > MapElement::Floor) {
 
@@ -144,10 +144,14 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
         case MapElement::LockedDoor:
           imageIndex = MAP_IMAGE_FAR_DOOR_LOCKED;
+          xOffset = 29;
+          yOffset = 25;
           break;
       
         case MapElement::UnlockedDoor:
           imageIndex = MAP_IMAGE_FAR_DOOR_UNLOCKED;
+          xOffset = 29;
+          yOffset = 25;
           break;
           
         default: break;
@@ -190,8 +194,8 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   if (horizon2Plus) {
 
     int8_t imageIndex = -1;
-    int8_t xOffset = 24;
-    int8_t yOffset = 23;
+    int8_t xOffset = 0;
+    int8_t yOffset = 0;
 
     MapElement mapElement = (MapElement)myLevel->getMapElement(myHero->getX() + middleFrontX, myHero->getY() + middleFrontY);
     
@@ -216,6 +220,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
           xOffset = 27;
           yOffset = 25;
           break;
+
         default: break;
       
       }
@@ -337,8 +342,11 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
       if (enemies[i].getX() == myHero->getX() + offsetX && enemies[i].getY() == myHero->getY() + offsetY) {
 
         uint8_t enemyType = (uint8_t)enemies[i].getEnemyType();
-        arduboy.drawCompressed(enemy_offset[enemyType].x, enemy_offset[enemyType].y, enemy_masks[enemyType], BLACK);
-        arduboy.drawCompressed(enemy_offset[enemyType].x, enemy_offset[enemyType].y, enemy_images[enemyType], WHITE);
+        Point enemyOffset = enemy_offset[enemyType];
+
+        arduboy.drawCompressed(enemyOffset.x, enemyOffset.y, enemy_masks[enemyType], BLACK);
+        arduboy.drawCompressed(enemyOffset.x, enemyOffset.y, enemy_images[enemyType], WHITE);
+
         if (gameState == GameState::Move) gameState = GameState::Battle_EnemyAttacks_Init;
         renderEnemy = true;
         break;
@@ -566,21 +574,18 @@ void displaySplash() {
 
   uint8_t buttons = arduboy.justPressedButtons();
 
-  if (buttons & LEFT_BUTTON_MASK) {
-    splashStatus = SplashButtons::Play;
-  }
-
-  if (buttons & RIGHT_BUTTON_MASK) {
-    splashStatus = SplashButtons::About;
-  }
+  if (buttons & LEFT_BUTTON_MASK)              { splashStatus = SplashButtons::Play; }
+  if (buttons & RIGHT_BUTTON_MASK)             { splashStatus = SplashButtons::About; }
 
   if (buttons & SELECT_BUTTON_MASK) {
-    if(splashStatus == SplashButtons::Play) {
+
+    if (splashStatus == SplashButtons::Play) {
       gameState = GameState::InitGame;
     }
-    if(splashStatus == SplashButtons::About) {
+    if (splashStatus == SplashButtons::About) {
       gameState = GameState::About;
     }
+
   }
 
 }
