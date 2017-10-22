@@ -142,7 +142,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
     
     MapElement mapElement = (MapElement)myLevel->getMapElement(playerX + farFrontX, playerY + farFrontY);
     
-    int8_t imageIndex = -1;
+    int8_t imageIndex = 0;
     int8_t xOffset = 0;
     int8_t yOffset = 0;
 
@@ -207,7 +207,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   
   if (horizon2Plus) {
 
-    int8_t imageIndex = -1;
+    int8_t imageIndex = 0;
     int8_t xOffset = 0;
     int8_t yOffset = 0;
 
@@ -278,7 +278,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   
   if (mapElement > MapElement::Floor) {
 
-    int8_t imageIndex = -1;
+    int8_t imageIndex = -1;     //TODO: CHanged to 0 and if (imageIndex > 0) .. added 4 bytes
     int8_t xOffset = 0;
     int8_t yOffset = 0;
   
@@ -306,7 +306,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
         imageIndex = MAP_IMAGE_CLOSE_DOOR_UNLOCKED;
         xOffset = 22;
         yOffset = 21;
-        break;
+        
       default: break;
     
     }
@@ -347,16 +347,18 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {  
 
-    if (enemies[i].getEnabled()) {
+    Enemy enemy = enemies[i];
+
+    if (enemy.getEnabled()) {
 
       uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
 
       int8_t offsetX = offsetXTable[selector];
       int8_t offsetY = offsetYTable[selector];
 
-      if (enemies[i].getX() == playerX + offsetX && enemies[i].getY() == playerY + offsetY) {
+      if (enemy.getX() == playerX + offsetX && enemy.getY() == playerY + offsetY) {
 
-        uint8_t enemyType = (uint8_t)enemies[i].getEnemyType();
+        uint8_t enemyType = (uint8_t)enemy.getEnemyType();
         Point enemyOffset = enemy_offset[enemyType];
 
         arduboy.drawCompressed(enemyOffset.x, enemyOffset.y, enemy_masks[enemyType], BLACK);
@@ -379,25 +381,29 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
     
     for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
 
-      if (items[i].getEnabled()) {
+      Item item = items[i];
+
+      if (item.getEnabled()) {
 
         uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
 
         int8_t offsetX = offsetXTable[selector];
         int8_t offsetY = offsetYTable[selector];
 
-        if (items[i].getX() == playerX + offsetX && items[i].getY() == playerY + offsetY) {
+        if (item.getX() == playerX + offsetX && item.getY() == playerY + offsetY) {
+
+          ItemType itemType = item.getItemType();
 
           arduboy.fillRect(14, 11, 41, 43, BLACK);
           arduboy.fillRect(15, 12, 39, 41, WHITE);
-          arduboy.drawCompressed(item_offset[(uint8_t)items[i].getItemType()].x, item_offset[(uint8_t)items[i].getItemType()].y, item_images[(uint8_t)items[i].getItemType()], BLACK);
+          arduboy.drawCompressed(item_offset[(uint8_t)itemType].x, item_offset[(uint8_t)itemType].y, item_images[(uint8_t)itemType], BLACK);
 
           font3x5.setTextColor(BLACK);
           font3x5.setCursor(17, 12);
           font3x5.print(F("YOU FOUND"));
           font3x5.setCursor(17, 46);
           
-          switch (items[i].getItemType()) {
+          switch (itemType) {
         
             case ItemType::Key:
               font3x5.print(F("SOME KEYS"));
@@ -410,6 +416,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
             case ItemType::Scroll:
               font3x5.print(F("A SCROLL"));
               break;
+              
             default: break;
 
           }
@@ -449,7 +456,7 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
   uint8_t drawY = 0;
 
   bool renderMapElement = false;
-
+  
   for (int16_t mapY = player->getY() - 3; mapY <= player->getY() + 3; ++mapY) {
 
     for (int16_t mapX = player->getX() - 2; mapX <= player->getX() + 2; ++mapX) {
@@ -467,7 +474,9 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
           
           for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {  
         
-            if (enemies[i].getEnabled() && enemies[i].getX() == mapX && enemies[i].getY() == mapY) {
+            Enemy enemy = enemies[i];
+
+            if (enemy.getEnabled() && enemy.getX() == mapX && enemy.getY() == mapY) {
 
               Sprites::drawSelfMasked(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), enemyMap, 0);
               renderMapElement = false;
@@ -484,7 +493,9 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
 
             for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
           
-              if (items[i].getEnabled() && items[i].getX() == mapX && items[i].getY() == mapY) {
+              Item item = items[i];
+
+              if (item.getEnabled() && item.getX() == mapX && item.getY() == mapY) {
           
                 Sprites::drawSelfMasked(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), itemMap, 0);
                 renderMapElement = false;
