@@ -1,5 +1,4 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#pragma once
 
 #include <Arduboy2.h>
 #include "Base.h"
@@ -40,6 +39,4 @@ class Player : public Base {
     Inventory _inventory[5];
     uint8_t _inventoryCount[5];
     
-  };
-
-#endif
+};

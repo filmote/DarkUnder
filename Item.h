@@ -1,5 +1,4 @@
-#ifndef ITEM_H
-#define ITEM_H
+#pragma once
 
 #include <Arduboy2.h>
 #include "Item.h"
@@ -24,5 +23,3 @@ class Item : public Base {
     bool _enabled;
 
 };
-
-#endif

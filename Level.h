@@ -1,5 +1,4 @@
-#ifndef LEVEL_H
-#define LEVEL_H
+#pragma once
 
 #include <Arduboy2.h>
 #include "Enums.h"
@@ -55,5 +54,3 @@ class Level {
 
 
 };
-
-#endif

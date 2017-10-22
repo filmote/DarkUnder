@@ -1,5 +1,4 @@
-#ifndef ENUMS_H
-#define ENUMS_H
+#pragma once
 
 // ----  Memory saving switches -------
 
@@ -241,5 +240,3 @@ inline Direction operator--( Direction & c, int ) {
   return result;
 
 }
-
-#endif

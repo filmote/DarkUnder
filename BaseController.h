@@ -1,5 +1,4 @@
-#ifndef BASECONTROLLER_H
-#define BASECONTROLLER_H
+#pragma once
 
 #include <Arduboy2.h>
 #include "Enums.h"
@@ -19,5 +18,3 @@ class BaseController {
     static boolean moveLegal(Enemy *allEnemies, Player *player, Level *level, int x, int y);
 
 };
-
-#endif

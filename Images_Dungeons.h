@@ -1,5 +1,4 @@
-#ifndef IMAGES_DUNGEONS_H
-#define IMAGES_DUNGEONS_H
+#pragma once
 
 #include "Enums.h"
 
@@ -157,5 +156,3 @@ const unsigned char PROGMEM farDoorUnlocked[] = {
 5, 2,
 0x18, 0x00, 0x00, 0x00, 0x18, 
 };
-    
-#endif

@@ -1,5 +1,4 @@
-#ifndef PLAYERCONTROLLER_H
-#define PLAYERCONTROLLER_H
+#pragma once
 
 #include <Arduboy2.h>
 #include "BaseController.h"
@@ -20,5 +19,3 @@ class PlayerController : public BaseController {
     static bool move(Player *player, Enemy *allEnemies, Level *level, Button button);
 
 };
-
-#endif

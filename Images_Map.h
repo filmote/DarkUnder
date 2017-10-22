@@ -1,5 +1,4 @@
-#ifndef IMAGES_MAP_H
-#define IMAGES_MAP_H
+#pragma once
 
 const unsigned char PROGMEM enemyMap[] = {
 4, 4,
@@ -19,5 +18,3 @@ const unsigned char PROGMEM playerMap[] = {
 const unsigned char PROGMEM playerMap_Mask[] = {
 0x0F, 0x0F, 0x0F, 0x0F,
 };
-
-#endif

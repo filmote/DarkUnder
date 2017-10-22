@@ -1,5 +1,4 @@
-#ifndef FONT3x5_H
-#define FONT3x5_H
+#pragma once
 
 #include <Arduino.h>
 #include <Print.h>
@@ -82,5 +81,3 @@ class Font3x5 : public Print {
     uint8_t lineHeight;     //!< lineHeight controls the height between lines breakend by \n. Default is 6.
 
 };
-
-#endif

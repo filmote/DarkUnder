@@ -1,5 +1,4 @@
-#ifndef BASE_H
-#define BASE_H
+#pragma once
 
 #include <Arduboy2.h>
 
@@ -22,4 +21,3 @@ class Base {
     
 };
 
-#endif

@@ -1,5 +1,4 @@
-#ifndef ENEMYCONTROLLER_H
-#define ENEMYCONTROLLER_H
+#pragma once
 
 #include <Arduboy2.h>
 #include "BaseController.h"
@@ -22,5 +21,3 @@ class EnemyController : public BaseController {
     static boolean moveToVacantSquare(Enemy *thisEnemy, Enemy *allEnemies, Player *player, Level *level, Direction playerDirection);
 
 };
-
-#endif

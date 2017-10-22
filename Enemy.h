@@ -1,5 +1,4 @@
-#ifndef ENEMY_H
-#define ENEMY_H
+#pragma once
 
 #include <Arduboy2.h>
 #include "Base.h"
@@ -28,5 +27,3 @@ class Enemy : public Base {
     bool _enabled;
 
 };
-
-#endif

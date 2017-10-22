@@ -1,6 +1,8 @@
 #ifndef ARDUBOY2EXT_H
 #define ARDUBOY2EXT_H
 
+#pragma once
+
 #include "Arduboy2.h"
 
 #define DEFAULT_VERT_SPACING 12
