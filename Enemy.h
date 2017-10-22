@@ -27,6 +27,6 @@ class Enemy : public Base {
     int8_t _hitPoints;
     bool _enabled;
 
-  };
+};
 
 #endif

@@ -32,6 +32,7 @@ MapElement Level::getMapElement(uint32_t x, uint32_t y) {
 
 
   // Is there a door in this location?
+  // TODO:  I have already tried to assign _doors[i] to a var and it increased code by 24 bytes.
 
   for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
 
@@ -52,7 +53,6 @@ MapElement Level::getMapElement(uint32_t x, uint32_t y) {
   // Otherwise, work it out from the map ..
 
   uint8_t tileNumber = pgm_read_byte(&_level[_startPos + (x / MAP_TILE_WIDTH) + ((y / MAP_TILE_HEIGHT) * _width)]);
-
   loadTile((Rotation)(tileNumber & 0xC0), tileNumber, _map_tiles[(tileNumber & 0x3F)]);
   uint16_t mapElement = _tileData[(x % MAP_TILE_WIDTH) + (((y % MAP_TILE_HEIGHT) / 8) * MAP_TILE_PHYSICAL_WIDTH)] & (1 << (y % MAP_TILE_HEIGHT % 8));
  

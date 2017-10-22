@@ -6,6 +6,17 @@
 const int8_t offsetXTable[] = { 0, 1, 0, -1 };
 const int8_t offsetYTable[] = { -1, 0, 1, 0 };
 
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Draw Player Vision.
+ *  
+ *  Renders the dungeon with any doors, enemies and items that are in view.
+ * 
+ *  To save space elsewhere, it automatically calls the drawMapAndStatistics() function to render the map and statistics panel
+ *  as these are always rendered when the dungeon is rendered.
+ *
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by checking row and cols ahead of player
 
   bool horizon3Plus = false;
@@ -246,6 +257,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
     Sprites::drawOverwrite(VISION_X_OFFSET + 15, VISION_Y_OFFSET + 15, myLevel->getMapImages()[MAP_IMAGE_MID_GATE_LEFT], 0);    
   }
 
+
   // Mid right wall ..
   
   mapElement = myLevel->getMapElement(myHero->getX() + middleRightX, myHero->getY() + middleRightY);
@@ -413,9 +425,18 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   }
 
+  drawMapAndStatistics(myHero, myLevel);
+
 }
 
 
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Draw the Map and Statistics.
+ *  
+ *  Was originally two separate functions however they are always rendered together.
+ * 
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 #define MAP_X_OFFSET   98
 #define MAP_Y_OFFSET   6
 
@@ -537,12 +558,21 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
 }
 
 
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Draw Direction Indicator
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 void drawDirectionIndicator(Player *myHero) {
 
   Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, direction_images[(uint8_t)myHero->getDirection()], 0);
   
 }
 
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Render Level Description
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 void drawLevelDescription(Level *level) {
 
   font3x5.setCursor(80,44);
@@ -552,6 +582,11 @@ void drawLevelDescription(Level *level) {
 
 }
 
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Render Enemy Hit Points Bar
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 void drawEnemyHitPointsBar(uint8_t hitPoints) {
 
   arduboy.drawCompressed(3, 49, fight_HP_bar_Mask, BLACK);
@@ -560,6 +595,13 @@ void drawEnemyHitPointsBar(uint8_t hitPoints) {
   
 }
 
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Render Splash Screen
+ * 
+ *  The player can choose between starting a new game or viewing the credits.
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 void displaySplash() {
   
   arduboy.drawCompressed(0, 0, frames_outside, WHITE);
@@ -590,6 +632,11 @@ void displaySplash() {
 
 }
 
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Display Garage Collective Logo
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 void displayLogo() {
 
   arduboy.drawCompressed(0, 0, frames_outside, WHITE);

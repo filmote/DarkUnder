@@ -209,7 +209,6 @@ uint16_t itemLoop() {
   bool item_no_slots = false;
 
   drawPlayerVision(&myHero, &myLevel);
-  drawMapAndStatistics(&myHero, &myLevel);
 
   if (item_action == INVENTORY_ACTION_USE)     arduboy.drawCompressed(71, 56, inv_select, WHITE);
   if (item_action == INVENTORY_ACTION_DELETE)  arduboy.drawCompressed(83, 56, inv_select, WHITE);
@@ -493,7 +492,6 @@ uint16_t battleLoop() {
   uint16_t delayLength = 0;
   
   drawPlayerVision(&myHero, &myLevel);
-  drawMapAndStatistics(&myHero, &myLevel);  
   Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, fight_icon, 0);
 
   font3x5.setCursor(80,44);
@@ -828,7 +826,6 @@ void playLoop() {
   bool playerMoved = false ;
 
   drawPlayerVision(&myHero, &myLevel);
-  drawMapAndStatistics(&myHero, &myLevel);
   drawDirectionIndicator(&myHero);
   drawLevelDescription(&myLevel);
   

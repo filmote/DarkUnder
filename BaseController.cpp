@@ -30,11 +30,9 @@ bool BaseController::moveLegal(Enemy *allEnemies, Player *player, Level *level, 
 
     for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {
 
-      if (allEnemies[i].getEnabled()) {
+      Enemy enemy = allEnemies[i];
 
-        if (allEnemies[i].getX() == x && allEnemies[i].getY() == y)           { return false; }
-
-      }
+      if (enemy.getEnabled() && enemy.getX() == x && enemy.getY() == y)      { return false; }
 
     }
     
@@ -46,11 +44,8 @@ bool BaseController::moveLegal(Enemy *allEnemies, Player *player, Level *level, 
     return true;
 
   }
-  else {
 
-    return false;
-
-  }
+  return false;
 
 } 
 
