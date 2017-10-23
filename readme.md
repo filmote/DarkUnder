@@ -1,24 +1,24 @@
-# Decisions Points
+## Decisions Points
 
 * Inventory management – use black on white background or white on black.  Preference is black on white but 180 bytes can be saved with the reverse.
 * Dice animations – preference is to include this but it adds 558 bytes.
 * Tile rotations – no preference and the decision will be dependent on the number of tiles that need rotating and how many rotations.  Removing the rotation code will also free up RAM.
 * Sound library – preference is to have at least a theme tune and possibly other sound effects but the library alone is 800+ bytes with themes extra. The 1943 theme is approximately 250 bytes long.
 
-# Metrics
+## Metrics
 
 * Tiles use 34 bytes of Progmem and 2 bytes of RAM
 * Levels use approximately 75 – 100 bytes depending on the number of enemies and items in the level.
 
-# Current Limitations
+## Current Limitations
 
 * Number of doors per level = 3
 * Number of enemies per level = 18
 * Number of items per level = 18
 
-* These have been chosen to ensure the RAM is under 75% utilized.  Note the allocation can be redistributed if need be and increased if we remove the rotation code.
+Note: These have been chosen to ensure the RAM is under 75% utilized.  Note the allocation can be redistributed if need be and increased if we remove the rotation code.
 
-# To Do
+## To Do
 
 - [X] Create a todo list.
 - [ ] Revisit the ‘defend’ logic. 
@@ -28,7 +28,7 @@
 - [ ] Revisit ‘attack’ logic to incorporate above metrics
 
 
-# Outstanding Questions
+## Outstanding Questions
 
 * Are the HP / AP / etc metrics of an enemy fixed across all levels or are they level specific? 
 * Do you need to kill all enemies before proceeding to the next level?  I assume not.
