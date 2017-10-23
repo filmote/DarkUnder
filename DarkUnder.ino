@@ -193,6 +193,9 @@ void loop() {
       displayEndOfGame(false);
       break;
 
+    default:
+      break;
+
   }
 
   arduboy.display();
@@ -605,6 +608,9 @@ uint16_t battleLoop() {
               myHero.setInventory(myHero.getSlotNumber(Inventory::Potion), Inventory::None);
               fightButton = FightButtons::Attack;
               break;
+
+            default:
+              break;
           
           }
         
@@ -867,10 +873,7 @@ void playLoop() {
       const int16_t deltaX = enemies[i].getX() - myHero.getX();
       const int16_t deltaY = enemies[i].getY() - myHero.getY();
 
-      const uint16_t absDeltaX = absT(deltaX);
-      const uint16_t absDeltaY = absT(deltaY);
-
-      if ((absT(deltaX) == 1 & deltaY == 0) ^ (deltaX == 0 && absT(deltaY) == 1)) { 
+      if ((deltaY == 0 && absT(deltaX) == 1) ^ (deltaX == 0 && absT(deltaY) == 1)) { 
 
 
         // Rotate the player if the enemy is attacking from the side ..
