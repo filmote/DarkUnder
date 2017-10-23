@@ -31,6 +31,7 @@ Note: These have been chosen to ensure the RAM is under 75% utilized.  Note the 
 - [ ] Revisit 'attack' logic to incorporate above metrics.
 - [X] Revisit mode enemy logic to incorporate above metrics.
 - [ ] Change map diagrams to use zero-based tile numbers.
+- [ ] Include logic for player dying.
 
 
 ### Outstanding Questions
