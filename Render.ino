@@ -351,12 +351,37 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
     if (enemy.getEnabled()) {
 
-      uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
+      // uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
 
-      int8_t offsetX = offsetXTable[selector];
-      int8_t offsetY = offsetYTable[selector];
+      // int8_t offsetX = offsetXTable[selector];
+      // int8_t offsetY = offsetYTable[selector];
 
-      if (enemy.getX() == playerX + offsetX && enemy.getY() == playerY + offsetY) {
+      // if (enemy.getX() == playerX + offsetX && enemy.getY() == playerY + offsetY) {
+
+      //   uint8_t enemyType = (uint8_t)enemy.getEnemyType();
+      //   Point enemyOffset = enemy_offset[enemyType];
+
+      //   arduboy.drawCompressed(enemyOffset.x, enemyOffset.y, enemy_masks[enemyType], BLACK);
+      //   arduboy.drawCompressed(enemyOffset.x, enemyOffset.y, enemy_images[enemyType], WHITE);
+
+      //   if (gameState == GameState::Move) gameState = GameState::Battle_EnemyAttacks_Init;
+      //   renderEnemy = true;
+      //   break;
+
+      // }
+
+      int16_t deltaX = myHero->getX() - enemy.getX();
+      int16_t deltaY = myHero->getY() - enemy.getY();
+      
+      const uint16_t absDeltaX = absT(deltaX);
+      const uint16_t absDeltaY = absT(deltaY);
+      
+      if ((absDeltaX == 1 & deltaY == 0) ^ (deltaX == 0 && absDeltaY == 1)) { 
+  
+        if (deltaX < 0) { myHero->setDirection(Direction::West); }
+        else if (deltaX > 0) { myHero->setDirection(Direction::East); }
+        else if (deltaY < 0) { myHero->setDirection(Direction::North); }
+        else if (deltaY > 0) { myHero->setDirection(Direction::South); }        
 
         uint8_t enemyType = (uint8_t)enemy.getEnemyType();
         Point enemyOffset = enemy_offset[enemyType];
@@ -369,7 +394,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
         break;
 
       }
-            
+                              
     }
          
   }

@@ -115,6 +115,12 @@
 #define ITEM_ACTION_USE                   0
 #define ITEM_ACTION_DELETE                1
 
+struct EnemyStatistics {
+  uint8_t HitPoints;
+  uint8_t AttackPoints;
+  boolean Moving;
+};
+
 enum class GameState : uint8_t {
   Splash,   
   About,
@@ -183,6 +189,7 @@ enum class EnemyType : uint8_t {
   Rat,
   Slime
 };
+
 
 enum class ItemType : uint8_t {
   None,

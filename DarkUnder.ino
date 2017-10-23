@@ -37,13 +37,22 @@ Enemy enemies[NUMBER_OF_ENEMIES];
 uint8_t attackingEnemyIdx = 0;
 
 const uint8_t *levels[] = { level_00, level_01, level_02 };
-const uint8_t *map_tiles[] = { tile_00, tile_01, tile_02 };
+const uint8_t *map_tiles[] = { tile_00, tile_01, tile_02, tile_03, tile_04, tile_05, tile_06, tile_07 };
 
 const uint8_t *map_images[] = { visionBack, closeWallFront, closeGateLocked, closeDoorLocked, closeDoorUnlocked, closeWallLeft, closeWallRight, closeGateLeft, closeGateRight,
                                 midWallFront, midDoorLocked, midDoorLevelLocked, midDoorLevelUnlocked, midWallLeft, midWallRight, midGateLeft, midGateRight,
                                 farGateLocked, farDoorLocked, farDoorUnlocked, farWallLeft, farWallRight };
 
 const uint8_t *direction_images[] = { directionN, directionE, directionS, directionW };
+
+const EnemyStatistics enemyStats[] = { EnemyStatistics { 20, 12, true },    // Beholder
+                                       EnemyStatistics { 10, 8, true },     // Skeleton
+                                       EnemyStatistics { 10, 5, true },     // Displacer
+                                       EnemyStatistics { 12, 10, true },    // Wraith
+                                       EnemyStatistics { 30, 20, true },    // Dragon
+                                       EnemyStatistics { 5, 2, false },     // Rat
+                                       EnemyStatistics { 8, 4, false },     // Slime
+                                     };
 
 
 // Inventory settings ..
@@ -109,7 +118,7 @@ void setup() {
   myLevel.setMapTiles(map_tiles);
 
   myHero.setInventory(0, Inventory::Key);
-//  myHero.setInventory(1, Inventory::Potion);
+  myHero.setInventory(1, Inventory::Potion);
   myHero.setInventory(2, Inventory::Potion);
   myHero.setInventory(3, Inventory::Shield);
   myHero.setInventory(4, Inventory::Sword);
@@ -383,7 +392,6 @@ void inventoryLoop() {
 
             case Inventory::Potion:
               myHero.setHitPoints(myHero.getHitPoints() + INVENTORY_POTION_HP_INC);
-//              myHero.decInventoryCount(Inventory::Potion);
               myHero.setInventory(inventory_selection, Inventory::None);
               inventory_action = INVENTORY_ACTION_USE;
               gameState = GameState::InventorySelect;
@@ -589,7 +597,6 @@ uint16_t battleLoop() {
 
             case (FightButtons::Potion):
               myHero.setHitPoints(myHero.getHitPoints() + INVENTORY_POTION_HP_INC);
-              // myHero.decInventoryCount(Inventory::Potion);
               myHero.setInventory(myHero.getSlotNumber(Inventory::Potion), Inventory::None);
               fightButton = FightButtons::Attack;
               break;
@@ -723,7 +730,6 @@ uint16_t battleLoop() {
       arduboy.drawCompressed(12, 15, fight_hero_spell, WHITE);
 
       enemies[attackingEnemyIdx].decHitPoints(diceAttack);
-//    myHero.decInventoryCount(Inventory::Scroll);
       myHero.setInventory(myHero.getSlotNumber(Inventory::Scroll), Inventory::None);
 
       if (enemies[attackingEnemyIdx].getHitPoints() > 0) {
@@ -834,9 +840,11 @@ void playLoop() {
 
     for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {
       
-      if (enemies[i].getEnabled()) {
+      Enemy enemy = enemies[i];
 
-        EnemyController::move(&enemies[i], enemies, &myHero, &myLevel);
+      if (enemy.getEnabled() && enemy.getMoving()) {
+
+        EnemyController::move(&enemy, enemies, &myHero, &myLevel);
 
       }
 
@@ -853,10 +861,11 @@ void playLoop() {
 
       const int16_t deltaX = enemies[i].getX() - myHero.getX();
       const int16_t deltaY = enemies[i].getY() - myHero.getY();
+
       const uint16_t absDeltaX = absT(deltaX);
       const uint16_t absDeltaY = absT(deltaY);
 
-      if ((absDeltaX <= 1) && (absDeltaY <= 1))  {
+      if ((absT(deltaX) == 1 & deltaY == 0) ^ (deltaX == 0 && absT(deltaY) == 1)) { 
 
 
         // Rotate the player if the enemy is attacking from the side ..
@@ -971,11 +980,22 @@ uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t
   for (uint8_t i = 0; i < max; ++i) {  
 
     enemies[i].setEnabled(i < numberOfEnemies);
+
     if(enemies[i].getEnabled()) {	
-      enemies[i].setHitPoints(ENEMY_MAX_HITPOINTS);
-      enemies[i].setEnemyType((EnemyType)pgm_read_byte(&level[idx++]));
+
+      EnemyType enemyType = (EnemyType)pgm_read_byte(&level[idx++]);
+
+      enemies[i].setEnemyType(enemyType);
       enemies[i].setX(pgm_read_byte(&level[idx++]));
       enemies[i].setY(pgm_read_byte(&level[idx++]));
+
+
+      // Load statistics ..
+
+      enemies[i].setHitPoints(enemyStats[(uint8_t)enemyType].HitPoints);
+      enemies[i].setAttackPoints(enemyStats[(uint8_t)enemyType].AttackPoints);
+      enemies[i].setMoving(enemyStats[(uint8_t)enemyType].Moving);
+
     }
     
   }
