@@ -193,6 +193,9 @@ void loop() {
       displayEndOfGame(false);
       break;
 
+    default:
+      break;
+
   }
 
   arduboy.display();
