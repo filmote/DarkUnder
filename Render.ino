@@ -423,24 +423,30 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
           font3x5.setTextColor(BLACK);
           font3x5.setCursor(17, 12);
           font3x5.print(F("YOU FOUND"));
-          font3x5.setCursor(17, 46);
+          
+          const __FlashStringHelper * text = nullptr;
           
           switch (itemType) {
         
             case ItemType::Key:
-              font3x5.print(F("SOME KEYS"));
+              text = F("SOME KEYS");
               break;
         
             case ItemType::Potion:
-              font3x5.print(F("HP POTION"));
+              text = F("HP POTION");
               break;
         
             case ItemType::Scroll:
-              font3x5.print(F("A SCROLL"));
+              text = F("A SCROLL");
               break;
               
             default: break;
 
+          }
+          
+          if(text != nullptr) {
+            font3x5.setCursor(17, 46);
+            font3x5.print(text);
           }
 
           font3x5.setTextColor(WHITE);
