@@ -110,7 +110,7 @@ void setup() {
 
   myHero.setInventory(0, Inventory::Key);
 //  myHero.setInventory(1, Inventory::Potion);
-  myHero.setInventory(2, Inventory::Scroll);
+  myHero.setInventory(2, Inventory::Potion);
   myHero.setInventory(3, Inventory::Shield);
   myHero.setInventory(4, Inventory::Sword);
   
@@ -235,61 +235,77 @@ uint16_t itemLoop() {
     if (item_action == ITEM_ACTION_USE) {
 
       Inventory inventoryType = (Inventory)((uint8_t)items[savedItem].getItemType());
-      int8_t inventorySlot = -1;
-      bool item_no_slots = false;
+      // int8_t inventorySlot = -1;
+      // bool item_no_slots = false;
       
-      switch (inventoryType) {
+      // switch (inventoryType) {
 
-        case Inventory::Key:
+      //   case Inventory::Key:
 
-          inventorySlot = myHero.getConsumableSlot();
-          if (inventorySlot >= 0) {
+      //     inventorySlot = myHero.getConsumableSlot();
+      //     if (inventorySlot >= 0) {
 
-            myHero.setInventory(inventorySlot, inventoryType);
-            items[savedItem].setEnabled(false);
-            gameState = GameState::Move;
+      //       myHero.setInventory(inventorySlot, inventoryType);
+      //       items[savedItem].setEnabled(false);
+      //       gameState = GameState::Move;
             
-          }
-          else {
+      //     }
+      //     else {
           
-            item_no_slots = true;
+      //       item_no_slots = true;
 
-          }
-          break;
+      //     }
+      //     break;
           
-        case Inventory::Potion:
-        case Inventory::Scroll:
+      //   case Inventory::Potion:
+      //   case Inventory::Scroll:
 
-          inventorySlot = myHero.getSlotNumber(inventoryType);
-          if (inventorySlot < 0) { inventorySlot = myHero.getConsumableSlot(); }
+      //     inventorySlot = myHero.getSlotNumber(inventoryType);
+      //     if (inventorySlot < 0) { inventorySlot = myHero.getConsumableSlot(); }
 
-          if (inventorySlot >= 0) {
+      //     if (inventorySlot >= 0) {
 
-            myHero.setInventory(inventorySlot, inventoryType);
-            items[savedItem].setEnabled(false);
-            gameState = GameState::Move;
+      //       myHero.setInventory(inventorySlot, inventoryType);
+      //       items[savedItem].setEnabled(false);
+      //       gameState = GameState::Move;
             
-          }
-          else {
+      //     }
+      //     else {
           
-            item_no_slots = true;
+      //       item_no_slots = true;
 
-          }
+      //     }
 
-        default: break;
+      //   default: break;
 
-      }
+      // }
 
+      int8_t inventorySlot = myHero.getConsumableSlot();
+      if (inventorySlot >= 0) {
 
-      // Diplay a message if there are no inventory slots to pickup the item ..
-
-      if (item_no_slots) {
+        myHero.setInventory(inventorySlot, inventoryType);
+        items[savedItem].setEnabled(false);
+        gameState = GameState::Move;
         
+      }
+      else {
+      
         font3x5.setCursor(95, 44);
         font3x5.print(F("NO INV\nSLOTS!"));
         return ITEM_DELAY;
 
       }
+
+
+      // // Diplay a message if there are no inventory slots to pickup the item ..
+
+      // if (item_no_slots) {
+        
+      //   font3x5.setCursor(95, 44);
+      //   font3x5.print(F("NO INV\nSLOTS!"));
+      //   return ITEM_DELAY;
+
+      // }
       
     }
 
@@ -422,7 +438,8 @@ void inventoryLoop() {
 
             case Inventory::Potion:
               myHero.setHitPoints(myHero.getHitPoints() + INVENTORY_POTION_HP_INC);
-              myHero.decInventoryCount(Inventory::Potion);
+//              myHero.decInventoryCount(Inventory::Potion);
+              myHero.setInventory(inventory_selection, Inventory::None);
               inventory_action = INVENTORY_ACTION_USE;
               gameState = GameState::InventorySelect;
               break;
@@ -627,7 +644,8 @@ uint16_t battleLoop() {
 
             case (FightButtons::Potion):
               myHero.setHitPoints(myHero.getHitPoints() + INVENTORY_POTION_HP_INC);
-              myHero.decInventoryCount(Inventory::Potion);
+              // myHero.decInventoryCount(Inventory::Potion);
+              myHero.setInventory(myHero.getSlotNumber(Inventory::Potion), Inventory::None);
               fightButton = FightButtons::Attack;
               break;
           
@@ -760,7 +778,8 @@ uint16_t battleLoop() {
       arduboy.drawCompressed(12, 15, fight_hero_spell, WHITE);
 
       enemies[attackingEnemyIdx].decHitPoints(diceAttack);
-      myHero.decInventoryCount(Inventory::Scroll);
+//    myHero.decInventoryCount(Inventory::Scroll);
+      myHero.setInventory(myHero.getSlotNumber(Inventory::Scroll), Inventory::None);
 
       if (enemies[attackingEnemyIdx].getHitPoints() > 0) {
         gameState = GameState::Battle_EnemyAttacks_Init;
