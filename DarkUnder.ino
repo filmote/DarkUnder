@@ -870,9 +870,6 @@ void playLoop() {
       const int16_t deltaX = enemies[i].getX() - myHero.getX();
       const int16_t deltaY = enemies[i].getY() - myHero.getY();
 
-      const uint16_t absDeltaX = absT(deltaX);
-      const uint16_t absDeltaY = absT(deltaY);
-
       if ((absT(deltaX) == 1 & deltaY == 0) ^ (deltaX == 0 && absT(deltaY) == 1)) { 
 
 
