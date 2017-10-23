@@ -870,7 +870,7 @@ void playLoop() {
       const int16_t deltaX = enemies[i].getX() - myHero.getX();
       const int16_t deltaY = enemies[i].getY() - myHero.getY();
 
-      if ((absT(deltaX) == 1 & deltaY == 0) ^ (deltaX == 0 && absT(deltaY) == 1)) { 
+      if ((absT(deltaX) == 1 && deltaY == 0) ^ (deltaX == 0 && absT(deltaY) == 1)) { 
 
 
         // Rotate the player if the enemy is attacking from the side ..
