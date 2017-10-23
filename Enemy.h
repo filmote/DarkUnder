@@ -11,11 +11,11 @@ class Enemy : public Base {
 
     Enemy();
 
-    const EnemyType getEnemyType();
-    const bool getEnabled();
-    const int8_t getHitPoints();
-    const int8_t getAttackPoints();
-    const bool getMoving();
+    EnemyType getEnemyType();
+    bool getEnabled();
+    int8_t getHitPoints();
+    int8_t getAttackPoints();
+    bool getMoving();
     
     void setEnemyType(const EnemyType value);
     void setEnabled(const bool value);    
