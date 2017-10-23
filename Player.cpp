@@ -25,16 +25,7 @@ void Player::setAttackPower(const int8_t value)     { _attackPower = value; }
 
 void Player::setInventory(const int8_t slot, const Inventory item) { 
 
-  // if (item != Inventory::None) {
-  //     _inventory[slot] = item; 
-  //     ++_inventoryCount[slot];
-  // }
-  // else {
-  //     _inventory[slot] = item; 
-  //     _inventoryCount[slot] = 0;
-  // }
   _inventory[slot] = item; 
-
   shuffleInventory();
      
 }
@@ -59,16 +50,6 @@ int8_t Player::getSlotNumber(const Inventory item) {
         
 }
 
-// int8_t Player::getInventoryCount(const Inventory item) {
-    
-//     int8_t slotNumber = Player::getSlotNumber(item);
-
-//     if (slotNumber >= 0)    return _inventoryCount[slotNumber];
-
-//     return 0;
-        
-// }
-
 int8_t Player::getInventoryCount(const Inventory item) {
     
     uint8_t itemCount = 0;
@@ -81,24 +62,7 @@ int8_t Player::getInventoryCount(const Inventory item) {
         
 }
 
-// void Player::decInventoryCount(const Inventory item) {
-    
-//     int8_t slotNumber = Player::getSlotNumber(item);
-
-//     if (slotNumber >= 0)                    --_inventoryCount[slotNumber];
-//     if (_inventoryCount[slotNumber] == 0)   _inventory[slotNumber] = Inventory::None;
-    
-//     shuffleInventory();
-        
-// }
-
 void Player::shuffleInventory() {
-
-  // if (_inventory[0] == Inventory::None) { _inventory[0] = _inventory[1]; _inventory[1] = _inventory[2]; _inventory[2] = Inventory::None; 
-  //   _inventoryCount[0] = _inventoryCount[1]; _inventoryCount[1] = _inventoryCount[2]; _inventoryCount[2] = 0; }
-  // if (_inventory[1] == Inventory::None) { _inventory[1] = _inventory[2]; _inventory[2] = Inventory::None; 
-  //     _inventoryCount[1] = _inventoryCount[2]; _inventoryCount[2] = 0; }
-  // if (_inventory[2] == Inventory::None) { _inventoryCount[2] = 0; }
 
   if (_inventory[0] == Inventory::None) { _inventory[0] = _inventory[1]; _inventory[1] = _inventory[2]; _inventory[2] = Inventory::None; }
   if (_inventory[1] == Inventory::None) { _inventory[1] = _inventory[2]; _inventory[2] = Inventory::None; }

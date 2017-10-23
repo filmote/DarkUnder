@@ -26,7 +26,6 @@ class Player : public Base {
     void setDefence(const int8_t value);   
     void setAttackPower(const int8_t value);   
     void setInventory(const int8_t slot, const Inventory item);   
-//    void decInventoryCount(const Inventory item);
     
   private:
 
@@ -37,6 +36,5 @@ class Player : public Base {
     int8_t _defence;
     int8_t _attackPower;
     Inventory _inventory[5];
-//    uint8_t _inventoryCount[5];
     
 };

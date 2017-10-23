@@ -235,52 +235,8 @@ uint16_t itemLoop() {
     if (item_action == ITEM_ACTION_USE) {
 
       Inventory inventoryType = (Inventory)((uint8_t)items[savedItem].getItemType());
-      // int8_t inventorySlot = -1;
-      // bool item_no_slots = false;
-      
-      // switch (inventoryType) {
-
-      //   case Inventory::Key:
-
-      //     inventorySlot = myHero.getConsumableSlot();
-      //     if (inventorySlot >= 0) {
-
-      //       myHero.setInventory(inventorySlot, inventoryType);
-      //       items[savedItem].setEnabled(false);
-      //       gameState = GameState::Move;
-            
-      //     }
-      //     else {
-          
-      //       item_no_slots = true;
-
-      //     }
-      //     break;
-          
-      //   case Inventory::Potion:
-      //   case Inventory::Scroll:
-
-      //     inventorySlot = myHero.getSlotNumber(inventoryType);
-      //     if (inventorySlot < 0) { inventorySlot = myHero.getConsumableSlot(); }
-
-      //     if (inventorySlot >= 0) {
-
-      //       myHero.setInventory(inventorySlot, inventoryType);
-      //       items[savedItem].setEnabled(false);
-      //       gameState = GameState::Move;
-            
-      //     }
-      //     else {
-          
-      //       item_no_slots = true;
-
-      //     }
-
-      //   default: break;
-
-      // }
-
       int8_t inventorySlot = myHero.getConsumableSlot();
+
       if (inventorySlot >= 0) {
 
         myHero.setInventory(inventorySlot, inventoryType);
@@ -295,17 +251,6 @@ uint16_t itemLoop() {
         return ITEM_DELAY;
 
       }
-
-
-      // // Diplay a message if there are no inventory slots to pickup the item ..
-
-      // if (item_no_slots) {
-        
-      //   font3x5.setCursor(95, 44);
-      //   font3x5.print(F("NO INV\nSLOTS!"));
-      //   return ITEM_DELAY;
-
-      // }
       
     }
 
