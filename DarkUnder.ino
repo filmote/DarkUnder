@@ -178,16 +178,19 @@ void loop() {
     case GameState::Battle_PlayerAttacks:
     case GameState::Battle_PlayerDefends:
     case GameState::Battle_PlayerCastsSpell:
-    case GameState::Battle_PlayerDies:
       delayLength = battleLoop();
       break;
-      
+
+    case GameState::Battle_PlayerDies:
+      displayEndOfGame(true);
+      break;
+    
     case GameState::NextLevel:
       displayNextLevel();
       break;
       
     case GameState::EndOfGame:
-      displayEndOfGame();
+      displayEndOfGame(false);
       break;
 
   }
@@ -1049,12 +1052,46 @@ void displayNextLevel() {
  *  End of Game Handler
  * -----------------------------------------------------------------------------------------------------------------------------
  */
-void displayEndOfGame() {
+void displayEndOfGame_AllLevelsComplete() {
   
   arduboy.drawCompressed(0, 0, frames_outside, WHITE);
   arduboy.drawCompressed(43, 4, victory, WHITE);
   font3x5.setCursor(9, 8);
   font3x5.print(F("WELL DONE!\nTHE RICHES\nUNDER THE\nMOUNTAIN\nARE YOURS\nNOW!"));
+  level = 0;
+
+  uint8_t buttons = arduboy.justPressedButtons();
+  
+  if (buttons & SELECT_BUTTON_MASK) { 
+  
+    if (level <= MAX_LEVEL_COUNT) { level = 0; }
+
+    gameState = GameState::Splash; 
+  
+  }
+
+}/* -----------------------------------------------------------------------------------------------------------------------------
+ *  End of Game Handler
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
+void displayEndOfGame(bool playerDead) {
+
+  arduboy.drawCompressed(0, 0, frames_outside, WHITE);
+  arduboy.drawCompressed(43, 4, victory, WHITE);
+
+  if (playerDead) {
+
+    drawMapAndStatistics(&myHero, &myLevel);
+    arduboy.drawCompressed(4, 32, gameOver, WHITE);
+    
+  }
+  else {
+
+    font3x5.setCursor(9, 8);
+    font3x5.print(F("WELL DONE!\nTHE RICHES\nUNDER THE\nMOUNTAIN\nARE YOURS\nNOW!"));
+
+  }
+
   level = 0;
 
   uint8_t buttons = arduboy.justPressedButtons();
