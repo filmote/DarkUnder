@@ -507,7 +507,7 @@ uint16_t battleLoop() {
         font3x5.setCursor(33, 26);
         font3x5.print(diceAttack);
 
-        myHero.setHitPoints(myHero.getHitPoints() - diceAttack);
+        myHero.decHitPoints(diceAttack);
         gameState = GameState::Battle_PlayerDecides;
         delayLength = FIGHT_DELAY;
         
@@ -521,10 +521,12 @@ uint16_t battleLoop() {
       font3x5.print(F(" DAMAGE!"));
       font3x5.setCursor(33, 26);
       font3x5.print(diceAttack);
-      myHero.setHitPoints(myHero.getHitPoints() - diceAttack);
+      myHero.decHitPoints(diceAttack);
       gameState = GameState::Battle_PlayerDecides;
       delayLength = FIGHT_DELAY;
       #endif
+
+      if (myHero.getHitPoints() == 0)  gameState = GameState::Battle_PlayerDies;
 
       break;
 

@@ -43,7 +43,7 @@
 #define TILE_OFFSET                       5
 #define UNIT                              TILE_SIZE / 4
 
-#define NUMBER_OF_ENEMIES                 18
+#define NUMBER_OF_ENEMIES                 14
 #define ENEMY_BEHOLDER_POSITION           Point {6, 5}
 #define ENEMY_SKELETON_POSITION           Point {11, 5}
 #define ENEMY_DISPLACER_POSITION          Point {8, 10}
@@ -53,7 +53,7 @@
 #define ENEMY_SLIME_POSITION              Point {13, 22}
 
 #define NUMBER_OF_DOORS                   3
-#define NUMBER_OF_ITEMS                   18
+#define NUMBER_OF_ITEMS                   14
 #define ITEM_HPPOTION_POSITION            Point {23, 19}
 #define ITEM_KEY_POSITION                 Point {20, 20}
 #define ITEM_SCROLL_POSITION              Point {20, 18}

@@ -68,3 +68,14 @@ void Player::shuffleInventory() {
   if (_inventory[1] == Inventory::None) { _inventory[1] = _inventory[2]; _inventory[2] = Inventory::None; }
  
 }
+
+void Player::decHitPoints(const int8_t value) { 
+    
+  if (_hitPoints > value ) {
+    _hitPoints = _hitPoints - value;
+  }
+  else {
+    _hitPoints = 0; 
+  }
+
+}

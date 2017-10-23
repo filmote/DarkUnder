@@ -26,7 +26,8 @@ class Player : public Base {
     void setDefence(const int8_t value);   
     void setAttackPower(const int8_t value);   
     void setInventory(const int8_t slot, const Inventory item);   
-    
+    void decHitPoints(const int8_t value);   
+     
   private:
 
     void shuffleInventory();

@@ -15,8 +15,8 @@
 ### Current Limitations
 
 * Number of doors per level = 3
-* Number of enemies per level = 18
-* Number of items per level = 18
+* Number of enemies per level = ~18~ 14
+* Number of items per level = ~18~ 14
 
 Note: These have been chosen to ensure the RAM is under 75% utilized.  Note the allocation can be redistributed if need be and increased if we remove the rotation code.
 
