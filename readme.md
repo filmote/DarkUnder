@@ -44,4 +44,5 @@ Note: These have been chosen to ensure the RAM is under 75% utilized.  Note the 
 	+ ~[Cyril] When you are trying to collect anything and your 3 slots are full~
 * ~Is there any need to scroll the inventory selector through the Sword and Shield icons?  Why would you ever need to select them in the inventory?~
 	+ ~[Cyril] Nope - I had the idea of designing various weapons and shields that would change the AP and DF stats of the player, but I don’t want to make the game more complex than it is, and that would mean more GFXs. At this point, I think the level up system achieves the same.~
-	
+* Currently, you have to put an item found in the dungeon into inventory.  You can then use the item from within the inventory maintenance screen.  Should the player be able to consume a potion immediately?
+* Is there a maximum HP for the player?  
