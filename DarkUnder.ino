@@ -608,6 +608,9 @@ uint16_t battleLoop() {
               myHero.setInventory(myHero.getSlotNumber(Inventory::Potion), Inventory::None);
               fightButton = FightButtons::Attack;
               break;
+
+            default:
+              break;
           
           }
         
