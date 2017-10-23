@@ -373,10 +373,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
       int16_t deltaX = myHero->getX() - enemy.getX();
       int16_t deltaY = myHero->getY() - enemy.getY();
       
-      const uint16_t absDeltaX = absT(deltaX);
-      const uint16_t absDeltaY = absT(deltaY);
-      
-      if ((absDeltaX == 1 && deltaY == 0) ^ (deltaX == 0 && absDeltaY == 1)) { 
+      if ((deltaY == 0 && absT(deltaX) == 1) ^ (deltaX == 0 && absT(deltaY) == 1)) { 
   
         if (deltaX < 0) { myHero->setDirection(Direction::West); }
         else if (deltaX > 0) { myHero->setDirection(Direction::East); }
