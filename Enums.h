@@ -143,15 +143,6 @@ enum class GameState : uint8_t {
   EndOfGame
 };
 
-enum class Inventory: uint8_t {
-  None,
-  Key,
-  Potion,
-  Scroll,
-  Shield,
-  Sword
-};
-
 enum class SplashButtons : uint8_t {
   Play,
   About

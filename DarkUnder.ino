@@ -117,11 +117,11 @@ void setup() {
   
   myLevel.setMapTiles(map_tiles);
 
-  myHero.setInventory(0, Inventory::Key);
-  myHero.setInventory(1, Inventory::Potion);
-  myHero.setInventory(2, Inventory::Potion);
-  myHero.setInventory(3, Inventory::Shield);
-  myHero.setInventory(4, Inventory::Sword);
+  myHero.setInventory(0, ItemType::Key);
+  myHero.setInventory(1, ItemType::Potion);
+  myHero.setInventory(2, ItemType::Potion);
+  myHero.setInventory(3, ItemType::Shield);
+  myHero.setInventory(4, ItemType::Sword);
   
 }
 
@@ -249,7 +249,7 @@ uint16_t itemLoop() {
 
     if (item_action == ITEM_ACTION_USE) {
 
-      Inventory inventoryType = (Inventory)((uint8_t)items[savedItem].getItemType());
+      ItemType inventoryType = items[savedItem].getItemType();
       int8_t inventorySlot = myHero.getConsumableSlot();
 
       if (inventorySlot >= 0) {
@@ -314,7 +314,7 @@ uint16_t inventoryLoop() {
   // TODO: Attempted to roll the rendering below with the selector using an 'if (i == inventory_selection) ..' added 46 bytes.
   for (uint8_t i = 0; i < 5; ++i) {
 
-    if (myHero.getInventory(i) != Inventory::None) {
+    if (myHero.getInventory(i) != ItemType::None) {
 
       Point inventoryCoords = inventory_Coords[i];
 
@@ -351,7 +351,7 @@ uint16_t inventoryLoop() {
       if (buttons & BACK_BUTTON_MASK)                                   { gameState = savedState;}
 
       if (buttons & SELECT_BUTTON_MASK) { 
-        if (myHero.getInventory(inventory_selection) != Inventory::None) {
+        if (myHero.getInventory(inventory_selection) != ItemType::None) {
           gameState = GameState::InventoryAction;
         }
       }
@@ -376,7 +376,7 @@ uint16_t inventoryLoop() {
          
           switch (myHero.getInventory(inventory_selection)) {
 
-            case Inventory::Key:
+            case ItemType::Key:
             
               for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
 
@@ -389,7 +389,7 @@ uint16_t inventoryLoop() {
                   if (doors[i].getItemType() == ItemType::LockedGate)       doors[i].setEnabled(false);
                   if (doors[i].getItemType() == ItemType::LockedDoor)       doors[i].setItemType(ItemType::UnlockedDoor);
                       
-                  myHero.setInventory(inventory_selection, Inventory::None);
+                  myHero.setInventory(inventory_selection, ItemType::None);
                   inventory_action = INVENTORY_ACTION_USE;
                   gameState = GameState::InventorySelect;
             
@@ -398,9 +398,9 @@ uint16_t inventoryLoop() {
               }
               break;
 
-            case Inventory::Potion:
+            case ItemType::Potion:
               myHero.setHitPoints(myHero.getHitPoints() + INVENTORY_POTION_HP_INC);
-              myHero.setInventory(inventory_selection, Inventory::None);
+              myHero.setInventory(inventory_selection, ItemType::None);
               inventory_action = INVENTORY_ACTION_USE;
               gameState = GameState::InventorySelect;
               break;
@@ -452,7 +452,7 @@ uint16_t inventoryLoop() {
             items[itemIndex].setX(myHero.getX());
             items[itemIndex].setY(myHero.getY());
             
-            myHero.setInventory(inventory_selection, Inventory::None);
+            myHero.setInventory(inventory_selection, ItemType::None);
             inventory_action = INVENTORY_ACTION_USE;
             gameState = GameState::InventorySelect;
 
@@ -592,7 +592,7 @@ uint16_t battleLoop() {
         uint8_t buttons = arduboy.justPressedButtons();
         fightButtons[(uint8_t)FightButtons::Shield] = true;
         fightButtons[(uint8_t)FightButtons::Magic] = (myHero.getMagic() > 0);
-        fightButtons[(uint8_t)FightButtons::Potion] = (myHero.getInventoryCount(Inventory::Potion));
+        fightButtons[(uint8_t)FightButtons::Potion] = (myHero.getInventoryCount(ItemType::Potion));
 
         arduboy.drawCompressed(80, 44, fight_actions_1, WHITE);
         if (fightButtons[(uint8_t)FightButtons::Shield])   { arduboy.drawCompressed(91, 44, fight_actions_2, WHITE); }
@@ -650,7 +650,7 @@ uint16_t battleLoop() {
 
             case (FightButtons::Potion):
               myHero.setHitPoints(myHero.getHitPoints() + INVENTORY_POTION_HP_INC);
-              myHero.setInventory(myHero.getSlotNumber(Inventory::Potion), Inventory::None);
+              myHero.setInventory(myHero.getSlotNumber(ItemType::Potion), ItemType::None);
               fightButton = FightButtons::Attack;
               break;
 
@@ -786,7 +786,7 @@ uint16_t battleLoop() {
       arduboy.drawCompressed(12, 15, fight_hero_spell, WHITE);
 
       enemies[attackingEnemyIdx].decHitPoints(diceAttack);
-      myHero.setInventory(myHero.getSlotNumber(Inventory::Scroll), Inventory::None);
+      myHero.setInventory(myHero.getSlotNumber(ItemType::Scroll), ItemType::None);
 
       if (enemies[attackingEnemyIdx].getHitPoints() > 0) {
         gameState = GameState::Battle_EnemyAttacks_Init;

@@ -16,16 +16,16 @@ class Player : public Base {
     int8_t getDefence();
     int8_t getAttackPower();
     int8_t getMagic();
-    Inventory getInventory(uint8_t slot);
+    ItemType getInventory(uint8_t slot);
     int8_t getConsumableSlot();
-    int8_t getSlotNumber(const Inventory item);
-    int8_t getInventoryCount(const Inventory item);
+    int8_t getSlotNumber(const ItemType item);
+    int8_t getInventoryCount(const ItemType item);
     
     void setDirection(const Direction value);
     void setHitPoints(const int8_t value);   
     void setDefence(const int8_t value);   
     void setAttackPower(const int8_t value);   
-    void setInventory(const int8_t slot, const Inventory item);   
+    void setInventory(const int8_t slot, const ItemType item);   
     void decHitPoints(const int8_t value);   
      
   private:
@@ -36,6 +36,6 @@ class Player : public Base {
     int8_t _hitPoints;
     int8_t _defence;
     int8_t _attackPower;
-    Inventory _inventory[5];
+    ItemType _inventory[5];
     
 };
