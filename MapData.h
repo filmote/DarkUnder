@@ -61,22 +61,21 @@ const uint8_t PROGMEM level_00[] = {
 (uint8_t)Direction::North,                         // Starting direction of player
 1, 4,                                              // Dimension of level in tiles (a tile is a 15x15 map)
 
-1,                                                // Number of enemies
-//(uint8_t)EnemyType::Skeleton, 7, 3,                // Enemy type, starting position
-(uint8_t)EnemyType::Skeleton, 9, 56,                // Enemy type, starting position
-// (uint8_t)EnemyType::Displacer, 4, 5,               // Enemy type, starting position
-// (uint8_t)EnemyType::Slime, 7, 8,                   // Enemy type, starting position
-// (uint8_t)EnemyType::Displacer, 1, 9,               // Enemy type, starting position
-// (uint8_t)EnemyType::Slime, 7, 12,                  // Enemy type, starting position
-// (uint8_t)EnemyType::Slime, 13, 17,                 // Enemy type, starting position
-// (uint8_t)EnemyType::Rat, 5, 18,                    // Enemy type, starting position
-// (uint8_t)EnemyType::Skeleton, 5, 22,               // Enemy type, starting position
-// (uint8_t)EnemyType::Slime, 13, 25,                 // Enemy type, starting position
-// (uint8_t)EnemyType::Slime, 1, 36,                  // Enemy type, starting position
-// (uint8_t)EnemyType::Rat, 1, 40,                    // Enemy type, starting position
-// (uint8_t)EnemyType::Slime, 7, 41,                  // Enemy type, starting position
-// (uint8_t)EnemyType::Rat, 9, 48,                    // Enemy type, starting position
-// (uint8_t)EnemyType::Rat, 4, 49,                    // Enemy type, starting position
+14,                                                // Number of enemies
+(uint8_t)EnemyType::Skeleton, 7, 3,                // Enemy type, starting position
+(uint8_t)EnemyType::Displacer, 4, 5,               // Enemy type, starting position
+(uint8_t)EnemyType::Slime, 7, 8,                   // Enemy type, starting position
+(uint8_t)EnemyType::Displacer, 1, 9,               // Enemy type, starting position
+(uint8_t)EnemyType::Slime, 7, 12,                  // Enemy type, starting position
+(uint8_t)EnemyType::Slime, 13, 17,                 // Enemy type, starting position
+(uint8_t)EnemyType::Rat, 5, 18,                    // Enemy type, starting position
+(uint8_t)EnemyType::Skeleton, 5, 22,               // Enemy type, starting position
+(uint8_t)EnemyType::Slime, 13, 25,                 // Enemy type, starting position
+(uint8_t)EnemyType::Slime, 1, 36,                  // Enemy type, starting position
+(uint8_t)EnemyType::Rat, 1, 40,                    // Enemy type, starting position
+(uint8_t)EnemyType::Slime, 7, 41,                  // Enemy type, starting position
+(uint8_t)EnemyType::Rat, 9, 48,                    // Enemy type, starting position
+(uint8_t)EnemyType::Rat, 4, 49,                    // Enemy type, starting position
 
 12,                                                // Number of items
 (uint8_t)ItemType::Potion, 2, 6,                   // Item type, starting position

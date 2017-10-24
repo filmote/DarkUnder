@@ -906,36 +906,6 @@ void playLoop() {
 
   }
 
-
-  // // If the player is 'touching' an enemy then enter battle mode ..
-
-  // for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {
-    
-  //   if (enemies[i].getEnabled()) {
-
-  //     const int16_t deltaX = enemies[i].getX() - myHero.getX();
-  //     const int16_t deltaY = enemies[i].getY() - myHero.getY();
-
-  //     if ((deltaY == 0 && absT(deltaX) == 1) ^ (deltaX == 0 && absT(deltaY) == 1)) { 
-        
-        
-  //       // Rotate the player if the enemy is attacking from the side ..
-        
-  //       if (deltaX > 0) { myHero.setDirection(Direction::West); }
-  //       else if (deltaX < 0) { myHero.setDirection(Direction::East); }
-  //       else if (deltaY < 0) { myHero.setDirection(Direction::North); }
-  //       else if (deltaY > 0) { myHero.setDirection(Direction::South); }
-
-  //       attackingEnemyIdx = i;
-  //       gameState = GameState::Battle_EnemyAttacks_Init;
-  //       break;
-
-  //     } 
-
-  //   }
-
-  // }  
-
 }
 
 
