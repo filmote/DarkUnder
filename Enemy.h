@@ -14,13 +14,13 @@ class Enemy : public Base {
     EnemyType getEnemyType();
     bool getEnabled();
     int8_t getHitPoints();
-    int8_t getAttackPoints();
+    int8_t getAttackPower();
     bool getMoving();
     
     void setEnemyType(const EnemyType value);
     void setEnabled(const bool value);    
     void setHitPoints(const int8_t value);   
-    void setAttackPoints(const int8_t value);   
+    void setAttackPower(const int8_t value);   
     void setMoving(const bool value);    
     void decHitPoints(const int8_t value);   
     
@@ -28,7 +28,7 @@ class Enemy : public Base {
 
     EnemyType _enemyType;
     int8_t _hitPoints;
-    int8_t _attackPoints;
+    int8_t _attackPower;
     bool _moving;
     bool _enabled;
     

@@ -326,6 +326,17 @@ uint16_t inventoryLoop() {
   arduboy.drawCompressed(inventoryCoords.x + 3, inventoryCoords.y + 11, inv_select, BLACK);
   uint8_t buttons = arduboy.justPressedButtons();
 
+
+  // Render AP and DF values ..
+
+  font3x5.setTextColor(BLACK);
+  font3x5.setCursor(19, 35);
+  font3x5.print(myHero.getAttackPower());
+  font3x5.setCursor(19, 45);
+  font3x5.print(myHero.getDefence());
+  font3x5.setTextColor(WHITE);
+  
+
   switch (gameState) {
 
     case GameState::InventorySelect:
@@ -997,7 +1008,7 @@ uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t
       // Load statistics ..
 
       enemies[i].setHitPoints(enemyStats[(uint8_t)enemyType].HitPoints);
-      enemies[i].setAttackPoints(enemyStats[(uint8_t)enemyType].AttackPoints);
+      enemies[i].setAttackPower(enemyStats[(uint8_t)enemyType].AttackPower);
       enemies[i].setMoving(enemyStats[(uint8_t)enemyType].Moving);
 
     }
