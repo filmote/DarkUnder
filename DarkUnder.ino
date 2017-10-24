@@ -301,13 +301,7 @@ uint16_t inventoryLoop() {
  
   arduboy.drawCompressed(0, 0, frames_outside, WHITE);  
   arduboy.drawCompressed(66, 4, frames_inside, WHITE);
-
-  #ifdef INV_STYLE_BONW
   arduboy.drawCompressed(4, 4, inv_background, WHITE);
-  #endif
-  #ifdef INV_STYLE_WONB
-  Sprites::drawOverwrite(8, 32, inv_lhs_icons, 0);
-  #endif
   
   drawMapAndStatistics(&myHero, &myLevel);
 
@@ -318,14 +312,8 @@ uint16_t inventoryLoop() {
 
       Point inventoryCoords = inventory_Coords[i];
 
-      #ifdef INV_STYLE_BONW
       arduboy.fillRect(inventoryCoords.x, inventoryCoords.y, 14, 16, BLACK);
       arduboy.drawCompressed(inventoryCoords.x, inventoryCoords.y, inventory_images[(uint8_t)myHero.getInventory(i)], WHITE);
-      #endif
-      #ifdef INV_STYLE_WONB
-      arduboy.drawRect(inventoryCoords.x - 1, inventoryCoords.y - 1, 16, 16);
-      arduboy.drawCompressed(inventoryCoords.x, inventoryCoords.y, inventory_images[(uint8_t)myHero.getInventory(i)], WHITE);
-      #endif
       
     }
 
@@ -335,12 +323,7 @@ uint16_t inventoryLoop() {
   // Render selector ..
 
   Point inventoryCoords = inventory_Coords[inventory_selection];
-  #ifdef INV_STYLE_BONW
   arduboy.drawCompressed(inventoryCoords.x + 3, inventoryCoords.y + 11, inv_select, BLACK);
-  #endif
-  #ifdef INV_STYLE_WONB
-  arduboy.drawCompressed(inventoryCoords.x + 3, inventoryCoords.y + 11, inv_select, WHITE);
-  #endif
   uint8_t buttons = arduboy.justPressedButtons();
 
   switch (gameState) {
