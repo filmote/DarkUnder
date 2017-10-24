@@ -374,11 +374,11 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
       int16_t deltaY = myHero->getY() - enemy.getY();
       
       if ((deltaY == 0 && absT(deltaX) == 1) ^ (deltaX == 0 && absT(deltaY) == 1)) { 
-  
+
         if (deltaX < 0) { myHero->setDirection(Direction::West); }
         else if (deltaX > 0) { myHero->setDirection(Direction::East); }
-        else if (deltaY < 0) { myHero->setDirection(Direction::North); }
-        else if (deltaY > 0) { myHero->setDirection(Direction::South); }        
+        else if (deltaY > 0) { myHero->setDirection(Direction::North); }
+        else if (deltaY < 0) { myHero->setDirection(Direction::South); }        
 
         uint8_t enemyType = (uint8_t)enemy.getEnemyType();
         Point enemyOffset = enemy_offset[enemyType];
