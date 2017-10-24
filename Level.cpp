@@ -65,8 +65,8 @@ MapElement Level::getMapElement(uint32_t x, uint32_t y) {
   #endif
 
   #ifndef USE_ROTATION
-  uint8_t *tile = _map_tiles[tileNumber];
-  uint16_t mapElement = pgm_read_byte(tile[(x % MAP_TILE_WIDTH) + (((y % MAP_TILE_HEIGHT) / 8) * MAP_TILE_PHYSICAL_WIDTH)]) & (1 << (y % MAP_TILE_HEIGHT % 8));
+  const uint8_t *tile = _map_tiles[tileNumber];
+  uint16_t mapElement = pgm_read_byte(&tile[(x % MAP_TILE_WIDTH) + (((y % MAP_TILE_HEIGHT) / 8) * MAP_TILE_PHYSICAL_WIDTH)]) & (1 << (y % MAP_TILE_HEIGHT % 8));
   #endif
   
   return (mapElement > 0 ? MapElement::Wall : MapElement::Floor);
