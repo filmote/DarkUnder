@@ -156,7 +156,7 @@ void loop() {
 
     case GameState::InventorySelect: 
     case GameState::InventoryAction: 
-      inventoryLoop();
+      delayLength = inventoryLoop();
       break;
 
     case GameState::ItemSelect: 
@@ -293,9 +293,11 @@ uint16_t itemLoop() {
  *  InventorySelect     - navigate through the five inventory slots.
  *  InventoryAction     - after selecting an item, the user can use or delete an item.
  *  
+ *  Returns delay in milliseconds to wait.
+ *  
  * -----------------------------------------------------------------------------------------------------------------------------
  */
-void inventoryLoop() {
+uint16_t inventoryLoop() {
  
   arduboy.drawCompressed(0, 0, frames_outside, WHITE);  
   arduboy.drawCompressed(66, 4, frames_inside, WHITE);
@@ -411,9 +413,50 @@ void inventoryLoop() {
 
         if (inventory_action == INVENTORY_ACTION_DELETE) {
 
-          myHero.setInventory(inventory_selection, Inventory::None);
-          inventory_action = INVENTORY_ACTION_USE;
-          gameState = GameState::InventorySelect;
+          bool spaceOccupied = false;
+          uint8_t itemIndex = 0;
+
+          for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {
+            
+            Item item = items[i];
+
+            if (item.getItemType() != ItemType::None) {
+
+              if (item.getX() == myHero.getX() && item.getY() == myHero.getY()) {
+
+                spaceOccupied = true;
+                break;
+                
+              }
+              
+            }
+            else {
+
+              itemIndex = i;
+              
+            }
+            
+          }
+
+          if (spaceOccupied) {
+            
+            font3x5.setCursor(95, 44);
+            font3x5.print(F("LOCATION\nOCCUPIED!"));
+            return ITEM_DELAY;            
+        
+          }
+          else {
+
+            items[itemIndex].setEnabled(true);
+            items[itemIndex].setItemType((ItemType)(uint8_t)myHero.getInventory(inventory_selection));
+            items[itemIndex].setX(myHero.getX());
+            items[itemIndex].setY(myHero.getY());
+            
+            myHero.setInventory(inventory_selection, Inventory::None);
+            inventory_action = INVENTORY_ACTION_USE;
+            gameState = GameState::InventorySelect;
+
+          }
 
         }
 
@@ -425,6 +468,8 @@ void inventoryLoop() {
 
   }
 
+  return 0;
+  
 }
 
 
