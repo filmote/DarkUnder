@@ -193,12 +193,14 @@ enum class ItemType : uint8_t {
   UnlockedDoor,
 };
 
+#ifdef USE_ROTATION
 enum class Rotation : uint8_t {
   Rotation_0 = 0,
   Rotation_90 = 64,
   Rotation_180 = 128,
   Rotation_270 = 192,
 };
+#endif
 
 enum class Direction : uint8_t {
   North,

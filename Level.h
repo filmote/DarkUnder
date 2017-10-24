@@ -11,7 +11,9 @@ class Level {
 
     Level();
     MapElement getMapElement(uint32_t x, uint32_t y);
+    #ifdef USE_ROTATION
     void loadTile(Rotation rotation, uint8_t tileNumber, const uint8_t *a);
+    #endif
 
     uint32_t getStartPos();
     uint32_t getWidth();

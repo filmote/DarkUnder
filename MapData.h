@@ -96,11 +96,20 @@ const uint8_t PROGMEM level_00[] = {
 
                                                    // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
 
+#ifdef USE_ROTATION
 (uint8_t)Rotation::Rotation_0   | 7,  
 (uint8_t)Rotation::Rotation_0   | 1,
 (uint8_t)Rotation::Rotation_0   | 2,  
 (uint8_t)Rotation::Rotation_0   | 7,
-                                                   
+#endif
+
+#ifndef USE_ROTATION
+7,  
+1,
+2,
+7,
+#endif
+
 };
 
 // ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    
@@ -127,8 +136,19 @@ const uint8_t PROGMEM level_01[] = {
 
                                                    // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
 
-(uint8_t)Rotation::Rotation_0   | 0,  (uint8_t)Rotation::Rotation_90  | 0,
-(uint8_t)Rotation::Rotation_270 | 0,  (uint8_t)Rotation::Rotation_180 | 0,
+#ifdef USE_ROTATION
+(uint8_t)Rotation::Rotation_0   | 7,  
+(uint8_t)Rotation::Rotation_0   | 1,
+(uint8_t)Rotation::Rotation_0   | 2,  
+(uint8_t)Rotation::Rotation_0   | 7,
+#endif
+
+#ifndef USE_ROTATION
+7,  
+1,
+2,
+7,
+#endif
                                                 
 };
 
@@ -156,7 +176,18 @@ const uint8_t PROGMEM level_02[] = {
 
                                                    // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
 
-(uint8_t)Rotation::Rotation_0   | 0,  (uint8_t)Rotation::Rotation_90  | 0,
-(uint8_t)Rotation::Rotation_270 | 0,  (uint8_t)Rotation::Rotation_180 | 0,
+#ifdef USE_ROTATION
+(uint8_t)Rotation::Rotation_0   | 7,  
+(uint8_t)Rotation::Rotation_0   | 1,
+(uint8_t)Rotation::Rotation_0   | 2,  
+(uint8_t)Rotation::Rotation_0   | 7,
+#endif
+
+#ifndef USE_ROTATION
+7,  
+1,
+2,
+7,
+#endif
 
 };
