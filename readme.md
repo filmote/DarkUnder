@@ -2,7 +2,7 @@
 
 * Inventory management - use black on white background or white on black.  Preference is black on white but 180 bytes can be saved with the reverse.
 * Dice animations - preference is to include this but it adds 558 bytes.
-* Tile rotations - no preference and the decision will be dependent on the number of tiles that need rotating and how many rotations.  Removing the rotation code will also free up RAM.
+* Tile rotations - no preference and the decision will be dependent on the number of tiles that need rotating and how many rotations.  Removing the rotation code will also free up RAM - (1024 bytes of Progmem / 36 bytes of RAM).
 * Sound library - preference is to have at least a theme tune and possibly other sound effects but the library alone is 800+ bytes with themes extra. The 1943 theme is approximately 250 bytes long.
 
 
@@ -29,9 +29,10 @@ Note: These have been chosen to ensure the RAM is under 75% utilized.  Note the 
 - [ ] Restructure image files / minimise includes.
 - [ ] Include enemy HP / AP / etc metrics.
 - [ ] Revisit 'attack' logic to incorporate above metrics.
-- [X] Revisit mode enemy logic to incorporate above metrics.
+- [X] Revisit move enemy logic to incorporate above metrics.
 - [ ] Change map diagrams to use zero-based tile numbers.
-- [ ] Include logic for player dying.
+- [X] Include logic for player dying.
+- [X] Make rotation code optional.
 
 
 ### Outstanding Questions

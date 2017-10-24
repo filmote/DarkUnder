@@ -34,16 +34,20 @@ class Level {
     
   private:
 
+    #ifdef USE_ROTATION
     void rotate180(const uint8_t *a);
     void rotate0(const uint8_t *a);
     void rotate(bool ccw, const uint8_t *a);
+    #endif
     
     uint32_t _startPos;
     uint32_t _width;
     uint32_t _height;
 
+    #ifdef USE_ROTATION
     uint32_t _tileNumber;
     uint8_t _tileData[32];
+    #endif
 
     char _titleLine1[12];
     char _titleLine2[12];

@@ -5,7 +5,14 @@
 
 #define reverseBits(b) (((b)&1?128:0)|((b)&2?64:0)|((b)&4?32:0)|((b)&8?16:0)|((b)&16?8:0)|((b)&32?4:0)|((b)&64?2:0)|((b)&128?1:0))
 
+#ifdef USE_ROTATION
 Level::Level() {_tileNumber = 255; }
+#endif
+
+#ifndef USE_ROTATION
+Level::Level() {  }
+#endif
+
 
 uint32_t Level::getStartPos()                               { return _startPos; }
 uint32_t Level::getWidth()                                  { return _width; }
@@ -51,13 +58,22 @@ MapElement Level::getMapElement(uint32_t x, uint32_t y) {
   // Otherwise, work it out from the map ..
 
   uint8_t tileNumber = pgm_read_byte(&_level[_startPos + (x / MAP_TILE_WIDTH) + ((y / MAP_TILE_HEIGHT) * _width)]);
+
+  #ifdef USE_ROTATION
   loadTile((Rotation)(tileNumber & 0xC0), tileNumber, _map_tiles[(tileNumber & 0x3F)]);
   uint16_t mapElement = _tileData[(x % MAP_TILE_WIDTH) + (((y % MAP_TILE_HEIGHT) / 8) * MAP_TILE_PHYSICAL_WIDTH)] & (1 << (y % MAP_TILE_HEIGHT % 8));
- 
+  #endif
+
+  #ifndef USE_ROTATION
+  uint8_t *tile = _map_tiles[tileNumber];
+  uint16_t mapElement = pgm_read_byte(tile[(x % MAP_TILE_WIDTH) + (((y % MAP_TILE_HEIGHT) / 8) * MAP_TILE_PHYSICAL_WIDTH)]) & (1 << (y % MAP_TILE_HEIGHT % 8));
+  #endif
+  
   return (mapElement > 0 ? MapElement::Wall : MapElement::Floor);
 
 }
 
+#ifdef USE_ROTATION
 void Level::rotate(bool ccw, const uint8_t *a) {
 
   memset(_tileData, 0, 32);
@@ -116,7 +132,9 @@ void Level::rotate(bool ccw, const uint8_t *a) {
   }
 
 }
+#endif
 
+#ifdef USE_ROTATION
 void Level::rotate180(const uint8_t *a) {
 
   for (uint8_t x = 0; x < 32; ++x) {
@@ -133,7 +151,9 @@ void Level::rotate180(const uint8_t *a) {
   }
 
 }
+#endif
 
+#ifdef USE_ROTATION
 void Level::rotate0(const uint8_t *a) {
  
   for (uint8_t x = 0; x < 16; ++x) {
@@ -144,7 +164,9 @@ void Level::rotate0(const uint8_t *a) {
   }
 
 }
+#endif
 
+#ifdef USE_ROTATION
 void Level::loadTile(Rotation rotation, uint8_t tileNumber, const uint8_t *a) {
 
   if (tileNumber != _tileNumber) {
@@ -174,3 +196,5 @@ void Level::loadTile(Rotation rotation, uint8_t tileNumber, const uint8_t *a) {
   _tileNumber = tileNumber;
 
 }
+#endif
+

@@ -17,6 +17,9 @@
 #define INV_STYLE_BONW
 #undef  INV_STYLE_WONB
 
+        // Saves 1024 bytes of Progmem / 36 bytes of RAM
+#undef  USE_ROTATION
+
 
 // ------------------------------------
 
