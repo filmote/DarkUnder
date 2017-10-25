@@ -34,6 +34,8 @@ Note: These have been chosen to ensure the RAM is under 75% utilized.  Note the 
 - [X] Include logic for player dying.
 - [X] Make rotation code optional.
 - [X] Include AP, DF on inventory summary.
+- [ ] Change 'Attack' code to use player's AP as maximum random number.
+- [ ] Change 'Defend' mode to calculate a HP loss of random up to enemy's AP - random up to player's DF (must be zero or positive).
 
 
 ### Outstanding Questions
@@ -56,3 +58,5 @@ Note: These have been chosen to ensure the RAM is under 75% utilized.  Note the 
 * Is there a maximum HP for the player?  
 * What are the starting HP, AP, DF for the player in level 1?
 * Can someone please explain the 'LevelUp' logic to me?
+* In the 'How to Play', the 'Defend Option' states that after defending the game will move automatically back to the PLAYER turn.  Is this correct?  Should it be ENEMY turn?
+* In the 'How to Play', the 'Drink a Potion' states that after defending the game will move automatically back to the ENEMY turn.  Is this correct?  Should it be PLAYER turn?
