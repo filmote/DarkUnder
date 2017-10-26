@@ -349,7 +349,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   // Render enemies two cells away ..
 
   if (!renderCloseFront) {
-    
+
     for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
       
       Enemy enemy = enemies[i];
@@ -367,6 +367,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
           Point enemyOffset = enemy_offset_small[enemyType];
           arduboy.drawCompressed(enemyOffset.x, enemyOffset.y, enemy_masks_small[enemyType], BLACK);
           arduboy.drawCompressed(enemyOffset.x, enemyOffset.y, enemy_images_small[enemyType], WHITE);    
+          break;
 
         }
 
@@ -406,8 +407,9 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
         if (gameState == GameState::Move) gameState = GameState::Battle_EnemyAttacks_Init;
         renderEnemy = true;
+        attackingEnemyIdx = i;
         break;
-
+        
       }
                               
     }

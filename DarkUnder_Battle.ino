@@ -30,7 +30,6 @@ uint16_t battleLoop() {
 
     case GameState::Battle_EnemyAttacks_Init:  // ----------------------------------------------------------------------------------------------------------------------------------
       
-    Serial.println((uint8_t)enemies[attackingEnemyIdx].getEnemyType());
       font3x5.print(getEnemyName(enemies[attackingEnemyIdx].getEnemyType()));
       font3x5.print(F("\nATTACKS!"));
       
@@ -99,13 +98,13 @@ uint16_t battleLoop() {
         myHero.setExperiencePoints(myHero.getExperiencePoints() + xp);
 
         if (myHero.getExperiencePoints() >= XP_LEVEL_UP) {
+          myHero.setExperiencePoints(0);
           gameState = GameState::LevelUp;
         }
         else {
           gameState = GameState::Move;
         }
 
-        myHero.setExperiencePoints(0);
         delayLength = FIGHT_DELAY;
 
       }

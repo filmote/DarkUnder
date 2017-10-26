@@ -1,3 +1,5 @@
+#include <Arduboy2.h>
+
 /* -----------------------------------------------------------------------------------------------------------------------------
  *  Initialise Level.  
  *  
@@ -110,7 +112,7 @@ uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t
    }
    
  }
- 
+
  return idx;
 
 }
