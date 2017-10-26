@@ -11,21 +11,25 @@ class Player : public Base {
 
     Player();
 
+    uint8_t getHitPoints();
+    uint8_t getDefence();
+    uint8_t getAttackPower();
+    uint8_t getMagic();
+    uint8_t getExperiencePoints();
+
     Direction getDirection();
-    int8_t getHitPoints();
-    int8_t getDefence();
-    int8_t getAttackPower();
-    int8_t getMagic();
     ItemType getInventory(uint8_t slot);
     int8_t getConsumableSlot();
     int8_t getSlotNumber(const ItemType item);
     int8_t getInventoryCount(const ItemType item);
     
-    void setDirection(const Direction value);
-    void setHitPoints(const int8_t value);   
-    void setDefence(const int8_t value);   
-    void setAttackPower(const int8_t value);   
+    void setHitPoints(const uint8_t value);   
+    void setDefence(const uint8_t value);   
+    void setAttackPower(const uint8_t value);   
+    void setExperiencePoints(const uint8_t value);   
+    
     void setInventory(const int8_t slot, const ItemType item);   
+    void setDirection(const Direction value);
     void decHitPoints(const int8_t value);   
      
   private:
@@ -33,9 +37,10 @@ class Player : public Base {
     void shuffleInventory();
 
     Direction _direction;
-    int8_t _hitPoints;
-    int8_t _defence;
-    int8_t _attackPower;
+    uint8_t _hitPoints;
+    uint8_t _defence;
+    uint8_t _attackPower;
+    uint8_t _experiencePoints;
     ItemType _inventory[5];
     
 };

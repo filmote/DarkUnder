@@ -32,7 +32,7 @@ bool EnemyController::moveTowardsPlayer(Enemy *thisEnemy, Enemy *allEnemies, Pla
   int16_t deltaX = player->getX() - thisEnemy->getX();
   int16_t deltaY = player->getY() - thisEnemy->getY();
 
-  if ((deltaY == 0 && absT(deltaX) == 1) ^ (deltaX == 0 && absT(deltaY) == 1)) { Serial.println("rttuen true"); return true; } 
+  if ((deltaY == 0 && absT(deltaX) == 1) ^ (deltaX == 0 && absT(deltaY) == 1)) { return true; } 
 
 
   // Otherwise attempt to move close to the player ..

@@ -62,7 +62,8 @@ const uint8_t PROGMEM level_00[] = {
 1, 4,                                              // Dimension of level in tiles (a tile is a 15x15 map)
 
 14,                                                // Number of enemies
-(uint8_t)EnemyType::Skeleton, 7, 3,                // Enemy type, starting position
+//(uint8_t)EnemyType::Skeleton, 7, 3,                // Enemy type, starting position
+(uint8_t)EnemyType::Skeleton, 14, 55,                // Enemy type, starting position
 (uint8_t)EnemyType::Displacer, 4, 5,               // Enemy type, starting position
 (uint8_t)EnemyType::Slime, 7, 8,                   // Enemy type, starting position
 (uint8_t)EnemyType::Displacer, 1, 9,               // Enemy type, starting position
@@ -86,10 +87,10 @@ const uint8_t PROGMEM level_00[] = {
 (uint8_t)ItemType::Scroll, 5, 16,                  // Item type, starting position
 (uint8_t)ItemType::Scroll, 13, 21,                 // Item type, starting position
 (uint8_t)ItemType::Potion, 5, 25,                  // Item type, starting position
-(uint8_t)ItemType::Potion, 1, 28,                  // Item type, starting position00
-(uint8_t)ItemType::Potion, 11, 41,                 // Item type, starting position00
-(uint8_t)ItemType::Potion, 2, 51,                  // Item type, starting position00
-(uint8_t)ItemType::Scroll, 6, 51,                  // Item type, starting position00
+(uint8_t)ItemType::Potion, 1, 28,                  // Item type, starting position
+(uint8_t)ItemType::Potion, 11, 41,                 // Item type, starting position
+(uint8_t)ItemType::Potion, 2, 51,                  // Item type, starting position
+(uint8_t)ItemType::Scroll, 6, 51,                  // Item type, starting position
 
 1,                                                 // Number of doors
 (uint8_t)ItemType::LockedDoor, 7, 0,               // Item type, starting position
@@ -175,7 +176,6 @@ const uint8_t PROGMEM level_02[] = {
 (uint8_t)ItemType::LockedDoor, 4, 1,               // Item type, starting position
 
                                                    // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
-
 #ifdef USE_ROTATION
 (uint8_t)Rotation::Rotation_0   | 7,  
 (uint8_t)Rotation::Rotation_0   | 1,

@@ -28,14 +28,15 @@ Note: These have been chosen to ensure the RAM is under 75% utilized.  Note the 
 - [ ] Move source files into subfolders.
 - [ ] Restructure image files / minimise includes.
 - [ ] Include enemy HP / AP / etc metrics.
-- [ ] Revisit 'attack' logic to incorporate above metrics.
 - [X] Revisit move enemy logic to incorporate above metrics.
 - [ ] Change map diagrams to use zero-based tile numbers.
 - [X] Include logic for player dying.
 - [X] Make rotation code optional.
 - [X] Include AP, DF on inventory summary.
-- [ ] Change 'Attack' code to use player's AP as maximum random number.
-- [ ] Change 'Defend' mode to calculate a HP loss of random up to enemy's AP - random up to player's DF (must be zero or positive).
+- [X] Change 'Attack' code to use player's AP as maximum random number.
+- [X] Change 'Defend' mode to calculate a HP loss of random up to enemy's AP - random up to player's DF (must be zero or positive).
+- [ ] Add logic to reset player stats when starting a second game.
+- [ ] Fix enemy HP bar to handle values greater than 12 (need floating point values)
 
 
 ### Outstanding Questions
@@ -60,3 +61,4 @@ Note: These have been chosen to ensure the RAM is under 75% utilized.  Note the 
 * Can someone please explain the 'LevelUp' logic to me?
 * In the 'How to Play', the 'Defend Option' states that after defending the game will move automatically back to the PLAYER turn.  Is this correct?  Should it be ENEMY turn?
 * In the 'How to Play', the 'Drink a Potion' states that after defending the game will move automatically back to the ENEMY turn.  Is this correct?  Should it be PLAYER turn?
+* What is the level on the level up?

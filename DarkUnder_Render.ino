@@ -1,4 +1,4 @@
-
+#include <Arduboy2.h>
 
 #define VISION_X_OFFSET   3
 #define VISION_Y_OFFSET   4
@@ -275,7 +275,11 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   // Close front wall ..
   
   mapElement = (MapElement)myLevel->getMapElement(playerX + closeFrontX, playerY + closeFrontY);
-  
+
+  #ifdef  USE_SMALL_IMAGES
+  bool renderCloseFront = (mapElement > MapElement::Floor);
+  #endif
+
   if (mapElement > MapElement::Floor) {
 
     int8_t imageIndex = -1;     //TODO: CHanged to 0 and if (imageIndex > 0) .. added 4 bytes
@@ -341,7 +345,40 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   }
 
 
-  // Render enemies ..
+  #ifdef  USE_SMALL_IMAGES
+  // Render enemies two cells away ..
+
+  if (!renderCloseFront) {
+    
+    for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
+      
+      Enemy enemy = enemies[i];
+      
+      if (enemy.getEnabled()) {
+
+        uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
+        uint8_t enemyType = (uint8_t)enemy.getEnemyType();
+
+        int8_t offsetX = offsetXTable[selector] * 2;
+        int8_t offsetY = offsetYTable[selector] * 2;
+        
+        if (enemy.getX() == playerX + offsetX && enemy.getY() == playerY + offsetY) {
+
+          Point enemyOffset = enemy_offset_small[enemyType];
+          arduboy.drawCompressed(enemyOffset.x, enemyOffset.y, enemy_masks_small[enemyType], BLACK);
+          arduboy.drawCompressed(enemyOffset.x, enemyOffset.y, enemy_images_small[enemyType], WHITE);    
+
+        }
+
+      }
+
+    }
+
+  }
+  #endif
+
+
+  // Render enemies immediately in front ..
 
   bool renderEnemy = false;
 
@@ -574,9 +611,9 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
   if (player->getAttackPower() < 10) font3x5.print(" ");
   font3x5.print(player->getAttackPower());
 
-  font3x5.print("\nMG  ");
-  if (player->getMagic() < 10) font3x5.print(" ");
-  font3x5.print(player->getMagic());
+  font3x5.print("\nXP  ");
+  if (player->getExperiencePoints() < 10) font3x5.print(" ");
+  font3x5.print(player->getExperiencePoints());
 
 }
 

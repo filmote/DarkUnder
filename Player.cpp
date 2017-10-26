@@ -7,21 +7,25 @@ Player::Player() : Base() {
 
     _hitPoints = 15;
     _defence = 10;
-    _attackPower = 0;
+    _attackPower = 5;
     
 }
 
-Direction Player::getDirection()                    { return _direction; }
-int8_t Player::getHitPoints()                       { return _hitPoints; }
-int8_t Player::getDefence()                         { return _defence; }
-int8_t Player::getAttackPower()                     { return _attackPower; }
-int8_t Player::getMagic()                           { return Player::getInventoryCount(ItemType::Scroll); }
-ItemType Player::getInventory(uint8_t slot)         { return _inventory[slot]; }
+uint8_t Player::getHitPoints()                            { return _hitPoints; }
+uint8_t Player::getDefence()                              { return _defence; }
+uint8_t Player::getAttackPower()                          { return _attackPower; }
+uint8_t Player::getMagic()                                { return Player::getInventoryCount(ItemType::Scroll); }
+uint8_t Player::getExperiencePoints()                     { return _experiencePoints; }
 
-void Player::setDirection(const Direction value)    { _direction = value; }
-void Player::setHitPoints(const int8_t value)       { _hitPoints = value; }
-void Player::setDefence(const int8_t value)         { _defence = value; }
-void Player::setAttackPower(const int8_t value)     { _attackPower = value; }
+Direction Player::getDirection()                          { return _direction; }
+ItemType Player::getInventory(uint8_t slot)               { return _inventory[slot]; }
+
+void Player::setHitPoints(const uint8_t value)            { _hitPoints = value; }
+void Player::setDefence(const uint8_t value)              { _defence = value; }
+void Player::setAttackPower(const uint8_t value)          { _attackPower = value; }
+void Player::setExperiencePoints(const uint8_t value)     { _experiencePoints = value; }
+
+void Player::setDirection(const Direction value)          { _direction = value; }
 
 void Player::setInventory(const int8_t slot, const ItemType item) { 
 
