@@ -43,22 +43,23 @@ Note: These have been chosen to ensure the RAM is under 75% utilized.  Note the 
 
 - [X] ~Are the HP / AP / etc metrics of an enemy fixed across all levels or are they level specific?~
 	+ ~[Cyril] Nope, I think it should stay consistent - plus we can declare those values once and for all, and not per level.~ 
-* ~Do you need to kill all enemies before proceeding to the next level?  I assume not.~
+- [X] ~Do you need to kill all enemies before proceeding to the next level?  I assume not.~
 	+ ~[Cyril] Nope~
-* Do you always get 1 DF point when progressing to the next level?  Is it fixed at 1 point or random?
+- [X] Do you always get 1 DF point when progressing to the next level?  Is it fixed at 1 point or random?
 	+ [Cyril] 1 point at random between AP, DF or HP was my original idea. I want to highlight that it's when you level up, though (just to clear the confusion of levelling up, versus entering a new maze level)
 	+ [Simon] Oh, I might have confused myself. Levelling up is when you kill an enemy?
-* ~There are three consumable slots in inventory.  You can collect multiple scrolls (magic).  Can you collect multiple keys and potions?~
+- [X] ~There are three consumable slots in inventory.  You can collect multiple scrolls (magic).  Can you collect multiple keys and potions?~
 	+ ~[Cyril] Up to 3 (they don't stalk) of anything in whatever order.~
 	+ ~[Simon] Ah, that makes a lot of sense. So you can have any three items so maybe your inventory is a key and a potion and a second potion. I have coded it wrong then. At the moment, if you collect two potions it just puts them into the same slot.~
-* ~Are there only three consumable inventory items?  If so, when do you ever have a 'No Slots Available' warning?~
+- [X] ~Are there only three consumable inventory items?  If so, when do you ever have a 'No Slots Available' warning?~
 	+ ~[Cyril] When you are trying to collect anything and your 3 slots are full~
-* ~Is there any need to scroll the inventory selector through the Sword and Shield icons?  Why would you ever need to select them in the inventory?~
+- [X] ~Is there any need to scroll the inventory selector through the Sword and Shield icons?  Why would you ever need to select them in the inventory?~
 	+ ~[Cyril] Nope - I had the idea of designing various weapons and shields that would change the AP and DF stats of the player, but I don't want to make the game more complex than it is, and that would mean more GFXs. At this point, I think the level up system achieves the same.~
-* Currently, you have to put an item found in the dungeon into inventory.  You can then use the item from within the inventory maintenance screen.  Should the player be able to consume a potion immediately?
-* Is there a maximum HP for the player?  
-* What are the starting HP, AP, DF for the player in level 1?
-* Can someone please explain the 'LevelUp' logic to me?
-* In the 'How to Play', the 'Defend Option' states that after defending the game will move automatically back to the PLAYER turn.  Is this correct?  Should it be ENEMY turn?
-* In the 'How to Play', the 'Drink a Potion' states that after defending the game will move automatically back to the ENEMY turn.  Is this correct?  Should it be PLAYER turn?
-* What is the level on the level up?
+- [X] ~Currently, you have to put an item found in the dungeon into inventory.  You can then use the item from within the inventory maintenance screen.  Should the player be able to consume a potion immediately?~
+	+ ~[Simon] I have changed the code to allow the player to drop an item (oner per cell / space).~
+- [ ] Is there a maximum HP for the player?  
+- [ ] What are the starting HP, AP, DF for the player in level 1?
+- [X] ~Can someone please explain the 'LevelUp' logic to me?~
+- [ ] In the 'How to Play', the 'Defend Option' states that after defending the game will move automatically back to the PLAYER turn.  Is this correct?  Should it be ENEMY turn?
+- [ ] In the 'How to Play', the 'Drink a Potion' states that after defending the game will move automatically back to the ENEMY turn.  Is this correct?  Should it be PLAYER turn?
+- [ ] What is the level on the level up?
