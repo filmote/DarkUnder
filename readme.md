@@ -41,7 +41,7 @@ Note: These have been chosen to ensure the RAM is under 75% utilized.  Note the 
 
 ### Outstanding Questions
 
-* ~Are the HP / AP / etc metrics of an enemy fixed across all levels or are they level specific?~
+- [X] ~Are the HP / AP / etc metrics of an enemy fixed across all levels or are they level specific?~
 	+ ~[Cyril] Nope, I think it should stay consistent - plus we can declare those values once and for all, and not per level.~ 
 * ~Do you need to kill all enemies before proceeding to the next level?  I assume not.~
 	+ ~[Cyril] Nope~
