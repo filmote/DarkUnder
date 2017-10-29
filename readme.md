@@ -23,25 +23,25 @@ Note: These have been chosen to ensure the RAM is under 75% utilized.  Note the 
 
 ### To Do
 
-- [X] Create a todo list.
+- [X] ~Create a todo list.~
 - [ ] Revisit the 'defend' logic. 
 - [ ] Move source files into subfolders.
 - [ ] Restructure image files / minimise includes.
-- [ ] Include enemy HP / AP / etc metrics.
-- [X] Revisit move enemy logic to incorporate above metrics.
+- [X] ~Include enemy HP / AP / etc metrics.~
+- [X] ~Revisit move enemy logic to incorporate above metrics.~
 - [ ] Change map diagrams to use zero-based tile numbers.
-- [X] Include logic for player dying.
-- [X] Make rotation code optional.
-- [X] Include AP, DF on inventory summary.
-- [X] Change 'Attack' code to use player's AP as maximum random number.
-- [X] Change 'Defend' mode to calculate a HP loss of random up to enemy's AP - random up to player's DF (must be zero or positive).
+- [X] ~Include logic for player dying.~
+- [X] ~Make rotation code optional.~
+- [X] ~Include AP, DF on inventory summary.~
+- [X] ~Change 'Attack' code to use player's AP as maximum random number.~
+- [X] ~Change 'Defend' mode to calculate a HP loss of random up to enemy's AP - random up to player's DF (must be zero or positive).~
 - [ ] Add logic to reset player stats when starting a second game.
 - [ ] Fix enemy HP bar to handle values greater than 12 (need floating point values)
 
 
 ### Known Bugs
 
-- [ ] Tried the new build: there is a bug: when you die and restart, your HP doesn’t get reset :slight_smile: Right now, the game is rather brutal!
+- [ ] Tried the new build: there is a bug: when you die and restart, your HP doesn’t get reset. Right now, the game is rather brutal!
 - [ ] The scroll image is reversed (black on white instead of white on black)
 - [ ] The small enemy images are not always rendered.
 
@@ -52,9 +52,9 @@ Note: These have been chosen to ensure the RAM is under 75% utilized.  Note the 
 	+ ~[Cyril] Nope, I think it should stay consistent - plus we can declare those values once and for all, and not per level.~ 
 - [X] ~Do you need to kill all enemies before proceeding to the next level?  I assume not.~
 	+ ~[Cyril] Nope~
-- [X] Do you always get 1 DF point when progressing to the next level?  Is it fixed at 1 point or random?
-	+ [Cyril] 1 point at random between AP, DF or HP was my original idea. I want to highlight that it's when you level up, though (just to clear the confusion of levelling up, versus entering a new maze level)
-	+ [Simon] Oh, I might have confused myself. Levelling up is when you kill an enemy?
+- [X] ~Do you always get 1 DF point when progressing to the next level?  Is it fixed at 1 point or random?~
+	+ ~[Cyril] 1 point at random between AP, DF or HP was my original idea. I want to highlight that it's when you level up, though (just to clear the confusion of levelling up, versus entering a new maze level)~
+	+ ~[Simon] Oh, I might have confused myself. Levelling up is when you kill an enemy?~
 - [X] ~There are three consumable slots in inventory.  You can collect multiple scrolls (magic).  Can you collect multiple keys and potions?~
 	+ ~[Cyril] Up to 3 (they don't stalk) of anything in whatever order.~
 	+ ~[Simon] Ah, that makes a lot of sense. So you can have any three items so maybe your inventory is a key and a potion and a second potion. I have coded it wrong then. At the moment, if you collect two potions it just puts them into the same slot.~
@@ -71,7 +71,7 @@ Note: These have been chosen to ensure the RAM is under 75% utilized.  Note the 
 * [X] ~What are the starting HP, AP, DF for the player in level 1?~
     + ~[Cyril] I would put the HP at 10, the AP at 2 and DF at 1. We may need to revisit that after playtesting.~
 	+ ~[Simon] I have set these values and we can reassess.~
-* [X] ~In the 'How to Play', the 'Defend Option' states that after defending the game will move automatically back to the PLAYER turn.  Is this correct?  Should it be ENEMY turn?!
+* [X] ~In the 'How to Play', the 'Defend Option' states that after defending the game will move automatically back to the PLAYER turn.  Is this correct?  Should it be ENEMY turn?!~
     + ~[Cyril] Nope: when you choose defend, next, it shows you the screen with you holding your shield. on that screen, you get attacked by the enemy but have a shot at mitigating the damage depending on your DF and you deal 1 flat damage. Since you already got attacked, then it goes back to your initiative screen.~
 	+ ~[Simon] OK, I have changed the logic to do that.~
 * [ ] In the 'How to Play', the 'Drink a Potion' states that after defending the game will move automatically back to the ENEMY turn.  Is this correct?  Should it be PLAYER turn?
