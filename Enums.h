@@ -16,7 +16,8 @@
         // Saves 1024 bytes of Progmem / 36 bytes of RAM
 #undef  USE_ROTATION
 
-#define USE_SMALL_IMAGES
+#undef  USE_SMALL_IMAGES_1
+#define USE_SMALL_IMAGES_2
 
 // ------------------------------------
 
@@ -44,7 +45,7 @@
 #define TILE_OFFSET                       5
 #define UNIT                              TILE_SIZE / 4
 
-#define NUMBER_OF_ENEMIES                 14
+#define NUMBER_OF_ENEMIES                 15
 #define ENEMY_BEHOLDER_POSITION           Point {6, 5}
 #define ENEMY_SKELETON_POSITION           Point {11, 5}
 #define ENEMY_DISPLACER_POSITION          Point {8, 10}
@@ -53,7 +54,7 @@
 #define ENEMY_RAT_POSITION                Point {23, 16}
 #define ENEMY_SLIME_POSITION              Point {13, 22}
 
-#ifdef  USE_SMALL_IMAGES
+#ifdef  USE_SMALL_IMAGES_1
 #define ENEMY_BEHOLDER_POS_SMALL          Point {22, 18}
 #define ENEMY_SKELETON_POS_SMALL          Point {24, 19}
 #define ENEMY_DISPLACER_POS_SMALL         Point {23, 21}
@@ -64,7 +65,7 @@
 #endif
 
 #define NUMBER_OF_DOORS                   3
-#define NUMBER_OF_ITEMS                   12
+#define NUMBER_OF_ITEMS                   15
 #define ITEM_HPPOTION_POSITION            Point {23, 19}
 #define ITEM_KEY_POSITION                 Point {20, 20}
 #define ITEM_SCROLL_POSITION              Point {20, 18}

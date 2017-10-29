@@ -5,9 +5,9 @@
 
 Player::Player() : Base() {
 
-    _hitPoints = 15;
-    _defence = 10;
-    _attackPower = 5;
+    _hitPoints = 10;
+    _defence = 1;
+    _attackPower = 2;
     
 }
 

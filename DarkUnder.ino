@@ -69,7 +69,7 @@ const uint8_t *enemy_images[] = { enemy_beholder, enemy_skeleton, enemy_displace
 const uint8_t *enemy_masks[] = { enemy_beholder_Mask, enemy_skeleton_Mask, enemy_displacer_Mask, enemy_wraith_Mask, enemy_dragon_Mask, enemy_rat_Mask, enemy_slime_Mask };
 const Point enemy_offset[] = { ENEMY_BEHOLDER_POSITION, ENEMY_SKELETON_POSITION, ENEMY_DISPLACER_POSITION, ENEMY_WRAITH_POSITION, ENEMY_DRAGON_POSITION, ENEMY_RAT_POSITION, ENEMY_SLIME_POSITION };
 
-#ifdef  USE_SMALL_IMAGES
+#ifdef  USE_SMALL_IMAGES_1
 const uint8_t *enemy_images_small[] = { enemy_beholder_small, enemy_skeleton_small, enemy_displacer_small, enemy_wraith_small, enemy_dragon_small, enemy_rat_small, enemy_slime_small };
 const uint8_t *enemy_masks_small[] = { enemy_beholder_small_Mask, enemy_skeleton_small_Mask, enemy_displacer_small_Mask, enemy_wraith_small_Mask, enemy_dragon_small_Mask, enemy_rat_small_Mask, enemy_slime_small_Mask };
 const Point enemy_offset_small[] = { ENEMY_BEHOLDER_POS_SMALL, ENEMY_SKELETON_POS_SMALL, ENEMY_DISPLACER_POS_SMALL, ENEMY_WRAITH_POS_SMALL, ENEMY_DRAGON_POS_SMALL, ENEMY_RAT_POS_SMALL, ENEMY_SLIME_POS_SMALL };
@@ -123,9 +123,9 @@ void setup() {
   arduboy.initRandomSeed();  
   myLevel.setMapTiles(map_tiles);
 
-  myHero.setInventory(0, ItemType::Key);
-  myHero.setInventory(1, ItemType::Potion);
-  myHero.setInventory(2, ItemType::Potion);
+  // myHero.setInventory(0, ItemType::Key);
+  // myHero.setInventory(1, ItemType::Potion);
+  // myHero.setInventory(2, ItemType::Potion);
   myHero.setInventory(3, ItemType::Shield);
   myHero.setInventory(4, ItemType::Sword);
   
@@ -328,3 +328,18 @@ void displayEndOfGame(bool playerDead) {
   }
 
 }
+
+// void debug() {
+
+//   for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) { 
+//     Enemy enemy = enemies[i];
+//     Serial.print(enemy.getX());
+//     Serial.print(" ");
+//     Serial.print(enemy.getY());
+//     Serial.print(" ");
+//     Serial.println((enemy.getEnabled() ? "T" : "F"));
+    
+//   }
+//   Serial.println(" ");
+  
+// }

@@ -273,7 +273,7 @@ uint16_t battleLoop() {
         enemies[attackingEnemyIdx].decHitPoints(1);
         
         if (enemies[attackingEnemyIdx].getHitPoints() > 0) {
-          gameState = GameState::Battle_EnemyAttacks_Init;
+          gameState = GameState::Battle_PlayerDecides;
         }
         else {
           gameState = GameState::Battle_EnemyDies;

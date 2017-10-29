@@ -17,7 +17,7 @@ const int8_t offsetYTable[] = { -1, 0, 1, 0 };
  *
  * -----------------------------------------------------------------------------------------------------------------------------
  */
-void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by checking row and cols ahead of player
+void drawPlayerVision(Player *myHero, Level *myLevel) { 
 
   bool horizon3Plus = false;
   bool horizon2Plus = false;
@@ -205,6 +205,10 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
 
   // Mid front wall ..
   
+  #ifdef  USE_SMALL_IMAGES_2
+  bool renderMiddleFront = false;
+  #endif
+
   if (horizon2Plus) {
 
     int8_t imageIndex = 0;
@@ -214,6 +218,10 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
     MapElement mapElement = (MapElement)myLevel->getMapElement(playerX + middleFrontX, playerY + middleFrontY);
     
     if (mapElement > MapElement::Floor) {
+
+      #ifdef  USE_SMALL_IMAGES_2
+      renderMiddleFront = (horizon2Plus && (mapElement > MapElement::Floor));
+      #endif
 
       switch (mapElement) {
 
@@ -276,7 +284,10 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   
   mapElement = (MapElement)myLevel->getMapElement(playerX + closeFrontX, playerY + closeFrontY);
 
-  #ifdef  USE_SMALL_IMAGES
+  #ifdef  USE_SMALL_IMAGES_1
+  bool renderCloseFront = (mapElement > MapElement::Floor);
+  #endif
+  #ifdef  USE_SMALL_IMAGES_2
   bool renderCloseFront = (mapElement > MapElement::Floor);
   #endif
 
@@ -345,7 +356,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   }
 
 
-  #ifdef  USE_SMALL_IMAGES
+  #ifdef  USE_SMALL_IMAGES_1
   // Render enemies two cells away ..
 
   if (!renderCloseFront) {
@@ -378,6 +389,63 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
   }
   #endif
 
+  #ifdef  USE_SMALL_IMAGES_2
+  // Render enemies two cells away ..
+//debug();
+  if (!renderCloseFront || !renderMiddleFront) {
+
+    uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
+    
+    if (!renderCloseFront) {
+
+      for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
+      
+        Enemy enemy = enemies[i];
+        
+        if (enemy.getEnabled()) {
+
+          int8_t offsetX = offsetXTable[selector] * 2;
+          int8_t offsetY = offsetYTable[selector] * 2;
+          
+          if (enemy.getX() == playerX + offsetX && enemy.getY() == playerY + offsetY) {
+
+            Sprites::drawOverwrite(27, 25, enemy_two_tiles, 0);
+            break;
+
+          }
+
+        }
+
+      }
+
+    }
+
+    if (!renderMiddleFront) {
+
+      for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
+      
+        Enemy enemy = enemies[i];
+        
+        if (enemy.getEnabled()) {
+
+          int8_t offsetX = offsetXTable[selector] * 3;
+          int8_t offsetY = offsetYTable[selector] * 3;
+          
+          if (enemy.getX() == playerX + offsetX && enemy.getY() == playerY + offsetY) {
+
+            Sprites::drawOverwrite(30, 28, enemy_three_tiles, 0);
+            break;
+
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+  #endif
 
   // Render enemies immediately in front ..
 
@@ -409,7 +477,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) { //draw the walls by chec
         renderEnemy = true;
         attackingEnemyIdx = i;
         break;
-        
+
       }
                               
     }

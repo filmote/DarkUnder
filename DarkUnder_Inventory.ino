@@ -1,3 +1,5 @@
+#include <Arduboy2.h>
+
 /* -----------------------------------------------------------------------------------------------------------------------------
  *  Inventory loop.  
  *  
@@ -73,9 +75,12 @@ uint16_t inventoryLoop() {
       if (inventory_action == INVENTORY_ACTION_USE)     arduboy.drawCompressed(71, 56, inv_select, WHITE);
       if (inventory_action == INVENTORY_ACTION_DELETE)  arduboy.drawCompressed(83, 56, inv_select, WHITE);
 
-      arduboy.drawCompressed(70, 45, inv_hand, WHITE);
-      arduboy.drawCompressed(81, 45, inv_trash, WHITE);
-  
+      // arduboy.drawCompressed(70, 45, inv_hand, WHITE);
+      // arduboy.drawCompressed(81, 45, inv_trash, WHITE);
+    
+      Sprites::drawOverwrite(70, 45, inv_hand, 0);
+      Sprites::drawOverwrite(82, 45, inv_trash, 0);
+      
       if ((buttons & LEFT_BUTTON_MASK) && inventory_action > INVENTORY_ACTION_USE)         { --inventory_action; }
       if ((buttons & RIGHT_BUTTON_MASK) && inventory_action < INVENTORY_ACTION_DELETE)     { ++inventory_action; }
       if (buttons & BACK_BUTTON_MASK)                                                      { gameState = GameState::InventorySelect;}

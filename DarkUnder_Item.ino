@@ -1,3 +1,5 @@
+#include <Arduboy2.h>
+
 /* -----------------------------------------------------------------------------------------------------------------------------
  *  Item loop.  
  *  
@@ -20,9 +22,12 @@ uint16_t itemLoop() {
     if (item_action == INVENTORY_ACTION_USE)     arduboy.drawCompressed(71, 56, inv_select, WHITE);
     if (item_action == INVENTORY_ACTION_DELETE)  arduboy.drawCompressed(83, 56, inv_select, WHITE);
   
-    arduboy.drawCompressed(70, 45, inv_hand, WHITE);
-    arduboy.drawCompressed(81, 45, inv_trash, WHITE);
-  
+    // arduboy.drawCompressed(70, 45, inv_hand, WHITE);
+    // arduboy.drawCompressed(81, 45, inv_trash, WHITE);
+
+    Sprites::drawOverwrite(70, 45, inv_hand, 0);
+    Sprites::drawOverwrite(82, 45, inv_trash, 0);
+    
     uint8_t buttons = arduboy.justPressedButtons();
     
     if ((buttons & LEFT_BUTTON_MASK) && item_action > ITEM_ACTION_USE)         { --item_action; }
