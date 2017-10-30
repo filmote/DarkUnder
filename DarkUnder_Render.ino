@@ -674,13 +674,13 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
   if (player->getHitPoints() < 10) font3x5.print(" ");
   font3x5.print(player->getHitPoints());
 
-  font3x5.print(F("\nDF  "));
-  if (player->getDefence() < 10) font3x5.print(" ");
-  font3x5.print(player->getDefence());
-
   font3x5.print(F("\nAP  "));
   if (player->getAttackPower() < 10) font3x5.print(" ");
   font3x5.print(player->getAttackPower());
+
+  font3x5.print(F("\nDF  "));
+  if (player->getDefence() < 10) font3x5.print(" ");
+  font3x5.print(player->getDefence());
 
   font3x5.print(F("\nXP  "));
   if (player->getExperiencePoints() < 10) font3x5.print(" ");
