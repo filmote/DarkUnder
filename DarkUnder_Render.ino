@@ -667,21 +667,22 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
 
 
   // Render statistics ..
+  // Changing the space strings to chars will save 2 RAM but cost 4 progmem
   
   font3x5.setCursor(70, 8);
-  font3x5.print("HP  ");
+  font3x5.print(F("HP  "));
   if (player->getHitPoints() < 10) font3x5.print(" ");
   font3x5.print(player->getHitPoints());
 
-  font3x5.print("\nDF  ");
+  font3x5.print(F("\nDF  "));
   if (player->getDefence() < 10) font3x5.print(" ");
   font3x5.print(player->getDefence());
 
-  font3x5.print("\nAP  ");
+  font3x5.print(F("\nAP  "));
   if (player->getAttackPower() < 10) font3x5.print(" ");
   font3x5.print(player->getAttackPower());
 
-  font3x5.print("\nXP  ");
+  font3x5.print(F("\nXP  "));
   if (player->getExperiencePoints() < 10) font3x5.print(" ");
   font3x5.print(player->getExperiencePoints());
 
