@@ -584,56 +584,60 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
                               
     }
 
-    Item item = items[i];
+    if (gameState == GameState::Move || gameState == GameState::ItemSelect) {
 
-    if (item.getEnabled()) {
+      Item item = items[i];
 
-      uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
+      if (item.getEnabled()) {
 
-      int8_t offsetX = offsetXTable[selector];
-      int8_t offsetY = offsetYTable[selector];
+        uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
 
-      if (item.getX() == playerX + offsetX && item.getY() == playerY + offsetY) {
+        int8_t offsetX = offsetXTable[selector];
+        int8_t offsetY = offsetYTable[selector];
 
-        ItemType itemType = item.getItemType();
+        if (item.getX() == playerX + offsetX && item.getY() == playerY + offsetY) {
 
-        arduboy.fillRect(14, 11, 41, 43, BLACK);
-        arduboy.fillRect(15, 12, 39, 41, WHITE);
-        arduboy.drawCompressed(item_offset[(uint8_t)itemType].x, item_offset[(uint8_t)itemType].y, item_images[(uint8_t)itemType], BLACK);
+          ItemType itemType = item.getItemType();
 
-        font3x5.setTextColor(BLACK);
-        font3x5.setCursor(17, 12);
-        font3x5.print(F("YOU FOUND"));
+          arduboy.fillRect(14, 11, 41, 43, BLACK);
+          arduboy.fillRect(15, 12, 39, 41, WHITE);
+          arduboy.drawCompressed(item_offset[(uint8_t)itemType].x, item_offset[(uint8_t)itemType].y, item_images[(uint8_t)itemType], BLACK);
+
+          font3x5.setTextColor(BLACK);
+          font3x5.setCursor(17, 12);
+          font3x5.print(F("YOU FOUND"));
+          
+          const __FlashStringHelper * text = nullptr;
+          
+          switch (itemType) {
         
-        const __FlashStringHelper * text = nullptr;
+            case ItemType::Key:
+              text = F("SOME KEYS");
+              break;
         
-        switch (itemType) {
-      
-          case ItemType::Key:
-            text = F("SOME KEYS");
-            break;
-      
-          case ItemType::Potion:
-            text = F("HP POTION");
-            break;
-      
-          case ItemType::Scroll:
-            text = F("A SCROLL");
-            break;
-            
-          default: break;
+            case ItemType::Potion:
+              text = F("HP POTION");
+              break;
+        
+            case ItemType::Scroll:
+              text = F("A SCROLL");
+              break;
+              
+            default: break;
+
+          }
+          
+          if(text != nullptr) {
+            font3x5.setCursor(17, 46);
+            font3x5.print(text);
+          }
+
+          font3x5.setTextColor(WHITE);
+          gameState = GameState::ItemSelect; 
+          savedItem = i;
+          break;
 
         }
-        
-        if(text != nullptr) {
-          font3x5.setCursor(17, 46);
-          font3x5.print(text);
-        }
-
-        font3x5.setTextColor(WHITE);
-        gameState = GameState::ItemSelect; 
-        savedItem = i;
-        break;
 
       }
             
