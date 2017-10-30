@@ -451,7 +451,108 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
   // Render enemies immediately in front ..
 
-  bool renderEnemy = false;
+  // bool renderEnemy = false;
+
+  // for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {  
+
+  //   Enemy enemy = enemies[i];
+
+  //   if (enemy.getEnabled()) {
+
+  //     int16_t deltaX = myHero->getX() - enemy.getX();
+  //     int16_t deltaY = myHero->getY() - enemy.getY();
+      
+  //     if ((deltaY == 0 && absT(deltaX) == 1) ^ (deltaX == 0 && absT(deltaY) == 1)) { 
+
+  //       if (deltaX > 0) { myHero->setDirection(Direction::West); }
+  //       else if (deltaX < 0) { myHero->setDirection(Direction::East); }
+  //       else if (deltaY > 0) { myHero->setDirection(Direction::North); }
+  //       else if (deltaY < 0) { myHero->setDirection(Direction::South); }        
+
+  //       uint8_t enemyType = (uint8_t)enemy.getEnemyType();
+  //       Point enemyOffset = enemy_offset[enemyType];
+
+  //       arduboy.drawCompressed(enemyOffset.x, enemyOffset.y, enemy_masks[enemyType], BLACK);
+  //       arduboy.drawCompressed(enemyOffset.x, enemyOffset.y, enemy_images[enemyType], WHITE);
+
+  //       if (gameState == GameState::Move) gameState = GameState::Battle_EnemyAttacks_Init;
+  //       renderEnemy = true;
+  //       attackingEnemyIdx = i;
+  //       break;
+
+  //     }
+                              
+  //   }
+         
+  // }
+
+
+  // // Render items if no enemy has been rendered .. 
+
+  // if (!renderEnemy && (gameState == GameState::Move || gameState == GameState::ItemSelect)) {
+    
+  //   for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
+
+  //     Item item = items[i];
+
+  //     if (item.getEnabled()) {
+
+  //       uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
+
+  //       int8_t offsetX = offsetXTable[selector];
+  //       int8_t offsetY = offsetYTable[selector];
+
+  //       if (item.getX() == playerX + offsetX && item.getY() == playerY + offsetY) {
+
+  //         ItemType itemType = item.getItemType();
+
+  //         arduboy.fillRect(14, 11, 41, 43, BLACK);
+  //         arduboy.fillRect(15, 12, 39, 41, WHITE);
+  //         arduboy.drawCompressed(item_offset[(uint8_t)itemType].x, item_offset[(uint8_t)itemType].y, item_images[(uint8_t)itemType], BLACK);
+
+  //         font3x5.setTextColor(BLACK);
+  //         font3x5.setCursor(17, 12);
+  //         font3x5.print(F("YOU FOUND"));
+          
+  //         const __FlashStringHelper * text = nullptr;
+          
+  //         switch (itemType) {
+        
+  //           case ItemType::Key:
+  //             text = F("SOME KEYS");
+  //             break;
+        
+  //           case ItemType::Potion:
+  //             text = F("HP POTION");
+  //             break;
+        
+  //           case ItemType::Scroll:
+  //             text = F("A SCROLL");
+  //             break;
+              
+  //           default: break;
+
+  //         }
+          
+  //         if(text != nullptr) {
+  //           font3x5.setCursor(17, 46);
+  //           font3x5.print(text);
+  //         }
+
+  //         font3x5.setTextColor(WHITE);
+  //         renderEnemy = true;
+  //         gameState = GameState::ItemSelect; 
+  //         savedItem = i;
+  //         break;
+
+  //       }
+              
+  //     }
+          
+  //   }
+
+  // }
+
 
   for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {  
 
@@ -476,79 +577,66 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
         arduboy.drawCompressed(enemyOffset.x, enemyOffset.y, enemy_images[enemyType], WHITE);
 
         if (gameState == GameState::Move) gameState = GameState::Battle_EnemyAttacks_Init;
-        renderEnemy = true;
         attackingEnemyIdx = i;
         break;
 
       }
                               
     }
-         
-  }
 
+    Item item = items[i];
 
-  // Render items if no enemy has been rendered .. 
+    if (item.getEnabled()) {
 
-  if (!renderEnemy && (gameState == GameState::Move || gameState == GameState::ItemSelect)) {
-    
-    for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
+      uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
 
-      Item item = items[i];
+      int8_t offsetX = offsetXTable[selector];
+      int8_t offsetY = offsetYTable[selector];
 
-      if (item.getEnabled()) {
+      if (item.getX() == playerX + offsetX && item.getY() == playerY + offsetY) {
 
-        uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
+        ItemType itemType = item.getItemType();
 
-        int8_t offsetX = offsetXTable[selector];
-        int8_t offsetY = offsetYTable[selector];
+        arduboy.fillRect(14, 11, 41, 43, BLACK);
+        arduboy.fillRect(15, 12, 39, 41, WHITE);
+        arduboy.drawCompressed(item_offset[(uint8_t)itemType].x, item_offset[(uint8_t)itemType].y, item_images[(uint8_t)itemType], BLACK);
 
-        if (item.getX() == playerX + offsetX && item.getY() == playerY + offsetY) {
-
-          ItemType itemType = item.getItemType();
-
-          arduboy.fillRect(14, 11, 41, 43, BLACK);
-          arduboy.fillRect(15, 12, 39, 41, WHITE);
-          arduboy.drawCompressed(item_offset[(uint8_t)itemType].x, item_offset[(uint8_t)itemType].y, item_images[(uint8_t)itemType], BLACK);
-
-          font3x5.setTextColor(BLACK);
-          font3x5.setCursor(17, 12);
-          font3x5.print(F("YOU FOUND"));
-          
-          const __FlashStringHelper * text = nullptr;
-          
-          switch (itemType) {
+        font3x5.setTextColor(BLACK);
+        font3x5.setCursor(17, 12);
+        font3x5.print(F("YOU FOUND"));
         
-            case ItemType::Key:
-              text = F("SOME KEYS");
-              break;
+        const __FlashStringHelper * text = nullptr;
         
-            case ItemType::Potion:
-              text = F("HP POTION");
-              break;
-        
-            case ItemType::Scroll:
-              text = F("A SCROLL");
-              break;
-              
-            default: break;
-
-          }
-          
-          if(text != nullptr) {
-            font3x5.setCursor(17, 46);
-            font3x5.print(text);
-          }
-
-          font3x5.setTextColor(WHITE);
-          renderEnemy = true;
-          gameState = GameState::ItemSelect; 
-          savedItem = i;
-          break;
+        switch (itemType) {
+      
+          case ItemType::Key:
+            text = F("SOME KEYS");
+            break;
+      
+          case ItemType::Potion:
+            text = F("HP POTION");
+            break;
+      
+          case ItemType::Scroll:
+            text = F("A SCROLL");
+            break;
+            
+          default: break;
 
         }
-              
+        
+        if(text != nullptr) {
+          font3x5.setCursor(17, 46);
+          font3x5.print(text);
+        }
+
+        font3x5.setTextColor(WHITE);
+        gameState = GameState::ItemSelect; 
+        savedItem = i;
+        break;
+
       }
-          
+            
     }
 
   }
@@ -627,23 +715,20 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
 
           if (renderMapElement) {
             
-            switch (element) {
+            arduboy.fillRect(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), TILE_SIZE, TILE_SIZE, WHITE);
 
-              case MapElement::Floor:
-                arduboy.fillRect(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), TILE_SIZE, TILE_SIZE, WHITE);
-                break;
+            switch (element) {
 
               case MapElement::LockedGate:
               case MapElement::LockedDoor:
-                arduboy.fillRect(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), TILE_SIZE, TILE_SIZE, WHITE);
                 arduboy.drawLine(MAP_X_OFFSET + (drawX * TILE_OFFSET) + 1, MAP_Y_OFFSET + (drawY * TILE_OFFSET) + 1, MAP_X_OFFSET + (drawX * TILE_OFFSET) + 1, MAP_Y_OFFSET + (drawY * TILE_OFFSET) + 2, BLACK);
                 break;
 
               case MapElement::UnlockedDoor:
-                arduboy.fillRect(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), TILE_SIZE, TILE_SIZE, WHITE);
                 arduboy.drawLine(MAP_X_OFFSET + (drawX * TILE_OFFSET) + 2, MAP_Y_OFFSET + (drawY * TILE_OFFSET) + 1, MAP_X_OFFSET + (drawX * TILE_OFFSET) + 2, MAP_Y_OFFSET + (drawY * TILE_OFFSET) + 2, BLACK);
                 break;
-              default: break;
+
+                default: break;
             
             }
 
@@ -671,29 +756,23 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
   // Render statistics ..
   
   font3x5.setCursor(70, 8);
-  font3x5.print(F("HP  "));
-  padNumber(player->getHitPoints());
-
-  font3x5.print(F("\nDF  "));
-  padNumber(player->getDefence());
-
-  font3x5.print(F("\nAP  "));
-  padNumber(player->getAttackPower());
-
-  font3x5.print(F("\nXP  "));
-  padNumber(player->getExperiencePoints());
+  printStatistic(F("HP  "), player->getHitPoints());
+  printStatistic(F("\nAP  "), player->getAttackPower());
+  printStatistic(F("\nDF  "), player->getDefence());
+  printStatistic(F("\nXP  "), player->getExperiencePoints());
 
 }
 
 
 /* -----------------------------------------------------------------------------------------------------------------------------
- *  Pad the rendering of numbers ..
- * -----------------------------------------------------------------------------------------------------------------------------
- */
-void padNumber(uint8_t number) {
+*  Print Statistic 
+* -----------------------------------------------------------------------------------------------------------------------------
+*/
+void printStatistic(const __FlashStringHelper * str, const uint8_t stat) {
 
-  if (number < 10) font3x5.print(F(" "));
-  font3x5.print(number);
+  font3x5.print(str);
+  if (stat < 10) font3x5.print(F(" "));
+  font3x5.print(stat);
 
 }
 
@@ -780,7 +859,12 @@ void displaySplash() {
 void displayLogo() {
 
   arduboy.drawCompressed(0, 0, frames_outside, WHITE);
-  arduboy.drawCompressed(42, 0, garCol_Mask, BLACK);
+
+  #ifdef USE_GARCOL_CORRECTION
+  arduboy.drawLine(42, 2, 68, 2, BLACK);
+  arduboy.drawLine(42, 61, 68, 61, BLACK);
+  #endif
+
   arduboy.drawCompressed(42, 0, garCol, WHITE);
   
   font3x5.setCursor(8, 24);

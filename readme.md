@@ -42,7 +42,7 @@ Note: These have been chosen to ensure the RAM is under 75% utilized.  Note the 
 ### Known Bugs
 
 - [ ] Tried the new build: there is a bug: when you die and restart, your HP doesn’t get reset. Right now, the game is rather brutal!
-- [ ] The scroll image is reversed (black on white instead of white on black)
+- [X] ~The scroll image is reversed (black on white instead of white on black)~
 - [ ] The small enemy images are not always rendered.
 
 

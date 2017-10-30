@@ -80,7 +80,7 @@ const Point enemy_offset_small[] = { ENEMY_BEHOLDER_POS_SMALL, ENEMY_SKELETON_PO
 
 const uint8_t *item_images[] = { NULL, item_key, item_potion, item_mascroll };
 const Point item_offset[] = { Point{0, 0}, ITEM_KEY_POSITION, ITEM_HPPOTION_POSITION, ITEM_SCROLL_POSITION };
-uint8_t item_action = 0;
+uint8_t itemAction = 0;
 uint8_t savedItem = 0;
 
 GameState gameState = GameState::Splash; 

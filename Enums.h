@@ -19,6 +19,9 @@
 #undef  USE_SMALL_IMAGES_1
 #define USE_SMALL_IMAGES_2
 
+        // Saves 40 bytes
+#define USE_GARCOL_CORRECTION
+
 // ------------------------------------
 
 #define MAX_LEVEL_COUNT                   1
@@ -45,7 +48,7 @@
 #define TILE_OFFSET                       5
 #define UNIT                              TILE_SIZE / 4
 
-#define NUMBER_OF_ENEMIES                 15
+#define NUMBER_OF_ENEMIES                 16
 #define ENEMY_BEHOLDER_POSITION           Point {6, 5}
 #define ENEMY_SKELETON_POSITION           Point {11, 5}
 #define ENEMY_DISPLACER_POSITION          Point {8, 10}
@@ -65,7 +68,7 @@
 #endif
 
 #define NUMBER_OF_DOORS                   3
-#define NUMBER_OF_ITEMS                   15
+#define NUMBER_OF_ITEMS                   16
 #define ITEM_HPPOTION_POSITION            Point {23, 19}
 #define ITEM_KEY_POSITION                 Point {20, 20}
 #define ITEM_SCROLL_POSITION              Point {20, 18}

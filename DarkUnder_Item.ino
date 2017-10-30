@@ -19,19 +19,16 @@ uint16_t itemLoop() {
   
     drawPlayerVision(&myHero, &myLevel);
   
-    if (item_action == INVENTORY_ACTION_USE)     arduboy.drawCompressed(71, 56, inv_select, WHITE);
-    if (item_action == INVENTORY_ACTION_DELETE)  arduboy.drawCompressed(83, 56, inv_select, WHITE);
-  
-    // arduboy.drawCompressed(70, 45, inv_hand, WHITE);
-    // arduboy.drawCompressed(81, 45, inv_trash, WHITE);
+    if (itemAction == INVENTORY_ACTION_USE)     arduboy.drawCompressed(69, 56, inv_select, WHITE);
+    if (itemAction == INVENTORY_ACTION_DELETE)  arduboy.drawCompressed(81, 56, inv_select, WHITE);
 
-    Sprites::drawOverwrite(70, 45, inv_hand, 0);
-    Sprites::drawOverwrite(82, 45, inv_trash, 0);
+    Sprites::drawOverwrite(68, 45, inv_hand, 0);
+    Sprites::drawOverwrite(80, 45, inv_trash, 0);
     
     uint8_t buttons = arduboy.justPressedButtons();
     
-    if ((buttons & LEFT_BUTTON_MASK) && item_action > ITEM_ACTION_USE)         { --item_action; }
-    if ((buttons & RIGHT_BUTTON_MASK) && item_action < ITEM_ACTION_DELETE)     { ++item_action; }
+    if ((buttons & LEFT_BUTTON_MASK) && itemAction > ITEM_ACTION_USE)         { --itemAction; }
+    if ((buttons & RIGHT_BUTTON_MASK) && itemAction < ITEM_ACTION_DELETE)     { ++itemAction; }
   
   
     // Return to the previous game state if the user presses the back button ..
@@ -46,7 +43,7 @@ uint16_t itemLoop() {
   
     if (buttons & SELECT_BUTTON) {
   
-      if (item_action == ITEM_ACTION_USE) {
+      if (itemAction == ITEM_ACTION_USE) {
   
         ItemType inventoryType = items[savedItem].getItemType();
         int8_t inventorySlot = myHero.getConsumableSlot();
@@ -68,7 +65,7 @@ uint16_t itemLoop() {
         
       }
   
-      if (item_action == ITEM_ACTION_DELETE)  { 
+      if (itemAction == ITEM_ACTION_DELETE)  { 
         
         gameState = GameState::ItemIgnore;
       

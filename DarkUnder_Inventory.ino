@@ -20,6 +20,7 @@ uint16_t inventoryLoop() {
   arduboy.drawCompressed(0, 0, frames_outside, WHITE);  
   arduboy.drawCompressed(66, 4, frames_inside, WHITE);
   arduboy.drawCompressed(4, 4, inv_background, WHITE);
+  drawDirectionIndicator(&myHero);
   
   drawMapAndStatistics(&myHero, &myLevel);
 
@@ -72,14 +73,11 @@ uint16_t inventoryLoop() {
 
     case GameState::InventoryAction:
 
-      if (inventory_action == INVENTORY_ACTION_USE)     arduboy.drawCompressed(71, 56, inv_select, WHITE);
-      if (inventory_action == INVENTORY_ACTION_DELETE)  arduboy.drawCompressed(83, 56, inv_select, WHITE);
-
-      // arduboy.drawCompressed(70, 45, inv_hand, WHITE);
-      // arduboy.drawCompressed(81, 45, inv_trash, WHITE);
+      if (inventory_action == INVENTORY_ACTION_USE)     arduboy.drawCompressed(82, 56, inv_select, WHITE);
+      if (inventory_action == INVENTORY_ACTION_DELETE)  arduboy.drawCompressed(94, 56, inv_select, WHITE);
     
-      Sprites::drawOverwrite(70, 45, inv_hand, 0);
-      Sprites::drawOverwrite(82, 45, inv_trash, 0);
+      Sprites::drawOverwrite(81, 45, inv_hand, 0);
+      Sprites::drawOverwrite(93, 45, inv_trash, 0);
       
       if ((buttons & LEFT_BUTTON_MASK) && inventory_action > INVENTORY_ACTION_USE)         { --inventory_action; }
       if ((buttons & RIGHT_BUTTON_MASK) && inventory_action < INVENTORY_ACTION_DELETE)     { ++inventory_action; }
