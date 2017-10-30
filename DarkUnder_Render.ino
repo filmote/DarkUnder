@@ -625,20 +625,15 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
 
           if (renderMapElement) {
             
+            arduboy.fillRect(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), TILE_SIZE, TILE_SIZE, WHITE);
             switch (element) {
-
-              case MapElement::Floor:
-                arduboy.fillRect(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), TILE_SIZE, TILE_SIZE, WHITE);
-                break;
 
               case MapElement::LockedGate:
               case MapElement::LockedDoor:
-                arduboy.fillRect(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), TILE_SIZE, TILE_SIZE, WHITE);
                 arduboy.drawLine(MAP_X_OFFSET + (drawX * TILE_OFFSET) + 1, MAP_Y_OFFSET + (drawY * TILE_OFFSET) + 1, MAP_X_OFFSET + (drawX * TILE_OFFSET) + 1, MAP_Y_OFFSET + (drawY * TILE_OFFSET) + 2, BLACK);
                 break;
 
               case MapElement::UnlockedDoor:
-                arduboy.fillRect(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), TILE_SIZE, TILE_SIZE, WHITE);
                 arduboy.drawLine(MAP_X_OFFSET + (drawX * TILE_OFFSET) + 2, MAP_Y_OFFSET + (drawY * TILE_OFFSET) + 1, MAP_X_OFFSET + (drawX * TILE_OFFSET) + 2, MAP_Y_OFFSET + (drawY * TILE_OFFSET) + 2, BLACK);
                 break;
               default: break;
@@ -667,24 +662,25 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
 
 
   // Render statistics ..
-  
+    
   font3x5.setCursor(70, 8);
-  font3x5.print("HP  ");
-  if (player->getHitPoints() < 10) font3x5.print(" ");
-  font3x5.print(player->getHitPoints());
+  
+  printStat(F("HP  "), player->getHitPoints());
+  printStat(F("\nAP  "), player->getAttackPower());
+  printStat(F("\nDF  "), player->getDefence());
+  printStat(F("\nXP  "), player->getExperiencePoints());
 
-  font3x5.print("\nDF  ");
-  if (player->getDefence() < 10) font3x5.print(" ");
-  font3x5.print(player->getDefence());
+}
 
-  font3x5.print("\nAP  ");
-  if (player->getAttackPower() < 10) font3x5.print(" ");
-  font3x5.print(player->getAttackPower());
-
-  font3x5.print("\nXP  ");
-  if (player->getExperiencePoints() < 10) font3x5.print(" ");
-  font3x5.print(player->getExperiencePoints());
-
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Print Stat
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
+void printStat(const __FlashStringHelper * str, const uint8_t stat)
+{
+  font3x5.print(str);
+  if (stat < 10) font3x5.print(F(" "));
+  font3x5.print(stat);
 }
 
 
