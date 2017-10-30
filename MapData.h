@@ -62,8 +62,8 @@ const uint8_t PROGMEM level_00[] = {
 1, 4,                                              // Dimension of level in tiles (a tile is a 15x15 map)
 
 14,                                                // Number of enemies
-(uint8_t)EnemyType::Skeleton, 7, 3,                // Enemy type, starting position
-//(uint8_t)EnemyType::Skeleton, 14, 55,                // Enemy type, starting position
+//(uint8_t)EnemyType::Skeleton, 7, 3,                // Enemy type, starting position
+(uint8_t)EnemyType::Skeleton, 14, 55,                // Enemy type, starting position
 (uint8_t)EnemyType::Rat, 9, 49,                    // Enemy type, starting position
 (uint8_t)EnemyType::Rat, 4, 49,                    // Enemy type, starting position
 (uint8_t)EnemyType::Displacer, 4, 5,               // Enemy type, starting position
