@@ -392,9 +392,10 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
   #ifdef  USE_SMALL_IMAGES_2
   // Render enemies two cells away ..
 //debug();
-  if (!renderCloseFront || !renderMiddleFront) {
+//  if (!renderCloseFront || !renderMiddleFront) {
 
     uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
+    bool rendered = false;
     
     if (!renderCloseFront) {
 
@@ -410,6 +411,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
           if (enemy.getX() == playerX + offsetX && enemy.getY() == playerY + offsetY) {
 
             Sprites::drawOverwrite(27, 25, enemy_two_tiles, 0);
+            rendered = true;
             break;
 
           }
@@ -420,7 +422,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
     }
 
-    if (!renderMiddleFront) {
+    if (!renderMiddleFront && !rendered) {
 
       for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
       
@@ -444,7 +446,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
     }
 
-  }
+//  }
   #endif
 
   // Render enemies immediately in front ..
@@ -669,21 +671,29 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
   // Render statistics ..
   
   font3x5.setCursor(70, 8);
-  font3x5.print("HP  ");
-  if (player->getHitPoints() < 10) font3x5.print(" ");
-  font3x5.print(player->getHitPoints());
+  font3x5.print(F("HP  "));
+  padNumber(player->getHitPoints());
 
-  font3x5.print("\nDF  ");
-  if (player->getDefence() < 10) font3x5.print(" ");
-  font3x5.print(player->getDefence());
+  font3x5.print(F("\nDF  "));
+  padNumber(player->getDefence());
 
-  font3x5.print("\nAP  ");
-  if (player->getAttackPower() < 10) font3x5.print(" ");
-  font3x5.print(player->getAttackPower());
+  font3x5.print(F("\nAP  "));
+  padNumber(player->getAttackPower());
 
-  font3x5.print("\nXP  ");
-  if (player->getExperiencePoints() < 10) font3x5.print(" ");
-  font3x5.print(player->getExperiencePoints());
+  font3x5.print(F("\nXP  "));
+  padNumber(player->getExperiencePoints());
+
+}
+
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Pad the rendering of numbers ..
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
+void padNumber(uint8_t number) {
+
+  if (number < 10) font3x5.print(F(" "));
+  font3x5.print(number);
 
 }
 

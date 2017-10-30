@@ -25,11 +25,11 @@ void playLoop() {
 
   if (buttons & BACK_BUTTON_MASK)     { 
 
-  savedState = gameState;
-  gameState = GameState::InventorySelect; 
+    savedState = gameState;
+    gameState = GameState::InventorySelect; 
 
   }
-
+  
 
   // If the player moved then so should the enemies ..
 
