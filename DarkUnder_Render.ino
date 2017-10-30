@@ -668,25 +668,25 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
 
   // Render statistics ..
   // Changing the space strings to chars will save 2 RAM but cost 4 progmem
+    
+  font3x5.setCursor(70, 8);
   
   const auto hp = player->getHitPoints();
-  const auto atk = player->getAttackPower();
-  const auto def = player->getDefence();
-  const auto xp = player->getExperiencePoints();
-  
-  font3x5.setCursor(70, 8);
   font3x5.print(F("HP  "));
   if (hp < 10) font3x5.print(" ");
   font3x5.print(hp);
 
+  const auto atk = player->getAttackPower();
   font3x5.print(F("\nAP  "));
   if (atk < 10) font3x5.print(" ");
   font3x5.print(atk);
 
+  const auto def = player->getDefence();
   font3x5.print(F("\nDF  "));
   if (def < 10) font3x5.print(" ");
   font3x5.print(def);
 
+  const auto xp = player->getExperiencePoints();
   font3x5.print(F("\nXP  "));
   if (xp < 10) font3x5.print(" ");
   font3x5.print(xp);
