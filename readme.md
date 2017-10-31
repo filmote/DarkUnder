@@ -1,9 +1,10 @@
 ### Decisions Points
 
-* Inventory management - use black on white background or white on black.  Preference is black on white but 180 bytes can be saved with the reverse.
+* ~Inventory management - use black on white background or white on black.  Preference is black on white but 180 bytes can be saved with the reverse.~
 * Dice animations - preference is to include this but it adds 558 bytes.
-* Tile rotations - no preference and the decision will be dependent on the number of tiles that need rotating and how many rotations.  Removing the rotation code will also free up RAM - (1024 bytes of Progmem / 36 bytes of RAM).
+* ~Tile rotations - no preference and the decision will be dependent on the number of tiles that need rotating and how many rotations.  Removing the rotation code will also free up RAM - (1024 bytes of Progmem / 36 bytes of RAM).~
 * Sound library - preference is to have at least a theme tune and possibly other sound effects but the library alone is 800+ bytes with themes extra. The 1943 theme is approximately 250 bytes long.
+* Large Map - should we keep it?  It adds 290 bytes but I think its worth it.
 
 
 ### Metrics
@@ -19,7 +20,7 @@
 * Number of items per level = ~18~ ~14~ 15
 
 Note: These have been chosen to ensure the RAM is under 75% utilized.  Note the allocation can be redistributed if need be and increased if we remove the rotation code.
-
+Note: The maximum number of enemies and items must be equal.  If not, the code in the render routines needs to be addressed.
 
 ### To Do
 
@@ -43,7 +44,7 @@ Note: These have been chosen to ensure the RAM is under 75% utilized.  Note the 
 
 - [ ] Tried the new build: there is a bug: when you die and restart, your HP doesn’t get reset. Right now, the game is rather brutal!
 - [X] ~The scroll image is reversed (black on white instead of white on black)~
-- [ ] The small enemy images are not always rendered.
+- [X] ~The small enemy images are not always rendered.~
 
 
 ### Outstanding Questions
@@ -80,4 +81,4 @@ Note: These have been chosen to ensure the RAM is under 75% utilized.  Note the 
 * [ ] What is the level on the level up?
     + [Cyril] Not sure I understand the question? The level is shown under the cup, above the random stat gain.
 	+ [Simon] Yes but what is it? Its not the dungeon level you are playing, so what does the ‘level’ represent?
-
+    + [Cyril] Level is the level the player is at: you start a level 1, and the more you kill enemies, the more you level up and gain random perk points.
