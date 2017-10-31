@@ -234,7 +234,7 @@ uint16_t displayLevelUp() {
   arduboy.drawCompressed(66, 4, frames_inside, WHITE);
 
   #ifdef USE_LARGE_MAP
-  drawMapAndStatistics(&myHero, &myLevel, false);
+  drawMapAndStatistics(&myHero, &myLevel, true);
   #endif
   #ifndef USE_LARGE_MAP
   drawMapAndStatistics(&myHero, &myLevel);

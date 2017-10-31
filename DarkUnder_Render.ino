@@ -678,30 +678,30 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
   uint8_t drawY = 0;
 
   #ifdef USE_LARGE_MAP
-  uint8_t mapWidth = (smallMap ? 3 : 12);
-  uint8_t mapHeight = (smallMap ? 2 : 6);
-  uint8_t mapXOffset = (smallMap ? 98 : 0);
-  uint8_t mapYOffset = (smallMap ? 6 : 0);
+  uint8_t mapWidth = (smallMap ? 2 : 11);
+  uint8_t mapHeight = (smallMap ? 3 : 5);
+  uint8_t mapXOffset = (smallMap ? 98 : 6);
+  uint8_t mapYOffset = (smallMap ? 6 : 5);
   #endif
   
   bool renderMapElement = false;
   
   #ifdef USE_LARGE_MAP
-  for (int16_t mapY = player->getY() - mapWidth; mapY <= player->getY() + mapWidth; ++mapY) {
+  for (int16_t mapY = player->getY() - mapHeight; mapY <= player->getY() + mapHeight; ++mapY) {
   #endif
   #ifndef USE_LARGE_MAP
   for (int16_t mapY = player->getY() - 3; mapY <= player->getY() + 3; ++mapY) {
   #endif
   
     #ifdef USE_LARGE_MAP
-    for (int16_t mapX = player->getX() - mapHeight; mapX <= player->getX() + mapHeight; ++mapX) {
+    for (int16_t mapX = player->getX() - mapWidth; mapX <= player->getX() + mapWidth; ++mapX) {
     #endif
     #ifndef USE_LARGE_MAP
     for (int16_t mapX = player->getX() - 2; mapX <= player->getX() + 2; ++mapX) {
     #endif
 
       #ifdef USE_LARGE_MAP
-      if (mapX >= 0 && mapX < ((int16_t)myLevel->getWidth() * MAP_TILE_WIDTH) && mapY >= 0 && mapY < ((int16_t)myLevel->getHeight() * MAP_TILE_HEIGHT) && (smallMap ? !(drawX == 4 && drawY == 0) : true) ) { 
+      if (mapX >= 0 && mapX < ((int16_t)myLevel->getWidth() * MAP_TILE_WIDTH) && mapY >= 0 && mapY < ((int16_t)myLevel->getHeight() * MAP_TILE_HEIGHT) && (smallMap ? !(drawX == 4 && drawY == 0) : ( !((drawX == 0 || drawX == 22) && drawY == 0) && !((drawX == 0 || drawX == 22) && drawY == 10) ) ) ) { 
       #endif
       #ifndef USE_LARGE_MAP
       if (mapX >= 0 && mapX < ((int16_t)myLevel->getWidth() * MAP_TILE_WIDTH) && mapY >= 0 && mapY < ((int16_t)myLevel->getHeight() * MAP_TILE_HEIGHT) && !(drawX == 4 && drawY == 0) ) { 
@@ -818,7 +818,7 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
     Sprites::drawExternalMask(mapXOffset + 10, mapYOffset + 15, playerMap, playerMap_Mask, 0, 0);
   }
   else {
-    Sprites::drawExternalMask(mapXOffset + 63, mapYOffset + 32, playerMap, playerMap_Mask, 0, 0);
+    Sprites::drawExternalMask(mapXOffset + 55, mapYOffset + 25, playerMap, playerMap_Mask, 0, 0);
   }
   #endif
   #ifndef USE_LARGE_MAP
