@@ -22,6 +22,7 @@
         // Saves 40 bytes
 #define USE_GARCOL_CORRECTION
 
+        // Saves 290 bytes
 #define USE_LARGE_MAP
 // ------------------------------------
 
