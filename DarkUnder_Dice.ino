@@ -4,7 +4,6 @@
  *  Dice control.  
  *  
  *  Transition the dice rolling to the final state.  The variable 'diceAttack' stores the final dice value.
- *  
  * -----------------------------------------------------------------------------------------------------------------------------
  */
 #ifdef USE_DICE_ANIMATIONS
@@ -21,6 +20,10 @@ void diceDoOnce(uint8_t maxValue, uint8_t offset) {
 #endif
 
 
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Roll the Dice Animation.  
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 #ifdef USE_DICE_ANIMATIONS
 void rollDice(uint8_t x, uint8_t y) {
 

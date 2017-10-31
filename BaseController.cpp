@@ -9,6 +9,13 @@
 
 BaseController::BaseController() {}
 
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+ *  Is the move legal?
+ * 
+ *  Checks to see if the position X / Y is currently empty.  
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
 bool BaseController::moveLegal(Enemy *allEnemies, Player *player, Level *level, uint16_t x, uint16_t y) {
 
   if ((level->getMapElement(x, y) == MapElement::Floor) ||
@@ -21,7 +28,7 @@ bool BaseController::moveLegal(Enemy *allEnemies, Player *player, Level *level, 
       
       Item door = level->getDoors()[i];
 
-      if ((door.getItemType() == ItemType::LockedDoor || door.getItemType() == ItemType::LockedGate) && door.getEnabled() && door.getX() == x && door.getY() == y)     { return false; }
+      if (door.getEnabled() && (door.getItemType() == ItemType::LockedDoor || door.getItemType() == ItemType::LockedGate) && door.getX() == x && door.getY() == y)     { return false; }
   
     }
 

@@ -94,7 +94,6 @@ Player myHero;
 SplashButtons splashStatus = SplashButtons::Play;
 FightButtons fightButton = FightButtons::Attack;
 
-
 uint8_t level = 0;          // Current map
 uint8_t playerLevel = 1;    // Levelup level
 #ifdef USE_DICE_ANIMATIONS
