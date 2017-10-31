@@ -8,9 +8,6 @@
         // 834 bytes
 #undef  USE_SOUNDS
 
-        // Saves 1024 bytes of Progmem / 36 bytes of RAM
-#undef  USE_ROTATION
-
 #undef  USE_SMALL_IMAGES_1
 #define USE_SMALL_IMAGES_2
 
@@ -19,6 +16,7 @@
 
         // Saves 290 bytes
 #define USE_LARGE_MAP
+
 // ------------------------------------
 
 #define MAX_LEVEL_COUNT                   1
@@ -210,15 +208,6 @@ enum class ItemType : uint8_t {
   LockedDoor,
   UnlockedDoor,
 };
-
-#ifdef USE_ROTATION
-enum class Rotation : uint8_t {
-  Rotation_0 = 0,
-  Rotation_90 = 64,
-  Rotation_180 = 128,
-  Rotation_270 = 192,
-};
-#endif
 
 enum class Direction : uint8_t {
   North,

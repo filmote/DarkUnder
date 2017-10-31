@@ -99,19 +99,10 @@ const uint8_t PROGMEM level_00[] = {
 
                                                    // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
 
-#ifdef USE_ROTATION
-(uint8_t)Rotation::Rotation_0   | 7,  
-(uint8_t)Rotation::Rotation_0   | 1,
-(uint8_t)Rotation::Rotation_0   | 2,  
-(uint8_t)Rotation::Rotation_0   | 7,
-#endif
-
-#ifndef USE_ROTATION
 7,  
 1,
 2,
 7,
-#endif
 
 };
 
@@ -164,19 +155,10 @@ const uint8_t PROGMEM level_01[] = {
 
                                                     // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
 
-#ifdef USE_ROTATION
-(uint8_t)Rotation::Rotation_0   | 7,  
-(uint8_t)Rotation::Rotation_0   | 1,
-(uint8_t)Rotation::Rotation_0   | 2,  
-(uint8_t)Rotation::Rotation_0   | 7,
-#endif
-
-#ifndef USE_ROTATION
 7,  
 1,
 2,
 7,
-#endif
 
 };
 
@@ -203,18 +185,9 @@ const uint8_t PROGMEM level_02[] = {
 (uint8_t)ItemType::LockedDoor, 4, 1,               // Item type, starting position
 
                                                    // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
-#ifdef USE_ROTATION
-(uint8_t)Rotation::Rotation_0   | 7,  
-(uint8_t)Rotation::Rotation_0   | 1,
-(uint8_t)Rotation::Rotation_0   | 2,  
-(uint8_t)Rotation::Rotation_0   | 7,
-#endif
-
-#ifndef USE_ROTATION
 7,  
 1,
 2,
 7,
-#endif
 
 };
