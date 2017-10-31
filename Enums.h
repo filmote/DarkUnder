@@ -11,9 +11,6 @@
 #undef  USE_SMALL_IMAGES_1
 #define USE_SMALL_IMAGES_2
 
-        // Saves 40 bytes
-#define USE_GARCOL_CORRECTION
-
         // Saves 290 bytes
 #define USE_LARGE_MAP
 

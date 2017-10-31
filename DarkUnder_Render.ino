@@ -938,11 +938,8 @@ void displaySplash() {
 void displayLogo() {
 
   arduboy.drawCompressed(0, 0, frames_outside, WHITE);
-
-  #ifdef USE_GARCOL_CORRECTION
   arduboy.drawLine(42, 2, 68, 2, BLACK);
   arduboy.drawLine(42, 61, 68, 61, BLACK);
-  #endif
 
   arduboy.drawCompressed(42, 0, garCol, WHITE);
   
