@@ -3,13 +3,7 @@
 #include "Enums.h"
 #include "Level.h"
 
-Player::Player() : Base() {
-
-    _hitPoints = 10;
-    _defence = 1;
-    _attackPower = 2;
-    
-}
+Player::Player() : Base() { }
 
 uint8_t Player::getHitPoints()                            { return _hitPoints; }
 uint8_t Player::getDefence()                              { return _defence; }

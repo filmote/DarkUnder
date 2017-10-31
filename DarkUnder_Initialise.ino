@@ -1,6 +1,28 @@
 #include <Arduboy2.h>
 
 /* -----------------------------------------------------------------------------------------------------------------------------
+ *  Initialise Game Play.  
+ * -----------------------------------------------------------------------------------------------------------------------------
+ */
+void initialiseGame() {
+
+  myHero.setHitPoints(10);
+  myHero.setDefence(1);
+  myHero.setAttackPower(2);
+  
+  myHero.setInventory(0, ItemType::None);
+  myHero.setInventory(1, ItemType::None);
+  myHero.setInventory(2, ItemType::None);
+  myHero.setInventory(3, ItemType::Shield);
+  myHero.setInventory(4, ItemType::Sword);
+
+  playerLevel = 1;
+  level = 0;
+
+}
+
+
+/* -----------------------------------------------------------------------------------------------------------------------------
  *  Initialise Level.  
  *  
  *  Initialise the player, level and enemy details based on the current level.

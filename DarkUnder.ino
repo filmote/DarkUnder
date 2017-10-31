@@ -93,7 +93,8 @@ SplashButtons splashStatus = SplashButtons::Play;
 FightButtons fightButton = FightButtons::Attack;
 
 
-uint8_t level = 0;      // Current Level
+uint8_t level = 0;          // Current map
+uint8_t playerLevel = 1;    // Levelup level
 #ifdef USE_DICE_ANIMATIONS
 int16_t diceDelay = DICE_NO_ACTION;
 #endif
@@ -116,11 +117,7 @@ void setup() {
   arduboy.initRandomSeed();  
   myLevel.setMapTiles(map_tiles);
 
-  // myHero.setInventory(0, ItemType::Key);
-  // myHero.setInventory(1, ItemType::Potion);
-  // myHero.setInventory(2, ItemType::Potion);
-  myHero.setInventory(3, ItemType::Shield);
-  myHero.setInventory(4, ItemType::Sword);
+  initialiseGame();
   
 }
 
@@ -239,10 +236,12 @@ uint16_t displayLevelUp() {
 
   font3x5.setCursor(20, 40);
   font3x5.print(F("LEVEL "));
-  font3x5.print(level);
+  font3x5.print(playerLevel);
   font3x5.setCursor(18, 47);
   font3x5.print(F("YOU GAIN"));
   font3x5.setCursor(26, 54);
+
+  playerLevel++;
 
   switch (random(0, 3)) {
 
@@ -325,33 +324,13 @@ void displayEndOfGame(bool playerDead) {
 
   }
 
-  level = 0;
-
   uint8_t buttons = arduboy.justPressedButtons();
   
   if (buttons & SELECT_BUTTON_MASK) { 
-  
-    if (level <= MAX_LEVEL_COUNT) { level = 0; }
 
+    initialiseGame();
     gameState = GameState::Splash; 
   
   }
 
 }
-
-// void debug() {
-
-//   for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) { 
-//     Enemy enemy = enemies[i];
-//     Serial.print(enemy.getX());
-//     Serial.print(" ");
-//     Serial.print(enemy.getY());
-//     Serial.print(" ");
-//     Serial.println((enemy.getEnabled() ? "T" : "F"));
-    
-//   }
-//   Serial.println(" ");
-  
-// }
-
-
