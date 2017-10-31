@@ -391,7 +391,6 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
   #ifdef  USE_SMALL_IMAGES_2
   // Render enemies two cells away ..
-//debug();
 //  if (!renderCloseFront || !renderMiddleFront) {
 
     uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
@@ -875,7 +874,7 @@ void drawLevelDescription(Level *level) {
 
   font3x5.setCursor(80,44);
   font3x5.print(level->getTitleLine1());
-  font3x5.setCursor(80,52);
+  font3x5.print(F("\n"));
   font3x5.print(level->getTitleLine2());
 
 }
@@ -885,11 +884,12 @@ void drawLevelDescription(Level *level) {
  *  Render Enemy Hit Points Bar
  * -----------------------------------------------------------------------------------------------------------------------------
  */
-void drawEnemyHitPointsBar(uint8_t hitPoints) {
+void drawEnemyHitPointsBar(uint8_t hitPoints, uint8_t hitPointsMax) {
 
   arduboy.drawCompressed(3, 49, fight_HP_bar_Mask, BLACK);
   arduboy.drawCompressed(3, 49, fight_HP_bar, WHITE);
-  arduboy.drawRect(17, 54, hitPoints, 2);  
+  SQ7x8 hitPointsBar = 10 * ((SQ7x8)hitPoints / (SQ7x8)hitPointsMax);
+  arduboy.drawRect(17, 54, hitPointsBar.getInteger(), 2);  
   
 }
 
@@ -946,12 +946,8 @@ void displayLogo() {
   font3x5.setCursor(8, 24);
   font3x5.print(F("CODE\nSIMON\nHOLMES"));
 
-  font3x5.setCursor(110, 24);
-  font3x5.print(F("ART"));
-  font3x5.setCursor(102, 32);
-  font3x5.print(F("CYRIL"));
-  font3x5.setCursor(90, 40);
-  font3x5.print(F("GUICHARD"));
+  font3x5.setCursor(90, 24);
+  font3x5.print(F("     ART\n   CYRIL\nGUICHARD"));
   
   if (arduboy.justPressed(BACK_BUTTON)) {
     gameState = GameState::Splash;

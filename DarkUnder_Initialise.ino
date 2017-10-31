@@ -109,31 +109,33 @@ uint8_t loadItems(const uint8_t *level, Item * items, uint8_t idx, uint8_t max) 
  */
 uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t max) {
 
- uint8_t numberOfEnemies = pgm_read_byte(&level[idx++]);
+  uint8_t numberOfEnemies = pgm_read_byte(&level[idx++]);
  
- for (uint8_t i = 0; i < max; ++i) {  
+  for (uint8_t i = 0; i < max; ++i) {  
 
-   enemies[i].setEnabled(i < numberOfEnemies);
+    Enemy enemy = enemies[i];
+    enemy.setEnabled(i < numberOfEnemies);
 
-   if(enemies[i].getEnabled()) {	
+    if(enemy.getEnabled()) {	
 
-     EnemyType enemyType = (EnemyType)pgm_read_byte(&level[idx++]);
+      EnemyType enemyType = (EnemyType)pgm_read_byte(&level[idx++]);
 
-     enemies[i].setEnemyType(enemyType);
-     enemies[i].setX(pgm_read_byte(&level[idx++]));
-     enemies[i].setY(pgm_read_byte(&level[idx++]));
+      enemy.setEnemyType(enemyType);
+      enemy.setX(pgm_read_byte(&level[idx++]));
+      enemy.setY(pgm_read_byte(&level[idx++]));
 
 
-     // Load statistics ..
+      // Load statistics ..
 
-     enemies[i].setHitPoints(enemyStats[(uint8_t)enemyType].HitPoints);
-     enemies[i].setAttackPower(enemyStats[(uint8_t)enemyType].AttackPower);
-     enemies[i].setExperiencePoints(enemyStats[(uint8_t)enemyType].ExperiencePoints);
-     enemies[i].setMoving(enemyStats[(uint8_t)enemyType].Moving);
+      enemy.setHitPoints(enemyStats[(uint8_t)enemyType].HitPoints);
+      enemy.setHitPointsMax(enemyStats[(uint8_t)enemyType].HitPoints);
+      enemy.setAttackPower(enemyStats[(uint8_t)enemyType].AttackPower);
+      enemy.setExperiencePoints(enemyStats[(uint8_t)enemyType].ExperiencePoints);
+      enemy.setMoving(enemyStats[(uint8_t)enemyType].Moving);
 
-   }
+    }
    
- }
+  }
 
  return idx;
 

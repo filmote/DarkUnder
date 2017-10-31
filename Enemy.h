@@ -14,6 +14,7 @@ class Enemy : public Base {
     EnemyType getEnemyType();
     bool getEnabled();
     uint8_t getHitPoints();
+    uint8_t getHitPointsMax();
     uint8_t getAttackPower();
     uint8_t getExperiencePoints();
     bool getMoving();
@@ -21,6 +22,7 @@ class Enemy : public Base {
     void setEnemyType(const EnemyType value);
     void setEnabled(const bool value);    
     void setHitPoints(const uint8_t value);   
+    void setHitPointsMax(const uint8_t value);   
     void setAttackPower(const uint8_t value);   
     void setMoving(const bool value);    
     void setExperiencePoints(const uint8_t value);  
@@ -30,6 +32,7 @@ class Enemy : public Base {
 
     EnemyType _enemyType;
     uint8_t _hitPoints;
+    uint8_t _hitPointsMax;
     uint8_t _attackPower;    
     uint8_t _experiencePoints;
     bool _moving;

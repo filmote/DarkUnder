@@ -3,8 +3,6 @@
 #include "Enums.h"
 #include "MapData.h"
 
-#define reverseBits(b) (((b)&1?128:0)|((b)&2?64:0)|((b)&4?32:0)|((b)&8?16:0)|((b)&16?8:0)|((b)&32?4:0)|((b)&64?2:0)|((b)&128?1:0))
-
 Level::Level() {  }
 
 uint32_t Level::getStartPos()                               { return _startPos; }

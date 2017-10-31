@@ -37,7 +37,7 @@ Note: The maximum number of enemies and items must be equal.  If not, the code i
 - [X] ~Change 'Attack' code to use player's AP as maximum random number.~
 - [X] ~Change 'Defend' mode to calculate a HP loss of random up to enemy's AP - random up to player's DF (must be zero or positive).~
 - [ ] Add logic to reset player stats when starting a second game.
-- [ ] Fix enemy HP bar to handle values greater than 12 (need floating point values)
+- [X] Fix enemy HP bar to handle values greater than 10 (need floating point values)
 
 
 ### Known Bugs

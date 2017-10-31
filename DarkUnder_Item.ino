@@ -28,7 +28,7 @@ uint16_t itemLoop() {
     uint8_t buttons = arduboy.justPressedButtons();
     
     if ((buttons & LEFT_BUTTON_MASK) && itemAction > ITEM_ACTION_USE)         { --itemAction; }
-    if ((buttons & RIGHT_BUTTON_MASK) && itemAction < ITEM_ACTION_DELETE)     { ++itemAction; }
+    if ((buttons & RIGHT_BUTTON_MASK) && itemAction < ITEM_ACTION_DROP)     { ++itemAction; }
   
   
     // Return to the previous game state if the user presses the back button ..
@@ -65,7 +65,7 @@ uint16_t itemLoop() {
         
       }
   
-      if (itemAction == ITEM_ACTION_DELETE)  { 
+      if (itemAction == ITEM_ACTION_DROP)  { 
         
         gameState = GameState::ItemIgnore;
       

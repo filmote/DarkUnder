@@ -30,33 +30,33 @@ void Player::setInventory(const int8_t slot, const ItemType item) {
 
 int8_t Player::getConsumableSlot() { 
 
-    if (_inventory[0] == ItemType::None) return 0;
-    if (_inventory[1] == ItemType::None) return 1;
-    if (_inventory[2] == ItemType::None) return 2;
-
-    return -1;
+  for (uint8_t i = 0; i < 3; ++i) {
+    if (_inventory[i] == ItemType::None) { return i; }
+  }
+  
+  return -1;
 
 }
 
 int8_t Player::getSlotNumber(const ItemType item) {
     
-    for (uint8_t i = 0; i < 3; ++i) {
-        if (_inventory[i] == item) { return i; }
-    }
+  for (uint8_t i = 0; i < 3; ++i) {
+      if (_inventory[i] == item) { return i; }
+  }
 
-    return -1;
+  return -1;
         
 }
 
 int8_t Player::getInventoryCount(const ItemType item) {
     
-    uint8_t itemCount = 0;
+  uint8_t itemCount = 0;
 
-    if (_inventory[0] == item) itemCount++;
-    if (_inventory[1] == item) itemCount++;
-    if (_inventory[2] == item) itemCount++;
-
-    return itemCount;
+  for (uint8_t i = 0; i < 3; ++i) {
+    if (_inventory[i] == item) { itemCount++; }
+  }
+  
+  return itemCount;
         
 }
 

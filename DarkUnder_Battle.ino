@@ -24,13 +24,15 @@ uint16_t battleLoop() {
   drawPlayerVision(&myHero, &myLevel);
   Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, fight_icon, 0);
 
+  Enemy enemy = enemies[attackingEnemyIdx];
+
   font3x5.setCursor(80,44);
 
   switch (gameState) {
 
     case GameState::Battle_EnemyAttacks_Init:  // ----------------------------------------------------------------------------------------------------------------------------------
       
-      font3x5.print(getEnemyName(enemies[attackingEnemyIdx].getEnemyType()));
+      font3x5.print(getEnemyName(enemy.getEnemyType()));
       font3x5.print(F("\nATTACKS!"));
       
       #ifdef USE_DICE_ANIMATIONS
@@ -88,7 +90,7 @@ uint16_t battleLoop() {
 
     case GameState::Battle_EnemyDies:  // ---------------------------------------------------------------------------------------------------------------------------------------
       {
-        uint8_t xp = enemies[attackingEnemyIdx].getExperiencePoints();
+        uint8_t xp = enemy.getExperiencePoints();
 
         arduboy.drawCompressed(18, 14, enemy_defeated_Mask, BLACK);
         arduboy.drawCompressed(18, 14, enemy_defeated, WHITE);
@@ -211,9 +213,9 @@ uint16_t battleLoop() {
         font3x5.print(F(" DAMAGE!\n"));
         font3x5.setCursor(32, 24);
         font3x5.print(diceAttack);
-        enemies[attackingEnemyIdx].decHitPoints(diceAttack);
+        enemy.decHitPoints(diceAttack);
         
-        if (enemies[attackingEnemyIdx].getHitPoints() > 0) {
+        if (enemy.getHitPoints() > 0) {
           gameState = GameState::Battle_EnemyAttacks_Init;
         }
         else {
@@ -232,9 +234,9 @@ uint16_t battleLoop() {
       font3x5.print(F(" DAMAGE!\n"));
       font3x5.setCursor(32, 24);
       font3x5.print(diceAttack);
-      enemies[attackingEnemyIdx].decHitPoints(diceAttack);
+      enemy.decHitPoints(diceAttack);
 
-      if (enemies[attackingEnemyIdx].getHitPoints() > 0) {
+      if (enemy.getHitPoints() > 0) {
         gameState = GameState::Battle_EnemyAttacks_Init;
       }
       else {
@@ -270,9 +272,9 @@ uint16_t battleLoop() {
         font3x5.print(diceAttack);
 
         myHero.setHitPoints(myHero.getHitPoints() - diceAttack);
-        enemies[attackingEnemyIdx].decHitPoints(1);
+        enemy.decHitPoints(1);
         
-        if (enemies[attackingEnemyIdx].getHitPoints() > 0) {
+        if (enemy.getHitPoints() > 0) {
           gameState = GameState::Battle_PlayerDecides;
         }
         else {
@@ -286,7 +288,7 @@ uint16_t battleLoop() {
 
       #ifndef USE_DICE_ANIMATIONS   
       {
-        uint8_t maxHP = enemies[attackingEnemyIdx].getAttackPower() - myHero.getDefence();
+        uint8_t maxHP = enemy.getAttackPower() - myHero.getDefence();
         if (maxHP < 0) maxHP = 1;
         if (maxHP > 9) maxHP = 9;
         diceAttack = random(0, maxHP);   
@@ -300,9 +302,9 @@ uint16_t battleLoop() {
       font3x5.print(diceAttack);
 
       myHero.setHitPoints(myHero.getHitPoints() + diceAttack);
-      enemies[attackingEnemyIdx].decHitPoints(1);
+      enemy.decHitPoints(1);
       
-      if (enemies[attackingEnemyIdx].getHitPoints() > 0) {
+      if (enemy.getHitPoints() > 0) {
         gameState = GameState::Battle_EnemyAttacks_Init;
       }
       else {
@@ -320,10 +322,10 @@ uint16_t battleLoop() {
       arduboy.drawCompressed(12, 15, fight_hero_spell_Mask, BLACK);
       arduboy.drawCompressed(12, 15, fight_hero_spell, WHITE);
 
-      enemies[attackingEnemyIdx].decHitPoints(diceAttack);
+      enemy.decHitPoints(diceAttack);
       myHero.setInventory(myHero.getSlotNumber(ItemType::Scroll), ItemType::None);
 
-      if (enemies[attackingEnemyIdx].getHitPoints() > 0) {
+      if (enemy.getHitPoints() > 0) {
         gameState = GameState::Battle_EnemyAttacks_Init;
       }
       else {
@@ -337,7 +339,7 @@ uint16_t battleLoop() {
       
   }
 
-  drawEnemyHitPointsBar(enemies[attackingEnemyIdx].getHitPoints());
+  drawEnemyHitPointsBar(enemy.getHitPoints(), enemy.getHitPointsMax());
   return delayLength;
 
 }

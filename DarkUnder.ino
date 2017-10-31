@@ -18,6 +18,8 @@
 #include "Font3x5.h"
 #include "Utils.h"
 #include "EnemyNames.h"
+#include "FixedPoints.h"
+#include "FixedPointsCommon.h"
 
 #ifdef USE_SOUNDS
 #include <ArduboyTones.h>
