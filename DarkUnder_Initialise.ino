@@ -113,25 +113,24 @@ uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t
  
   for (uint8_t i = 0; i < max; ++i) {  
 
-    Enemy enemy = enemies[i];
-    enemy.setEnabled(i < numberOfEnemies);
+    enemies[i].setEnabled(i < numberOfEnemies);
 
-    if(enemy.getEnabled()) {	
+    if(enemies[i].getEnabled()) {	
 
       EnemyType enemyType = (EnemyType)pgm_read_byte(&level[idx++]);
 
-      enemy.setEnemyType(enemyType);
-      enemy.setX(pgm_read_byte(&level[idx++]));
-      enemy.setY(pgm_read_byte(&level[idx++]));
+      enemies[i].setEnemyType(enemyType);
+      enemies[i].setX(pgm_read_byte(&level[idx++]));
+      enemies[i].setY(pgm_read_byte(&level[idx++]));
 
 
       // Load statistics ..
 
-      enemy.setHitPoints(enemyStats[(uint8_t)enemyType].HitPoints);
-      enemy.setHitPointsMax(enemyStats[(uint8_t)enemyType].HitPoints);
-      enemy.setAttackPower(enemyStats[(uint8_t)enemyType].AttackPower);
-      enemy.setExperiencePoints(enemyStats[(uint8_t)enemyType].ExperiencePoints);
-      enemy.setMoving(enemyStats[(uint8_t)enemyType].Moving);
+      enemies[i].setHitPoints(enemyStats[(uint8_t)enemyType].HitPoints);
+      enemies[i].setHitPointsMax(enemyStats[(uint8_t)enemyType].HitPoints);
+      enemies[i].setAttackPower(enemyStats[(uint8_t)enemyType].AttackPower);
+      enemies[i].setExperiencePoints(enemyStats[(uint8_t)enemyType].ExperiencePoints);
+      enemies[i].setMoving(enemyStats[(uint8_t)enemyType].Moving);
 
     }
    

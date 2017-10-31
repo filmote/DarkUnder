@@ -121,7 +121,7 @@
 
 #define ITEM_DELAY                        1500
 #define ITEM_ACTION_USE                   0
-#define ITEM_ACTION_DROP                 1
+#define ITEM_ACTION_DROP                  1
 
 struct EnemyStatistics {
   uint8_t HitPoints;
