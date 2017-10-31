@@ -2,13 +2,8 @@
 
 // ----  Memory saving switches -------
 
-#undef  USE_BEGIN
-
         // 558 bytes
 #undef  USE_DICE_ANIMATIONS
-
-        // 46 bytes
-#define USE_FLASHLIGHT
 
         // 834 bytes
 #undef  USE_SOUNDS
