@@ -22,8 +22,13 @@ uint16_t inventoryLoop() {
   arduboy.drawCompressed(4, 4, inv_background, WHITE);
   drawDirectionIndicator(&myHero);
   
+  #ifdef USE_LARGE_MAP
+  drawMapAndStatistics(&myHero, &myLevel, true);
+  #endif
+  #ifndef USE_LARGE_MAP
   drawMapAndStatistics(&myHero, &myLevel);
-
+  #endif
+  
   // TODO: Attempted to roll the rendering below with the selector using an 'if (i == inventory_selection) ..' added 46 bytes.
   for (uint8_t i = 0; i < 5; ++i) {
 

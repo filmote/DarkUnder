@@ -203,6 +203,12 @@ void loop() {
       displayEndOfGame(false);
       break;
 
+    #ifdef USE_LARGE_MAP
+    case GameState::DisplayLargeMap:
+      displayLargeMap();
+      break;
+    #endif
+      
     default:
       break;
 
@@ -227,7 +233,12 @@ uint16_t displayLevelUp() {
   arduboy.drawCompressed(0, 0, frames_outside, WHITE);
   arduboy.drawCompressed(66, 4, frames_inside, WHITE);
 
+  #ifdef USE_LARGE_MAP
+  drawMapAndStatistics(&myHero, &myLevel, false);
+  #endif
+  #ifndef USE_LARGE_MAP
   drawMapAndStatistics(&myHero, &myLevel);
+  #endif
   drawDirectionIndicator(&myHero);
   drawLevelDescription(&myLevel);
 
@@ -303,7 +314,13 @@ void displayEndOfGame(bool playerDead) {
 
     arduboy.drawCompressed(66, 4, frames_inside, WHITE);
     Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, fight_icon, 0);
+    #ifdef USE_LARGE_MAP
+    drawMapAndStatistics(&myHero, &myLevel, true);
+    #endif
+    #ifndef USE_LARGE_MAP
     drawMapAndStatistics(&myHero, &myLevel);
+    #endif
+    
     arduboy.drawCompressed(16, 6, gameOver, WHITE);
     
   }
@@ -343,3 +360,5 @@ void displayEndOfGame(bool playerDead) {
 //   Serial.println(" ");
   
 // }
+
+

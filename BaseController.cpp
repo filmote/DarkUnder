@@ -9,7 +9,7 @@
 
 BaseController::BaseController() {}
 
-bool BaseController::moveLegal(Enemy *allEnemies, Player *player, Level *level, int x, int y) {
+bool BaseController::moveLegal(Enemy *allEnemies, Player *player, Level *level, uint16_t x, uint16_t y) {
 
   if ((level->getMapElement(x, y) == MapElement::Floor) ||
       (player != nullptr && level->getMapElement(x, y) == MapElement::UnlockedDoor)) {
@@ -28,6 +28,7 @@ bool BaseController::moveLegal(Enemy *allEnemies, Player *player, Level *level, 
 
     // Is another enemy in the same position ?
 
+    
     for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {
 
       Enemy enemy = allEnemies[i];

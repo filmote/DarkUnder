@@ -15,6 +15,6 @@ class BaseController {
 
     BaseController();
 
-    static boolean moveLegal(Enemy *allEnemies, Player *player, Level *level, int x, int y);
+    static boolean moveLegal(Enemy *allEnemies, Player *player, Level *level, uint16_t x, uint16_t y);
 
 };

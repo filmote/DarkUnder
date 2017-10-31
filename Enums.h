@@ -22,6 +22,7 @@
         // Saves 40 bytes
 #define USE_GARCOL_CORRECTION
 
+#define USE_LARGE_MAP
 // ------------------------------------
 
 #define MAX_LEVEL_COUNT                   1
@@ -68,7 +69,7 @@
 #endif
 
 #define NUMBER_OF_DOORS                   3
-#define NUMBER_OF_ITEMS                   16
+#define NUMBER_OF_ITEMS                   NUMBER_OF_ENEMIES
 #define ITEM_HPPOTION_POSITION            Point {23, 19}
 #define ITEM_KEY_POSITION                 Point {20, 20}
 #define ITEM_SCROLL_POSITION              Point {20, 18}
@@ -158,7 +159,10 @@ enum class GameState : uint8_t {
   Battle_PlayerDies,
   LevelUp,
   NextLevel,
-  EndOfGame
+  EndOfGame,
+  #ifdef USE_LARGE_MAP
+  DisplayLargeMap
+  #endif
 };
 
 enum class SplashButtons : uint8_t {

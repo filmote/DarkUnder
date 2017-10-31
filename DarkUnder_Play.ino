@@ -23,6 +23,15 @@ void playLoop() {
   if (buttons & LEFT_BUTTON_MASK)     { PlayerController::move(&myHero, enemies, &myLevel, Button::Left); }
   if (buttons & RIGHT_BUTTON_MASK)    { PlayerController::move(&myHero, enemies, &myLevel, Button::Right); }
 
+  #ifdef USE_LARGE_MAP
+  if (buttons & SELECT_BUTTON_MASK)     { 
+    
+    savedState = gameState;
+    gameState = GameState::DisplayLargeMap; 
+    
+  }
+  #endif
+  
   if (buttons & BACK_BUTTON_MASK)     { 
 
     savedState = gameState;
@@ -34,34 +43,34 @@ void playLoop() {
   // If the player moved then so should the enemies ..
 
   if (playerMoved) {
-
-  if (myLevel.getMapElement(myHero.getX(), myHero.getY()) == MapElement::UnlockedDoor) { 
-
+  
+    if (myLevel.getMapElement(myHero.getX(), myHero.getY()) == MapElement::UnlockedDoor) { 
+  
       ++level;
-
+  
       if (level < MAX_LEVEL_COUNT) {
-      gameState = GameState::NextLevel; 
+        gameState = GameState::NextLevel; 
       }
       else {
-      gameState = GameState::EndOfGame;
+        gameState = GameState::EndOfGame;
       }
-
+  
       return;
-
-  }
-
-  gameState = GameState::Move;        // Play could be at game state ItemIgnore, in which case we only want to ignore this first item only. 
-
-  for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {
-
+  
+    }
+  
+    gameState = GameState::Move;        // Play could be at game state ItemIgnore, in which case we only want to ignore this first item only. 
+  
+    for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {
+  
       if (enemies[i].getEnabled() && enemies[i].getMoving()) {
-
-      EnemyController::move(&enemies[i], enemies, &myHero, &myLevel);
-
+  
+        EnemyController::move(&enemies[i], enemies, &myHero, &myLevel);
+  
       }
-
-  }  
-
-  }
+  
+    }  
 
   }
+
+}

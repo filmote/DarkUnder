@@ -645,7 +645,12 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
   }
 
+  #ifdef USE_LARGE_MAP
+  drawMapAndStatistics(myHero, myLevel, true);
+  #endif
+  #ifndef USE_LARGE_MAP
   drawMapAndStatistics(myHero, myLevel);
+  #endif
 
 }
 
@@ -657,21 +662,50 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
  * 
  * -----------------------------------------------------------------------------------------------------------------------------
  */
+#ifndef USE_LARGE_MAP
 #define MAP_X_OFFSET   98
 #define MAP_Y_OFFSET   6
+#endif
 
+#ifdef USE_LARGE_MAP
+void drawMapAndStatistics(Player *player, Level *myLevel, boolean smallMap) {
+#endif
+#ifndef USE_LARGE_MAP
 void drawMapAndStatistics(Player *player, Level *myLevel) {
+#endif
 
   uint8_t drawX = 0;
   uint8_t drawY = 0;
 
+  #ifdef USE_LARGE_MAP
+  uint8_t mapWidth = (smallMap ? 3 : 12);
+  uint8_t mapHeight = (smallMap ? 2 : 6);
+  uint8_t mapXOffset = (smallMap ? 98 : 0);
+  uint8_t mapYOffset = (smallMap ? 6 : 0);
+  #endif
+  
   bool renderMapElement = false;
   
+  #ifdef USE_LARGE_MAP
+  for (int16_t mapY = player->getY() - mapWidth; mapY <= player->getY() + mapWidth; ++mapY) {
+  #endif
+  #ifndef USE_LARGE_MAP
   for (int16_t mapY = player->getY() - 3; mapY <= player->getY() + 3; ++mapY) {
-
+  #endif
+  
+    #ifdef USE_LARGE_MAP
+    for (int16_t mapX = player->getX() - mapHeight; mapX <= player->getX() + mapHeight; ++mapX) {
+    #endif
+    #ifndef USE_LARGE_MAP
     for (int16_t mapX = player->getX() - 2; mapX <= player->getX() + 2; ++mapX) {
+    #endif
 
+      #ifdef USE_LARGE_MAP
+      if (mapX >= 0 && mapX < ((int16_t)myLevel->getWidth() * MAP_TILE_WIDTH) && mapY >= 0 && mapY < ((int16_t)myLevel->getHeight() * MAP_TILE_HEIGHT) && (smallMap ? !(drawX == 4 && drawY == 0) : true) ) { 
+      #endif
+      #ifndef USE_LARGE_MAP
       if (mapX >= 0 && mapX < ((int16_t)myLevel->getWidth() * MAP_TILE_WIDTH) && mapY >= 0 && mapY < ((int16_t)myLevel->getHeight() * MAP_TILE_HEIGHT) && !(drawX == 4 && drawY == 0) ) { 
+      #endif
         
         MapElement element = myLevel->getMapElement(mapX, mapY);
 
@@ -688,7 +722,12 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
 
             if (enemy.getEnabled() && enemy.getX() == mapX && enemy.getY() == mapY) {
 
+              #ifdef USE_LARGE_MAP
+              Sprites::drawSelfMasked(mapXOffset + (drawX * TILE_OFFSET), mapYOffset + (drawY * TILE_OFFSET), enemyMap, 0);
+              #endif
+              #ifndef USE_LARGE_MAP
               Sprites::drawSelfMasked(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), enemyMap, 0);
+              #endif
               renderMapElement = false;
               break;
                     
@@ -707,7 +746,12 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
 
               if (item.getEnabled() && item.getX() == mapX && item.getY() == mapY) {
           
+                #ifdef USE_LARGE_MAP
+                Sprites::drawSelfMasked(mapXOffset + (drawX * TILE_OFFSET), mapYOffset + (drawY * TILE_OFFSET), itemMap, 0);
+                #endif
+                #ifndef USE_LARGE_MAP
                 Sprites::drawSelfMasked(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), itemMap, 0);
+                #endif
                 renderMapElement = false;
                 break;
                       
@@ -719,17 +763,32 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
 
           if (renderMapElement) {
             
+            #ifdef USE_LARGE_MAP
+            arduboy.fillRect(mapXOffset + (drawX * TILE_OFFSET), mapYOffset + (drawY * TILE_OFFSET), TILE_SIZE, TILE_SIZE, WHITE);
+            #endif
+            #ifndef USE_LARGE_MAP
             arduboy.fillRect(MAP_X_OFFSET + (drawX * TILE_OFFSET), MAP_Y_OFFSET + (drawY * TILE_OFFSET), TILE_SIZE, TILE_SIZE, WHITE);
-
+            #endif
+            
             switch (element) {
 
               case MapElement::LockedGate:
               case MapElement::LockedDoor:
+                #ifdef USE_LARGE_MAP
+                arduboy.drawLine(mapXOffset + (drawX * TILE_OFFSET) + 1, mapYOffset + (drawY * TILE_OFFSET) + 1, mapXOffset + (drawX * TILE_OFFSET) + 1, mapYOffset + (drawY * TILE_OFFSET) + 2, BLACK);
+                #endif
+                #ifndef USE_LARGE_MAP
                 arduboy.drawLine(MAP_X_OFFSET + (drawX * TILE_OFFSET) + 1, MAP_Y_OFFSET + (drawY * TILE_OFFSET) + 1, MAP_X_OFFSET + (drawX * TILE_OFFSET) + 1, MAP_Y_OFFSET + (drawY * TILE_OFFSET) + 2, BLACK);
+                #endif
                 break;
 
               case MapElement::UnlockedDoor:
+                #ifdef USE_LARGE_MAP
+                arduboy.drawLine(mapXOffset + (drawX * TILE_OFFSET) + 2, mapYOffset + (drawY * TILE_OFFSET) + 1, mapXOffset + (drawX * TILE_OFFSET) + 2, mapYOffset + (drawY * TILE_OFFSET) + 2, BLACK);
+                #endif
+                #ifndef USE_LARGE_MAP
                 arduboy.drawLine(MAP_X_OFFSET + (drawX * TILE_OFFSET) + 2, MAP_Y_OFFSET + (drawY * TILE_OFFSET) + 1, MAP_X_OFFSET + (drawX * TILE_OFFSET) + 2, MAP_Y_OFFSET + (drawY * TILE_OFFSET) + 2, BLACK);
+                #endif
                 break;
 
                 default: break;
@@ -754,16 +813,32 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
 
   // Render player ..
 
+  #ifdef USE_LARGE_MAP
+  if (smallMap) {
+    Sprites::drawExternalMask(mapXOffset + 10, mapYOffset + 15, playerMap, playerMap_Mask, 0, 0);
+  }
+  else {
+    Sprites::drawExternalMask(mapXOffset + 63, mapYOffset + 32, playerMap, playerMap_Mask, 0, 0);
+  }
+  #endif
+  #ifndef USE_LARGE_MAP
   Sprites::drawExternalMask(MAP_X_OFFSET + 10, MAP_Y_OFFSET + 15, playerMap, playerMap_Mask, 0, 0);
+  #endif
 
 
   // Render statistics ..
-  
+
+  #ifdef USE_LARGE_MAP
+  if (smallMap) {
+  #endif
   font3x5.setCursor(70, 8);
   printStatistic(F("HP  "), player->getHitPoints());
   printStatistic(F("\nAP  "), player->getAttackPower());
   printStatistic(F("\nDF  "), player->getDefence());
   printStatistic(F("\nXP  "), player->getExperiencePoints());
+  #ifdef USE_LARGE_MAP
+  }
+  #endif
 
 }
 
