@@ -18,13 +18,13 @@ void playLoop() {
 
   uint8_t buttons = arduboy.justPressedButtons();
 
-  if (buttons & UP_BUTTON_MASK)       { playerMoved = PlayerController::move(&myHero, enemies, &myLevel, Button::Up); }
-  if (buttons & DOWN_BUTTON_MASK)     { PlayerController::move(&myHero, enemies, &myLevel, Button::Down); }
-  if (buttons & LEFT_BUTTON_MASK)     { PlayerController::move(&myHero, enemies, &myLevel, Button::Left); }
-  if (buttons & RIGHT_BUTTON_MASK)    { PlayerController::move(&myHero, enemies, &myLevel, Button::Right); }
+  if (buttons & UP_BUTTON_MASK)            { playerMoved = PlayerController::move(&myHero, enemies, &myLevel, Button::Up); }
+  else if (buttons & DOWN_BUTTON_MASK)     { PlayerController::move(&myHero, enemies, &myLevel, Button::Down); }
+  else if (buttons & LEFT_BUTTON_MASK)     { PlayerController::move(&myHero, enemies, &myLevel, Button::Left); }
+  else if (buttons & RIGHT_BUTTON_MASK)    { PlayerController::move(&myHero, enemies, &myLevel, Button::Right); }
 
   #ifdef USE_LARGE_MAP
-  if (buttons & SELECT_BUTTON_MASK)     { 
+  else if (buttons & SELECT_BUTTON_MASK)     { 
     
     savedState = gameState;
     gameState = GameState::DisplayLargeMap; 
@@ -32,7 +32,7 @@ void playLoop() {
   }
   #endif
   
-  if (buttons & BACK_BUTTON_MASK)     { 
+  else  if (buttons & BACK_BUTTON_MASK)     { 
 
     savedState = gameState;
     gameState = GameState::InventorySelect; 

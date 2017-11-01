@@ -140,7 +140,7 @@ uint16_t battleLoop() {
 
         }
 
-        if (buttons & RIGHT_BUTTON_MASK) {
+        else if (buttons & RIGHT_BUTTON_MASK) {
           
           for (uint8_t i = (uint8_t)fightButton + 1; i < (uint8_t)FightButtons::Count; ++i) {
             if (fightButtons[i]) { 
@@ -151,12 +151,12 @@ uint16_t battleLoop() {
           
         }
 
-        if (buttons & BACK_BUTTON_MASK)  {
+        else if (buttons & BACK_BUTTON_MASK)  {
           savedState = gameState;
           gameState = GameState::InventorySelect;
         }
           
-        if (buttons & SELECT_BUTTON_MASK)  {
+        else if (buttons & SELECT_BUTTON_MASK)  {
           
           #ifdef USE_DICE_ANIMATIONS
           diceDelay = DICE_DELAY_START;

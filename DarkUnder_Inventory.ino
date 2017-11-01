@@ -65,11 +65,11 @@ uint16_t inventoryLoop() {
 
     case GameState::InventorySelect:
 
-      if ((buttons & LEFT_BUTTON_MASK) && inventory_selection > 0)      { --inventory_selection; }
-      if ((buttons & RIGHT_BUTTON_MASK) && inventory_selection < 4)     { ++inventory_selection; }
-      if (buttons & BACK_BUTTON_MASK)                                   { gameState = savedState;}
+      if ((buttons & LEFT_BUTTON_MASK) && inventory_selection > 0)           { --inventory_selection; }
+      else if ((buttons & RIGHT_BUTTON_MASK) && inventory_selection < 4)     { ++inventory_selection; }
+      else if (buttons & BACK_BUTTON_MASK)                                   { gameState = savedState;}
 
-      if (buttons & SELECT_BUTTON_MASK) { 
+      else if (buttons & SELECT_BUTTON_MASK) { 
         if (myHero.getInventory(inventory_selection) != ItemType::None) {
           gameState = GameState::InventoryAction;
         }
