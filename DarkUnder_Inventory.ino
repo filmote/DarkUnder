@@ -64,6 +64,7 @@ uint16_t inventoryLoop() {
   switch (gameState) {
 
     case GameState::InventorySelect:
+
       if ((buttons & LEFT_BUTTON_MASK) && inventory_selection > 0)      { --inventory_selection; }
       if ((buttons & RIGHT_BUTTON_MASK) && inventory_selection < 4)     { ++inventory_selection; }
       if (buttons & BACK_BUTTON_MASK)                                   { gameState = savedState;}
@@ -77,15 +78,13 @@ uint16_t inventoryLoop() {
       break;
 
     case GameState::InventoryAction:
-
-      if (inventory_action == INVENTORY_ACTION_USE)     arduboy.drawCompressed(82, 56, inv_select, WHITE);
-      if (inventory_action == INVENTORY_ACTION_DELETE)  arduboy.drawCompressed(94, 56, inv_select, WHITE);
     
+      arduboy.drawCompressed(82 + (inventory_action == INVENTORY_ACTION_DROP ? 12 : 0), 56, inv_select, WHITE);
       Sprites::drawOverwrite(81, 45, inv_hand, 0);
       Sprites::drawOverwrite(93, 45, inv_trash, 0);
       
       if ((buttons & LEFT_BUTTON_MASK) && inventory_action > INVENTORY_ACTION_USE)         { --inventory_action; }
-      if ((buttons & RIGHT_BUTTON_MASK) && inventory_action < INVENTORY_ACTION_DELETE)     { ++inventory_action; }
+      if ((buttons & RIGHT_BUTTON_MASK) && inventory_action < INVENTORY_ACTION_DROP)       { ++inventory_action; }
       if (buttons & BACK_BUTTON_MASK)                                                      { gameState = GameState::InventorySelect;}
 
       if (buttons & SELECT_BUTTON_MASK) { 
@@ -129,7 +128,7 @@ uint16_t inventoryLoop() {
 
         }
 
-        if (inventory_action == INVENTORY_ACTION_DELETE) {
+        if (inventory_action == INVENTORY_ACTION_DROP) {
 
           bool spaceOccupied = false;
           uint8_t itemIndex = 0;
@@ -159,7 +158,7 @@ uint16_t inventoryLoop() {
           if (spaceOccupied) {
             
             font3x5.setCursor(95, 44);
-            font3x5.print(F("LOCATION\nOCCUPIED!"));
+            font3x5.print(F("SPACE\nOCCUPIED!"));
             return ITEM_DELAY;            
         
           }

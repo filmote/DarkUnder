@@ -800,12 +800,12 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
 
       }
 
-      drawX++;
+      ++drawX;
       
     }
 
     drawX = 0;
-    drawY++;
+    ++drawY;
 
   }
   
@@ -888,7 +888,7 @@ void drawEnemyHitPointsBar(uint8_t hitPoints, uint8_t hitPointsMax) {
 
   arduboy.drawCompressed(3, 49, fight_HP_bar_Mask, BLACK);
   arduboy.drawCompressed(3, 49, fight_HP_bar, WHITE);
-  SQ7x8 hitPointsBar = 10 * ((SQ7x8)hitPoints / (SQ7x8)hitPointsMax);
+  UQ8x8 hitPointsBar = 10 * ((UQ8x8)hitPoints / (UQ8x8)hitPointsMax);
   arduboy.drawRect(17, 54, hitPointsBar.getInteger(), 2);  
   
 }
@@ -910,7 +910,7 @@ void displaySplash() {
   }
   else {
     Sprites::drawSelfMasked(63, 54, hMarker, 0);
-  }
+  }  
 
   uint8_t buttons = arduboy.justPressedButtons();
 
@@ -922,7 +922,7 @@ void displaySplash() {
     if (splashStatus == SplashButtons::Play) {
       gameState = GameState::InitGame;
     }
-    if (splashStatus == SplashButtons::About) {
+    else {
       gameState = GameState::About;
     }
 
@@ -949,7 +949,9 @@ void displayLogo() {
   font3x5.setCursor(90, 24);
   font3x5.print(F("     ART\n   CYRIL\nGUICHARD"));
   
-  if (arduboy.justPressed(BACK_BUTTON)) {
+  uint8_t buttons = arduboy.justPressedButtons();
+
+  if (buttons & BACK_BUTTON_MASK) {    
     gameState = GameState::Splash;
   }
 

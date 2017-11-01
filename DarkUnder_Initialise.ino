@@ -115,7 +115,7 @@ uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t
 
     enemies[i].setEnabled(i < numberOfEnemies);
 
-    if(enemies[i].getEnabled()) {	
+    if (enemies[i].getEnabled()) {	
 
       EnemyType enemyType = (EnemyType)pgm_read_byte(&level[idx++]);
 
