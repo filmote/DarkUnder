@@ -19,12 +19,10 @@
  */
 uint16_t battleLoop() {
   
-  uint16_t delayLength = 0;
+  uint16_t delayLength = FIGHT_DELAY;
   
   drawPlayerVision(&myHero, &myLevel);
   Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, fight_icon, 0);
-
-  //Enemy enemy = enemies[attackingEnemyIdx];
 
   font3x5.setCursor(80,44);
 
@@ -40,7 +38,6 @@ uint16_t battleLoop() {
       diceDelay = DICE_DELAY_START;
       #endif
       gameState = GameState::Battle_EnemyAttacks;
-      delayLength = FIGHT_DELAY;
       break;
 
 
@@ -67,7 +64,6 @@ uint16_t battleLoop() {
 
         myHero.setHitPoints(myHero.getHitPoints() > diceAttack ? myHero.getHitPoints() - diceAttack : 0); 
         gameState = GameState::Battle_PlayerDecides;
-        delayLength = FIGHT_DELAY;
         
       }
       #endif
@@ -81,7 +77,6 @@ uint16_t battleLoop() {
       font3x5.print(diceAttack);
       myHero.setHitPoints(myHero.getHitPoints() > diceAttack ? myHero.getHitPoints() - diceAttack : 0); 
       gameState = GameState::Battle_PlayerDecides;
-      delayLength = FIGHT_DELAY;
       #endif
 
       if (myHero.getHitPoints() == 0)  gameState = GameState::Battle_PlayerDies;
@@ -107,8 +102,6 @@ uint16_t battleLoop() {
         else {
           gameState = GameState::Move;
         }
-
-        delayLength = FIGHT_DELAY;
 
       }
       break;
@@ -191,6 +184,8 @@ uint16_t battleLoop() {
         }
         
       }
+
+      delayLength = 0;
       break;
 
 
@@ -214,17 +209,10 @@ uint16_t battleLoop() {
         font3x5.print(F(" DAMAGE!\n"));
         font3x5.setCursor(32, 24);
         font3x5.print(diceAttack);
-        if (enemy.getHitPoints() > diceAttack) { enemy.getHitPoints() - diceAttack; } else { enemy.setEnabled(false); }
+        if (enemies[attackingEnemyIdx].getHitPoints() > diceAttack) { enemies[attackingEnemyIdx].setHitPoints(enemies[attackingEnemyIdx].getHitPoints() - diceAttack); } else { enemies[attackingEnemyIdx].setEnabled(false); }
         
-        
-        if (enemy.getHitPoints() > 0) {
-          gameState = GameState::Battle_EnemyAttacks_Init;
-        }
-        else {
-          gameState = GameState::Battle_EnemyDies;
-        }
-
-        delayLength = FIGHT_DELAY;
+        gameState = GameState::Battle_EnemyDies;
+        if (enemies[attackingEnemyIdx].getEnabled()) { gameState = GameState::Battle_EnemyAttacks_Init; }
 
       }
       #endif
@@ -236,18 +224,12 @@ uint16_t battleLoop() {
       font3x5.print(F(" DAMAGE!\n"));
       font3x5.setCursor(32, 24);
       font3x5.print(diceAttack);
-      if (enemies[attackingEnemyIdx].getHitPoints() > diceAttack) { enemies[attackingEnemyIdx].getHitPoints() - diceAttack; } else { enemies[attackingEnemyIdx].setEnabled(false); }
+      if (enemies[attackingEnemyIdx].getHitPoints() > diceAttack) { enemies[attackingEnemyIdx].setHitPoints(enemies[attackingEnemyIdx].getHitPoints() - diceAttack); } else { enemies[attackingEnemyIdx].setEnabled(false); }
 
-      if (enemies[attackingEnemyIdx].getHitPoints() > 0) {
-        gameState = GameState::Battle_EnemyAttacks_Init;
-      }
-      else {
-        gameState = GameState::Battle_EnemyDies;
-      }
-
-      delayLength = FIGHT_DELAY;
+      gameState = GameState::Battle_EnemyDies;
+      if (enemies[attackingEnemyIdx].getEnabled()) { gameState = GameState::Battle_EnemyAttacks_Init; }
       #endif
-      
+
       break; 
 
 
@@ -274,16 +256,10 @@ uint16_t battleLoop() {
         font3x5.print(diceAttack);
 
         myHero.setHitPoints(myHero.getHitPoints() - diceAttack);
-        if (enemy.getHitPoints() > 1) { enemy.getHitPoints() - 1; } else { enemy.setEnabled(false); }
+        if (enemies[attackingEnemyIdx].getHitPoints() > 1) { enemies[attackingEnemyIdx].getHitPoints() - 1; } else { enemies[attackingEnemyIdx].setEnabled(false); }
         
-        if (enemy.getHitPoints() > 0) {
-          gameState = GameState::Battle_PlayerDecides;
-        }
-        else {
-          gameState = GameState::Battle_EnemyDies;
-        }
-
-        delayLength = FIGHT_DELAY;
+        gameState = GameState::Battle_EnemyDies;
+        if (enemies[attackingEnemyIdx].getEnabled()) gameState = GameState::Battle_PlayerDecides;
 
       }
       #endif
@@ -304,16 +280,11 @@ uint16_t battleLoop() {
       font3x5.print(diceAttack);
 
       myHero.setHitPoints(myHero.getHitPoints() + diceAttack);
-      if (enemies[attackingEnemyIdx].getHitPoints() > 1) { enemies[attackingEnemyIdx].getHitPoints() - 1; } else { enemies[attackingEnemyIdx].setEnabled(false); }
+      if (enemies[attackingEnemyIdx].getHitPoints() > 1) { enemies[attackingEnemyIdx].setHitPoints(enemies[attackingEnemyIdx].getHitPoints() - 1); } else { enemies[attackingEnemyIdx].setEnabled(false); }
       
-      if (enemies[attackingEnemyIdx].getHitPoints() > 0) {
-        gameState = GameState::Battle_EnemyAttacks_Init;
-      }
-      else {
-        gameState = GameState::Battle_EnemyDies;
-      }
+      gameState = GameState::Battle_EnemyDies;
+      if (enemies[attackingEnemyIdx].getEnabled()) gameState = GameState::Battle_EnemyAttacks_Init;
 
-      delayLength = FIGHT_DELAY;
       #endif
       
       break;   
@@ -324,17 +295,12 @@ uint16_t battleLoop() {
       arduboy.drawCompressed(12, 15, fight_hero_spell_Mask, BLACK);
       arduboy.drawCompressed(12, 15, fight_hero_spell, WHITE);
 
-      if (enemies[attackingEnemyIdx].getHitPoints() > diceAttack) { enemies[attackingEnemyIdx].getHitPoints() - diceAttack; } else { enemies[attackingEnemyIdx].setEnabled(false); }
+      if (enemies[attackingEnemyIdx].getHitPoints() > diceAttack) { enemies[attackingEnemyIdx].setHitPoints(enemies[attackingEnemyIdx].getHitPoints() - diceAttack); } else { enemies[attackingEnemyIdx].setEnabled(false); }
       myHero.setInventory(myHero.getSlotNumber(ItemType::Scroll), ItemType::None);
 
-      if (enemies[attackingEnemyIdx].getHitPoints() > 0) {
-        gameState = GameState::Battle_EnemyAttacks_Init;
-      }
-      else {
-        gameState = GameState::Battle_EnemyDies;
-      }
+      gameState = GameState::Battle_EnemyDies;
+      if (enemies[attackingEnemyIdx].getEnabled()) GameState::Battle_EnemyAttacks_Init;
 
-      delayLength = FIGHT_DELAY;
       break;
 
     default: break;

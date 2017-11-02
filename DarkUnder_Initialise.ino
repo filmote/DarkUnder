@@ -48,10 +48,6 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   myLevel->setWidth(pgm_read_byte(&level[idx++]));
   myLevel->setHeight(pgm_read_byte(&level[idx++]));
 
-  Serial.print(myHero->getX());
-  Serial.print(" ");
-  Serial.println(myHero->getY());
-
 
   // Create all enemies ..
 
