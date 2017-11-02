@@ -67,13 +67,3 @@ void Player::shuffleInventory() {
  
 }
 
-void Player::decHitPoints(const int8_t value) { 
-    
-  if (_hitPoints > value ) {
-    _hitPoints = _hitPoints - value;
-  }
-  else {
-    _hitPoints = 0; 
-  }
-
-}
