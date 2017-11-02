@@ -20,14 +20,3 @@ void Enemy::setExperiencePoints(const uint8_t value)      { _experiencePoints = 
 void Enemy::setMoving(const bool value)                   { _moving = value; }
 void Enemy::setEnabled(const bool value)                  { _enabled = value; }
 
-void Enemy::decHitPoints(const uint8_t value) { 
-    
-  if (_hitPoints > value ) {
-    _hitPoints = _hitPoints - value;
-  }
-  else {
-    _hitPoints = 0; 
-    _enabled = false;
-  }
-
-}

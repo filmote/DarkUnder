@@ -26,7 +26,6 @@ class Enemy : public Base {
     void setAttackPower(const uint8_t value);   
     void setMoving(const bool value);    
     void setExperiencePoints(const uint8_t value);  
-    void decHitPoints(const uint8_t value);   
     
   private:
 

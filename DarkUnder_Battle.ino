@@ -214,7 +214,8 @@ uint16_t battleLoop() {
         font3x5.print(F(" DAMAGE!\n"));
         font3x5.setCursor(32, 24);
         font3x5.print(diceAttack);
-        enemy.decHitPoints(diceAttack);
+        if (enemy.getHitPoints() > diceAttack) { enemy.getHitPoints() - diceAttack; } else { enemy.setEnabled(false); }
+        
         
         if (enemy.getHitPoints() > 0) {
           gameState = GameState::Battle_EnemyAttacks_Init;
@@ -235,7 +236,7 @@ uint16_t battleLoop() {
       font3x5.print(F(" DAMAGE!\n"));
       font3x5.setCursor(32, 24);
       font3x5.print(diceAttack);
-      enemies[attackingEnemyIdx].decHitPoints(diceAttack);
+      if (enemies[attackingEnemyIdx].getHitPoints() > diceAttack) { enemies[attackingEnemyIdx].getHitPoints() - diceAttack; } else { enemies[attackingEnemyIdx].setEnabled(false); }
 
       if (enemies[attackingEnemyIdx].getHitPoints() > 0) {
         gameState = GameState::Battle_EnemyAttacks_Init;
@@ -273,7 +274,7 @@ uint16_t battleLoop() {
         font3x5.print(diceAttack);
 
         myHero.setHitPoints(myHero.getHitPoints() - diceAttack);
-        enemy.decHitPoints(1);
+        if (enemy.getHitPoints() > 1) { enemy.getHitPoints() - 1; } else { enemy.setEnabled(false); }
         
         if (enemy.getHitPoints() > 0) {
           gameState = GameState::Battle_PlayerDecides;
@@ -303,7 +304,7 @@ uint16_t battleLoop() {
       font3x5.print(diceAttack);
 
       myHero.setHitPoints(myHero.getHitPoints() + diceAttack);
-      enemies[attackingEnemyIdx].decHitPoints(1);
+      if (enemies[attackingEnemyIdx].getHitPoints() > 1) { enemies[attackingEnemyIdx].getHitPoints() - 1; } else { enemies[attackingEnemyIdx].setEnabled(false); }
       
       if (enemies[attackingEnemyIdx].getHitPoints() > 0) {
         gameState = GameState::Battle_EnemyAttacks_Init;
@@ -323,7 +324,7 @@ uint16_t battleLoop() {
       arduboy.drawCompressed(12, 15, fight_hero_spell_Mask, BLACK);
       arduboy.drawCompressed(12, 15, fight_hero_spell, WHITE);
 
-      enemies[attackingEnemyIdx].decHitPoints(diceAttack);
+      if (enemies[attackingEnemyIdx].getHitPoints() > diceAttack) { enemies[attackingEnemyIdx].getHitPoints() - diceAttack; } else { enemies[attackingEnemyIdx].setEnabled(false); }
       myHero.setInventory(myHero.getSlotNumber(ItemType::Scroll), ItemType::None);
 
       if (enemies[attackingEnemyIdx].getHitPoints() > 0) {
