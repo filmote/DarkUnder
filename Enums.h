@@ -16,7 +16,7 @@
 
 // ------------------------------------
 
-#define MAX_LEVEL_COUNT                   1
+#define MAX_LEVEL_COUNT                   2
 #define XP_LEVEL_UP                       4
 
 #define UP_BUTTON_MASK                    128

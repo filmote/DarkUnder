@@ -18,10 +18,11 @@
 uint16_t itemLoop() {
   
     drawPlayerVision(&myHero, &myLevel);
-    arduboy.drawCompressed(69 + (itemAction == INVENTORY_ACTION_DROP ? 12 : 0), 56, inv_select, WHITE);
+    arduboy.drawCompressed(72 + (itemAction == INVENTORY_ACTION_DROP ? 12 : 0), 56, inv_select, WHITE);
 
-    Sprites::drawOverwrite(68, 45, inv_hand, 0);
-    Sprites::drawOverwrite(80, 45, inv_trash, 0);
+    Sprites::drawOverwrite(71, 45, inv_hand, 0);
+    Sprites::drawOverwrite(83, 45, inv_trash, 0);
+    arduboy.drawLine(66, 43, 66, 59);
     
     uint8_t buttons = arduboy.justPressedButtons();
     

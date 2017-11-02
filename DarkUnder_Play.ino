@@ -46,8 +46,6 @@ void playLoop() {
   
     if (myLevel.getMapElement(myHero.getX(), myHero.getY()) == MapElement::UnlockedDoor) { 
   
-      ++level;
-  
       if (level < MAX_LEVEL_COUNT) {
         gameState = GameState::NextLevel; 
       }

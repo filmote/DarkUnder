@@ -280,13 +280,17 @@ uint16_t displayLevelUp() {
 void displayNextLevel() {
   
   //TODO Image?
-  
+  arduboy.drawCompressed(0, 0, frames_outside, WHITE);  
+  arduboy.drawCompressed(8, 8, endOfLevel, WHITE);  
+
+  font3x5.setCursor(64, 8);
+  font3x5.print(F("WELL DONE!\nDONT STOP NOW\nTHE RICHES ARE\nIN YOUR GRASP\n\nPRESS A BUTTON"));
+
   uint8_t buttons = arduboy.justPressedButtons();
   
-  if (buttons & SELECT_BUTTON_MASK) { 
+  if (buttons) { 
   
-    if (level <= MAX_LEVEL_COUNT) { level = 0; }
-
+    level++;
     gameState = GameState::Move; 
     initialiseLevel(&myHero, &myLevel, levels[level]);
   

@@ -6,7 +6,7 @@
  */
 void initialiseGame() {
 
-  myHero.setHitPoints(10);
+  myHero.setHitPoints(50);
   myHero.setDefence(1);
   myHero.setAttackPower(2);
   
@@ -31,39 +31,43 @@ void initialiseGame() {
  */
 void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
 
- uint8_t idx = 0;
-
- 
- // Read level title ..
-
- memcpy_P(myLevel->getTitleLine1(), &level[idx], sizeof(char) * 11);
- idx += 11;
- memcpy_P(myLevel->getTitleLine2(), &level[idx], sizeof(char) * 11);
- idx += 11;
-             
- myHero->setX(pgm_read_byte(&level[idx++]));
- myHero->setY(pgm_read_byte(&level[idx++]));
- myHero->setDirection((Direction)pgm_read_byte(&level[idx++]));
-
- myLevel->setWidth(pgm_read_byte(&level[idx++]));
- myLevel->setHeight(pgm_read_byte(&level[idx++]));
+  uint8_t idx = 0;
 
 
- // Create all enemies ..
- 
- idx = loadEnemies(level, enemies, idx, NUMBER_OF_ENEMIES);
- 
+  // Read level title ..
 
- // Create all items and doors ..
- 
- idx = loadItems(level, items, idx, NUMBER_OF_ITEMS);
- idx = loadItems(level, doors, idx, NUMBER_OF_DOORS);
- 
- myLevel->setLevel(level);
- myLevel->setDoors(doors);
- myLevel->setStartPos(idx);
+  memcpy_P(myLevel->getTitleLine1(), &level[idx], sizeof(char) * 11);
+  idx += 11;
+  memcpy_P(myLevel->getTitleLine2(), &level[idx], sizeof(char) * 11);
+  idx += 11;
+              
+  myHero->setX(pgm_read_byte(&level[idx++]));
+  myHero->setY(pgm_read_byte(&level[idx++]));
+  myHero->setDirection((Direction)pgm_read_byte(&level[idx++]));
 
- gameState = GameState::Move;
+  myLevel->setWidth(pgm_read_byte(&level[idx++]));
+  myLevel->setHeight(pgm_read_byte(&level[idx++]));
+
+  Serial.print(myHero->getX());
+  Serial.print(" ");
+  Serial.println(myHero->getY());
+
+
+  // Create all enemies ..
+
+  idx = loadEnemies(level, enemies, idx, NUMBER_OF_ENEMIES);
+
+
+  // Create all items and doors ..
+
+  idx = loadItems(level, items, idx, NUMBER_OF_ITEMS);
+  idx = loadItems(level, doors, idx, NUMBER_OF_DOORS);
+
+  myLevel->setLevel(level);
+  myLevel->setDoors(doors);
+  myLevel->setStartPos(idx);
+
+  gameState = GameState::Move;
 
 }
 
@@ -79,22 +83,23 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
  */
 uint8_t loadItems(const uint8_t *level, Item * items, uint8_t idx, uint8_t max) {
 
- uint8_t numberOfItems = pgm_read_byte(&level[idx++]);
+  uint8_t numberOfItems = pgm_read_byte(&level[idx++]);
 
- for (uint8_t i = 0; i < max; ++i) {  
+  for (uint8_t i = 0; i < max; ++i) {  
 
-   items[i].setEnabled(false);
+    items[i].setEnabled(false);
 
-   if(i < numberOfItems) {
-     items[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
-     items[i].setX(pgm_read_byte(&level[idx++]));
-     items[i].setY(pgm_read_byte(&level[idx++]));
-     items[i].setEnabled(true);
-   }
+    if(i < numberOfItems) {
+      items[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
+      items[i].setX(pgm_read_byte(&level[idx++]));
+      items[i].setY(pgm_read_byte(&level[idx++]));
+      items[i].setEnabled(true);
+    }
 
- }  
- 
- return idx;
+  }  
+
+  return idx;
+
 }
 
 
