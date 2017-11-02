@@ -32,7 +32,7 @@ uint16_t itemLoop() {
   
     // Return to the previous game state if the user presses the back button ..
   
-    if (buttons & BACK_BUTTON) {
+    if (buttons & BACK_BUTTON_MASK) {
       savedState = gameState;
       gameState = GameState::InventorySelect;
     }
@@ -40,7 +40,7 @@ uint16_t itemLoop() {
     
     // Handle the use of the selected item ..
   
-    if (buttons & SELECT_BUTTON) {
+    if (buttons & SELECT_BUTTON_MASK) {
   
       if (itemAction == ITEM_ACTION_USE) {
   

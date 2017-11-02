@@ -33,17 +33,14 @@
 
 #define SELECT_BUTTON_MASK                A_BUTTON_MASK
 #define BACK_BUTTON_MASK                  B_BUTTON_MASK
-#define SELECT_BUTTON                     A_BUTTON_MASK
-#define BACK_BUTTON                       B_BUTTON_MASK
 
 #define MAP_TILE_WIDTH                    15
 #define MAP_TILE_HEIGHT                   15
 #define MAP_TILE_PHYSICAL_WIDTH           16
 #define MAP_TILE_PHYSICAL_HEIGHT          16
 
-#define TILE_SIZE                         4
-#define TILE_OFFSET                       5
-#define UNIT                              TILE_SIZE / 4
+#define MAP_TILE_SIZE                     4
+#define MAP_TILE_OFFSET                   5
 
 #define NUMBER_OF_ENEMIES                 16
 #define ENEMY_BEHOLDER_POSITION           Point {6, 5}
