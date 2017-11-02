@@ -1,6 +1,6 @@
 #pragma once
 
-// ----  Memory saving switches -------
+// ----  Memory saving and other decision switches -------
 
         // 558 bytes
 #undef  USE_DICE_ANIMATIONS
@@ -14,10 +14,15 @@
         // Saves 290 bytes
 #define USE_LARGE_MAP
 
+        // Should a level up include HP
+#define LEVEL_UP_INC_HP 
+
+#define XP_LEVEL_UP                       4
+
+
 // ------------------------------------
 
 #define MAX_LEVEL_COUNT                   2
-#define XP_LEVEL_UP                       4
 
 #define UP_BUTTON_MASK                    128
 #define DOWN_BUTTON_MASK                  16

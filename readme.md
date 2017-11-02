@@ -5,7 +5,7 @@
 * ~Tile rotations - no preference and the decision will be dependent on the number of tiles that need rotating and how many rotations.  Removing the rotation code will also free up RAM - (1024 bytes of Progmem / 36 bytes of RAM).~
 * Sound library - preference is to have at least a theme tune and possibly other sound effects but the library alone is 800+ bytes with themes extra. The 1943 theme is approximately 250 bytes long.
 * Large Map - should we keep it?  It adds 290 bytes but I think its worth it.
-
+* Currently, levelling up only affects AP and DF (not HP).  Should we reinclude HP? Toggle LEVEL_UP_INC_HP.
 
 ### Metrics
 

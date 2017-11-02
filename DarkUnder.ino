@@ -244,6 +244,7 @@ uint16_t displayLevelUp() {
 
   playerLevel++;
 
+  #ifdef LEVEL_UP_INC_HP
   switch (random(0, 3)) {
 
     case 0:
@@ -263,6 +264,23 @@ uint16_t displayLevelUp() {
 
     
   }
+  #endif
+  #ifndef LEVEL_UP_INC_HP
+  switch (random(0, 2)) {
+
+    case 0:
+      font3x5.print(F("1 AP"));
+      myHero.setAttackPower(myHero.getAttackPower() + 1);
+      break;
+
+    case 1:
+      font3x5.print(F("1 DF"));
+      myHero.setDefence(myHero.getDefence() + 1);
+      break;
+
+    
+  }
+  #endif
   
   gameState = GameState::Move; 
   return LEVEL_UP_DELAY;
