@@ -2,14 +2,8 @@
 
 // ----  Memory saving and other decision switches -------
 
-        // 558 bytes
-#undef  USE_DICE_ANIMATIONS
-
         // 834 bytes
 #undef  USE_SOUNDS
-
-#undef  USE_SMALL_IMAGES_1
-#define USE_SMALL_IMAGES_2
 
         // Saves 290 bytes
 #undef  USE_LARGE_MAP
@@ -43,29 +37,8 @@
 #define MAP_TILE_OFFSET                   5
 
 #define NUMBER_OF_ENEMIES                 16
-#define ENEMY_BEHOLDER_POSITION           Point {6, 5}
-#define ENEMY_SKELETON_POSITION           Point {11, 5}
-#define ENEMY_DISPLACER_POSITION          Point {8, 10}
-#define ENEMY_WRAITH_POSITION             Point {16, 3}
-#define ENEMY_DRAGON_POSITION             Point {3, 5}
-#define ENEMY_RAT_POSITION                Point {23, 16}
-#define ENEMY_SLIME_POSITION              Point {13, 22}
-
-#ifdef  USE_SMALL_IMAGES_1
-#define ENEMY_BEHOLDER_POS_SMALL          Point {22, 18}
-#define ENEMY_SKELETON_POS_SMALL          Point {24, 19}
-#define ENEMY_DISPLACER_POS_SMALL         Point {23, 21}
-#define ENEMY_WRAITH_POS_SMALL            Point {25, 21}
-#define ENEMY_DRAGON_POS_SMALL            Point {20, 21}
-#define ENEMY_RAT_POS_SMALL               Point {28, 25}
-#define ENEMY_SLIME_POS_SMALL             Point {23, 28}
-#endif
-
 #define NUMBER_OF_DOORS                   3
 #define NUMBER_OF_ITEMS                   NUMBER_OF_ENEMIES
-#define ITEM_HPPOTION_POSITION            Point {23, 19}
-#define ITEM_KEY_POSITION                 Point {20, 20}
-#define ITEM_SCROLL_POSITION              Point {20, 18}
 
 #define MAP_IMAGE_BACK                    0
 #define MAP_IMAGE_CLOSE_FRONT             1
@@ -101,13 +74,7 @@
 #define ENEMY_MAX_ATTACK                  4
 #define ENEMY_MAX_HITPOINTS               10
 
-#ifdef  USE_DICE_ANIMATIONS
-#define HUMAN_MAX_ATTACK                  4
-#endif
-
-#ifndef USE_DICE_ANIMATIONS
 #define HUMAN_MAX_ATTACK                  5
-#endif
 
 #define DIRECTION_X_OFFSET                66
 #define DIRECTION_Y_OFFSET                43

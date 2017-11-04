@@ -27,11 +27,7 @@ void Player::setInventory(const int8_t slot, const ItemType item) {
 
 int8_t Player::getConsumableSlot() { 
 
-  for (uint8_t i = 0; i < 3; ++i) {
-    if (_inventory[i] == ItemType::None) { return i; }
-  }
-  
-  return -1;
+  return Player::getSlotNumber(ItemType::None);
 
 }
 

@@ -205,9 +205,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
   // Mid front wall ..
   
-  #ifdef  USE_SMALL_IMAGES_2
   bool renderMiddleFront = false;
-  #endif
 
   if (horizon2Plus) {
 
@@ -219,9 +217,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
     
     if (mapElement > MapElement::Floor) {
 
-      #ifdef  USE_SMALL_IMAGES_2
       renderMiddleFront = (horizon2Plus && (mapElement > MapElement::Floor));
-      #endif
 
       switch (mapElement) {
 
@@ -283,13 +279,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
   // Close front wall ..
   
   mapElement = (MapElement)myLevel->getMapElement(playerX + closeFrontX, playerY + closeFrontY);
-
-  #ifdef  USE_SMALL_IMAGES_1
   bool renderCloseFront = (mapElement > MapElement::Floor);
-  #endif
-  #ifdef  USE_SMALL_IMAGES_2
-  bool renderCloseFront = (mapElement > MapElement::Floor);
-  #endif
 
   if (mapElement > MapElement::Floor) {
 
@@ -356,28 +346,24 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
   }
 
 
-  #ifdef  USE_SMALL_IMAGES_1
-  // Render enemies two cells away ..
-
+  uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
+  bool rendered = false;
+  
   if (!renderCloseFront) {
 
     for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
-      
+    
       Enemy enemy = enemies[i];
       
       if (enemy.getEnabled()) {
-
-        uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
-        uint8_t enemyType = (uint8_t)enemy.getEnemyType();
 
         int8_t offsetX = offsetXTable[selector] * 2;
         int8_t offsetY = offsetYTable[selector] * 2;
         
         if (enemy.getX() == playerX + offsetX && enemy.getY() == playerY + offsetY) {
 
-          Point enemyOffset = enemy_offset_small[enemyType];
-          arduboy.drawCompressed(enemyOffset.x, enemyOffset.y, enemy_masks_small[enemyType], BLACK);
-          arduboy.drawCompressed(enemyOffset.x, enemyOffset.y, enemy_images_small[enemyType], WHITE);    
+          Sprites::drawOverwrite(27, 25, enemy_two_tiles, 0);
+          rendered = true;
           break;
 
         }
@@ -387,33 +373,22 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
     }
 
   }
-  #endif
 
-  #ifdef  USE_SMALL_IMAGES_2
-  // Render enemies two cells away ..
-//  if (!renderCloseFront || !renderMiddleFront) {
+  if (!renderMiddleFront && !rendered) {
 
-    uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
-    bool rendered = false;
+    for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
     
-    if (!renderCloseFront) {
-
-      for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
+      Enemy enemy = enemies[i];
       
-        Enemy enemy = enemies[i];
+      if (enemy.getEnabled()) {
+
+        int8_t offsetX = offsetXTable[selector] * 3;
+        int8_t offsetY = offsetYTable[selector] * 3;
         
-        if (enemy.getEnabled()) {
+        if (enemy.getX() == playerX + offsetX && enemy.getY() == playerY + offsetY) {
 
-          int8_t offsetX = offsetXTable[selector] * 2;
-          int8_t offsetY = offsetYTable[selector] * 2;
-          
-          if (enemy.getX() == playerX + offsetX && enemy.getY() == playerY + offsetY) {
-
-            Sprites::drawOverwrite(27, 25, enemy_two_tiles, 0);
-            rendered = true;
-            break;
-
-          }
+          Sprites::drawOverwrite(30, 28, enemy_three_tiles, 0);
+          break;
 
         }
 
@@ -421,136 +396,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
     }
 
-    if (!renderMiddleFront && !rendered) {
-
-      for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
-      
-        Enemy enemy = enemies[i];
-        
-        if (enemy.getEnabled()) {
-
-          int8_t offsetX = offsetXTable[selector] * 3;
-          int8_t offsetY = offsetYTable[selector] * 3;
-          
-          if (enemy.getX() == playerX + offsetX && enemy.getY() == playerY + offsetY) {
-
-            Sprites::drawOverwrite(30, 28, enemy_three_tiles, 0);
-            break;
-
-          }
-
-        }
-
-      }
-
-    }
-
-//  }
-  #endif
-
-  // Render enemies immediately in front ..
-
-  // bool renderEnemy = false;
-
-  // for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {  
-
-  //   Enemy enemy = enemies[i];
-
-  //   if (enemy.getEnabled()) {
-
-  //     int16_t deltaX = myHero->getX() - enemy.getX();
-  //     int16_t deltaY = myHero->getY() - enemy.getY();
-      
-  //     if ((deltaY == 0 && absT(deltaX) == 1) ^ (deltaX == 0 && absT(deltaY) == 1)) { 
-
-  //       if (deltaX > 0) { myHero->setDirection(Direction::West); }
-  //       else if (deltaX < 0) { myHero->setDirection(Direction::East); }
-  //       else if (deltaY > 0) { myHero->setDirection(Direction::North); }
-  //       else if (deltaY < 0) { myHero->setDirection(Direction::South); }        
-
-  //       uint8_t enemyType = (uint8_t)enemy.getEnemyType();
-  //       Point enemyOffset = enemy_offset[enemyType];
-
-  //       arduboy.drawCompressed(enemyOffset.x, enemyOffset.y, enemy_masks[enemyType], BLACK);
-  //       arduboy.drawCompressed(enemyOffset.x, enemyOffset.y, enemy_images[enemyType], WHITE);
-
-  //       if (gameState == GameState::Move) gameState = GameState::Battle_EnemyAttacks_Init;
-  //       renderEnemy = true;
-  //       attackingEnemyIdx = i;
-  //       break;
-
-  //     }
-                              
-  //   }
-         
-  // }
-
-
-  // // Render items if no enemy has been rendered .. 
-
-  // if (!renderEnemy && (gameState == GameState::Move || gameState == GameState::ItemSelect)) {
-    
-  //   for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
-
-  //     Item item = items[i];
-
-  //     if (item.getEnabled()) {
-
-  //       uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
-
-  //       int8_t offsetX = offsetXTable[selector];
-  //       int8_t offsetY = offsetYTable[selector];
-
-  //       if (item.getX() == playerX + offsetX && item.getY() == playerY + offsetY) {
-
-  //         ItemType itemType = item.getItemType();
-
-  //         arduboy.fillRect(14, 11, 41, 43, BLACK);
-  //         arduboy.fillRect(15, 12, 39, 41, WHITE);
-  //         arduboy.drawCompressed(item_offset[(uint8_t)itemType].x, item_offset[(uint8_t)itemType].y, item_images[(uint8_t)itemType], BLACK);
-
-  //         font3x5.setTextColor(BLACK);
-  //         font3x5.setCursor(17, 12);
-  //         font3x5.print(F("YOU FOUND"));
-          
-  //         const __FlashStringHelper * text = nullptr;
-          
-  //         switch (itemType) {
-        
-  //           case ItemType::Key:
-  //             text = F("SOME KEYS");
-  //             break;
-        
-  //           case ItemType::Potion:
-  //             text = F("HP POTION");
-  //             break;
-        
-  //           case ItemType::Scroll:
-  //             text = F("A SCROLL");
-  //             break;
-              
-  //           default: break;
-
-  //         }
-          
-  //         if(text != nullptr) {
-  //           font3x5.setCursor(17, 46);
-  //           font3x5.print(text);
-  //         }
-
-  //         font3x5.setTextColor(WHITE);
-  //         renderEnemy = true;
-  //         gameState = GameState::ItemSelect; 
-  //         savedItem = i;
-  //         break;
-
-  //       }
-              
-  //     }
-          
-  //   }
-
-  // }
+  }
 
 
   for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {  
@@ -569,11 +415,19 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
         else if (deltaY > 0) { myHero->setDirection(Direction::North); }
         else if (deltaY < 0) { myHero->setDirection(Direction::South); }        
 
-        uint8_t enemyType = (uint8_t)enemy.getEnemyType();
-        Point enemyOffset = enemy_offset[enemyType];
+        EnemyType enemyType = enemy.getEnemyType();
+        uint8_t offsetX = 6;  // Beholder
+        uint8_t offsetY = 5;
 
-        arduboy.drawCompressed(enemyOffset.x, enemyOffset.y, enemy_masks[enemyType], BLACK);
-        arduboy.drawCompressed(enemyOffset.x, enemyOffset.y, enemy_images[enemyType], WHITE);
+        if (enemyType == EnemyType::Skeleton)         { offsetX = 11; offsetY = 5;  }
+        else if (enemyType == EnemyType::Displacer)   { offsetX = 8;  offsetY = 10; }
+        else if (enemyType == EnemyType::Wraith)      { offsetX = 16; offsetY = 3;  }
+        else if (enemyType == EnemyType::Dragon)      { offsetX = 3;  offsetY = 5;  }
+        else if (enemyType == EnemyType::Rat)         { offsetX = 23; offsetY = 16; }
+        else if (enemyType == EnemyType::Slime)       { offsetX = 13; offsetY = 22; }
+
+        arduboy.drawCompressed(offsetX, offsetY, enemy_masks[(uint8_t)enemyType], BLACK);
+        arduboy.drawCompressed(offsetX, offsetY, enemy_images[(uint8_t)enemyType], WHITE);
 
         if (gameState == GameState::Move) gameState = GameState::Battle_EnemyAttacks_Init;
         attackingEnemyIdx = i;
@@ -598,9 +452,15 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
           ItemType itemType = item.getItemType();
 
+          uint8_t offsetX = 23;  // Potion
+          uint8_t offsetY = 19;
+          
+          if (itemType == ItemType::Key)          { offsetX = 20; offsetY = 20; }
+          else if (itemType == ItemType::Scroll)  { offsetX = 20; offsetY = 18; }
+
           arduboy.fillRect(14, 11, 41, 43, BLACK);
           arduboy.fillRect(15, 12, 39, 41, WHITE);
-          arduboy.drawCompressed(item_offset[(uint8_t)itemType].x, item_offset[(uint8_t)itemType].y, item_images[(uint8_t)itemType], BLACK);
+          arduboy.drawCompressed(offsetX, offsetY, item_images[(uint8_t)itemType], BLACK);
 
           font3x5.setTextColor(BLACK);
           font3x5.setCursor(17, 12);

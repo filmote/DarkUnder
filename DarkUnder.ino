@@ -63,19 +63,11 @@ uint8_t inventory_action = 0;
 
 const uint8_t *enemy_images[] = { enemy_beholder, enemy_skeleton, enemy_displacer, enemy_wraith, enemy_dragon, enemy_rat, enemy_slime };
 const uint8_t *enemy_masks[] = { enemy_beholder_Mask, enemy_skeleton_Mask, enemy_displacer_Mask, enemy_wraith_Mask, enemy_dragon_Mask, enemy_rat_Mask, enemy_slime_Mask };
-const Point enemy_offset[] = { ENEMY_BEHOLDER_POSITION, ENEMY_SKELETON_POSITION, ENEMY_DISPLACER_POSITION, ENEMY_WRAITH_POSITION, ENEMY_DRAGON_POSITION, ENEMY_RAT_POSITION, ENEMY_SLIME_POSITION };
-
-#ifdef  USE_SMALL_IMAGES_1
-const uint8_t *enemy_images_small[] = { enemy_beholder_small, enemy_skeleton_small, enemy_displacer_small, enemy_wraith_small, enemy_dragon_small, enemy_rat_small, enemy_slime_small };
-const uint8_t *enemy_masks_small[] = { enemy_beholder_small_Mask, enemy_skeleton_small_Mask, enemy_displacer_small_Mask, enemy_wraith_small_Mask, enemy_dragon_small_Mask, enemy_rat_small_Mask, enemy_slime_small_Mask };
-const Point enemy_offset_small[] = { ENEMY_BEHOLDER_POS_SMALL, ENEMY_SKELETON_POS_SMALL, ENEMY_DISPLACER_POS_SMALL, ENEMY_WRAITH_POS_SMALL, ENEMY_DRAGON_POS_SMALL, ENEMY_RAT_POS_SMALL, ENEMY_SLIME_POS_SMALL };
-#endif
 
 
 // Item details ..
 
 const uint8_t *item_images[] = { NULL, item_key, item_potion, item_mascroll };
-const Point item_offset[] = { Point{0, 0}, ITEM_KEY_POSITION, ITEM_HPPOTION_POSITION, ITEM_SCROLL_POSITION };
 uint8_t itemAction = 0;
 uint8_t savedItem = 0;
 
@@ -90,9 +82,6 @@ FightButtons fightButton = FightButtons::Attack;
 
 uint8_t level = 0;          // Current map
 uint8_t playerLevel = 1;    // Levelup level
-#ifdef USE_DICE_ANIMATIONS
-int16_t diceDelay = DICE_NO_ACTION;
-#endif
 uint8_t diceAttack = 0;
 
 

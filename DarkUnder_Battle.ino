@@ -33,10 +33,6 @@ uint16_t battleLoop() {
       
       font3x5.print(getEnemyName(enemies[attackingEnemyIdx].getEnemyType()));
       font3x5.print(F("\nATTACKS!"));
-      
-      #ifdef USE_DICE_ANIMATIONS
-      diceDelay = DICE_DELAY_START;
-      #endif
       gameState = GameState::Battle_EnemyAttacks;
       break;
 
@@ -45,30 +41,7 @@ uint16_t battleLoop() {
     
       arduboy.drawCompressed(12, 12, fight_scratch_Mask, BLACK);
       arduboy.drawCompressed(12, 12, fight_scratch, WHITE);
-
-      #ifdef USE_DICE_ANIMATIONS
-      if (diceDelay >= DICE_DELAY_START && diceDelay < DICE_DELAY_END) {
-
-        rollDice(33, 26);
-        
-      }
-      else {
-
-        diceDoOnce(ENEMY_MAX_ATTACK, 0);
-
-        font3x5.print(F("YOU TAKE\n"));
-        font3x5.print(diceAttack);
-        font3x5.print(F(" DAMAGE!"));
-        font3x5.setCursor(33, 26);
-        font3x5.print(diceAttack);
-
-        myHero.setHitPoints(myHero.getHitPoints() > diceAttack ? myHero.getHitPoints() - diceAttack : 0); 
-        gameState = GameState::Battle_PlayerDecides;
-        
-      }
-      #endif
-
-      #ifndef USE_DICE_ANIMATIONS
+ 
       diceAttack = random(0, ENEMY_MAX_ATTACK);
       font3x5.print(F("YOU TAKE\n"));
       font3x5.print(diceAttack);
@@ -77,7 +50,6 @@ uint16_t battleLoop() {
       font3x5.print(diceAttack);
       myHero.setHitPoints(myHero.getHitPoints() > diceAttack ? myHero.getHitPoints() - diceAttack : 0); 
       gameState = GameState::Battle_PlayerDecides;
-      #endif
 
       if (myHero.getHitPoints() == 0)  gameState = GameState::Battle_PlayerDies;
 
@@ -150,10 +122,6 @@ uint16_t battleLoop() {
         }
           
         else if (buttons & SELECT_BUTTON_MASK)  {
-          
-          #ifdef USE_DICE_ANIMATIONS
-          diceDelay = DICE_DELAY_START;
-          #endif
 
           switch (fightButton) {
 
@@ -193,31 +161,7 @@ uint16_t battleLoop() {
     
       arduboy.drawCompressed(19, 19, fight_hero_strike_Mask, BLACK);
       arduboy.drawCompressed(19, 19, fight_hero_strike, WHITE);
-
-      #ifdef USE_DICE_ANIMATIONS
-      if (diceDelay >= DICE_DELAY_START && diceDelay < DICE_DELAY_END) {
-
-        rollDice(32, 24);
-
-      }
-      else {
-
-        diceDoOnce(myHero.getAttackPower(), 1);
-
-        font3x5.print(F("YOU DEAL\n"));
-        font3x5.print(diceAttack);
-        font3x5.print(F(" DAMAGE!\n"));
-        font3x5.setCursor(32, 24);
-        font3x5.print(diceAttack);
-        if (enemies[attackingEnemyIdx].getHitPoints() > diceAttack) { enemies[attackingEnemyIdx].setHitPoints(enemies[attackingEnemyIdx].getHitPoints() - diceAttack); } else { enemies[attackingEnemyIdx].setEnabled(false); }
-        
-        gameState = GameState::Battle_EnemyDies;
-        if (enemies[attackingEnemyIdx].getEnabled()) { gameState = GameState::Battle_EnemyAttacks_Init; }
-
-      }
-      #endif
-
-      #ifndef USE_DICE_ANIMATIONS
+      
       diceAttack = random(1, myHero.getAttackPower() + 1);
       font3x5.print(F("YOU DEAL\n"));
       font3x5.print(diceAttack);
@@ -228,7 +172,6 @@ uint16_t battleLoop() {
 
       gameState = GameState::Battle_EnemyDies;
       if (enemies[attackingEnemyIdx].getEnabled()) { gameState = GameState::Battle_EnemyAttacks_Init; }
-      #endif
 
       break; 
 
@@ -237,34 +180,7 @@ uint16_t battleLoop() {
     
       arduboy.drawCompressed(12, 15, fight_hero_shield_Mask, BLACK);
       arduboy.drawCompressed(12, 15, fight_hero_shield, WHITE);
-
-      #ifdef USE_DICE_ANIMATIONS   
-      if (diceDelay >= DICE_DELAY_START && diceDelay < DICE_DELAY_END) {
-
-        rollDice(17, 35);
-
-      }
-      else {
-
-        diceDoOnce(HUMAN_MAX_ATTACK, 1);
-
-        font3x5.print(F("TAKE "));
-        font3x5.print(diceAttack);
-        font3x5.print(F(" DMG\n"));
-        font3x5.print(F("DEAL 1 DMG\n"));
-        font3x5.setCursor(17, 35);
-        font3x5.print(diceAttack);
-
-        myHero.setHitPoints(myHero.getHitPoints() - diceAttack);
-        if (enemies[attackingEnemyIdx].getHitPoints() > 1) { enemies[attackingEnemyIdx].getHitPoints() - 1; } else { enemies[attackingEnemyIdx].setEnabled(false); }
-        
-        gameState = GameState::Battle_EnemyDies;
-        if (enemies[attackingEnemyIdx].getEnabled()) gameState = GameState::Battle_PlayerDecides;
-
-      }
-      #endif
-
-      #ifndef USE_DICE_ANIMATIONS   
+ 
       {
         uint8_t maxHP = enemies[attackingEnemyIdx].getAttackPower() - myHero.getDefence();
         if (maxHP < 0) maxHP = 1;
@@ -284,8 +200,6 @@ uint16_t battleLoop() {
       
       gameState = GameState::Battle_EnemyDies;
       if (enemies[attackingEnemyIdx].getEnabled()) gameState = GameState::Battle_EnemyAttacks_Init;
-
-      #endif
       
       break;   
 
