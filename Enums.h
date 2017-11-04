@@ -92,13 +92,6 @@
 #define ITEM_ACTION_USE                   0
 #define ITEM_ACTION_DROP                  1
 
-struct EnemyStatistics {
-  uint8_t HitPoints;
-  uint8_t AttackPower;
-  uint8_t ExperiencePoints;
-  boolean Moving;
-};
-
 enum class GameState : uint8_t {
   Splash,   
   About,

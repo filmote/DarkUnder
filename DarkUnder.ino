@@ -41,15 +41,6 @@ const uint8_t *map_images[] = { visionBack, closeWallFront, closeGateLocked, clo
 
 const uint8_t *direction_images[] = { directionN, directionE, directionS, directionW };
 
-const EnemyStatistics enemyStats[] = { EnemyStatistics { 20, 12, 4, true },    // Beholder HP, AP, XP, MOVING
-                                       EnemyStatistics { 10, 8, 3, true },     // Skeleton
-                                       EnemyStatistics { 10, 5, 2, true },     // Displacer
-                                       EnemyStatistics { 12, 10, 4, true },    // Wraith
-                                       EnemyStatistics { 30, 20, 6, true },    // Dragon
-                                       EnemyStatistics { 5, 2, 1, false },     // Rat
-                                       EnemyStatistics { 8, 4, 6, false },     // Slime
-                                     };
-
 
 // Inventory settings ..
 

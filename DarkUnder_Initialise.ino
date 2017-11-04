@@ -124,14 +124,24 @@ uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t
       enemies[i].setX(pgm_read_byte(&level[idx++]));
       enemies[i].setY(pgm_read_byte(&level[idx++]));
 
+      uint8_t hp = 0;
+      uint8_t ap = 0;
+      uint8_t xp = 0;
+      boolean moving = false;
+     
+      if (enemyType == EnemyType::Beholder)       { hp = 20; ap = 12; xp = 4; moving = true;  }
+      else if (enemyType == EnemyType::Skeleton)  { hp = 10; ap = 8;  xp = 3; moving = true;  }
+      else if (enemyType == EnemyType::Displacer) { hp = 10; ap = 5;  xp = 2; moving = true;  }
+      else if (enemyType == EnemyType::Wraith)    { hp = 12; ap = 10; xp = 4; moving = true;  }
+      else if (enemyType == EnemyType::Dragon)    { hp = 30; ap = 20; xp = 6; moving = true;  }
+      else if (enemyType == EnemyType::Rat)       { hp = 5;  ap = 2;  xp = 1; }
+      else if (enemyType == EnemyType::Slime)     { hp = 8;  ap = 4;  xp = 6; }
 
-      // Load statistics ..
-
-      enemies[i].setHitPoints(enemyStats[(uint8_t)enemyType].HitPoints);
-      enemies[i].setHitPointsMax(enemyStats[(uint8_t)enemyType].HitPoints);
-      enemies[i].setAttackPower(enemyStats[(uint8_t)enemyType].AttackPower);
-      enemies[i].setExperiencePoints(enemyStats[(uint8_t)enemyType].ExperiencePoints);
-      enemies[i].setMoving(enemyStats[(uint8_t)enemyType].Moving);
+      enemies[i].setHitPoints(hp);
+      enemies[i].setHitPointsMax(hp);
+      enemies[i].setAttackPower(ap);
+      enemies[i].setExperiencePoints(xp);
+      enemies[i].setMoving(moving);
 
     }
    
