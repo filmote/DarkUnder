@@ -73,7 +73,6 @@ FightButtons fightButton = FightButtons::Attack;
 
 uint8_t level = 0;          // Current map
 uint8_t playerLevel = 1;    // Levelup level
-uint8_t diceAttack = 0;
 
 
 /* -----------------------------------------------------------------------------------------------------------------------------
@@ -178,12 +177,11 @@ void loop() {
       break;
 
   }
-
+  
   arduboy.display();
   delay(delayLength);
   
 }
-
 
 
 /* -----------------------------------------------------------------------------------------------------------------------------
@@ -239,6 +237,7 @@ uint16_t displayLevelUp() {
     
   }
   #endif
+
   #ifndef LEVEL_UP_INC_HP
   switch (random(0, 2)) {
 

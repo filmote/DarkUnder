@@ -75,6 +75,7 @@
 #define ENEMY_MAX_HITPOINTS               10
 
 #define HUMAN_MAX_ATTACK                  5
+#define PLAYER_CASTS_SPELL                5
 
 #define DIRECTION_X_OFFSET                66
 #define DIRECTION_Y_OFFSET                43
