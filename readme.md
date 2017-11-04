@@ -13,7 +13,7 @@
   + [Simon] I think it makes it too easy so its gone.
 * Currently, levelling up only affects AP and DF (not HP).  Should we reinclude HP? Toggle LEVEL_UP_INC_HP.
   + [Cyril] I’d be up for it, but I’m ok leaving it out as well if that’s a problem.
-  + [Simon] Its not a problem but we a person can accumulate a lot of HP points so getting 1 when levelling up is not valueable.  Gettint AP and DF is.
+  + [Simon] Its not a problem but we a person can accumulate a lot of HP points so getting 1 when leveling up is not valuable.  Getting AP and DF is.
 
 ### Metrics
 
