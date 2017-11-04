@@ -1,11 +1,19 @@
 ### Decisions Points
 
 * ~Inventory management - use black on white background or white on black.  Preference is black on white but 180 bytes can be saved with the reverse.~
-* Dice animations - preference is to include this but it adds 558 bytes.
+* ~Dice animations - preference is to include this but it adds 558 bytes.~
+  + ~[Cyril] As far as I’m concerned, the current system works well. The dice rolls slowed down the combat too much for my taste. So I would do without.~
+  + ~[Simon] Agreed, its gone.
 * ~Tile rotations - no preference and the decision will be dependent on the number of tiles that need rotating and how many rotations.  Removing the rotation code will also free up RAM - (1024 bytes of Progmem / 36 bytes of RAM).~
 * Sound library - preference is to have at least a theme tune and possibly other sound effects but the library alone is 800+ bytes with themes extra. The 1943 theme is approximately 250 bytes long.
+  + [Cyril] So are we talking about 1K+ just for an audio theme? At this point, I’d rather integrate another set of walls, in my opinion!
+  + [Simon] Agreed.
 * Large Map - should we keep it?  It adds 290 bytes but I think its worth it.
+  + [Cyril] I think it’s redundant with the minimap we constantly have in game.
+  + [Simon] I think it makes it too easy so its gone.
 * Currently, levelling up only affects AP and DF (not HP).  Should we reinclude HP? Toggle LEVEL_UP_INC_HP.
+  + [Cyril] I’d be up for it, but I’m ok leaving it out as well if that’s a problem.
+  + [Simon] Its not a problem but we a person can accumulate a lot of HP points so getting 1 when levelling up is not valueable.  Gettint AP and DF is.
 
 ### Metrics
 

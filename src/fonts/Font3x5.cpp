@@ -6,10 +6,6 @@
 #define FONT3X5_WIDTH 3
 #define FONT3X5_HEIGHT 6
 
-//const uint8_t PROGMEM Font_Mask[] = {
-//0x7F, 0x7F, 0x7F, 0x7F,
-//};
-
 const uint8_t PROGMEM font_images[] = {
 3, 7,
 0x1F, 0x05, 0x1F, // A
@@ -49,29 +45,27 @@ const uint8_t PROGMEM font_images[] = {
 0x1F, 0x15, 0x1F,  
 0x17, 0x15, 0x1F, // 9
 0x00, 0x17, 0x00, // !
+0X00, 0x20, 0x00, // .
 };
-  
+
+
 Font3x5::Font3x5(int16_t width, int16_t height) {
 
-  sWidth = width;
-  sHeight = height;
+  _lineHeight = FONT3X5_HEIGHT + 2;
+  _letterSpacing = 1;
 
-  // default values
-  lineHeight = FONT3X5_HEIGHT + 2;
-  letterSpacing = 1;
-
-  cursorX = cursorY = baseX = 0;
-  textColor = 1;
+  _cursorX = _cursorY = _baseX = 0;
+  _textColor = 1;
 
 }
 
 size_t Font3x5::write(uint8_t c) {
 
-  if (c == '\n')      { cursorX = baseX; cursorY += lineHeight; }
+  if (c == '\n')      { _cursorX = _baseX; _cursorY += _lineHeight; }
   else {
 
-    printChar(c, cursorX, cursorY);
-    cursorX += FONT3X5_WIDTH + letterSpacing;
+    printChar(c, _cursorX, _cursorY);
+    _cursorX += FONT3X5_WIDTH + _letterSpacing;
 
   }
 
@@ -80,12 +74,14 @@ size_t Font3x5::write(uint8_t c) {
 }
 
 #define CHAR_EXCLAMATION 33
+#define CHAR_PERIOD 46
 #define CHAR_LETTER_A 65
 #define CHAR_LETTER_Z 90
 #define CHAR_NUMBER_0 48
 #define CHAR_NUMBER_9 57
 
 #define FONT_EXCLAMATION_INDEX 36
+#define FONT_PERIOD_INDEX 37
 #define FONT_NUMBER_INDEX 26
 
 void Font3x5::printChar(const char c, const int16_t x, int16_t y) {
@@ -110,12 +106,16 @@ void Font3x5::printChar(const char c, const int16_t x, int16_t y) {
     case CHAR_EXCLAMATION:
       idx = FONT_EXCLAMATION_INDEX;
       break;
+      
+    case CHAR_PERIOD:
+      idx = FONT_PERIOD_INDEX;
+      break;
 
   }
 
   if (idx > -1) {
     
-    if (textColor == WHITE) {
+    if (_textColor == WHITE) {
       Sprites::drawSelfMasked(x, y, font_images, idx);
     }
     else {
@@ -127,18 +127,14 @@ void Font3x5::printChar(const char c, const int16_t x, int16_t y) {
 }
 
 void Font3x5::setCursor(const int16_t x, const int16_t y) {
-  cursorX = baseX = x;
-  cursorY = y;
-}
-
-int16_t Font3x5::getCursorX() const {
-  return cursorX;
-}
-
-int16_t Font3x5::getCursorY() const {
-  return cursorY;
+  _cursorX = _baseX = x;
+  _cursorY = y;
 }
 
 void Font3x5::setTextColor(const uint8_t color){
-  textColor = color;
+  _textColor = color;
+}
+
+void Font3x5::setHeight(const uint8_t color){
+  _lineHeight = color;
 }

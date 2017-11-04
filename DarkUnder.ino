@@ -291,13 +291,14 @@ uint16_t displayLevelUp() {
  */
 void displayNextLevel() {
   
-  //TODO Image?
   arduboy.drawCompressed(0, 0, frames_outside, WHITE);  
-  arduboy.drawCompressed(8, 8, endOfLevel, WHITE);  
+  arduboy.drawCompressed(64, 4, endOfLevel, WHITE);  
 
-  font3x5.setCursor(64, 8);
-  font3x5.print(F("WELL DONE!\nDONT STOP NOW\nTHE RICHES ARE\nIN YOUR GRASP\n\nPRESS A BUTTON"));
-
+  font3x5.setHeight(7);
+  font3x5.setCursor(10, 7);
+  font3x5.print(F("YOU CAN HEAR\nA DISTANT\nYET CLOSER\nDRAGON ROAR\nAS YOU STEP\nTHROUGH THE\nDOOR..."));
+  font3x5.setHeight(8);
+  
   uint8_t buttons = arduboy.justPressedButtons();
   
   if (buttons) { 
