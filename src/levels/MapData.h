@@ -53,7 +53,7 @@ const uint8_t PROGMEM tile_07[] = {
 const uint8_t PROGMEM level_00[] = {  
 
 // 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11      // Title, 22 characters
-   72, 72, 72, 76, 87, 65, 89, 32, 79, 70, 32, 
+   72, 65, 76, 76, 87, 65, 89, 32, 79, 70, 32, 
    84, 72, 69, 32, 68, 69, 65, 68, 32, 32, 32,
 
 9, 8,                                             // Starting postion of player
