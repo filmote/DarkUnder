@@ -36,7 +36,7 @@
 #define MAP_TILE_SIZE                     4
 #define MAP_TILE_OFFSET                   5
 
-#define NUMBER_OF_ENEMIES                 16
+#define NUMBER_OF_ENEMIES                 19
 #define NUMBER_OF_DOORS                   3
 #define NUMBER_OF_ITEMS                   NUMBER_OF_ENEMIES
 
