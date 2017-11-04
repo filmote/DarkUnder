@@ -25,7 +25,6 @@ uint16_t battleLoop() {
   Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, fight_icon, 0);
 
   font3x5.setCursor(80,44);
-  //uint8_t diceAttack = 0;
 
   switch (gameState) {
 
@@ -43,13 +42,13 @@ uint16_t battleLoop() {
         arduboy.drawCompressed(12, 12, fight_scratch_Mask, BLACK);
         arduboy.drawCompressed(12, 12, fight_scratch, WHITE);
   
-        uint8_t diceAttack = random(0, ENEMY_MAX_ATTACK);
+        uint8_t hpLoss = random(0, ENEMY_MAX_ATTACK);
         font3x5.print(F("YOU TAKE\n"));
-        font3x5.print(diceAttack);
+        font3x5.print(hpLoss);
         font3x5.print(F(" DAMAGE!"));
         font3x5.setCursor(33, 26);
-        font3x5.print(diceAttack);
-        myHero.setHitPoints(myHero.getHitPoints() > diceAttack ? myHero.getHitPoints() - diceAttack : 0); 
+        font3x5.print(hpLoss);
+        myHero.setHitPoints(myHero.getHitPoints() > hpLoss ? myHero.getHitPoints() - hpLoss : 0); 
         gameState = GameState::Battle_PlayerDecides;
 
         if (myHero.getHitPoints() == 0)  gameState = GameState::Battle_PlayerDies;
@@ -164,13 +163,13 @@ uint16_t battleLoop() {
         arduboy.drawCompressed(19, 19, fight_hero_strike_Mask, BLACK);
         arduboy.drawCompressed(19, 19, fight_hero_strike, WHITE);
         
-        uint8_t diceAttack = random(1, myHero.getAttackPower() + 1);
+        uint8_t hpLoss = random(1, myHero.getAttackPower() + 1);
         font3x5.print(F("YOU DEAL\n"));
-        font3x5.print(diceAttack);
+        font3x5.print(hpLoss);
         font3x5.print(F(" DAMAGE!\n"));
         font3x5.setCursor(32, 24);
-        font3x5.print(diceAttack);
-        if (enemies[attackingEnemyIdx].getHitPoints() > diceAttack) { enemies[attackingEnemyIdx].setHitPoints(enemies[attackingEnemyIdx].getHitPoints() - diceAttack); } else { enemies[attackingEnemyIdx].setEnabled(false); }
+        font3x5.print(hpLoss);
+        if (enemies[attackingEnemyIdx].getHitPoints() > hpLoss) { enemies[attackingEnemyIdx].setHitPoints(enemies[attackingEnemyIdx].getHitPoints() - hpLoss); } else { enemies[attackingEnemyIdx].setEnabled(false); }
 
         gameState = GameState::Battle_EnemyDies;
         if (enemies[attackingEnemyIdx].getEnabled()) { gameState = GameState::Battle_EnemyAttacks_Init; }
@@ -188,16 +187,16 @@ uint16_t battleLoop() {
         uint8_t maxHP = enemies[attackingEnemyIdx].getAttackPower() - myHero.getDefence();
         if (maxHP < 0) maxHP = 1;
         if (maxHP > 9) maxHP = 9;
-        uint8_t diceAttack = random(0, maxHP);   
+        uint8_t hpLoss = random(0, maxHP);   
 
         font3x5.print(F("TAKE "));
-        font3x5.print(diceAttack);
+        font3x5.print(hpLoss);
         font3x5.print(F(" DMG\n"));
         font3x5.print(F("DEAL 1 DMG\n"));
         font3x5.setCursor(17, 35);
-        font3x5.print(diceAttack);
+        font3x5.print(hpLoss);
 
-        myHero.setHitPoints(myHero.getHitPoints() + diceAttack);
+        myHero.setHitPoints(myHero.getHitPoints() + hpLoss);
         if (enemies[attackingEnemyIdx].getHitPoints() > 1) { enemies[attackingEnemyIdx].setHitPoints(enemies[attackingEnemyIdx].getHitPoints() - 1); } else { enemies[attackingEnemyIdx].setEnabled(false); }
         
         gameState = GameState::Battle_EnemyDies;
