@@ -22,7 +22,7 @@
 
 // ------------------------------------
 
-#define MAX_LEVEL_COUNT                   2
+#define MAX_LEVEL_COUNT                   1
 
 #define UP_BUTTON_MASK                    128
 #define DOWN_BUTTON_MASK                  16

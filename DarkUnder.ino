@@ -32,7 +32,7 @@ Enemy enemies[NUMBER_OF_ENEMIES];
 
 uint8_t attackingEnemyIdx = 0;
 
-const uint8_t *levels[] = { level_00, level_01, level_02 };
+const uint8_t *levels[] = { level_00 };
 const uint8_t *map_tiles[] = { tile_00, tile_01, tile_02, tile_03, tile_04, tile_05, tile_06, tile_07 };
 
 const uint8_t *map_images[] = { visionBack, closeWallFront, closeGateLocked, closeDoorLocked, closeDoorUnlocked, closeWallLeft, closeWallRight, closeGateLeft, closeGateRight,
