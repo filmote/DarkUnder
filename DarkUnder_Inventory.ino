@@ -97,8 +97,8 @@ uint16_t inventoryLoop() {
             
               for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
 
-                int16_t deltaX = doors[i].getX() - myHero.getX();
-                int16_t deltaY = doors[i].getY() - myHero.getY();
+                int8_t deltaX = doors[i].getX() - myHero.getX();
+                int8_t deltaY = doors[i].getY() - myHero.getY();
                 
                 if (doors[i].getEnabled() && (doors[i].getItemType() == ItemType::LockedDoor || doors[i].getItemType() == ItemType::LockedGate) && 
                     absT(deltaX) <= 1 && absT(deltaY) <= 1) {

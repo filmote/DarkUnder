@@ -28,12 +28,13 @@ class Enemy : public Base {
     
   private:
 
-    EnemyType _enemyType;
+    // EnemyType _enemyType;
     uint8_t _hitPoints;
     uint8_t _hitPointsMax;
     uint8_t _attackPower;    
     uint8_t _experiencePoints;
-    bool _moving;
-    bool _enabled;
+    // bool _moving;
+    // bool _enabled;
     
+    uint8_t _flags;
 };

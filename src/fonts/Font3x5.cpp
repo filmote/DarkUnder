@@ -49,7 +49,7 @@ const uint8_t PROGMEM font_images[] = {
 };
 
 
-Font3x5::Font3x5(int16_t width, int16_t height) {
+Font3x5::Font3x5(int8_t width, int8_t height) {
 
   _lineHeight = FONT3X5_HEIGHT + 2;
   _letterSpacing = 1;
@@ -84,7 +84,7 @@ size_t Font3x5::write(uint8_t c) {
 #define FONT_PERIOD_INDEX 37
 #define FONT_NUMBER_INDEX 26
 
-void Font3x5::printChar(const char c, const int16_t x, int16_t y) {
+void Font3x5::printChar(const char c, const int8_t x, int8_t y) {
 
   int8_t idx = -1;
 
@@ -126,7 +126,7 @@ void Font3x5::printChar(const char c, const int16_t x, int16_t y) {
 
 }
 
-void Font3x5::setCursor(const int16_t x, const int16_t y) {
+void Font3x5::setCursor(const int8_t x, const int8_t y) {
   _cursorX = _baseX = x;
   _cursorY = y;
 }

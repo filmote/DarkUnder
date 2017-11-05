@@ -8,16 +8,16 @@ class Base {
 
     Base();
 
-    int16_t getX() const;
-    int16_t getY() const;
+    uint8_t getX() const;
+    uint8_t getY() const;
     
-    void setX(const int16_t value);
-    void setY(const int16_t value);
+    void setX(const uint8_t value);
+    void setY(const uint8_t value);
 
   private:
 
-    int16_t _x;
-    int16_t _y;
+    uint8_t _x;
+    uint8_t _y;
     
 };
 

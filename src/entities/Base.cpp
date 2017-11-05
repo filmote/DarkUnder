@@ -2,9 +2,9 @@
 
 Base::Base() {}
 
-int16_t Base::getX() const                      { return _x; }
-int16_t Base::getY() const                      { return _y; }
+uint8_t Base::getX() const                      { return _x; }
+uint8_t Base::getY() const                      { return _y; }
 
-void Base::setX(const int16_t value)            { _x = value; }
-void Base::setY(const int16_t value)            { _y = value; }
+void Base::setX(const uint8_t value)            { _x = value; }
+void Base::setY(const uint8_t value)            { _y = value; }
 
