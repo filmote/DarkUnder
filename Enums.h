@@ -1,6 +1,6 @@
 #pragma once
 
-// ----  Memory saving and other decision switches -------
+// ----  Memory saving and other decision switches ----------------------------------------------------------------------------------
 
         // 834 bytes
 #undef  USE_SOUNDS
@@ -12,9 +12,9 @@
 #define LEVEL_UP_INC_HP 
 
 #define XP_LEVEL_UP                       4
+#undef  USE_2_WALL_IMAGES
 
-
-// ------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------
 
 #define MAX_LEVEL_COUNT                   1
 
