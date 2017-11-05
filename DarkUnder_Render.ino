@@ -406,8 +406,8 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
     if (enemy.getEnabled()) {
 
-      int8_t deltaX = myHero->getX() - enemy.getX();
-      int8_t deltaY = myHero->getY() - enemy.getY();
+      int16_t deltaX = myHero->getX() - enemy.getX();
+      int16_t deltaY = myHero->getY() - enemy.getY();
       
       if ((deltaY == 0 && absT(deltaX) == 1) ^ (deltaX == 0 && absT(deltaY) == 1)) { 
 
