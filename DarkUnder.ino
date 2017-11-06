@@ -33,8 +33,8 @@ Enemy enemies[NUMBER_OF_ENEMIES];
 uint8_t attackingEnemyIdx = 0;
 
 const uint8_t *levels[] =    { level_00, level_01, level_02, level_03, level_04 };
-const uint8_t *map_tiles[] = { tile_00, tile_01, tile_02, tile_03, tile_04, tile_05, tile_06, tile_07,
-                               tile_08, tile_09, tile_10, tile_11, tile_12, tile_13, tile_14, tile_15 };
+const uint8_t *map_tiles[] = { tile_00, tile_01, tile_02, tile_03, tile_04, tile_05, tile_06, tile_07, tile_08, tile_09, 
+                               tile_10, tile_11, tile_12, tile_13, tile_14, tile_15, tile_16, tile_17, tile_18, tile_19 };
 
 #ifdef USE_2_WALL_IMAGES                               
 const uint8_t *map_images_1[] = { visionBack, closeWallFront, closeGateLocked, closeDoorLocked, closeDoorUnlocked, closeWallLeft, closeWallRight, closeGateLeft, closeGateRight,

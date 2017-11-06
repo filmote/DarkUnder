@@ -128,14 +128,14 @@ uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t
       uint8_t ap = 0;
       uint8_t xp = 0;
       boolean moving = false;
-     
-      if (enemyType == EnemyType::Beholder)       { hp = 20; ap = 12; xp = 4; moving = true;  }
-      else if (enemyType == EnemyType::Skeleton)  { hp = 10; ap = 8;  xp = 3; moving = true;  }
-      else if (enemyType == EnemyType::Displacer) { hp = 10; ap = 5;  xp = 2; moving = true;  }
-      else if (enemyType == EnemyType::Wraith)    { hp = 12; ap = 10; xp = 4; moving = true;  }
-      else if (enemyType == EnemyType::Dragon)    { hp = 30; ap = 20; xp = 6; moving = true;  }
-      else if (enemyType == EnemyType::Rat)       { hp = 5;  ap = 2;  xp = 1; }
-      else if (enemyType == EnemyType::Slime)     { hp = 8;  ap = 4;  xp = 6; }
+
+      if (enemyType == EnemyType::Beholder)       { hp = ENEMY_BEHOLDER_HP; ap = ENEMY_BEHOLDER_AP; xp = ENEMY_BEHOLDER_XP; moving = ENEMY_BEHOLDER_MV;  }
+      else if (enemyType == EnemyType::Skeleton)  { hp = ENEMY_SKELETON_HP; ap = ENEMY_SKELETON_AP; xp = ENEMY_SKELETON_XP; moving = ENEMY_SKELETON_MV;  }
+      else if (enemyType == EnemyType::Displacer) { hp = ENEMY_DISPLACER_HP; ap = ENEMY_DISPLACER_AP; xp = ENEMY_DISPLACER_XP; moving = ENEMY_DISPLACER_MV;  }
+      else if (enemyType == EnemyType::Wraith)    { hp = ENEMY_WRAITH_HP; ap = ENEMY_WRAITH_AP; xp = ENEMY_WRAITH_XP; moving = ENEMY_WRAITH_MV;  }
+      else if (enemyType == EnemyType::Dragon)    { hp = ENEMY_DRAGON_HP; ap = ENEMY_DRAGON_AP; xp = ENEMY_DRAGON_XP; moving = ENEMY_DRAGON_MV;  }
+      else if (enemyType == EnemyType::Rat)       { hp = ENEMY_RAT_HP; ap = ENEMY_RAT_AP; xp = ENEMY_RAT_XP; moving = ENEMY_RAT_MV; }
+      else if (enemyType == EnemyType::Slime)     { hp = ENEMY_SLIME_HP; ap = ENEMY_SLIME_AP; xp = ENEMY_SLIME_XP; moving = ENEMY_SLIME_MV; }
 
       enemies[i].setHitPoints(hp);
       enemies[i].setHitPointsMax(hp);

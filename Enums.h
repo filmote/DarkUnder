@@ -16,7 +16,6 @@
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 
-#define MAX_LEVEL_COUNT                   1
 
 #define UP_BUTTON_MASK                    128
 #define DOWN_BUTTON_MASK                  16
@@ -30,8 +29,8 @@
 
 #define MAP_TILE_WIDTH                    15
 #define MAP_TILE_HEIGHT                   15
-#define MAP_TILE_PHYSICAL_WIDTH           16
-#define MAP_TILE_PHYSICAL_HEIGHT          16
+#define MAP_TILE_PHYSICAL_WIDTH           15
+#define MAP_TILE_PHYSICAL_HEIGHT          15
 
 #define MAP_TILE_SIZE                     4
 #define MAP_TILE_OFFSET                   5
@@ -158,7 +157,7 @@ enum class EnemyType : uint8_t {
 };
 
 enum class ItemType : uint8_t {
-  None,
+  None, 
   Key,
   Potion,
   Scroll,
