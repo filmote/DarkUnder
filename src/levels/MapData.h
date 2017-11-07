@@ -1,7 +1,6 @@
 #pragma once
 
-#define MAX_LEVEL_COUNT                   1
-
+#define MAX_LEVEL_COUNT 1
 
 #define ENEMY_BEHOLDER_HP 20
 #define ENEMY_BEHOLDER_AP 12
@@ -38,517 +37,81 @@
 #define ENEMY_SLIME_XP 6
 #define ENEMY_SLIME_MV false
 
-
-// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//  Tiles 
-// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-//00    01    02    03    04    05    06    07    08    09    10    11    12    13    14   
-
-const uint8_t PROGMEM tile_00[] = {  // Temporary
-0xFF, 0x01, 0xDD, 0xC1, 0xFD, 0x7D, 0x7D, 0x01, 0x6D, 0x01, 0x7D, 0x7D, 0xFD, 0xC1, 0xD5,  
-0x7F, 0x00, 0x5F, 0x1F, 0x5F, 0x18, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x78, 0x7F, 0x7F, 0x7F,  
+const uint8_t PROGMEM tile_00[] = {
+0xff, 0x81, 0xbd, 0xe5, 0xd, 0xe9, 0xab, 0xa0, 0xbf, 0x81, 0xed, 0x5, 0xfd, 0x1, 0xff, 0x7f, 0x40, 0x5a, 0x52, 0x5a, 0x52, 0x7e, 0x2, 0x76, 0x52, 0x5a, 0x42, 0x5b, 0x48, 0x7f, 
 };
-
-const uint8_t PROGMEM tile_01[] = { 
-0xFF, 0x01, 0xDD, 0x51, 0x55, 0x15, 0x57, 0x54, 0xD5, 0x15, 0xF5, 0x85, 0xED, 0x21, 0xFF,  
-0x7F, 0x40, 0x56, 0x54, 0x54, 0x50, 0x54, 0x14, 0x5E, 0x54, 0x56, 0x52, 0x56, 0x40, 0x7F,  
+const uint8_t PROGMEM tile_01[] = {
+0xff, 0x1, 0xdd, 0x51, 0x55, 0x15, 0x57, 0x54, 0xd5, 0x15, 0xf5, 0x85, 0xed, 0x21, 0xff, 0x7f, 0x40, 0x56, 0x54, 0x54, 0x50, 0x54, 0x14, 0x5e, 0x54, 0x56, 0x52, 0x56, 0x40, 0x7f, 
 };
-
 const uint8_t PROGMEM tile_02[] = {
-0xFF, 0x09, 0xED, 0x21, 0xAD, 0xA5, 0xB7, 0xA0, 0xBF, 0xA5, 0x2D, 0xA5, 0xAD, 0x81, 0xFF, 
-0x7F, 0x40, 0x5F, 0x50, 0x5B, 0x40, 0x7E, 0x02, 0x6A, 0x4B, 0x58, 0x53, 0x5E, 0x40, 0x7F,  
+0xff, 0x9, 0xed, 0x21, 0xad, 0xa5, 0xb7, 0xa0, 0xbf, 0xa5, 0x2d, 0xa5, 0xad, 0x81, 0xff, 0x7f, 0x40, 0x5f, 0x50, 0x5b, 0x40, 0x7e, 0x2, 0x6a, 0x4b, 0x58, 0x53, 0x5e, 0x40, 0x7f, 
 };
-
-const uint8_t PROGMEM tile_03[] = {  // Temporary
-0xFF, 0x01, 0xDD, 0xC1, 0xFD, 0x7D, 0x7D, 0x01, 0x6D, 0x01, 0x7D, 0x7D, 0xFD, 0xC1, 0xD5, 
-0x7F, 0x00, 0x5F, 0x1F, 0x5F, 0x18, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x78, 0x7F, 0x7F, 0x7F,  
+const uint8_t PROGMEM tile_03[] = {
+0x7f, 0x1, 0xdd, 0x5, 0x75, 0x11, 0x55, 0x4, 0x55, 0x11, 0x75, 0x5, 0xdd, 0x1, 0x7f, 0x7f, 0x40, 0x5d, 0x50, 0x57, 0x44, 0x55, 0x10, 0x55, 0x44, 0x57, 0x50, 0x5d, 0x40, 0x7f, 
 };
+const uint8_t PROGMEM tile_04[] = {};
+const uint8_t PROGMEM tile_05[] = {};
+const uint8_t PROGMEM tile_06[] = {};
+const uint8_t PROGMEM tile_07[] = {};
+const uint8_t PROGMEM tile_08[] = {};
+const uint8_t PROGMEM tile_09[] = {};
+const uint8_t PROGMEM tile_10[] = {};
+const uint8_t PROGMEM tile_11[] = {};
+const uint8_t PROGMEM tile_12[] = {};
+const uint8_t PROGMEM tile_13[] = {};
+const uint8_t PROGMEM tile_14[] = {};
+const uint8_t PROGMEM tile_15[] = {};
+const uint8_t PROGMEM tile_16[] = {};
+const uint8_t PROGMEM tile_17[] = {};
+const uint8_t PROGMEM tile_18[] = {};
+const uint8_t PROGMEM tile_19[] = {};
 
-const uint8_t PROGMEM tile_04[] = {  // Temporary
-0xFF, 0x01, 0xDD, 0xC1, 0xFD, 0x7D, 0x7D, 0x01, 0x6D, 0x01, 0x7D, 0x7D, 0xFD, 0xC1, 0xD5,  
-0x7F, 0x00, 0x5F, 0x1F, 0x5F, 0x18, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x78, 0x7F, 0x7F, 0x7F,  
+const uint8_t PROGMEM level_00[] = {
+72, 65, 76, 76, 87, 65, 89, 32, 79, 70, 32, 
+84, 72, 69, 32, 68, 69, 65, 68, 32, 32, 32, 
+7, 58,
+0,
+1, 4,
+14,
+1, 7, 3,
+5, 9, 49,
+5, 4, 49,
+2, 4, 5,
+6, 7, 8,
+2, 1, 9,
+6, 7, 12,
+6, 13, 17,
+5, 5, 18,
+1, 5, 22,
+6, 13, 25,
+6, 1, 36,
+5, 1, 40,
+6, 7, 41,
+13,
+2, 2, 6,
+3, 6, 6,
+2, 5, 11,
+3, 13, 12,
+2, 9, 13,
+3, 5, 16,
+3, 13, 21,
+2, 5, 25,
+2, 1, 28,
+2, 11, 41,
+2, 2, 51,
+3, 6, 51,
+1, 6, 14,
+1,
+101, 7, 0,
+0, 1, 2, 0, 
 };
-
-const uint8_t PROGMEM tile_05[] = {  // Temporary
-0xFF, 0x01, 0xDD, 0xC1, 0xFD, 0x7D, 0x7D, 0x01, 0x6D, 0x01, 0x7D, 0x7D, 0xFD, 0xC1, 0xD5,  
-0x7F, 0x00, 0x5F, 0x1F, 0x5F, 0x18, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x78, 0x7F, 0x7F, 0x7F, 
-};
-
-const uint8_t PROGMEM tile_06[] = {  // Temporary
-0xFF, 0x01, 0xDD, 0xC1, 0xFD, 0x7D, 0x7D, 0x01, 0x6D, 0x01, 0x7D, 0x7D, 0xFD, 0xC1, 0xD5, 
-0x7F, 0x00, 0x5F, 0x1F, 0x5F, 0x18, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x78, 0x7F, 0x7F, 0x7F, 
-};
-
-const uint8_t PROGMEM tile_07[] = {
-0xFF, 0x81, 0xBD, 0xE5, 0x0D, 0xE9, 0xAB, 0xA0, 0xBF, 0x81, 0xED, 0x05, 0xFD, 0x01, 0xFF, 
-0x7F, 0x40, 0x5A, 0x52, 0x5A, 0x52, 0x7E, 0x02, 0x76, 0x52, 0x5A, 0x42, 0x5B, 0x48, 0x7F, 
-};
-
-const uint8_t PROGMEM tile_08[] = {  // Temporary
-0xFF, 0x01, 0xDD, 0xC1, 0xFD, 0x7D, 0x7D, 0x01, 0x6D, 0x01, 0x7D, 0x7D, 0xFD, 0xC1, 0xD5,  
-0x7F, 0x00, 0x5F, 0x1F, 0x5F, 0x18, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x78, 0x7F, 0x7F, 0x7F,
-};
-
-const uint8_t PROGMEM tile_09[] = {  // Temporary
-0xFF, 0x01, 0xDD, 0x51, 0x55, 0x15, 0x57, 0x54, 0xD5, 0x15, 0xF5, 0x85, 0xED, 0x21, 0xFF,  
-0x7F, 0x40, 0x56, 0x54, 0x54, 0x50, 0x54, 0x14, 0x5E, 0x54, 0x56, 0x52, 0x56, 0x40, 0x7F, 
-};
-
-const uint8_t PROGMEM tile_10[] = { // Temporary
-0xFF, 0x09, 0xED, 0x21, 0xAD, 0xA5, 0xB7, 0xA0, 0xBF, 0xA5, 0x2D, 0xA5, 0xAD, 0x81, 0xFF,  
-0x7F, 0x40, 0x5F, 0x50, 0x5B, 0x40, 0x7E, 0x02, 0x6A, 0x4B, 0x58, 0x53, 0x5E, 0x40, 0x7F,  
-};
-
-const uint8_t PROGMEM tile_11[] = {  // Temporary
-0xFF, 0x01, 0xDD, 0xC1, 0xFD, 0x7D, 0x7D, 0x01, 0x6D, 0x01, 0x7D, 0x7D, 0xFD, 0xC1, 0xD5, 
-0x7F, 0x00, 0x5F, 0x1F, 0x5F, 0x18, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x78, 0x7F, 0x7F, 0x7F,  
-};
-
-const uint8_t PROGMEM tile_12[] = {  // Temporary
-0xFF, 0x01, 0xDD, 0xC1, 0xFD, 0x7D, 0x7D, 0x01, 0x6D, 0x01, 0x7D, 0x7D, 0xFD, 0xC1, 0xD5,  
-0x7F, 0x00, 0x5F, 0x1F, 0x5F, 0x18, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x78, 0x7F, 0x7F, 0x7F,  
-};
-
-const uint8_t PROGMEM tile_13[] = {  // Temporary
-0xFF, 0x01, 0xDD, 0xC1, 0xFD, 0x7D, 0x7D, 0x01, 0x6D, 0x01, 0x7D, 0x7D, 0xFD, 0xC1, 0xD5,  
-0x7F, 0x00, 0x5F, 0x1F, 0x5F, 0x18, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x78, 0x7F, 0x7F, 0x7F,  
-};
-
-const uint8_t PROGMEM tile_14[] = {  // Temporary
-0xFF, 0x01, 0xDD, 0xC1, 0xFD, 0x7D, 0x7D, 0x01, 0x6D, 0x01, 0x7D, 0x7D, 0xFD, 0xC1, 0xD5,  
-0x7F, 0x00, 0x5F, 0x1F, 0x5F, 0x18, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x78, 0x7F, 0x7F, 0x7F, 
-};
-
-const uint8_t PROGMEM tile_15[] = { // Temporary
-0xFF, 0x81, 0xBD, 0xE5, 0x0D, 0xE9, 0xAB, 0xA0, 0xBF, 0x81, 0xED, 0x05, 0xFD, 0x01, 0xFF,  
-0x7F, 0x40, 0x5A, 0x52, 0x5A, 0x52, 0x7E, 0x02, 0x76, 0x52, 0x5A, 0x42, 0x5B, 0x48, 0x7F,  
-};
-
-const uint8_t PROGMEM tile_16[] = {  // Temporary
-0xFF, 0x01, 0xDD, 0xC1, 0xFD, 0x7D, 0x7D, 0x01, 0x6D, 0x01, 0x7D, 0x7D, 0xFD, 0xC1, 0xD5,  
-0x7F, 0x00, 0x5F, 0x1F, 0x5F, 0x18, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x78, 0x7F, 0x7F, 0x7F,  
-};
-
-const uint8_t PROGMEM tile_17[] = {  // Temporary
-0xFF, 0x01, 0xDD, 0x51, 0x55, 0x15, 0x57, 0x54, 0xD5, 0x15, 0xF5, 0x85, 0xED, 0x21, 0xFF,  
-0x7F, 0x40, 0x56, 0x54, 0x54, 0x50, 0x54, 0x14, 0x5E, 0x54, 0x56, 0x52, 0x56, 0x40, 0x7F,  
-};
-
-const uint8_t PROGMEM tile_18[] = { // Temporary
-0xFF, 0x09, 0xED, 0x21, 0xAD, 0xA5, 0xB7, 0xA0, 0xBF, 0xA5, 0x2D, 0xA5, 0xAD, 0x81, 0xFF,  
-0x7F, 0x40, 0x5F, 0x50, 0x5B, 0x40, 0x7E, 0x02, 0x6A, 0x4B, 0x58, 0x53, 0x5E, 0x40, 0x7F,  
-};
-
-const uint8_t PROGMEM tile_19[] = {  // Temporary
-0xFF, 0x01, 0xDD, 0xC1, 0xFD, 0x7D, 0x7D, 0x01, 0x6D, 0x01, 0x7D, 0x7D, 0xFD, 0xC1, 0xD5,  
-0x7F, 0x00, 0x5F, 0x1F, 0x5F, 0x18, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x78, 0x7F, 0x7F, 0x7F,  
-};
-
-
-
-// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//  Levels 
-// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-const uint8_t PROGMEM level_00[] = {  
-  
-  // 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11      // Title, 22 characters
-  72, 65, 76, 76, 87, 65, 89, 32, 79, 70, 32, 
-  84, 72, 69, 32, 68, 69, 65, 68, 32, 32, 32,
-  
-  7, 58,                                             // Starting postion of player
-  
-  (uint8_t)Direction::North,                         // Starting direction of player
-  1, 4,                                              // Dimension of level in tiles (a tile is a 15x15 map)
-  
-  14,                                                // Number of enemies
-  (uint8_t)EnemyType::Skeleton, 7, 3,                // Enemy type, starting position
-  //(uint8_t)EnemyType::Skeleton, 14, 55,                // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 9, 49,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 4, 49,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Displacer, 4, 5,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 8,                   // Enemy type, starting position
-  (uint8_t)EnemyType::Displacer, 1, 9,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 12,                  // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 13, 17,                 // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 5, 18,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Skeleton, 5, 22,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 13, 25,                 // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 1, 36,                  // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 1, 40,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 41,                  // Enemy type, starting position
-  
-  13,                                                // Number of items
-  (uint8_t)ItemType::Potion, 2, 6,                   // Item type, starting position
-  (uint8_t)ItemType::Scroll, 6, 6,                   // Item type, starting position
-  (uint8_t)ItemType::Potion, 5, 11,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 13, 12,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 9, 13,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 5, 16,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 13, 21,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 5, 25,                  // Item type, starting position
-  (uint8_t)ItemType::Potion, 1, 28,                  // Item type, starting position
-  (uint8_t)ItemType::Potion, 11, 41,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 2, 51,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 6, 51,                  // Item type, starting position
-  (uint8_t)ItemType::Key, 6, 14,                     // Item type, starting position
-  
-  
-  1,                                                 // Number of doors
-  (uint8_t)ItemType::LockedDoor, 7, 0,               // Item type, starting position
-  
-                                                      // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
-  
-  7,  
-  1,
-  2,
-  7,
-  
-};
-
-
-const uint8_t PROGMEM level_01[] = {  
-  
-  // 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11      // Title, 22 characters
-  72, 65, 76, 76, 87, 65, 89, 32, 79, 70, 32, 
-  84, 72, 69, 32, 68, 69, 65, 68, 32, 32, 32,
-  
-  7, 58,                                             // Starting postion of player
-  
-  (uint8_t)Direction::North,                         // Starting direction of player
-  1, 4,                                              // Dimension of level in tiles (a tile is a 15x15 map)
-  
-  14,                                                // Number of enemies
-  (uint8_t)EnemyType::Skeleton, 7, 3,                // Enemy type, starting position
-  //(uint8_t)EnemyType::Skeleton, 14, 55,                // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 9, 49,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 4, 49,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Displacer, 4, 5,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 8,                   // Enemy type, starting position
-  (uint8_t)EnemyType::Displacer, 1, 9,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 12,                  // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 13, 17,                 // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 5, 18,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Skeleton, 5, 22,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 13, 25,                 // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 1, 36,                  // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 1, 40,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 41,                  // Enemy type, starting position
-  
-  13,                                                // Number of items
-  (uint8_t)ItemType::Potion, 2, 6,                   // Item type, starting position
-  (uint8_t)ItemType::Scroll, 6, 6,                   // Item type, starting position
-  (uint8_t)ItemType::Potion, 5, 11,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 13, 12,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 9, 13,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 5, 16,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 13, 21,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 5, 25,                  // Item type, starting position
-  (uint8_t)ItemType::Potion, 1, 28,                  // Item type, starting position
-  (uint8_t)ItemType::Potion, 11, 41,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 2, 51,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 6, 51,                  // Item type, starting position
-  (uint8_t)ItemType::Key, 6, 14,                     // Item type, starting position
-  
-  
-  1,                                                 // Number of doors
-  (uint8_t)ItemType::LockedDoor, 7, 0,               // Item type, starting position
-  
-                                                      // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
-  
-  7,  
-  1,
-  2,
-  7,
-  
-};
-
-
-const uint8_t PROGMEM level_02[] = {  
-  
-  // 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11      // Title, 22 characters
-  72, 65, 76, 76, 87, 65, 89, 32, 79, 70, 32, 
-  84, 72, 69, 32, 68, 69, 65, 68, 32, 32, 32,
-  
-  7, 58,                                             // Starting postion of player
-  
-  (uint8_t)Direction::North,                         // Starting direction of player
-  1, 4,                                              // Dimension of level in tiles (a tile is a 15x15 map)
-  
-  14,                                                // Number of enemies
-  (uint8_t)EnemyType::Skeleton, 7, 3,                // Enemy type, starting position
-  //(uint8_t)EnemyType::Skeleton, 14, 55,                // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 9, 49,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 4, 49,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Displacer, 4, 5,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 8,                   // Enemy type, starting position
-  (uint8_t)EnemyType::Displacer, 1, 9,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 12,                  // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 13, 17,                 // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 5, 18,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Skeleton, 5, 22,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 13, 25,                 // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 1, 36,                  // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 1, 40,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 41,                  // Enemy type, starting position
-  
-  13,                                                // Number of items
-  (uint8_t)ItemType::Potion, 2, 6,                   // Item type, starting position
-  (uint8_t)ItemType::Scroll, 6, 6,                   // Item type, starting position
-  (uint8_t)ItemType::Potion, 5, 11,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 13, 12,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 9, 13,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 5, 16,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 13, 21,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 5, 25,                  // Item type, starting position
-  (uint8_t)ItemType::Potion, 1, 28,                  // Item type, starting position
-  (uint8_t)ItemType::Potion, 11, 41,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 2, 51,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 6, 51,                  // Item type, starting position
-  (uint8_t)ItemType::Key, 6, 14,                     // Item type, starting position
-  
-  
-  1,                                                 // Number of doors
-  (uint8_t)ItemType::LockedDoor, 7, 0,               // Item type, starting position
-  
-                                                      // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
-  
-  7,  
-  1,
-  2,
-  7,
-  
-};
-
-
-const uint8_t PROGMEM level_03[] = {  
-  
-  // 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11      // Title, 22 characters
-  72, 65, 76, 76, 87, 65, 89, 32, 79, 70, 32, 
-  84, 72, 69, 32, 68, 69, 65, 68, 32, 32, 32,
-  
-  7, 58,                                             // Starting postion of player
-  
-  (uint8_t)Direction::North,                         // Starting direction of player
-  1, 4,                                              // Dimension of level in tiles (a tile is a 15x15 map)
-  
-  14,                                                // Number of enemies
-  (uint8_t)EnemyType::Skeleton, 7, 3,                // Enemy type, starting position
-  //(uint8_t)EnemyType::Skeleton, 14, 55,                // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 9, 49,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 4, 49,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Displacer, 4, 5,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 8,                   // Enemy type, starting position
-  (uint8_t)EnemyType::Displacer, 1, 9,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 12,                  // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 13, 17,                 // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 5, 18,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Skeleton, 5, 22,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 13, 25,                 // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 1, 36,                  // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 1, 40,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 41,                  // Enemy type, starting position
-  
-  13,                                                // Number of items
-  (uint8_t)ItemType::Potion, 2, 6,                   // Item type, starting position
-  (uint8_t)ItemType::Scroll, 6, 6,                   // Item type, starting position
-  (uint8_t)ItemType::Potion, 5, 11,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 13, 12,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 9, 13,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 5, 16,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 13, 21,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 5, 25,                  // Item type, starting position
-  (uint8_t)ItemType::Potion, 1, 28,                  // Item type, starting position
-  (uint8_t)ItemType::Potion, 11, 41,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 2, 51,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 6, 51,                  // Item type, starting position
-  (uint8_t)ItemType::Key, 6, 14,                     // Item type, starting position
-  
-  
-  1,                                                 // Number of doors
-  (uint8_t)ItemType::LockedDoor, 7, 0,               // Item type, starting position
-  
-                                                      // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
-  
-  7,  
-  1,
-  2,
-  7,
-  
-};
-
-
-const uint8_t PROGMEM level_04[] = {  
-  
-  // 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11      // Title, 22 characters
-  72, 65, 76, 76, 87, 65, 89, 32, 79, 70, 32, 
-  84, 72, 69, 32, 68, 69, 65, 68, 32, 32, 32,
-  
-  7, 58,                                             // Starting postion of player
-  
-  (uint8_t)Direction::North,                         // Starting direction of player
-  1, 4,                                              // Dimension of level in tiles (a tile is a 15x15 map)
-  
-  14,                                                // Number of enemies
-  (uint8_t)EnemyType::Skeleton, 7, 3,                // Enemy type, starting position
-  //(uint8_t)EnemyType::Skeleton, 14, 55,                // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 9, 49,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 4, 49,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Displacer, 4, 5,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 8,                   // Enemy type, starting position
-  (uint8_t)EnemyType::Displacer, 1, 9,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 12,                  // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 13, 17,                 // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 5, 18,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Skeleton, 5, 22,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 13, 25,                 // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 1, 36,                  // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 1, 40,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 41,                  // Enemy type, starting position
-  
-  13,                                                // Number of items
-  (uint8_t)ItemType::Potion, 2, 6,                   // Item type, starting position
-  (uint8_t)ItemType::Scroll, 6, 6,                   // Item type, starting position
-  (uint8_t)ItemType::Potion, 5, 11,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 13, 12,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 9, 13,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 5, 16,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 13, 21,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 5, 25,                  // Item type, starting position
-  (uint8_t)ItemType::Potion, 1, 28,                  // Item type, starting position
-  (uint8_t)ItemType::Potion, 11, 41,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 2, 51,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 6, 51,                  // Item type, starting position
-  (uint8_t)ItemType::Key, 6, 14,                     // Item type, starting position
-  
-  
-  1,                                                 // Number of doors
-  (uint8_t)ItemType::LockedDoor, 7, 0,               // Item type, starting position
-  
-                                                      // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
-  
-  7,  
-  1,
-  2,
-  7,
-  
-};
-
-
-const uint8_t PROGMEM level_05[] = {  
-  
-  // 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11      // Title, 22 characters
-  72, 65, 76, 76, 87, 65, 89, 32, 79, 70, 32, 
-  84, 72, 69, 32, 68, 69, 65, 68, 32, 32, 32,
-  
-  7, 58,                                             // Starting postion of player
-  
-  (uint8_t)Direction::North,                         // Starting direction of player
-  1, 4,                                              // Dimension of level in tiles (a tile is a 15x15 map)
-  
-  14,                                                // Number of enemies
-  (uint8_t)EnemyType::Skeleton, 7, 3,                // Enemy type, starting position
-  //(uint8_t)EnemyType::Skeleton, 14, 55,                // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 9, 49,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 4, 49,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Displacer, 4, 5,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 8,                   // Enemy type, starting position
-  (uint8_t)EnemyType::Displacer, 1, 9,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 12,                  // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 13, 17,                 // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 5, 18,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Skeleton, 5, 22,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 13, 25,                 // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 1, 36,                  // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 1, 40,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 41,                  // Enemy type, starting position
-  
-  13,                                                // Number of items
-  (uint8_t)ItemType::Potion, 2, 6,                   // Item type, starting position
-  (uint8_t)ItemType::Scroll, 6, 6,                   // Item type, starting position
-  (uint8_t)ItemType::Potion, 5, 11,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 13, 12,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 9, 13,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 5, 16,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 13, 21,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 5, 25,                  // Item type, starting position
-  (uint8_t)ItemType::Potion, 1, 28,                  // Item type, starting position
-  (uint8_t)ItemType::Potion, 11, 41,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 2, 51,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 6, 51,                  // Item type, starting position
-  (uint8_t)ItemType::Key, 6, 14,                     // Item type, starting position
-  
-  
-  1,                                                 // Number of doors
-  (uint8_t)ItemType::LockedDoor, 7, 0,               // Item type, starting position
-  
-                                                      // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
-  
-  7,  
-  1,
-  2,
-  7,
-  
-};
-
-
-const uint8_t PROGMEM level_06[] = {  
-  
-  // 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11      // Title, 22 characters
-  72, 65, 76, 76, 87, 65, 89, 32, 79, 70, 32, 
-  84, 72, 69, 32, 68, 69, 65, 68, 32, 32, 32,
-  
-  7, 58,                                             // Starting postion of player
-  
-  (uint8_t)Direction::North,                         // Starting direction of player
-  1, 4,                                              // Dimension of level in tiles (a tile is a 15x15 map)
-  
-  14,                                                // Number of enemies
-  (uint8_t)EnemyType::Skeleton, 7, 3,                // Enemy type, starting position
-  //(uint8_t)EnemyType::Skeleton, 14, 55,                // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 9, 49,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 4, 49,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Displacer, 4, 5,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 8,                   // Enemy type, starting position
-  (uint8_t)EnemyType::Displacer, 1, 9,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 12,                  // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 13, 17,                 // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 5, 18,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Skeleton, 5, 22,               // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 13, 25,                 // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 1, 36,                  // Enemy type, starting position
-  (uint8_t)EnemyType::Rat, 1, 40,                    // Enemy type, starting position
-  (uint8_t)EnemyType::Slime, 7, 41,                  // Enemy type, starting position
-  
-  13,                                                // Number of items
-  (uint8_t)ItemType::Potion, 2, 6,                   // Item type, starting position
-  (uint8_t)ItemType::Scroll, 6, 6,                   // Item type, starting position
-  (uint8_t)ItemType::Potion, 5, 11,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 13, 12,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 9, 13,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 5, 16,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 13, 21,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 5, 25,                  // Item type, starting position
-  (uint8_t)ItemType::Potion, 1, 28,                  // Item type, starting position
-  (uint8_t)ItemType::Potion, 11, 41,                 // Item type, starting position
-  (uint8_t)ItemType::Potion, 2, 51,                  // Item type, starting position
-  (uint8_t)ItemType::Scroll, 6, 51,                  // Item type, starting position
-  (uint8_t)ItemType::Key, 6, 14,                     // Item type, starting position
-  
-  
-  1,                                                 // Number of doors
-  (uint8_t)ItemType::LockedDoor, 7, 0,               // Item type, starting position
-  
-                                                      // Map Data (refers to tiles above).  The number of elements needs to match the dimensions above.
-  
-  7,  
-  1,
-  2,
-  7,
-  
-};
-
+const uint8_t PROGMEM level_01[] = {};
+const uint8_t PROGMEM level_02[] = {};
+const uint8_t PROGMEM level_03[] = {};
+const uint8_t PROGMEM level_04[] = {};
+const uint8_t PROGMEM level_05[] = {};
+const uint8_t PROGMEM level_06[] = {};
 const uint8_t PROGMEM level_07[] = {};
 const uint8_t PROGMEM level_08[] = {};
 const uint8_t PROGMEM level_09[] = {};
+
