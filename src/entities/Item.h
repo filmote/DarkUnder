@@ -18,7 +18,6 @@ class Item : public Base {
 
   private:
     
-    ItemType _itemType;
-    bool _enabled;
-
+    uint8_t _flags;
+    
 };

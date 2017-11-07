@@ -18,9 +18,9 @@ class Player : public Base {
 
     Direction getDirection();
     ItemType getInventory(uint8_t slot);
-    int8_t getConsumableSlot();
-    int8_t getSlotNumber(const ItemType item);
-    int8_t getInventoryCount(const ItemType item);
+    uint8_t getConsumableSlot();
+    uint8_t getSlotNumber(const ItemType item);
+    uint8_t getInventoryCount(const ItemType item);
     
     void setHitPoints(const uint8_t value);   
     void setDefence(const uint8_t value);   

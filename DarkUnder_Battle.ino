@@ -90,9 +90,9 @@ uint16_t battleLoop() {
         fightButtons[(uint8_t)FightButtons::Potion] = (myHero.getInventoryCount(ItemType::Potion));
 
         arduboy.drawCompressed(80, 44, fight_actions_1, WHITE);
-        if (fightButtons[(uint8_t)FightButtons::Shield])   { arduboy.drawCompressed(91, 44, fight_actions_2, WHITE); }
-        if (fightButtons[(uint8_t)FightButtons::Magic])    { arduboy.drawCompressed(102, 44, fight_actions_3, WHITE); }
-        if (fightButtons[(uint8_t)FightButtons::Potion])   { arduboy.drawCompressed(113, 44, fight_actions_4, WHITE); }
+        if (fightButtons[(uint8_t)FightButtons::Shield])        { arduboy.drawCompressed(91, 44, fight_actions_2, WHITE); }
+        else if (fightButtons[(uint8_t)FightButtons::Magic])    { arduboy.drawCompressed(102, 44, fight_actions_3, WHITE); }
+        else if (fightButtons[(uint8_t)FightButtons::Potion])   { arduboy.drawCompressed(113, 44, fight_actions_4, WHITE); }
         Sprites::drawSelfMasked(81 + (((uint8_t)fightButton) * 11), 56, icnSelect, 0);
         
         if ((buttons & LEFT_BUTTON_MASK) && (uint8_t)fightButton > 0) { 

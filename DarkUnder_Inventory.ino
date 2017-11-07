@@ -83,11 +83,10 @@ uint16_t inventoryLoop() {
       Sprites::drawOverwrite(81, 45, inv_hand, 0);
       Sprites::drawOverwrite(93, 45, inv_trash, 0);
       
-      if ((buttons & LEFT_BUTTON_MASK) && inventory_action > INVENTORY_ACTION_USE)         { --inventory_action; }
-      if ((buttons & RIGHT_BUTTON_MASK) && inventory_action < INVENTORY_ACTION_DROP)       { ++inventory_action; }
-      if (buttons & BACK_BUTTON_MASK)                                                      { gameState = GameState::InventorySelect;}
-
-      if (buttons & SELECT_BUTTON_MASK) { 
+      if ((buttons & LEFT_BUTTON_MASK) && inventory_action > INVENTORY_ACTION_USE)            { --inventory_action; }
+      else if ((buttons & RIGHT_BUTTON_MASK) && inventory_action < INVENTORY_ACTION_DROP)     { ++inventory_action; }
+      else if (buttons & BACK_BUTTON_MASK)                                                    { gameState = GameState::InventorySelect;}
+      else if (buttons & SELECT_BUTTON_MASK) { 
         
         if (inventory_action == INVENTORY_ACTION_USE) {
         

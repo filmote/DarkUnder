@@ -33,8 +33,6 @@ class Enemy : public Base {
     uint8_t _hitPointsMax;
     uint8_t _attackPower;    
     uint8_t _experiencePoints;
-    // bool _moving;
-    // bool _enabled;
-    
     uint8_t _flags;
-};
+
+  };

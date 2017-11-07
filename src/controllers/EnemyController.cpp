@@ -14,7 +14,7 @@ void EnemyController::move(Enemy *thisEnemy, Enemy *allEnemies, Player *player, 
     
   if (!EnemyController::moveTowardsPlayer(thisEnemy, allEnemies, player, level)) {
 
-    while (true) {
+    for (int i = 0; i < 20; i++) {
 
       if (EnemyController::moveToVacantSquare(thisEnemy, allEnemies, player, level, (Direction)random((uint8_t)Direction::North, (uint8_t)Direction::Count))) { break; }
 
@@ -31,7 +31,7 @@ bool EnemyController::moveTowardsPlayer(Enemy *thisEnemy, Enemy *allEnemies, Pla
 
   int16_t deltaX = player->getX() - thisEnemy->getX();
   int16_t deltaY = player->getY() - thisEnemy->getY();
-
+  
   if ((deltaY == 0 && absT(deltaX) == 1) ^ (deltaX == 0 && absT(deltaY) == 1)) { return true; } 
 
 

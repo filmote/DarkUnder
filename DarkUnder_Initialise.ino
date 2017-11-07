@@ -85,7 +85,7 @@ uint8_t loadItems(const uint8_t *level, Item * items, uint8_t idx, uint8_t max) 
 
     items[i].setEnabled(false);
 
-    if(i < numberOfItems) {
+    if (i < numberOfItems) {
       items[i].setItemType((ItemType)pgm_read_byte(&level[idx++]));
       items[i].setX(pgm_read_byte(&level[idx++]));
       items[i].setY(pgm_read_byte(&level[idx++]));

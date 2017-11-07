@@ -28,13 +28,14 @@ MapElement Level::getMapElement(uint8_t x, uint8_t y) {
 
 
   // Is there a door in this location?
-  // TODO:  I have already tried to assign _doors[i] to a var and it increased code by 24 bytes.
 
   for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
 
-    if (_doors[i].getEnabled() && _doors[i].getX() == x && _doors[i].getY() == y) {
+    Item door = _doors[i];
 
-      return (MapElement)((uint8_t)_doors[i].getItemType());
+    if (door.getEnabled() && door.getX() == x && door.getY() == y) {
+
+      return (MapElement)((uint8_t)door.getItemType());
 
     }
 
@@ -49,7 +50,6 @@ MapElement Level::getMapElement(uint8_t x, uint8_t y) {
   // Otherwise, work it out from the map ..
 
   uint8_t tileNumber = pgm_read_byte(&_level[_startPos + (x / MAP_TILE_WIDTH) + ((y / MAP_TILE_HEIGHT) * _width)]);
-
   const uint8_t *tile = _map_tiles[tileNumber];
   uint8_t mapElement = pgm_read_byte(&tile[(x % MAP_TILE_WIDTH) + (((y % MAP_TILE_HEIGHT) / 8) * MAP_TILE_PHYSICAL_WIDTH)]) & (1 << (y % MAP_TILE_HEIGHT % 8));
   
