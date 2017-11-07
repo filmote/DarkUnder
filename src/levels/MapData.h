@@ -549,3 +549,6 @@ const uint8_t PROGMEM level_06[] = {
   
 };
 
+const uint8_t PROGMEM level_07[] = {};
+const uint8_t PROGMEM level_08[] = {};
+const uint8_t PROGMEM level_09[] = {};
