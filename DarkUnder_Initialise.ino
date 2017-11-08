@@ -6,7 +6,7 @@
  */
 void initialiseGame() {
 
-  myHero.setHitPoints(10);
+  myHero.setHitPoints(99);
   myHero.setDefence(2);
   myHero.setAttackPower(2);
   
