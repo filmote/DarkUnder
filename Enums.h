@@ -12,7 +12,8 @@
 #define LEVEL_UP_INC_HP 
 
 #define XP_LEVEL_UP                       4
-#undef  USE_2_WALL_IMAGES
+
+//#define USE_2_WALL_IMAGES     This has been moved to the MapData.h file.  It can be added in manually **if** there is enough room
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#define USE_2_WALL_IMAGES
 #define MAX_LEVEL_COUNT 2
 
 #define ENEMY_BEHOLDER_HP 20
