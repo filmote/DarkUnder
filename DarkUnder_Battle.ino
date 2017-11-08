@@ -215,7 +215,7 @@ uint16_t battleLoop() {
       myHero.setInventory(myHero.getSlotNumber(ItemType::Scroll), ItemType::None);
 
       gameState = GameState::Battle_EnemyDies;
-      if (enemies[attackingEnemyIdx].getEnabled()) GameState::Battle_EnemyAttacks_Init;
+      if (enemies[attackingEnemyIdx].getEnabled()) gameState = GameState::Battle_EnemyAttacks_Init;
 
       break;
 

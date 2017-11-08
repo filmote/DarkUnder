@@ -7,7 +7,19 @@ Player::Player() : Base() { }
 uint8_t Player::getHitPoints()                            { return _hitPoints; }
 uint8_t Player::getDefence()                              { return _defence; }
 uint8_t Player::getAttackPower()                          { return _attackPower; }
-uint8_t Player::getMagic()                                { return Player::getInventoryCount(ItemType::Scroll); }
+uint8_t Player::getMagic()                                { return 
+  
+  
+  Serial.print("Scrollsdd ");
+  Serial.print((uint8_t)_inventory[0]);
+  Serial.print((uint8_t)_inventory[1]);
+  Serial.print((uint8_t)_inventory[2]);
+Serial.println("---");
+
+  
+  
+
+  Player::getInventoryCount(ItemType::Scroll); }
 uint8_t Player::getExperiencePoints()                     { return _experiencePoints; }
 Direction Player::getDirection()                          { return _direction; }
 ItemType Player::getInventory(uint8_t slot)               { return _inventory[slot]; }
