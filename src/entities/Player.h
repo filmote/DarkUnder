@@ -13,7 +13,6 @@ class Player : public Base {
     uint8_t getHitPoints();
     uint8_t getDefence();
     uint8_t getAttackPower();
-    uint8_t getMagic();
     uint8_t getExperiencePoints();
 
     Direction getDirection();
