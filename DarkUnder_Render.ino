@@ -134,8 +134,9 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
   
   arduboy.drawCompressed(0, 0, frames_outside, WHITE);
   arduboy.drawCompressed(66, 4, frames_inside, WHITE);
-  arduboy.drawCompressed(VISION_X_OFFSET + 1, VISION_Y_OFFSET, map_images[MAP_IMAGE_BACK], WHITE);
-
+//  arduboy.drawCompressed(VISION_X_OFFSET + 1, VISION_Y_OFFSET, map_images[MAP_IMAGE_BACK], WHITE);
+  Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET, map_images[MAP_IMAGE_BACK], 0);
+  
   
   // Far front wall ..
   
