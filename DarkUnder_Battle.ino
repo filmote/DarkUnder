@@ -200,7 +200,7 @@ uint16_t battleLoop() {
         if (enemies[attackingEnemyIdx].getHitPoints() > 1) { enemies[attackingEnemyIdx].setHitPoints(enemies[attackingEnemyIdx].getHitPoints() - 1); } else { enemies[attackingEnemyIdx].setEnabled(false); }
         
         gameState = GameState::Battle_EnemyDies;
-        if (enemies[attackingEnemyIdx].getEnabled()) gameState = GameState::Battle_EnemyAttacks_Init;
+        if (enemies[attackingEnemyIdx].getEnabled()) gameState = GameState::Battle_PlayerDecides;
       }
 
       break;   
