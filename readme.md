@@ -5,12 +5,12 @@
   + ~[Cyril] As far as I’m concerned, the current system works well. The dice rolls slowed down the combat too much for my taste. So I would do without.~
   + ~[Simon] Agreed, its gone.
 * ~Tile rotations - no preference and the decision will be dependent on the number of tiles that need rotating and how many rotations.  Removing the rotation code will also free up RAM - (1024 bytes of Progmem / 36 bytes of RAM).~
-* Sound library - preference is to have at least a theme tune and possibly other sound effects but the library alone is 800+ bytes with themes extra. The 1943 theme is approximately 250 bytes long.
-  + [Cyril] So are we talking about 1K+ just for an audio theme? At this point, I’d rather integrate another set of walls, in my opinion!
-  + [Simon] Agreed.
-* Large Map - should we keep it?  It adds 290 bytes but I think its worth it.
-  + [Cyril] I think it’s redundant with the minimap we constantly have in game.
-  + [Simon] I think it makes it too easy so its gone.
+* ~Sound library - preference is to have at least a theme tune and possibly other sound effects but the library alone is 800+ bytes with themes extra. The 1943 theme is approximately 250 bytes long.~
+  + ~[Cyril] So are we talking about 1K+ just for an audio theme? At this point, I’d rather integrate another set of walls, in my opinion!~
+  + ~[Simon] Agreed.~
+* ~Large Map - should we keep it?  It adds 290 bytes but I think its worth it.~
+  + ~[Cyril] I think it’s redundant with the minimap we constantly have in game.~
+  + ~[Simon] I think it makes it too easy so its gone.~
 * Currently, levelling up only affects AP and DF (not HP).  Should we reinclude HP? Toggle LEVEL_UP_INC_HP.
   + [Cyril] I’d be up for it, but I’m ok leaving it out as well if that’s a problem.
   + [Simon] Its not a problem but we a person can accumulate a lot of HP points so getting 1 when leveling up is not valuable.  Getting AP and DF is.
@@ -33,24 +33,24 @@ Note: The maximum number of enemies and items must be equal.  If not, the code i
 ### To Do
 
 - [X] ~Create a todo list.~
-- [ ] Revisit the 'defend' logic. 
-- [ ] Move source files into subfolders.
-- [ ] Restructure image files / minimise includes.
+- [X] Revisit the 'defend' logic. 
+- [X] Move source files into subfolders.
+- [X] Restructure image files / minimise includes.
 - [X] ~Include enemy HP / AP / etc metrics.~
 - [X] ~Revisit move enemy logic to incorporate above metrics.~
-- [ ] Change map diagrams to use zero-based tile numbers.
+- [X] Change map diagrams to use zero-based tile numbers.
 - [X] ~Include logic for player dying.~
 - [X] ~Make rotation code optional.~
 - [X] ~Include AP, DF on inventory summary.~
 - [X] ~Change 'Attack' code to use player's AP as maximum random number.~
 - [X] ~Change 'Defend' mode to calculate a HP loss of random up to enemy's AP - random up to player's DF (must be zero or positive).~
-- [ ] Add logic to reset player stats when starting a second game.
+- [X] Add logic to reset player stats when starting a second game.
 - [X] Fix enemy HP bar to handle values greater than 10 (need floating point values)
 
 
 ### Known Bugs
 
-- [ ] Tried the new build: there is a bug: when you die and restart, your HP doesn’t get reset. Right now, the game is rather brutal!
+- [X] Tried the new build: there is a bug: when you die and restart, your HP doesn’t get reset. Right now, the game is rather brutal!
 - [X] ~The scroll image is reversed (black on white instead of white on black)~
 - [X] ~The small enemy images are not always rendered.~
 
