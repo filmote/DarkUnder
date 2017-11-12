@@ -185,8 +185,8 @@ uint16_t battleLoop() {
  
       {
         uint8_t maxHP = enemies[attackingEnemyIdx].getAttackPower() - myHero.getDefence();
-        if (maxHP < 0) maxHP = 1;
-        if (maxHP > 9) maxHP = 9;
+        if (maxHP < 2) maxHP = 2;
+        if (maxHP > 10) maxHP = 10;
         uint8_t hpLoss = random(0, maxHP);   
 
         font3x5.print(F("TAKE "));
