@@ -1,6 +1,3 @@
-#ifndef ARDUBOY2EXT_H
-#define ARDUBOY2EXT_H
-
 #pragma once
 
 #include "Arduboy2.h"
@@ -15,4 +12,4 @@ class Arduboy2Ext : public Arduboy2Base {
      uint8_t justPressedButtons() const;
 
 };
-#endif
+
