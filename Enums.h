@@ -11,6 +11,9 @@
         // Should a level up include HP
 #define LEVEL_UP_INC_HP 
 
+        // Saves 482 bytes of not used.
+#define USE_DISPLACER_SLIME
+
 #define XP_LEVEL_UP                       4
 
 //#define USE_2_WALL_IMAGES     This has been moved to the MapData.h file.  It can be added in manually **if** there is enough room

@@ -62,9 +62,20 @@ uint8_t inventory_action = 0;
 
 // Enemy details ..
 
+#ifdef USE_2_WALL_IMAGES 
+#ifdef USE_DISPLACER_SLIME
 const uint8_t *enemy_images[] = { enemy_beholder, enemy_skeleton, enemy_displacer, enemy_wraith, enemy_dragon, enemy_rat, enemy_slime };
 const uint8_t *enemy_masks[] = { enemy_beholder_Mask, enemy_skeleton_Mask, enemy_displacer_Mask, enemy_wraith_Mask, enemy_dragon_Mask, enemy_rat_Mask, enemy_slime_Mask };
-
+#endif
+#ifndef USE_DISPLACER_SLIME
+const uint8_t *enemy_images[] = { enemy_beholder, enemy_skeleton, nullptr, enemy_wraith, enemy_dragon, enemy_rat, nullptr };
+const uint8_t *enemy_masks[] = { enemy_beholder_Mask, enemy_skeleton_Mask, nullptr, enemy_wraith_Mask, enemy_dragon_Mask, enemy_rat_Mask, nullptr };
+#endif
+#endif
+#ifndef USE_2_WALL_IMAGES    
+const uint8_t *enemy_images[] = { enemy_beholder, enemy_skeleton, enemy_displacer, enemy_wraith, enemy_dragon, enemy_rat, enemy_slime };
+const uint8_t *enemy_masks[] = { enemy_beholder_Mask, enemy_skeleton_Mask, enemy_displacer_Mask, enemy_wraith_Mask, enemy_dragon_Mask, enemy_rat_Mask, enemy_slime_Mask };
+#endif
 
 // Item details ..
 
