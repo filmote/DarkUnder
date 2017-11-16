@@ -38,7 +38,7 @@ const uint8_t *map_tiles[] = { tile_00, tile_01, tile_02, tile_03, tile_04, tile
 const uint8_t *map_images_1[] = { visionBack, closeWallFront, closeGateLocked, closeDoorLocked, closeDoorUnlocked, closeWallLeft, closeWallRight, closeGateLeft, closeGateRight,
                                   midWallFront, midDoorLocked, midDoorLevelLocked, midDoorLevelUnlocked, midWallLeft, midWallRight, midGateLeft, midGateRight,
                                   farGateLocked, farDoorLocked, farDoorUnlocked, farWallLeft, farWallRight };
-const uint8_t *map_images_2[] = { visionBack, closeWallFront_2, closeGateLocked_2, closeDoorLocked_2, closeDoorUnlocked_2, closeWallLeft_2, closeWallRight_2, closeGateLeft_2, closeGateRight_2,
+const uint8_t *map_images_2[] = { visionBack_2, closeWallFront_2, closeGateLocked_2, closeDoorLocked_2, closeDoorUnlocked_2, closeWallLeft_2, closeWallRight_2, closeGateLeft_2, closeGateRight_2,
                                   midWallFront_2, midDoorLocked_2, midDoorLevelLocked_2, midDoorLevelUnlocked_2, midWallLeft_2, midWallRight_2, midGateLeft_2, midGateRight_2,
                                   farGateLocked_2, farDoorLocked_2, farDoorUnlocked_2, farWallLeft_2, farWallRight_2 };
 const uint8_t * const * map_images;
