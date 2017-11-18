@@ -1,6 +1,6 @@
 #pragma once
 
-#define USE_2_WALL_IMAGES
+#undef USE_2_WALL_IMAGES
 #define MAX_LEVEL_COUNT 2
 
 #define ENEMY_BEHOLDER_HP 20
@@ -33,7 +33,7 @@
 #define ENEMY_RAT_XP 1
 #define ENEMY_RAT_MV false
 
-#define ENEMY_SLIME_HP 8
+#define ENEMY_SLIME_HP 1
 #define ENEMY_SLIME_AP 4
 #define ENEMY_SLIME_XP 6
 #define ENEMY_SLIME_MV false
@@ -90,7 +90,7 @@ const uint8_t PROGMEM level_00[] = {
 0,
 1, 4,
 14,
-1, 7, 3,
+6, 7, 55,
 5, 9, 49,
 5, 4, 49,
 2, 4, 5,

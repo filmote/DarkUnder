@@ -16,6 +16,8 @@
 
 #define XP_LEVEL_UP                       4
 
+#define LEVEL_UP_SELECT_PRIZE
+
 //#define USE_2_WALL_IMAGES     This has been moved to the MapData.h file.  It can be added in manually **if** there is enough room
 
 // ----------------------------------------------------------------------------------------------------------------------------------
@@ -121,6 +123,14 @@ enum class GameState : uint8_t {
   DisplayLargeMap
   #endif
 };
+
+#ifdef LEVEL_UP_SELECT_PRIZE
+enum class LevelUpButtons : uint8_t {
+  None,
+  AP,
+  DF
+};
+#endif
 
 enum class SplashButtons : uint8_t {
   Play,

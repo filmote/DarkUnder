@@ -91,6 +91,9 @@ Player myHero;
 
 SplashButtons splashStatus = SplashButtons::Play;
 FightButtons fightButton = FightButtons::Attack;
+#ifdef LEVEL_UP_SELECT_PRIZE
+LevelUpButtons levelUpButton = LevelUpButtons::None;
+#endif
 
 uint8_t level = 0;          // Current map
 uint8_t playerLevel = 1;    // Levelup level
@@ -104,6 +107,7 @@ void setup() {
 
   arduboy.boot();
   arduboy.flashlight();
+  arduboy.setFrameRate(30);
 
   #ifdef USE_SOUNDS
   arduboy.audio.begin();
@@ -128,8 +132,8 @@ void loop() {
   uint16_t delayLength = 0;
   if (!(arduboy.nextFrame())) return;
   
-  arduboy.clear();
   arduboy.pollButtons();
+  arduboy.clear();
   
   switch (gameState) {
 
@@ -230,56 +234,103 @@ uint16_t displayLevelUp() {
 
   arduboy.drawCompressed(23, 5, levelUp, WHITE);
 
-  font3x5.setCursor(20, 40);
-  font3x5.print(F("LEVEL "));
-  font3x5.print(playerLevel);
-  font3x5.setCursor(18, 47);
-  font3x5.print(F("YOU GAIN"));
-  font3x5.setCursor(26, 54);
+  #ifndef LEVEL_UP_SELECT_PRIZE 
 
-  playerLevel++;
-
-  #ifdef LEVEL_UP_INC_HP
-  switch (random(0, 3)) {
-
-    case 0:
-      font3x5.print(F("1 HP"));
-      myHero.setHitPoints(myHero.getHitPoints() + 1);
-      break;
-
-    case 1:
-      font3x5.print(F("1 AP"));
-      myHero.setAttackPower(myHero.getAttackPower() + 1);
-      break;
-
-    case 2:
-      font3x5.print(F("1 DF"));
-      myHero.setDefence(myHero.getDefence() + 1);
-      break;
-
+    font3x5.setCursor(20, 40);
+    font3x5.print(F("LEVEL "));
+    font3x5.print(playerLevel);
+    playerLevel++;
     
-  }
-  #endif
+    font3x5.setCursor(18, 47);
+    font3x5.print(F("YOU GAIN"));
+    font3x5.setCursor(26, 54);
 
-  #ifndef LEVEL_UP_INC_HP
-  switch (random(0, 2)) {
+    #ifdef LEVEL_UP_INC_HP
+      switch (random(0, 3)) {
 
-    case 0:
-      font3x5.print(F("1 AP"));
-      myHero.setAttackPower(myHero.getAttackPower() + 1);
-      break;
+        case 0:
+          font3x5.print(F("1 HP"));
+          myHero.setHitPoints(myHero.getHitPoints() + 1);
+          break;
 
-    case 1:
-      font3x5.print(F("1 DF"));
-      myHero.setDefence(myHero.getDefence() + 1);
-      break;
+        case 1:
+          font3x5.print(F("1 AP"));
+          myHero.setAttackPower(myHero.getAttackPower() + 1);
+          break;
 
-    
-  }
-  #endif
+        case 2:
+          font3x5.print(F("1 DF"));
+          myHero.setDefence(myHero.getDefence() + 1);
+          break;
+
+        
+      }
+    #endif
+
+    #ifndef LEVEL_UP_INC_HP
+      switch (random(0, 2)) {
+
+        case 0:
+          font3x5.print(F("1 AP"));
+          myHero.setAttackPower(myHero.getAttackPower() + 1);
+          break;
+
+        case 1:
+          font3x5.print(F("1 DF"));
+          myHero.setDefence(myHero.getDefence() + 1);
+          break;
+
+        
+      }
+    #endif
+
+    gameState = GameState::Move; 
+    return LEVEL_UP_DELAY;
   
-  gameState = GameState::Move; 
-  return LEVEL_UP_DELAY;
+  #endif
+
+  #ifdef LEVEL_UP_SELECT_PRIZE
+    
+    uint8_t buttons = arduboy.justPressedButtons();
+  
+    switch (levelUpButton) {
+
+      case LevelUpButtons::None:
+
+        font3x5.setCursor(20, 42);
+        font3x5.print(F("LEVEL "));
+        font3x5.print(playerLevel);
+        font3x5.setCursor(9, 50);
+        font3x5.print(F("CHOOSE BONUS"));
+        playerLevel++;
+
+        levelUpButton = LevelUpButtons::AP;
+        return LEVEL_UP_DELAY;
+
+      default:
+        font3x5.setCursor(23, 42);
+        font3x5.print(F("ATTACK"));
+        font3x5.setCursor(23, 50);
+        font3x5.print(F("DEFENCE"));
+        break;
+
+    }
+
+    if (levelUpButton == LevelUpButtons::AP) {
+      Sprites::drawSelfMasked(17, 43, hMarker, 0);
+    }
+    else {
+      Sprites::drawSelfMasked(17, 51, hMarker, 0);
+    }  
+
+    if ((buttons & UP_BUTTON_MASK) && levelUpButton == LevelUpButtons::DF)             { levelUpButton = LevelUpButtons::AP; }
+    else if ((buttons & DOWN_BUTTON_MASK) && levelUpButton == LevelUpButtons::AP)      { levelUpButton = LevelUpButtons::DF; }
+    else if ((buttons & A_BUTTON_MASK) && levelUpButton == LevelUpButtons::AP)         { myHero.setAttackPower(myHero.getAttackPower() + 1); levelUpButton = LevelUpButtons::None, gameState = GameState::Move; }
+    else if ((buttons & A_BUTTON_MASK) && levelUpButton == LevelUpButtons::DF)         { myHero.setDefence(myHero.getDefence() + 1); levelUpButton = LevelUpButtons::None, gameState = GameState::Move; }
+    
+  #endif
+
+  return 0;
 
 }
 
