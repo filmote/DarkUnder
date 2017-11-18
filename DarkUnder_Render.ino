@@ -488,7 +488,13 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
             case ItemType::Scroll:
               text = F("A SCROLL");
               break;
-              
+
+            #ifdef USE_SHIELD_ITEM
+            case ItemType::Shield:
+              text = F("A SHIELD");
+              break;
+            #endif
+
             default: break;
 
           }

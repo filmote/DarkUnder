@@ -79,7 +79,12 @@ const uint8_t *enemy_masks[] = { enemy_beholder_Mask, enemy_skeleton_Mask, enemy
 
 // Item details ..
 
+#ifndef USE_SHIELD_ITEM
 const uint8_t *item_images[] = { NULL, item_key, item_potion, item_mascroll };
+#endif
+#ifdef USE_SHIELD_ITEM
+const uint8_t *item_images[] = { NULL, item_key, item_potion, item_mascroll, item_shield };
+#endif
 uint8_t itemAction = 0;
 uint8_t savedItem = 0;
 

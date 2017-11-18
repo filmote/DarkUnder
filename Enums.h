@@ -18,6 +18,8 @@
 
 #define LEVEL_UP_SELECT_PRIZE
 
+#define USE_SHIELD_ITEM
+
 //#define USE_2_WALL_IMAGES     This has been moved to the MapData.h file.  It can be added in manually **if** there is enough room
 
 // ----------------------------------------------------------------------------------------------------------------------------------
