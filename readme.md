@@ -46,7 +46,10 @@ Note: The maximum number of enemies and items must be equal.  If not, the code i
 - [X] ~Change 'Defend' mode to calculate a HP loss of random up to enemy's AP - random up to player's DF (must be zero or positive).~
 - [X] Add logic to reset player stats when starting a second game.
 - [X] Fix enemy HP bar to handle values greater than 10 (need floating point values)
-
+- [X] A shield item that adds to your DF.  **Need an image**
+- [X] You can select either a DF or HP on leveling up.  **Can you guys look at how I have done this and comment.**
+- [ ] HP will be capped at (say) 50 points. I will make this configurable.  **Should this be configurable per level or overall?**
+- [ ] The level up limit is defined as part of the level definition.
 
 ### Known Bugs
 

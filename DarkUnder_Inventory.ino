@@ -28,8 +28,8 @@ uint16_t inventoryLoop() {
   #ifndef USE_LARGE_MAP
   drawMapAndStatistics(&myHero, &myLevel);
   #endif
-  
-  // TODO: Attempted to roll the rendering below with the selector using an 'if (i == inventory_selection) ..' added 46 bytes.
+
+  #ifndef SAVE_GAME
   for (uint8_t i = 0; i < 5; ++i) {
 
     if (myHero.getInventory(i) != ItemType::None) {
@@ -42,6 +42,27 @@ uint16_t inventoryLoop() {
     }
 
   }
+  #endif
+  #ifdef SAVE_GAME
+  for (uint8_t i = 0; i < 3; ++i) {
+
+    if (myHero.getInventory(i) != ItemType::None) {
+
+      Point inventoryCoords = inventory_Coords[i];
+
+      arduboy.fillRect(inventoryCoords.x, inventoryCoords.y, 14, 16, BLACK);
+      arduboy.drawCompressed(inventoryCoords.x, inventoryCoords.y, inventory_images[(uint8_t)myHero.getInventory(i)], WHITE);
+      
+    }
+
+    arduboy.fillRect(inventory_Coords[3].x, inventory_Coords[3].y, 14, 16, BLACK);
+    arduboy.drawCompressed(inventory_Coords[3].x, inventory_Coords[3].y, inv_save, WHITE);
+
+    arduboy.fillRect(inventory_Coords[4].x, inventory_Coords[4].y, 14, 16, BLACK);
+    arduboy.drawCompressed(inventory_Coords[4].x, inventory_Coords[4].y, inv_restore, WHITE);
+    
+  }
+  #endif
 
 
   // Render selector ..
@@ -70,9 +91,37 @@ uint16_t inventoryLoop() {
       else if (buttons & BACK_BUTTON_MASK)                                   { gameState = savedState;}
 
       else if (buttons & SELECT_BUTTON_MASK) { 
-        if (myHero.getInventory(inventory_selection) != ItemType::None) {
-          gameState = GameState::InventoryAction;
+
+        #ifdef SAVE_GAME
+        if (inventory_selection == 3) {
+          saveGame();
+          font3x5.setCursor(90, 44);
+          font3x5.print(F(" GAME\nSAVED!"));
+          return ITEM_DELAY;
         }
+        else if (inventory_selection == 4) {
+          if (getLevel() == 255) {
+            font3x5.setCursor(86, 44);
+            font3x5.print(F("NO GAME\n SAVED"));
+          }
+          else {
+            restoreGame();
+            font3x5.setCursor(86, 44);
+            font3x5.print(F("  GAME\nRESTORED"));
+          }            
+          return ITEM_DELAY;
+        }
+        else {
+        #endif
+
+          if (myHero.getInventory(inventory_selection) != ItemType::None) {
+            gameState = GameState::InventoryAction;
+          }
+
+        #ifdef SAVE_GAME
+        }
+        #endif
+
       }
 
       break;
@@ -89,7 +138,7 @@ uint16_t inventoryLoop() {
       else if (buttons & SELECT_BUTTON_MASK) { 
         
         if (inventory_action == INVENTORY_ACTION_USE) {
-        
+
           switch (myHero.getInventory(inventory_selection)) {
 
             case ItemType::Key:

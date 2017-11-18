@@ -120,9 +120,15 @@ void setup() {
   
   arduboy.initRandomSeed();  
   myLevel.setMapTiles(map_tiles);
+  
   #ifdef USE_2_WALL_IMAGES                               
   map_images = map_images_1;
   #endif
+
+  #ifdef SAVE_GAME
+  initEEPROM();
+  #endif
+  
   initialiseGame();
   
 }

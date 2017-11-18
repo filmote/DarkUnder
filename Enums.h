@@ -20,6 +20,8 @@
 
 #define USE_SHIELD_ITEM
 
+#define SAVE_GAME
+
 //#define USE_2_WALL_IMAGES     This has been moved to the MapData.h file.  It can be added in manually **if** there is enough room
 
 // ----------------------------------------------------------------------------------------------------------------------------------
