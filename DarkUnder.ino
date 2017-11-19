@@ -77,14 +77,10 @@ const uint8_t *enemy_images[] = { enemy_beholder, enemy_skeleton, enemy_displace
 const uint8_t *enemy_masks[] = { enemy_beholder_Mask, enemy_skeleton_Mask, enemy_displacer_Mask, enemy_wraith_Mask, enemy_dragon_Mask, enemy_rat_Mask, enemy_slime_Mask };
 #endif
 
+
 // Item details ..
 
-#ifndef USE_SHIELD_ITEM
-const uint8_t *item_images[] = { NULL, item_key, item_potion, item_mascroll };
-#endif
-#ifdef USE_SHIELD_ITEM
-const uint8_t *item_images[] = { NULL, item_key, item_potion, item_mascroll, item_shield };
-#endif
+const uint8_t *item_images[] = { NULL, item_key, item_potion, item_mascroll, item_shield, item_sword };
 uint8_t itemAction = 0;
 uint8_t savedItem = 0;
 
@@ -128,7 +124,7 @@ void setup() {
   #ifdef SAVE_GAME
   initEEPROM();
   #endif
-  
+
   initialiseGame();
   
 }

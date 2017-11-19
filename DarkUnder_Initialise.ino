@@ -153,10 +153,19 @@ uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t
 
 #ifdef SAVE_GAME
 
-#define EEPROM_START            EEPROM_STORAGE_SPACE_START 
+#define EEPROM_START            EEPROM_STORAGE_SPACE_START + 100
 #define EEPROM_START_C1         EEPROM_START
 #define EEPROM_START_C2         EEPROM_START + 1
 #define EEPROM_LEVEL_NO         EEPROM_START + 2
+#define EEPROM_PLAYER_LEVEL     EEPROM_START + 3
+#define EEPROM_PLAYER_START     EEPROM_START + 4
+#define EEPROM_PLAYER_LENGTH    12
+#define EEPROM_ENEMY_START      EEPROM_PLAYER_START + EEPROM_PLAYER_LENGTH
+#define EEPROM_ENEMY_LENGTH     7
+#define EEPROM_ITEM_LENGTH      4
+#define EEPROM_DOOR_LENGTH      4
+
+
 #define EEPROM_PLAYER_X         EEPROM_START + 3
 #define EEPROM_PLAYER_Y         EEPROM_START + 4
 #define EEPROM_PLAYER_ROT       EEPROM_START + 5
@@ -164,7 +173,6 @@ uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t
 #define EEPROM_PLAYER_AP        EEPROM_START + 7
 #define EEPROM_PLAYER_DF        EEPROM_START + 8
 #define EEPROM_PLAYER_XP        EEPROM_START + 9
-#define EEPROM_PLAYER_LEVEL     EEPROM_START + 10
 #define EEPROM_PLAYER_INV_0     EEPROM_START + 11
 #define EEPROM_PLAYER_INV_1     EEPROM_START + 12
 #define EEPROM_PLAYER_INV_2     EEPROM_START + 13
@@ -201,36 +209,24 @@ uint8_t getLevel() {
 void saveGame() {
 
   EEPROM.update(EEPROM_LEVEL_NO, level);
-  EEPROM.update(EEPROM_PLAYER_X, myHero.getX());
-  EEPROM.update(EEPROM_PLAYER_Y, myHero.getY());
-  EEPROM.update(EEPROM_PLAYER_ROT, (uint8_t)myHero.getDirection());
-
-  EEPROM.update(EEPROM_PLAYER_HP, myHero.getHitPoints());
-  EEPROM.update(EEPROM_PLAYER_AP, myHero.getAttackPower());
-  EEPROM.update(EEPROM_PLAYER_DF, myHero.getDefence());
-  EEPROM.update(EEPROM_PLAYER_XP, myHero.getExperiencePoints());
   EEPROM.update(EEPROM_PLAYER_LEVEL, playerLevel);
-  
-  EEPROM.update(EEPROM_PLAYER_INV_0, (uint8_t)myHero.getInventory(0));
-  EEPROM.update(EEPROM_PLAYER_INV_1, (uint8_t)myHero.getInventory(1));
-  EEPROM.update(EEPROM_PLAYER_INV_2, (uint8_t)myHero.getInventory(2));
+  EEPROM.put(EEPROM_PLAYER_START, myHero);
 
-  uint16_t loc = EEPROM_PLAYER_INV_2 + 1;
+  uint16_t loc = EEPROM_ENEMY_START;
 
   for (int i = 0; i < NUMBER_OF_ENEMIES; i++) {
-    EEPROM.update(loc, (uint8_t)enemies[i].getEnemyType());
-    EEPROM.update(loc + 1, enemies[i].getX());
-    EEPROM.update(loc + 2, enemies[i].getY());
-    EEPROM.update(loc + 3, (enemies[i].getEnabled() ? 1 : 0));
-    loc = loc + 4;
+    EEPROM.put(loc, enemies[i]);
+    loc = loc + EEPROM_ENEMY_LENGTH;
   }
 
   for (int i = 0; i < NUMBER_OF_ITEMS; i++) {
-    EEPROM.update(loc, (uint8_t)items[i].getItemType());
-    EEPROM.update(loc + 1, items[i].getX());
-    EEPROM.update(loc + 2, items[i].getY());
-    EEPROM.update(loc + 3, (items[i].getEnabled() ? 1 : 0));
-    loc = loc + 4;
+    EEPROM.put(loc, items[i]);
+    loc = loc + EEPROM_ITEM_LENGTH;
+  }
+
+  for (int i = 0; i < NUMBER_OF_DOORS; i++) {
+    EEPROM.put(loc, doors[i]);
+    loc = loc + EEPROM_DOOR_LENGTH;
   }
 
 }
@@ -239,39 +235,33 @@ void saveGame() {
 void restoreGame() {
 
   level = EEPROM.read(EEPROM_LEVEL_NO);
-
-  initialiseLevel(&myHero, &myLevel, levels[level]);
-
-  myHero.setX(EEPROM.read(EEPROM_PLAYER_X));
-  myHero.setY(EEPROM.read(EEPROM_PLAYER_Y));
-  myHero.setDirection((Direction)EEPROM.read(EEPROM_PLAYER_ROT));
-
-  myHero.setHitPoints(EEPROM.read(EEPROM_PLAYER_HP));
-  myHero.setAttackPower(EEPROM.read(EEPROM_PLAYER_AP));
-  myHero.setDefence(EEPROM.read(EEPROM_PLAYER_DF));
-  myHero.setExperiencePoints(EEPROM.read(EEPROM_PLAYER_XP));
   playerLevel = EEPROM.read(EEPROM_PLAYER_LEVEL);
   
-  myHero.setInventory(0, (ItemType)EEPROM.read(EEPROM_PLAYER_INV_0));
-  myHero.setInventory(1, (ItemType)EEPROM.read(EEPROM_PLAYER_INV_1));
-  myHero.setInventory(2, (ItemType)EEPROM.read(EEPROM_PLAYER_INV_2));
+  initialiseLevel(&myHero, &myLevel, levels[level]);
 
-  uint16_t loc = EEPROM_PLAYER_INV_2 + 1;
+  EEPROM.get(EEPROM_PLAYER_START, myHero);
+
+  uint16_t loc = EEPROM_ENEMY_START;
 
   for (int i = 0; i < NUMBER_OF_ENEMIES; i++) {
-    enemies[i].setEnemyType((EnemyType)EEPROM.read(loc));
-    enemies[i].setX(EEPROM.read(loc + 1));
-    enemies[i].setY(EEPROM.read(loc + 2));
-    enemies[i].setEnabled(EEPROM.read(loc + 3) == 1);
-    loc = loc + 4;
+    Enemy enemy;
+    EEPROM.get(loc, enemy);
+    enemies[i] = enemy;
+    loc = loc + EEPROM_ENEMY_LENGTH;
   }
 
   for (int i = 0; i < NUMBER_OF_ITEMS; i++) {
-    items[i].setItemType((ItemType)EEPROM.read(loc));
-    items[i].setX(EEPROM.read(loc + 1));
-    items[i].setY(EEPROM.read(loc + 2));
-    items[i].setEnabled(EEPROM.read(loc + 3) == 1);
-    loc = loc + 4;
+    Item item;
+    EEPROM.get(loc, item);
+    items[i] = item;
+    loc = loc + EEPROM_ITEM_LENGTH;
+  }
+
+  for (int i = 0; i < NUMBER_OF_DOORS; i++) {
+    Item door;
+    EEPROM.get(loc, door);
+    doors[i] = door;
+    loc = loc + EEPROM_DOOR_LENGTH;
   }
 
 }

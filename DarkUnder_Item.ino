@@ -46,35 +46,35 @@ uint16_t itemLoop() {
   
         ItemType inventoryType = items[savedItem].getItemType();
         int8_t inventorySlot = myHero.getConsumableSlot();
-        
-        #ifdef USE_SHIELD_ITEM
-          if (inventoryType == ItemType::Shield) {
+      
+        if (inventoryType == ItemType::Shield || inventoryType == ItemType::Sword) {
 
-            myHero.setDefence(myHero.getDefence() + 1);
+          if (inventoryType == ItemType::Shield)  myHero.setDefence(myHero.getDefence() + 1);
+          if (inventoryType == ItemType::Sword)   myHero.setAttackPower(myHero.getAttackPower() + 1);
+
+          items[savedItem].setEnabled(false);
+          gameState = GameState::Move;
+
+        }
+        else {
+          if (inventorySlot >= 0) {
+    
+            myHero.setInventory(inventorySlot, inventoryType);
             items[savedItem].setEnabled(false);
             gameState = GameState::Move;
-
+            
           }
           else {
-        #endif
-            if (inventorySlot >= 0) {
-      
-              myHero.setInventory(inventorySlot, inventoryType);
-              items[savedItem].setEnabled(false);
-              gameState = GameState::Move;
-              
-            }
-            else {
-            
-              font3x5.setCursor(95, 44);
-              font3x5.print(F("NO INV\nSLOTS!"));
-              return ITEM_DELAY;
-      
-            }
-        #ifdef USE_SHIELD_ITEM
-          }
-        #endif
           
+            font3x5.setCursor(95, 44);
+            font3x5.print(F("NO INV\nSLOTS!"));
+            return ITEM_DELAY;
+    
+          }
+
+        }
+
+        
       }
   
       if (itemAction == ITEM_ACTION_DROP)  { 

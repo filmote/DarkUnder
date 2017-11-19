@@ -464,7 +464,9 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
           
           if (itemType == ItemType::Key)          { offsetX = 20; offsetY = 20; }
           else if (itemType == ItemType::Scroll)  { offsetX = 20; offsetY = 18; }
-
+          else if (itemType == ItemType::Shield)  { offsetX = 20; offsetY = 18; }
+          else if (itemType == ItemType::Sword)   { offsetX = 20; offsetY = 18; }
+          
           arduboy.fillRect(14, 11, 41, 43, BLACK);
           arduboy.fillRect(15, 12, 39, 41, WHITE);
           arduboy.drawCompressed(offsetX, offsetY, item_images[(uint8_t)itemType], BLACK);
@@ -489,11 +491,13 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
               text = F("A SCROLL");
               break;
 
-            #ifdef USE_SHIELD_ITEM
             case ItemType::Shield:
               text = F("A SHIELD");
               break;
-            #endif
+
+            case ItemType::Sword:
+              text = F(" A SWORD");
+              break;
 
             default: break;
 

@@ -2,6 +2,7 @@
 
 #undef USE_2_WALL_IMAGES
 #define MAX_LEVEL_COUNT 2
+#define SAVE_GAME
 
 #define ENEMY_BEHOLDER_HP 20
 #define ENEMY_BEHOLDER_AP 12
@@ -105,7 +106,7 @@ const uint8_t PROGMEM level_00[] = {
 5, 1, 40,
 6, 7, 41,
 13,
-4, 9, 56,
+5, 9, 56,
 3, 6, 6,
 2, 5, 11,
 3, 13, 12,

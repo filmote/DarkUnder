@@ -54,12 +54,6 @@ uint16_t inventoryLoop() {
       arduboy.drawCompressed(inventoryCoords.x, inventoryCoords.y, inventory_images[(uint8_t)myHero.getInventory(i)], WHITE);
       
     }
-
-    arduboy.fillRect(inventory_Coords[3].x, inventory_Coords[3].y, 14, 16, BLACK);
-    arduboy.drawCompressed(inventory_Coords[3].x, inventory_Coords[3].y, inv_save, WHITE);
-
-    arduboy.fillRect(inventory_Coords[4].x, inventory_Coords[4].y, 14, 16, BLACK);
-    arduboy.drawCompressed(inventory_Coords[4].x, inventory_Coords[4].y, inv_restore, WHITE);
     
   }
   #endif
@@ -86,8 +80,16 @@ uint16_t inventoryLoop() {
 
     case GameState::InventorySelect:
 
+      #ifndef SAVE_GAME
+      if ((buttons & LEFT_BUTTON_MASK) && inventory_selection > 0)           { --inventory_selection; }
+      else if ((buttons & RIGHT_BUTTON_MASK) && inventory_selection < 2)     { ++inventory_selection; }
+      #endif
+
+      #ifdef SAVE_GAME
       if ((buttons & LEFT_BUTTON_MASK) && inventory_selection > 0)           { --inventory_selection; }
       else if ((buttons & RIGHT_BUTTON_MASK) && inventory_selection < 4)     { ++inventory_selection; }
+      #endif
+      
       else if (buttons & BACK_BUTTON_MASK)                                   { gameState = savedState;}
 
       else if (buttons & SELECT_BUTTON_MASK) { 
