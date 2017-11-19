@@ -200,12 +200,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
   if (horizon2Plus) {
     if ((MapElement)myLevel->getMapElement(playerX + farRightX, playerY + farRightY) > MapElement::Floor) {
-     #ifdef USE_2_WALL_IMAGES    
-     Sprites::drawOverwrite(VISION_X_OFFSET + 34 + (level % 2 == 0 ? 0 : 1), VISION_Y_OFFSET + 23, map_images[MAP_IMAGE_FAR_RIGHT], 0);
-     #endif
-     #ifndef USE_2_WALL_IMAGES    
      Sprites::drawOverwrite(VISION_X_OFFSET + 35, VISION_Y_OFFSET + 23, map_images[MAP_IMAGE_FAR_RIGHT], 0);
-     #endif
     }
   }
  

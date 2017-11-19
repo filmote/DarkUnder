@@ -33,21 +33,9 @@ uint8_t attackingEnemyIdx = 0;
 const uint8_t *levels[] =    { level_00, level_01, level_02, level_03, level_04, level_05, level_06, level_07, level_08, level_09 };
 const uint8_t *map_tiles[] = { tile_00, tile_01, tile_02, tile_03, tile_04, tile_05, tile_06, tile_07, tile_08, tile_09, 
                                tile_10, tile_11, tile_12, tile_13, tile_14, tile_15, tile_16, tile_17, tile_18, tile_19 };
-
-#ifdef USE_2_WALL_IMAGES                               
-const uint8_t *map_images_1[] = { visionBack, closeWallFront, closeGateLocked, closeDoorLocked, closeDoorUnlocked, closeWallLeft, closeWallRight, closeGateLeft, closeGateRight,
-                                  midWallFront, midDoorLocked, midDoorLevelLocked, midDoorLevelUnlocked, midWallLeft, midWallRight, midGateLeft, midGateRight,
-                                  farGateLocked, farDoorLocked, farDoorUnlocked, farWallLeft, farWallRight };
-const uint8_t *map_images_2[] = { visionBack_2, closeWallFront_2, closeGateLocked_2, closeDoorLocked_2, closeDoorUnlocked_2, closeWallLeft_2, closeWallRight_2, closeGateLeft_2, closeGateRight_2,
-                                  midWallFront_2, midDoorLocked_2, midDoorLevelLocked_2, midDoorLevelUnlocked_2, midWallLeft_2, midWallRight_2, midGateLeft_2, midGateRight_2,
-                                  farGateLocked_2, farDoorLocked_2, farDoorUnlocked_2, farWallLeft_2, farWallRight_2 };
-const uint8_t * const * map_images;
-#endif
-#ifndef USE_2_WALL_IMAGES                               
 const uint8_t *map_images[] = { visionBack, closeWallFront, closeGateLocked, closeDoorLocked, closeDoorUnlocked, closeWallLeft, closeWallRight, closeGateLeft, closeGateRight,
                                 midWallFront, midDoorLocked, midDoorLevelLocked, midDoorLevelUnlocked, midWallLeft, midWallRight, midGateLeft, midGateRight,
                                 farGateLocked, farDoorLocked, farDoorUnlocked, farWallLeft, farWallRight };
-#endif
 
 const uint8_t *direction_images[] = { directionN, directionE, directionS, directionW };
 
@@ -62,20 +50,8 @@ uint8_t inventory_action = 0;
 
 // Enemy details ..
 
-#ifdef USE_2_WALL_IMAGES 
-#ifdef USE_DISPLACER_SLIME
 const uint8_t *enemy_images[] = { enemy_beholder, enemy_skeleton, enemy_displacer, enemy_wraith, enemy_dragon, enemy_rat, enemy_slime };
 const uint8_t *enemy_masks[] = { enemy_beholder_Mask, enemy_skeleton_Mask, enemy_displacer_Mask, enemy_wraith_Mask, enemy_dragon_Mask, enemy_rat_Mask, enemy_slime_Mask };
-#endif
-#ifndef USE_DISPLACER_SLIME
-const uint8_t *enemy_images[] = { enemy_beholder, enemy_skeleton, nullptr, enemy_wraith, enemy_dragon, enemy_rat, nullptr };
-const uint8_t *enemy_masks[] = { enemy_beholder_Mask, enemy_skeleton_Mask, nullptr, enemy_wraith_Mask, enemy_dragon_Mask, enemy_rat_Mask, nullptr };
-#endif
-#endif
-#ifndef USE_2_WALL_IMAGES    
-const uint8_t *enemy_images[] = { enemy_beholder, enemy_skeleton, enemy_displacer, enemy_wraith, enemy_dragon, enemy_rat, enemy_slime };
-const uint8_t *enemy_masks[] = { enemy_beholder_Mask, enemy_skeleton_Mask, enemy_displacer_Mask, enemy_wraith_Mask, enemy_dragon_Mask, enemy_rat_Mask, enemy_slime_Mask };
-#endif
 
 
 // Item details ..
@@ -116,10 +92,6 @@ void setup() {
   
   arduboy.initRandomSeed();  
   myLevel.setMapTiles(map_tiles);
-  
-  #ifdef USE_2_WALL_IMAGES                               
-  map_images = map_images_1;
-  #endif
 
   #ifdef SAVE_GAME
   initEEPROM();
@@ -364,9 +336,6 @@ void displayNextLevel() {
   if (buttons) { 
   
     level++;
-    #ifdef USE_2_WALL_IMAGES    
-    map_images = (level % 2 == 0 ? map_images_1 : map_images_2);
-    #endif
     gameState = GameState::Move; 
     initialiseLevel(&myHero, &myLevel, levels[level]);
   

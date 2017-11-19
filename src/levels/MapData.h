@@ -1,6 +1,5 @@
 #pragma once
 
-#undef USE_2_WALL_IMAGES
 #define MAX_LEVEL_COUNT 2
 #define SAVE_GAME
 

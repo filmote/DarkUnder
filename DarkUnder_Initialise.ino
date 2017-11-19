@@ -166,18 +166,6 @@ uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t
 #define EEPROM_DOOR_LENGTH      4
 
 
-#define EEPROM_PLAYER_X         EEPROM_START + 3
-#define EEPROM_PLAYER_Y         EEPROM_START + 4
-#define EEPROM_PLAYER_ROT       EEPROM_START + 5
-#define EEPROM_PLAYER_HP        EEPROM_START + 6
-#define EEPROM_PLAYER_AP        EEPROM_START + 7
-#define EEPROM_PLAYER_DF        EEPROM_START + 8
-#define EEPROM_PLAYER_XP        EEPROM_START + 9
-#define EEPROM_PLAYER_INV_0     EEPROM_START + 11
-#define EEPROM_PLAYER_INV_1     EEPROM_START + 12
-#define EEPROM_PLAYER_INV_2     EEPROM_START + 13
-
-
 /* ----------------------------------------------------------------------------
  *   Is the EEPROM initialised? 
  *   
@@ -200,12 +188,20 @@ bool initEEPROM() {
 
 }
 
+
+/* -----------------------------------------------------------------------------
+ *   Get the current level number. Should return 255 if no level has been saved.
+ */
 uint8_t getLevel() {
 
   return EEPROM.read(EEPROM_LEVEL_NO);
 
 }
 
+
+/* -----------------------------------------------------------------------------
+ *   Save game state. 
+ */
 void saveGame() {
 
   EEPROM.update(EEPROM_LEVEL_NO, level);
@@ -232,6 +228,9 @@ void saveGame() {
 }
 
 
+/* -----------------------------------------------------------------------------
+ *   Restore game state. 
+ */
 void restoreGame() {
 
   level = EEPROM.read(EEPROM_LEVEL_NO);
