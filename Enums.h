@@ -11,8 +11,6 @@
         // Should a level up include HP
 #define LEVEL_UP_INC_HP 
 
-#define XP_LEVEL_UP                       4
-
 #define LEVEL_UP_SELECT_PRIZE
 
 // ----------------------------------------------------------------------------------------------------------------------------------

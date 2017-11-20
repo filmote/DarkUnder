@@ -68,7 +68,7 @@ uint16_t battleLoop() {
         font3x5.print(xp);
         myHero.setExperiencePoints(myHero.getExperiencePoints() + xp);
 
-        if (myHero.getExperiencePoints() >= XP_LEVEL_UP) {
+        if (myHero.getExperiencePoints() >= LEVEL_UP) {
           myHero.setExperiencePoints(0);
           gameState = GameState::LevelUp;
         }

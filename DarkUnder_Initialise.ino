@@ -6,9 +6,9 @@
  */
 void initialiseGame() {
 
-  myHero.setHitPoints(15);
-  myHero.setDefence(2);
-  myHero.setAttackPower(2);
+  myHero.setHitPoints(START_HP);
+  myHero.setDefence(START_DF);
+  myHero.setAttackPower(START_AP);
   
   myHero.setInventory(0, ItemType::None);
   myHero.setInventory(1, ItemType::None);

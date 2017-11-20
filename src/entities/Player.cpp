@@ -1,6 +1,7 @@
 #include <Arduboy2.h>
 #include "Player.h"
 #include "../../Enums.h"
+#include "../levels/MapData.h"
 
 Player::Player() : Base() { }
 
@@ -11,7 +12,7 @@ uint8_t Player::getExperiencePoints()                     { return _experiencePo
 Direction Player::getDirection()                          { return _direction; }
 ItemType Player::getInventory(uint8_t slot)               { return _inventory[slot]; }
 
-void Player::setHitPoints(const uint8_t value)            { _hitPoints = value; }
+void Player::setHitPoints(const uint8_t value)            { _hitPoints = (value > MAX_HP ? MAX_HP : value); }
 void Player::setDefence(const uint8_t value)              { _defence = value; }
 void Player::setAttackPower(const uint8_t value)          { _attackPower = value; }
 void Player::setExperiencePoints(const uint8_t value)     { _experiencePoints = value; }

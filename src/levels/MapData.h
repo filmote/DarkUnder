@@ -2,6 +2,11 @@
 
 #define MAX_LEVEL_COUNT 2
 #define SAVE_GAME
+#define START_HP 15
+#define START_AP 2
+#define START_DF 2
+#define MAX_HP   50
+#define LEVEL_UP 50
 
 #define ENEMY_BEHOLDER_HP 20
 #define ENEMY_BEHOLDER_AP 12
