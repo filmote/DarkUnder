@@ -85,7 +85,7 @@
 #define INVENTORY_POSITION_3              Point{45, 8}
 #define INVENTORY_POSITION_4              Point{28, 35}
 #define INVENTORY_POSITION_5              Point{45, 35}
-#define INVENTORY_POTION_HP_INC           5
+#define INVENTORY_POTION_HP_INC           7
 
 #define ITEM_DELAY                        1500
 #define ITEM_ACTION_USE                   0
