@@ -69,7 +69,7 @@ uint16_t battleLoop() {
         myHero.setExperiencePoints(myHero.getExperiencePoints() + xp);
 
         if (myHero.getExperiencePoints() >= LEVEL_UP) {
-          myHero.setExperiencePoints(0);
+          myHero.setExperiencePoints(myHero.getExperiencePoints() - LEVEL_UP);
           gameState = GameState::LevelUp;
         }
         else {
