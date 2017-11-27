@@ -376,7 +376,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
   }
 
-  if (!renderMiddleFront && !rendered) {
+  if (!renderCloseFront && !renderMiddleFront && !rendered) {
 
     for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
     
@@ -388,7 +388,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
         int8_t offsetY = offsetYTable[selector] * 3;
         
         if (enemy.getX() == playerX + offsetX && enemy.getY() == playerY + offsetY) {
-
+          
           Sprites::drawOverwrite(30, 28, enemy_three_tiles, 0);
           break;
 

@@ -12,7 +12,7 @@ uint8_t Enemy::getExperiencePoints()                      { return _experiencePo
 bool Enemy::getEnabled()                                  { return ((_flags & 0x80) > 0); }
 bool Enemy::getMoving()                                   { return ((_flags & 0x40) > 0); }
 
-void Enemy::setEnemyType(const EnemyType value)           { _flags = (_flags & 0xCF) | ((uint8_t)value); }
+void Enemy::setEnemyType(const EnemyType value)           { _flags = (_flags & 0xC0) | ((uint8_t)value); }
 void Enemy::setHitPoints(const uint8_t value)             { _hitPoints = value; }
 void Enemy::setHitPointsMax(const uint8_t value)          { _hitPointsMax = value; }
 void Enemy::setAttackPower(const uint8_t value)           { _attackPower = value; }
