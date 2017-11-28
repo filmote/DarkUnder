@@ -761,6 +761,9 @@ void drawEnemyHitPointsBar(uint8_t hitPoints, uint8_t hitPointsMax) {
   arduboy.drawCompressed(3, 49, fight_HP_bar_Mask, BLACK);
   arduboy.drawCompressed(3, 49, fight_HP_bar, WHITE);
   
+  if(hitPoints == 0)
+    return;
+  
   const uint32_t hp = static_cast<uint32_t>(hitPoints) << 16; // U16x16
   const uint16_t hpMax = static_cast<uint16_t>(hitPointsMax) << 8; // U8x8
   const uint32_t divResult = hp / hpMax; // U8x8
