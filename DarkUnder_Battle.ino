@@ -168,7 +168,13 @@ uint16_t battleLoop() {
         font3x5.print(F(" DAMAGE!\n"));
         font3x5.setCursor(32, 24);
         font3x5.print(hpLoss);
-        if (enemies[attackingEnemyIdx].getHitPoints() > hpLoss) { enemies[attackingEnemyIdx].setHitPoints(enemies[attackingEnemyIdx].getHitPoints() - hpLoss); } else { enemies[attackingEnemyIdx].setEnabled(false); }
+        if (enemies[attackingEnemyIdx].getHitPoints() > hpLoss) {
+            enemies[attackingEnemyIdx].setHitPoints(enemies[attackingEnemyIdx].getHitPoints() - hpLoss);
+        }
+        else {
+            enemies[attackingEnemyIdx].setHitPoints(0);
+            enemies[attackingEnemyIdx].setEnabled(false);
+        }
 
         gameState = GameState::Battle_EnemyDies;
         if (enemies[attackingEnemyIdx].getEnabled()) { gameState = GameState::Battle_EnemyAttacks_Init; }
