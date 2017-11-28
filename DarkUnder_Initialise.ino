@@ -1,7 +1,7 @@
 #include <Arduboy2.h>
 
 /* -----------------------------------------------------------------------------------------------------------------------------
- *  Initialise Game Play.  
+ *  Initialise Game Play.
  * -----------------------------------------------------------------------------------------------------------------------------
  */
 void initialiseGame() {
@@ -9,7 +9,7 @@ void initialiseGame() {
   myHero.setHitPoints(START_HP);
   myHero.setDefence(START_DF);
   myHero.setAttackPower(START_AP);
-  
+
   myHero.setInventory(0, ItemType::None);
   myHero.setInventory(1, ItemType::None);
   myHero.setInventory(2, ItemType::None);
@@ -23,10 +23,10 @@ void initialiseGame() {
 
 
 /* -----------------------------------------------------------------------------------------------------------------------------
- *  Initialise Level.  
- *  
+ *  Initialise Level.
+ *
  *  Initialise the player, level and enemy details based on the current level.
- *  
+ *
  * -----------------------------------------------------------------------------------------------------------------------------
  */
 void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
@@ -40,7 +40,7 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
   idx += 11;
   memcpy_P(myLevel->getTitleLine2(), &level[idx], sizeof(char) * 11);
   idx += 11;
-              
+
   myHero->setX(pgm_read_byte(&level[idx++]));
   myHero->setY(pgm_read_byte(&level[idx++]));
   myHero->setDirection((Direction)pgm_read_byte(&level[idx++]));
@@ -69,19 +69,19 @@ void initialiseLevel(Player *myHero, Level *myLevel, const uint8_t *level) {
 
 
 /* -----------------------------------------------------------------------------------------------------------------------------
- *  Initialise Level - load items.  
- *  
- *  Initialise the item and door items from progmem using the 'idx' variable as an index reference.  
- * 
+ *  Initialise Level - load items.
+ *
+ *  Initialise the item and door items from progmem using the 'idx' variable as an index reference.
+ *
  *  Returns the 'idx' index reference so the next process can continue reading from that location onwards.
- *  
+ *
  * -----------------------------------------------------------------------------------------------------------------------------
  */
 uint8_t loadItems(const uint8_t *level, Item * items, uint8_t idx, uint8_t max) {
 
   uint8_t numberOfItems = pgm_read_byte(&level[idx++]);
 
-  for (uint8_t i = 0; i < max; ++i) {  
+  for (uint8_t i = 0; i < max; ++i) {
 
     items[i].setEnabled(false);
 
@@ -92,7 +92,7 @@ uint8_t loadItems(const uint8_t *level, Item * items, uint8_t idx, uint8_t max) 
       items[i].setEnabled(true);
     }
 
-  }  
+  }
 
   return idx;
 
@@ -100,23 +100,23 @@ uint8_t loadItems(const uint8_t *level, Item * items, uint8_t idx, uint8_t max) 
 
 
 /* -----------------------------------------------------------------------------------------------------------------------------
- *  Initialise Level - load enemies.  
- *  
- *  Initialise the enemies items from progmem using the 'idx' variable as an index reference.  
- * 
+ *  Initialise Level - load enemies.
+ *
+ *  Initialise the enemies items from progmem using the 'idx' variable as an index reference.
+ *
  *  Returns the 'idx' index reference so the next process can continue reading from that location onwards.
- *  
+ *
  * -----------------------------------------------------------------------------------------------------------------------------
  */
 uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t max) {
 
   uint8_t numberOfEnemies = pgm_read_byte(&level[idx++]);
- 
-  for (uint8_t i = 0; i < max; ++i) {  
+
+  for (uint8_t i = 0; i < max; ++i) {
 
     enemies[i].setEnabled(i < numberOfEnemies);
 
-    if (enemies[i].getEnabled()) {	
+    if (enemies[i].getEnabled()) {
 
       EnemyType enemyType = (EnemyType)pgm_read_byte(&level[idx++]);
 
@@ -144,7 +144,7 @@ uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t
       enemies[i].setMoving(moving);
 
     }
-   
+
   }
 
  return idx;
@@ -167,8 +167,8 @@ uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t
 
 
 /* ----------------------------------------------------------------------------
- *   Is the EEPROM initialised? 
- *   
+ *   Is the EEPROM initialised?
+ *
  *   Looks for the characters 'D' and 'U' in the first two bytes of the EEPROM
  *   memory range starting from byte EEPROM_STORAGE_SPACE_START.  If not found,
  *   it resets the settings ..
@@ -179,11 +179,11 @@ bool initEEPROM() {
   byte c2 = EEPROM.read(EEPROM_START_C2);
 
   if (c1 != 68 || c2 != 85) { // RU 68 85
-  
+
     EEPROM.update(EEPROM_START_C1, 68);
     EEPROM.update(EEPROM_START_C2, 85);
     EEPROM.update(EEPROM_LEVEL_NO, 255);
-      
+
   }
 
 }
@@ -200,7 +200,7 @@ uint8_t getLevel() {
 
 
 /* -----------------------------------------------------------------------------
- *   Save game state. 
+ *   Save game state.
  */
 void saveGame() {
 
@@ -229,13 +229,13 @@ void saveGame() {
 
 
 /* -----------------------------------------------------------------------------
- *   Restore game state. 
+ *   Restore game state.
  */
 void restoreGame() {
 
   level = EEPROM.read(EEPROM_LEVEL_NO);
   playerLevel = EEPROM.read(EEPROM_PLAYER_LEVEL);
-  
+
   initialiseLevel(&myHero, &myLevel, levels[level]);
 
   EEPROM.get(EEPROM_PLAYER_START, myHero);

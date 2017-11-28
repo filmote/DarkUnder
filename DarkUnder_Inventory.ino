@@ -1,27 +1,27 @@
 #include <Arduboy2.h>
 
 /* -----------------------------------------------------------------------------------------------------------------------------
- *  Inventory loop.  
- *  
- *  Controls the management and use of the inventory panel.  As a player transitions to this panel, the current GameState is 
+ *  Inventory loop.
+ *
+ *  Controls the management and use of the inventory panel.  As a player transitions to this panel, the current GameState is
  *  saved in a variable named 'savedState' which allows the player to exit the panel and return to whence they came.
- *  
+ *
  *  GameStates:
- *  
+ *
  *  InventorySelect     - navigate through the five inventory slots.
  *  InventoryAction     - after selecting an item, the user can use or delete an item.
- *  
+ *
  *  Returns delay in milliseconds to wait.
- *  
+ *
  * -----------------------------------------------------------------------------------------------------------------------------
  */
 uint16_t inventoryLoop() {
 
-  arduboy.drawCompressed(0, 0, frames_outside, WHITE);  
+  arduboy.drawCompressed(0, 0, frames_outside, WHITE);
   arduboy.drawCompressed(66, 4, frames_inside, WHITE);
   arduboy.drawCompressed(4, 4, inv_background, WHITE);
   drawDirectionIndicator(&myHero);
-  
+
   #ifdef USE_LARGE_MAP
   drawMapAndStatistics(&myHero, &myLevel, true);
   #endif
@@ -38,7 +38,7 @@ uint16_t inventoryLoop() {
 
       arduboy.fillRect(inventoryCoords.x, inventoryCoords.y, 14, 16, BLACK);
       arduboy.drawCompressed(inventoryCoords.x, inventoryCoords.y, inventory_images[(uint8_t)myHero.getInventory(i)], WHITE);
-      
+
     }
 
   }
@@ -52,9 +52,9 @@ uint16_t inventoryLoop() {
 
       arduboy.fillRect(inventoryCoords.x, inventoryCoords.y, 14, 16, BLACK);
       arduboy.drawCompressed(inventoryCoords.x, inventoryCoords.y, inventory_images[(uint8_t)myHero.getInventory(i)], WHITE);
-      
+
     }
-    
+
   }
   #endif
 
@@ -74,7 +74,7 @@ uint16_t inventoryLoop() {
   font3x5.setCursor(19, 45);
   font3x5.print(myHero.getDefence());
   font3x5.setTextColor(WHITE);
-  
+
 
   switch (gameState) {
 
@@ -89,10 +89,10 @@ uint16_t inventoryLoop() {
       if ((buttons & LEFT_BUTTON_MASK) && inventory_selection > 0)           { --inventory_selection; }
       else if ((buttons & RIGHT_BUTTON_MASK) && inventory_selection < 4)     { ++inventory_selection; }
       #endif
-      
+
       else if (buttons & BACK_BUTTON_MASK)                                   { gameState = savedState;}
 
-      else if (buttons & SELECT_BUTTON_MASK) { 
+      else if (buttons & SELECT_BUTTON_MASK) {
 
         #ifdef SAVE_GAME
         if (inventory_selection == 3) {
@@ -110,7 +110,7 @@ uint16_t inventoryLoop() {
             restoreGame();
             font3x5.setCursor(86, 44);
             font3x5.print(F("  GAME\nRESTORED"));
-          }            
+          }
           return ITEM_DELAY;
         }
         else {
@@ -129,37 +129,37 @@ uint16_t inventoryLoop() {
       break;
 
     case GameState::InventoryAction:
-    
+
       arduboy.drawCompressed(82 + (inventory_action == INVENTORY_ACTION_DROP ? 12 : 0), 56, inv_select, WHITE);
       Sprites::drawOverwrite(81, 45, inv_hand, 0);
       Sprites::drawOverwrite(93, 45, inv_trash, 0);
-      
+
       if ((buttons & LEFT_BUTTON_MASK) && inventory_action > INVENTORY_ACTION_USE)            { --inventory_action; }
       else if ((buttons & RIGHT_BUTTON_MASK) && inventory_action < INVENTORY_ACTION_DROP)     { ++inventory_action; }
       else if (buttons & BACK_BUTTON_MASK)                                                    { gameState = GameState::InventorySelect;}
-      else if (buttons & SELECT_BUTTON_MASK) { 
-        
+      else if (buttons & SELECT_BUTTON_MASK) {
+
         if (inventory_action == INVENTORY_ACTION_USE) {
 
           switch (myHero.getInventory(inventory_selection)) {
 
             case ItemType::Key:
-            
+
               for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
 
                 int16_t deltaX = doors[i].getX() - myHero.getX();
                 int16_t deltaY = doors[i].getY() - myHero.getY();
-                
-                if (doors[i].getEnabled() && (doors[i].getItemType() == ItemType::LockedDoor || doors[i].getItemType() == ItemType::LockedGate) && 
+
+                if (doors[i].getEnabled() && (doors[i].getItemType() == ItemType::LockedDoor || doors[i].getItemType() == ItemType::LockedGate) &&
                     absT(deltaX) <= 1 && absT(deltaY) <= 1) {
 
                   if (doors[i].getItemType() == ItemType::LockedGate)       doors[i].setEnabled(false);
                   if (doors[i].getItemType() == ItemType::LockedDoor)       doors[i].setItemType(ItemType::UnlockedDoor);
-                      
+
                   myHero.setInventory(inventory_selection, ItemType::None);
                   inventory_action = INVENTORY_ACTION_USE;
                   gameState = GameState::InventorySelect;
-            
+
                 }
 
               }
@@ -184,7 +184,7 @@ uint16_t inventoryLoop() {
           uint8_t itemIndex = 0;
 
           for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {
-            
+
             Item item = items[i];
 
             if (item.getItemType() != ItemType::None) {
@@ -193,24 +193,24 @@ uint16_t inventoryLoop() {
 
                 spaceOccupied = true;
                 break;
-                
+
               }
-              
+
             }
             else {
 
               itemIndex = i;
-              
+
             }
-            
+
           }
 
           if (spaceOccupied) {
-            
+
             font3x5.setCursor(95, 44);
             font3x5.print(F("SPACE\nOCCUPIED!"));
-            return ITEM_DELAY;            
-        
+            return ITEM_DELAY;
+
           }
           else {
 
@@ -218,7 +218,7 @@ uint16_t inventoryLoop() {
             items[itemIndex].setItemType((ItemType)(uint8_t)myHero.getInventory(inventory_selection));
             items[itemIndex].setX(myHero.getX());
             items[itemIndex].setY(myHero.getY());
-            
+
             myHero.setInventory(inventory_selection, ItemType::None);
             inventory_action = INVENTORY_ACTION_USE;
             gameState = GameState::InventorySelect;
@@ -236,5 +236,5 @@ uint16_t inventoryLoop() {
   }
 
   return 0;
-  
+
 }

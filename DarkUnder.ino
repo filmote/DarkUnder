@@ -31,7 +31,7 @@ Enemy enemies[NUMBER_OF_ENEMIES];
 uint8_t attackingEnemyIdx = 0;
 
 const uint8_t *levels[] =    { level_00, level_01, level_02, level_03, level_04, level_05, level_06, level_07, level_08, level_09 };
-const uint8_t *map_tiles[] = { tile_00, tile_01, tile_02, tile_03, tile_04, tile_05, tile_06, tile_07, tile_08, tile_09, 
+const uint8_t *map_tiles[] = { tile_00, tile_01, tile_02, tile_03, tile_04, tile_05, tile_06, tile_07, tile_08, tile_09,
                                tile_10, tile_11, tile_12, tile_13, tile_14, tile_15, tile_16, tile_17, tile_18, tile_19 };
 const uint8_t *map_images[] = { visionBack, closeWallFront, closeGateLocked, closeDoorLocked, closeDoorUnlocked, closeWallLeft, closeWallRight, closeGateLeft, closeGateRight,
                                 midWallFront, midDoorLocked, midDoorLevelLocked, midDoorLevelUnlocked, midWallLeft, midWallRight, midGateLeft, midGateRight,
@@ -60,8 +60,8 @@ const uint8_t *item_images[] = { NULL, item_key, item_potion, item_mascroll, ite
 uint8_t itemAction = 0;
 uint8_t savedItem = 0;
 
-GameState gameState = GameState::Splash; 
-GameState savedState = GameState::Splash; 
+GameState gameState = GameState::Splash;
+GameState savedState = GameState::Splash;
 
 Level myLevel;
 Player myHero;
@@ -89,8 +89,8 @@ void setup() {
   #ifdef USE_SOUNDS
   arduboy.audio.begin();
   #endif
-  
-  arduboy.initRandomSeed();  
+
+  arduboy.initRandomSeed();
   myLevel.setMapTiles(map_tiles);
 
   #ifdef SAVE_GAME
@@ -98,7 +98,7 @@ void setup() {
   #endif
 
   initialiseGame();
-  
+
 }
 
 
@@ -107,13 +107,13 @@ void setup() {
  * -----------------------------------------------------------------------------------------------------------------------------
  */
 void loop() {
-  
+
   uint16_t delayLength = 0;
   if (!(arduboy.nextFrame())) return;
-  
+
   arduboy.pollButtons();
   arduboy.clear();
-  
+
   switch (gameState) {
 
     case GameState::InitGame:
@@ -124,29 +124,29 @@ void loop() {
     case GameState::InitLevel:
       initialiseLevel(&myHero, &myLevel, levels[level]);
       break;
-    
-    case GameState::Move: 
-    case GameState::ItemIgnore: 
+
+    case GameState::Move:
+    case GameState::ItemIgnore:
       playLoop();
       break;
 
-    case GameState::InventorySelect: 
-    case GameState::InventoryAction: 
+    case GameState::InventorySelect:
+    case GameState::InventoryAction:
       delayLength = inventoryLoop();
       break;
 
-    case GameState::ItemSelect: 
+    case GameState::ItemSelect:
       delayLength = itemLoop();
       break;
-      
-    case GameState::Splash: 
+
+    case GameState::Splash:
       displaySplash();
       break;
 
-    case GameState::About: 
+    case GameState::About:
       displayLogo();
       break;
-    
+
     case GameState::Battle_EnemyAttacks_Init:
     case GameState::Battle_EnemyAttacks:
     case GameState::Battle_EnemyDies:
@@ -160,15 +160,15 @@ void loop() {
     case GameState::Battle_PlayerDies:
       displayEndOfGame(true);
       break;
-    
+
     case GameState::LevelUp:
       delayLength = displayLevelUp();
       break;
-    
+
     case GameState::NextLevel:
       displayNextLevel();
       break;
-      
+
     case GameState::EndOfGame:
       displayEndOfGame(false);
       break;
@@ -178,27 +178,27 @@ void loop() {
       displayLargeMap();
       break;
     #endif
-      
+
     default:
       break;
 
   }
-  
+
   arduboy.display();
   delay(delayLength);
-  
+
 }
 
 
 /* -----------------------------------------------------------------------------------------------------------------------------
  *  Level Up Handler
- * 
- *  Display the 'Level Up' graphic and award a point. 
- * 
+ *
+ *  Display the 'Level Up' graphic and award a point.
+ *
  * -----------------------------------------------------------------------------------------------------------------------------
  */
 uint16_t displayLevelUp() {
-  
+
   arduboy.drawCompressed(0, 0, frames_outside, WHITE);
   arduboy.drawCompressed(66, 4, frames_inside, WHITE);
 
@@ -213,13 +213,13 @@ uint16_t displayLevelUp() {
 
   arduboy.drawCompressed(23, 5, levelUp, WHITE);
 
-  #ifndef LEVEL_UP_SELECT_PRIZE 
+  #ifndef LEVEL_UP_SELECT_PRIZE
 
     font3x5.setCursor(20, 40);
     font3x5.print(F("LEVEL "));
     font3x5.print(playerLevel);
     playerLevel++;
-    
+
     font3x5.setCursor(18, 47);
     font3x5.print(F("YOU GAIN"));
     font3x5.setCursor(26, 54);
@@ -242,7 +242,7 @@ uint16_t displayLevelUp() {
           myHero.setDefence(myHero.getDefence() + 1);
           break;
 
-        
+
       }
     #endif
 
@@ -259,19 +259,19 @@ uint16_t displayLevelUp() {
           myHero.setDefence(myHero.getDefence() + 1);
           break;
 
-        
+
       }
     #endif
 
-    gameState = GameState::Move; 
+    gameState = GameState::Move;
     return LEVEL_UP_DELAY;
-  
+
   #endif
 
   #ifdef LEVEL_UP_SELECT_PRIZE
-    
+
     uint8_t buttons = arduboy.justPressedButtons();
-  
+
     switch (levelUpButton) {
 
       case LevelUpButtons::None:
@@ -300,13 +300,13 @@ uint16_t displayLevelUp() {
     }
     else {
       Sprites::drawSelfMasked(17, 51, hMarker, 0);
-    }  
+    }
 
     if ((buttons & UP_BUTTON_MASK) && levelUpButton == LevelUpButtons::DF)             { levelUpButton = LevelUpButtons::AP; }
     else if ((buttons & DOWN_BUTTON_MASK) && levelUpButton == LevelUpButtons::AP)      { levelUpButton = LevelUpButtons::DF; }
     else if ((buttons & A_BUTTON_MASK) && levelUpButton == LevelUpButtons::AP)         { myHero.setAttackPower(myHero.getAttackPower() + 1); levelUpButton = LevelUpButtons::None, gameState = GameState::Move; }
     else if ((buttons & A_BUTTON_MASK) && levelUpButton == LevelUpButtons::DF)         { myHero.setDefence(myHero.getDefence() + 1); levelUpButton = LevelUpButtons::None, gameState = GameState::Move; }
-    
+
   #endif
 
   return 0;
@@ -316,29 +316,29 @@ uint16_t displayLevelUp() {
 
 /* -----------------------------------------------------------------------------------------------------------------------------
  *  Next Level Handler
- * 
- *  Display the 'Next Level' graphic and initialise the next level ready for play. 
- * 
+ *
+ *  Display the 'Next Level' graphic and initialise the next level ready for play.
+ *
  * -----------------------------------------------------------------------------------------------------------------------------
  */
 void displayNextLevel() {
-  
-  arduboy.drawCompressed(0, 0, frames_outside, WHITE);  
-  arduboy.drawCompressed(64, 4, endOfLevel, WHITE);  
+
+  arduboy.drawCompressed(0, 0, frames_outside, WHITE);
+  arduboy.drawCompressed(64, 4, endOfLevel, WHITE);
 
   font3x5.setHeight(7);
   font3x5.setCursor(10, 7);
   font3x5.print(F("YOU CAN HEAR\nA DISTANT\nYET CLOSER\nDRAGON ROAR\nAS YOU STEP\nTHROUGH THE\nDOOR..."));
   font3x5.setHeight(8);
-  
+
   uint8_t buttons = arduboy.justPressedButtons();
-  
-  if (buttons) { 
-  
+
+  if (buttons) {
+
     level++;
-    gameState = GameState::Move; 
+    gameState = GameState::Move;
     initialiseLevel(&myHero, &myLevel, levels[level]);
-  
+
   }
 
 }
@@ -362,9 +362,9 @@ void displayEndOfGame(bool playerDead) {
     #ifndef USE_LARGE_MAP
     drawMapAndStatistics(&myHero, &myLevel);
     #endif
-    
+
     arduboy.drawCompressed(16, 6, gameOver, WHITE);
-    
+
   }
   else {
 
@@ -375,12 +375,12 @@ void displayEndOfGame(bool playerDead) {
   }
 
   uint8_t buttons = arduboy.justPressedButtons();
-  
-  if (buttons & SELECT_BUTTON_MASK) { 
+
+  if (buttons & SELECT_BUTTON_MASK) {
 
     initialiseGame();
-    gameState = GameState::Splash; 
-  
+    gameState = GameState::Splash;
+
   }
 
 }

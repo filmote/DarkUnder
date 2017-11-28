@@ -9,15 +9,15 @@ const int8_t offsetYTable[] = { -1, 0, 1, 0 };
 
 /* -----------------------------------------------------------------------------------------------------------------------------
  *  Draw Player Vision.
- *  
+ *
  *  Renders the dungeon with any doors, enemies and items that are in view.
- * 
+ *
  *  To save space elsewhere, it automatically calls the drawMapAndStatistics() function to render the map and statistics panel
  *  as these are always rendered when the dungeon is rendered.
  *
  * -----------------------------------------------------------------------------------------------------------------------------
  */
-void drawPlayerVision(Player *myHero, Level *myLevel) { 
+void drawPlayerVision(Player *myHero, Level *myLevel) {
 
   bool horizon3Plus = false;
   bool horizon2Plus = false;
@@ -29,7 +29,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
   int8_t farLeftY = 0;
   int8_t farFrontY = 0;
   int8_t farRightY = 0;
-  
+
   int8_t middleLeftX = 0;
   int8_t middleFrontX = 0;
   int8_t middleRightX = 0;
@@ -52,7 +52,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
   switch (myHero->getDirection()) {
 
     case Direction::North:
-    
+
       horizon3Plus = (playerY - 3 >= 0);
       horizon2Plus = (playerY - 2 >= 0);
 
@@ -69,12 +69,12 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
       closeRightX = 1;    closeRightY = 0;
 
       break;
-      
+
     case Direction::East:
-    
+
       horizon3Plus = (playerX + 3 >= 0);
       horizon2Plus = (playerX + 2 >= 0);
-      
+
       farFrontX = 3;      farFrontY = 0;
       farLeftX = 2;       farLeftY = -1;
       farRightX = 2;      farRightY = 1;
@@ -90,7 +90,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
       break;
 
     case Direction::South:
-    
+
       horizon3Plus = (playerY + 3 >= 0);
       horizon2Plus = (playerY + 2 >= 0);
 
@@ -107,12 +107,12 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
       closeRightX = -1;   closeRightY = 0;
 
       break;
-      
+
     case Direction::West:
-    
+
       horizon3Plus = (playerX - 3 >= 0);
       horizon2Plus = (playerX - 2 >= 0);
-      
+
       farFrontX = -3;     farFrontY = 0;
       farLeftX = -2;      farLeftY = 1;
       farRightX = -2;     farRightY = -1;
@@ -125,25 +125,25 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
       closeLeftX = 0;     closeLeftY = 1;
       closeRightX = 0;    closeRightY = -1;
 
-      break;    
+      break;
 
     default: break;
-      
+
   }
 
-  
+
   arduboy.drawCompressed(0, 0, frames_outside, WHITE);
   arduboy.drawCompressed(66, 4, frames_inside, WHITE);
 //  arduboy.drawCompressed(VISION_X_OFFSET + 1, VISION_Y_OFFSET, map_images[MAP_IMAGE_BACK], WHITE);
   Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET, map_images[MAP_IMAGE_BACK], 0);
-  
-  
+
+
   // Far front wall ..
-  
+
   if (horizon3Plus) {
-    
+
     MapElement mapElement = (MapElement)myLevel->getMapElement(playerX + farFrontX, playerY + farFrontY);
-    
+
     int8_t imageIndex = 0;
     int8_t xOffset = 0;
     int8_t yOffset = 0;
@@ -163,39 +163,39 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
           xOffset = 29;
           yOffset = 25;
           break;
-      
+
         case MapElement::UnlockedDoor:
           imageIndex = MAP_IMAGE_FAR_DOOR_UNLOCKED;
           xOffset = 29;
           yOffset = 25;
           break;
-          
+
         default: break;
-      
+
       }
 
-      for (uint8_t i = VISION_X_OFFSET + 1; i < VISION_X_OFFSET + 62; ++i) {  
+      for (uint8_t i = VISION_X_OFFSET + 1; i < VISION_X_OFFSET + 62; ++i) {
         arduboy.drawPixel(i, VISION_Y_OFFSET + 27 + (i %2), WHITE);
       }
 
       if (imageIndex > 0) {
         Sprites::drawOverwrite(VISION_X_OFFSET + xOffset, VISION_Y_OFFSET + yOffset, map_images[imageIndex], 0);
       }
-      
+
     }
-    
+
   }
 
- 
+
   // Far left wall ..
-  
+
   if (horizon2Plus) {
     if ((MapElement)myLevel->getMapElement(playerX + farLeftX, playerY + farLeftY) > MapElement::Floor) {
      Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 23, map_images[MAP_IMAGE_FAR_LEFT], 0);
     }
   }
- 
-  
+
+
   // Far right wall ..
 
   if (horizon2Plus) {
@@ -203,10 +203,10 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
      Sprites::drawOverwrite(VISION_X_OFFSET + 35, VISION_Y_OFFSET + 23, map_images[MAP_IMAGE_FAR_RIGHT], 0);
     }
   }
- 
+
 
   // Mid front wall ..
-  
+
   bool renderMiddleFront = false;
 
   if (horizon2Plus) {
@@ -216,7 +216,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
     int8_t yOffset = 0;
 
     MapElement mapElement = (MapElement)myLevel->getMapElement(playerX + middleFrontX, playerY + middleFrontY);
-    
+
     if (mapElement > MapElement::Floor) {
 
       renderMiddleFront = (horizon2Plus && (mapElement > MapElement::Floor));
@@ -234,7 +234,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
           xOffset = 27;
           yOffset = 25;
           break;
-    
+
         case MapElement::UnlockedDoor:
           imageIndex = MAP_IMAGE_MID_DOOR_UNLOCKED;
           xOffset = 27;
@@ -242,44 +242,44 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
           break;
 
         default: break;
-      
+
       }
-      
+
       Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 23, map_images[MAP_IMAGE_MID_FRONT], 0);
 
       if (imageIndex > 0) {
         Sprites::drawOverwrite(VISION_X_OFFSET + xOffset, VISION_Y_OFFSET + yOffset, map_images[imageIndex], 0);
       }
-  
-    } 
+
+    }
 
   }
 
 
   // Mid left wall ..
-  
+
   MapElement mapElement = myLevel->getMapElement(playerX + middleLeftX, playerY + middleLeftY);
   if (mapElement == MapElement::Wall) {
-    Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 14, map_images[MAP_IMAGE_MID_LEFT], 0);    
+    Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 14, map_images[MAP_IMAGE_MID_LEFT], 0);
   }
   else if (mapElement == MapElement::LockedGate) {
-    Sprites::drawOverwrite(VISION_X_OFFSET + 15, VISION_Y_OFFSET + 15, map_images[MAP_IMAGE_MID_GATE_LEFT], 0);    
+    Sprites::drawOverwrite(VISION_X_OFFSET + 15, VISION_Y_OFFSET + 15, map_images[MAP_IMAGE_MID_GATE_LEFT], 0);
   }
 
 
   // Mid right wall ..
-  
+
   mapElement = myLevel->getMapElement(playerX + middleRightX, playerY + middleRightY);
   if (mapElement == MapElement::Wall) {
-    Sprites::drawOverwrite(VISION_X_OFFSET + 39, VISION_Y_OFFSET + 14, map_images[MAP_IMAGE_MID_RIGHT], 0);    
+    Sprites::drawOverwrite(VISION_X_OFFSET + 39, VISION_Y_OFFSET + 14, map_images[MAP_IMAGE_MID_RIGHT], 0);
   }
   else if (mapElement == MapElement::LockedGate) {
-    Sprites::drawOverwrite(VISION_X_OFFSET + 39, VISION_Y_OFFSET + 15, map_images[MAP_IMAGE_MID_GATE_RIGHT], 0);    
+    Sprites::drawOverwrite(VISION_X_OFFSET + 39, VISION_Y_OFFSET + 15, map_images[MAP_IMAGE_MID_GATE_RIGHT], 0);
   }
-  
+
 
   // Close front wall ..
-  
+
   mapElement = (MapElement)myLevel->getMapElement(playerX + closeFrontX, playerY + closeFrontY);
   bool renderCloseFront = (mapElement > MapElement::Floor);
 
@@ -288,7 +288,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
     int8_t imageIndex = -1;     //TODO: CHanged to 0 and if (imageIndex > 0) .. added 4 bytes
     int8_t xOffset = 0;
     int8_t yOffset = 0;
-  
+
     switch (mapElement) {
 
       case MapElement::Wall:
@@ -313,9 +313,9 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
         imageIndex = MAP_IMAGE_CLOSE_DOOR_UNLOCKED;
         xOffset = 22;
         yOffset = 21;
-        
+
       default: break;
-    
+
     }
 
     Sprites::drawOverwrite(VISION_X_OFFSET, VISION_Y_OFFSET + 14, closeWallFront, 0);
@@ -335,10 +335,10 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
   else if (mapElement == MapElement::LockedGate) {
     Sprites::drawOverwrite(VISION_X_OFFSET, VISION_Y_OFFSET, map_images[MAP_IMAGE_CLOSE_GATE_LEFT], 0);
   }
-  
+
 
   // Close right wall ..
-  
+
   mapElement = myLevel->getMapElement(playerX + closeRightX, playerY + closeRightY);
   if (mapElement == MapElement::Wall) {
     Sprites::drawOverwrite(VISION_X_OFFSET + 48, VISION_Y_OFFSET, map_images[MAP_IMAGE_CLOSE_RIGHT], 0);
@@ -350,18 +350,18 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
   uint8_t selector = static_cast<uint8_t>(myHero->getDirection());
   bool rendered = false;
-  
+
   if (!renderCloseFront) {
 
-    for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
-    
+    for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {
+
       Enemy enemy = enemies[i];
-      
+
       if (enemy.getEnabled()) {
 
         int8_t offsetX = offsetXTable[selector] * 2;
         int8_t offsetY = offsetYTable[selector] * 2;
-        
+
         if (enemy.getX() == playerX + offsetX && enemy.getY() == playerY + offsetY) {
 
           Sprites::drawOverwrite(27, 25, enemy_two_tiles, 0);
@@ -378,17 +378,17 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
   if (!renderCloseFront && !renderMiddleFront && !rendered) {
 
-    for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
-    
+    for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {
+
       Enemy enemy = enemies[i];
-      
+
       if (enemy.getEnabled()) {
 
         int8_t offsetX = offsetXTable[selector] * 3;
         int8_t offsetY = offsetYTable[selector] * 3;
-        
+
         if (enemy.getX() == playerX + offsetX && enemy.getY() == playerY + offsetY) {
-          
+
           Sprites::drawOverwrite(30, 28, enemy_three_tiles, 0);
           break;
 
@@ -401,7 +401,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
   }
 
 
-  for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {  
+  for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {
 
     Enemy enemy = enemies[i];
 
@@ -409,13 +409,13 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
       int16_t deltaX = myHero->getX() - enemy.getX();
       int16_t deltaY = myHero->getY() - enemy.getY();
-      
-      if ((deltaY == 0 && absT(deltaX) == 1) ^ (deltaX == 0 && absT(deltaY) == 1)) { 
+
+      if ((deltaY == 0 && absT(deltaX) == 1) ^ (deltaX == 0 && absT(deltaY) == 1)) {
 
         if (deltaX > 0) { myHero->setDirection(Direction::West); }
         else if (deltaX < 0) { myHero->setDirection(Direction::East); }
         else if (deltaY > 0) { myHero->setDirection(Direction::North); }
-        else if (deltaY < 0) { myHero->setDirection(Direction::South); }        
+        else if (deltaY < 0) { myHero->setDirection(Direction::South); }
 
         EnemyType enemyType = enemy.getEnemyType();
         uint8_t offsetX = 6;  // Beholder
@@ -436,7 +436,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
         break;
 
       }
-                              
+
     }
 
     if (gameState == GameState::Move || gameState == GameState::ItemSelect) {
@@ -456,12 +456,12 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
           uint8_t offsetX = 23;  // Potion
           uint8_t offsetY = 19;
-          
+
           if (itemType == ItemType::Key)          { offsetX = 20; offsetY = 20; }
           else if (itemType == ItemType::Scroll)  { offsetX = 20; offsetY = 18; }
           else if (itemType == ItemType::Shield)  { offsetX = 20; offsetY = 18; }
           else if (itemType == ItemType::Sword)   { offsetX = 20; offsetY = 18; }
-          
+
           arduboy.fillRect(14, 11, 41, 43, BLACK);
           arduboy.fillRect(15, 12, 39, 41, WHITE);
           arduboy.drawCompressed(offsetX, offsetY, item_images[(uint8_t)itemType], BLACK);
@@ -469,19 +469,19 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
           font3x5.setTextColor(BLACK);
           font3x5.setCursor(17, 12);
           font3x5.print(F("YOU FOUND"));
-          
+
           const __FlashStringHelper * text = nullptr;
-          
+
           switch (itemType) {
-        
+
             case ItemType::Key:
               text = F("SOME KEYS");
               break;
-        
+
             case ItemType::Potion:
               text = F("HP POTION");
               break;
-        
+
             case ItemType::Scroll:
               text = F("A SCROLL");
               break;
@@ -497,21 +497,21 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
             default: break;
 
           }
-          
+
           if(text != nullptr) {
             font3x5.setCursor(17, 46);
             font3x5.print(text);
           }
 
           font3x5.setTextColor(WHITE);
-          gameState = GameState::ItemSelect; 
+          gameState = GameState::ItemSelect;
           savedItem = i;
           break;
 
         }
 
       }
-            
+
     }
 
   }
@@ -528,9 +528,9 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
 /* -----------------------------------------------------------------------------------------------------------------------------
  *  Draw the Map and Statistics.
- *  
+ *
  *  Was originally two separate functions however they are always rendered together.
- * 
+ *
  * -----------------------------------------------------------------------------------------------------------------------------
  */
 #ifndef USE_LARGE_MAP
@@ -554,16 +554,16 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
   uint8_t mapXOffset = (smallMap ? 98 : 6);
   uint8_t mapYOffset = (smallMap ? 6 : 5);
   #endif
-  
+
   bool renderMapElement = false;
-  
+
   #ifdef USE_LARGE_MAP
   for (int16_t mapY = player->getY() - mapHeight; mapY <= player->getY() + mapHeight; ++mapY) {
   #endif
   #ifndef USE_LARGE_MAP
   for (int16_t mapY = player->getY() - 3; mapY <= player->getY() + 3; ++mapY) {
   #endif
-  
+
     #ifdef USE_LARGE_MAP
     for (int16_t mapX = player->getX() - mapWidth; mapX <= player->getX() + mapWidth; ++mapX) {
     #endif
@@ -572,23 +572,23 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
     #endif
 
       #ifdef USE_LARGE_MAP
-      if (mapX >= 0 && mapX < ((uint8_t)myLevel->getWidth() * MAP_TILE_WIDTH) && mapY >= 0 && mapY < ((uint8_t)myLevel->getHeight() * MAP_TILE_HEIGHT) && (smallMap ? !(drawX == 4 && drawY == 0) : ( !((drawX == 0 || drawX == 22) && drawY == 0) && !((drawX == 0 || drawX == 22) && drawY == 10) ) ) ) { 
+      if (mapX >= 0 && mapX < ((uint8_t)myLevel->getWidth() * MAP_TILE_WIDTH) && mapY >= 0 && mapY < ((uint8_t)myLevel->getHeight() * MAP_TILE_HEIGHT) && (smallMap ? !(drawX == 4 && drawY == 0) : ( !((drawX == 0 || drawX == 22) && drawY == 0) && !((drawX == 0 || drawX == 22) && drawY == 10) ) ) ) {
       #endif
       #ifndef USE_LARGE_MAP
-      if (mapX >= 0 && mapX < ((uint8_t)myLevel->getWidth() * MAP_TILE_WIDTH) && mapY >= 0 && mapY < ((uint8_t)myLevel->getHeight() * MAP_TILE_HEIGHT) && !(drawX == 4 && drawY == 0) ) { 
+      if (mapX >= 0 && mapX < ((uint8_t)myLevel->getWidth() * MAP_TILE_WIDTH) && mapY >= 0 && mapY < ((uint8_t)myLevel->getHeight() * MAP_TILE_HEIGHT) && !(drawX == 4 && drawY == 0) ) {
       #endif
-        
+
         MapElement element = myLevel->getMapElement(mapX, mapY);
 
         if (element != MapElement::Wall) {
-          
-          
+
+
           // Is there an enemy standing here ?
-          
+
           renderMapElement = true;
-          
-          for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {  
-        
+
+          for (uint8_t i = 0; i < NUMBER_OF_ENEMIES; ++i) {
+
             Enemy enemy = enemies[i];
 
             if (enemy.getEnabled() && enemy.getX() == mapX && enemy.getY() == mapY) {
@@ -601,22 +601,22 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
               #endif
               renderMapElement = false;
               break;
-                    
+
             }
-                 
+
           }
-          
-          
+
+
           // Is there an item standing here ?
-          
+
           if (renderMapElement) {
 
-            for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {  
-          
+            for (uint8_t i = 0; i < NUMBER_OF_ITEMS; ++i) {
+
               Item item = items[i];
 
               if (item.getEnabled() && item.getX() == mapX && item.getY() == mapY) {
-          
+
                 #ifdef USE_LARGE_MAP
                 Sprites::drawSelfMasked(mapXOffset + (drawX * MAP_TILE_OFFSET), mapYOffset + (drawY * MAP_TILE_OFFSET), itemMap, 0);
                 #endif
@@ -625,22 +625,22 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
                 #endif
                 renderMapElement = false;
                 break;
-                      
+
               }
-                  
+
             }
 
           }
 
           if (renderMapElement) {
-            
+
             #ifdef USE_LARGE_MAP
             arduboy.fillRect(mapXOffset + (drawX * MAP_TILE_OFFSET), mapYOffset + (drawY * MAP_TILE_OFFSET), MAP_TILE_SIZE, MAP_TILE_SIZE, WHITE);
             #endif
             #ifndef USE_LARGE_MAP
             arduboy.fillRect(MAP_X_OFFSET + (drawX * MAP_TILE_OFFSET), MAP_Y_OFFSET + (drawY * MAP_TILE_OFFSET), MAP_TILE_SIZE, MAP_TILE_SIZE, WHITE);
             #endif
-            
+
             switch (element) {
 
               case MapElement::LockedGate:
@@ -663,24 +663,24 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
                 break;
 
                 default: break;
-            
+
             }
 
           }
-  
+
         }
 
       }
 
       ++drawX;
-      
+
     }
 
     drawX = 0;
     ++drawY;
 
   }
-  
+
 
   // Render player ..
 
@@ -715,7 +715,7 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
 
 
 /* -----------------------------------------------------------------------------------------------------------------------------
-*  Print Statistic 
+*  Print Statistic
 * -----------------------------------------------------------------------------------------------------------------------------
 */
 void printStatistic(const __FlashStringHelper * str, const uint8_t stat) {
@@ -734,7 +734,7 @@ void printStatistic(const __FlashStringHelper * str, const uint8_t stat) {
 void drawDirectionIndicator(Player *myHero) {
 
   Sprites::drawSelfMasked(DIRECTION_X_OFFSET, DIRECTION_Y_OFFSET, direction_images[(uint8_t)myHero->getDirection()], 0);
-  
+
 }
 
 
@@ -760,37 +760,37 @@ void drawEnemyHitPointsBar(uint8_t hitPoints, uint8_t hitPointsMax) {
 
   arduboy.drawCompressed(3, 49, fight_HP_bar_Mask, BLACK);
   arduboy.drawCompressed(3, 49, fight_HP_bar, WHITE);
-  
+
   if(hitPoints == 0)
     return;
-  
+
   const uint32_t hp = static_cast<uint32_t>(hitPoints) << 16; // U16x16
   const uint16_t hpMax = static_cast<uint16_t>(hitPointsMax) << 8; // U8x8
   const uint32_t divResult = hp / hpMax; // U8x8
   const uint32_t mulResult = divResult * (10 << 8); // U16x16
   const uint8_t resultAsInt = static_cast<uint8_t>(mulResult >> 16); // U8x0
   arduboy.drawRect(17, 54, resultAsInt, 2);
-  
+
 }
 
 
 /* -----------------------------------------------------------------------------------------------------------------------------
  *  Render Splash Screen
- * 
+ *
  *  The player can choose between starting a new game or viewing the credits.
  * -----------------------------------------------------------------------------------------------------------------------------
  */
 void displaySplash() {
-  
+
   arduboy.drawCompressed(0, 0, frames_outside, WHITE);
   arduboy.drawCompressed(8, 4, splash, WHITE);
- 
+
   if (splashStatus == SplashButtons::Play) {
     Sprites::drawSelfMasked(25, 54, hMarker, 0);
   }
   else {
     Sprites::drawSelfMasked(63, 54, hMarker, 0);
-  }  
+  }
 
   uint8_t buttons = arduboy.justPressedButtons();
 
@@ -822,18 +822,18 @@ void displayLogo() {
   arduboy.drawLine(42, 61, 68, 61, BLACK);
 
   arduboy.drawCompressed(42, 0, garCol, WHITE);
-  
+
   font3x5.setCursor(8, 24);
   font3x5.print(F("CODE\nSIMON\nHOLMES"));
 
   font3x5.setCursor(90, 24);
   font3x5.print(F("     ART\n   CYRIL\nGUICHARD"));
-  
+
   uint8_t buttons = arduboy.justPressedButtons();
 
-  if (buttons & BACK_BUTTON_MASK) {    
+  if (buttons & BACK_BUTTON_MASK) {
     gameState = GameState::Splash;
   }
 
 }
-  
+
