@@ -81,15 +81,16 @@ uint16_t battleLoop() {
 
     case GameState::Battle_PlayerDecides:  // -----------------------------------------------------------------------------------------------------------------------------------
       {
-        bool fightButtons[4] = { true, false, false, false };
-
         uint8_t buttons = arduboy.justPressedButtons();
+
+        bool fightButtons[4];
+        fightButtons[(uint8_t)FightButtons::Attack] = true;
         fightButtons[(uint8_t)FightButtons::Shield] = true;
         fightButtons[(uint8_t)FightButtons::Magic] = (myHero.getInventoryCount(ItemType::Scroll) > 0);
         fightButtons[(uint8_t)FightButtons::Potion] = (myHero.getInventoryCount(ItemType::Potion) > 0);
 
         arduboy.drawCompressed(80, 44, fight_actions_1, WHITE);
-        if (fightButtons[(uint8_t)FightButtons::Shield])   { arduboy.drawCompressed(91, 44, fight_actions_2, WHITE); }
+        arduboy.drawCompressed(91, 44, fight_actions_2, WHITE);
         if (fightButtons[(uint8_t)FightButtons::Magic])    { arduboy.drawCompressed(102, 44, fight_actions_3, WHITE); }
         if (fightButtons[(uint8_t)FightButtons::Potion])   { arduboy.drawCompressed(113, 44, fight_actions_4, WHITE); }
         Sprites::drawSelfMasked(81 + (((uint8_t)fightButton) * 11), 56, icnSelect, 0);
