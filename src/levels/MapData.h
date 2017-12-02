@@ -1,7 +1,7 @@
 #pragma once
 
 #define MAX_LEVEL_COUNT 3
-#define START_HP 15
+#define START_HP 20
 #define START_AP 2
 #define START_DF 2
 #define MAX_HP 50
