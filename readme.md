@@ -11,9 +11,9 @@
 * ~Large Map - should we keep it?  It adds 290 bytes but I think its worth it.~
   + ~[Cyril] I think it’s redundant with the minimap we constantly have in game.~
   + ~[Simon] I think it makes it too easy so its gone.~
-* Currently, levelling up only affects AP and DF (not HP).  Should we reinclude HP? Toggle LEVEL_UP_INC_HP.
-  + [Cyril] I’d be up for it, but I’m ok leaving it out as well if that’s a problem.
-  + [Simon] Its not a problem but we a person can accumulate a lot of HP points so getting 1 when leveling up is not valuable.  Getting AP and DF is.
+* ~Currently, levelling up only affects AP and DF (not HP).  Should we reinclude HP? Toggle LEVEL_UP_INC_HP.~
+  + ~[Cyril] I’d be up for it, but I’m ok leaving it out as well if that’s a problem.~
+  + ~[Simon] Its not a problem but we a person can accumulate a lot of HP points so getting 1 when leveling up is not valuable.  Getting AP and DF is.~
 
 ### Metrics
 
@@ -33,9 +33,9 @@ Note: The maximum number of enemies and items must be equal.  If not, the code i
 ### To Do
 
 - [X] ~Create a todo list.~
-- [X] Revisit the 'defend' logic. 
-- [X] Move source files into subfolders.
-- [X] Restructure image files / minimise includes.
+- [X] ~Revisit the 'defend' logic.~
+- [X] ~Move source files into subfolders.~
+- [X] ~Restructure image files / minimise includes.~
 - [X] ~Include enemy HP / AP / etc metrics.~
 - [X] ~Revisit move enemy logic to incorporate above metrics.~
 - [X] Change map diagrams to use zero-based tile numbers.
@@ -44,16 +44,16 @@ Note: The maximum number of enemies and items must be equal.  If not, the code i
 - [X] ~Include AP, DF on inventory summary.~
 - [X] ~Change 'Attack' code to use player's AP as maximum random number.~
 - [X] ~Change 'Defend' mode to calculate a HP loss of random up to enemy's AP - random up to player's DF (must be zero or positive).~
-- [X] Add logic to reset player stats when starting a second game.
-- [X] Fix enemy HP bar to handle values greater than 10 (need floating point values)
-- [X] A shield item that adds to your DF.  **Need an image**
-- [X] You can select either a DF or HP on leveling up.  **Can you guys look at how I have done this and comment.**
-- [ ] HP will be capped at (say) 50 points. I will make this configurable.  **Should this be configurable per level or overall?**
-- [ ] The level up limit is defined as part of the level definition.
+- [X] ~Add logic to reset player stats when starting a second game.~
+- [X] ~Fix enemy HP bar to handle values greater than 10 (need floating point values)~
+- [X] ~A shield item that adds to your DF.  **Need an image**~
+- [X] ~You can select either a DF or HP on leveling up.  **Can you guys look at how I have done this and comment.**~
+- [X] ~HP will be capped at (say) 50 points. I will make this configurable.  **Should this be configurable per level or overall?**~
+- [X] ~The level up limit is defined as part of the level definition.~
 
 ### Known Bugs
 
-- [X] Tried the new build: there is a bug: when you die and restart, your HP doesn’t get reset. Right now, the game is rather brutal!
+- [X] ~Tried the new build: there is a bug: when you die and restart, your HP doesn’t get reset. Right now, the game is rather brutal!~
 - [X] ~The scroll image is reversed (black on white instead of white on black)~
 - [X] ~The small enemy images are not always rendered.~
 
@@ -76,20 +76,20 @@ Note: The maximum number of enemies and items must be equal.  If not, the code i
 	+ ~[Cyril] Nope - I had the idea of designing various weapons and shields that would change the AP and DF stats of the player, but I don't want to make the game more complex than it is, and that would mean more GFXs. At this point, I think the level up system achieves the same.~
 * [X] ~Currently, you have to put an item found in the dungeon into inventory.  You can then use the item from within the inventory maintenance screen.  Should the player be able to consume a potion immediately?~
 	+ ~[Simon] I have changed the code to allow the player to drop an item (oner per cell / space).~
-* [ ] Is there a maximum HP for the player?  
-	+ [Cyril] It depends what’s simpler for you: traditionally there is, but I think for our game, we could say no without impacting the gameplay.
-	+ [Pharap] Yes. 255 of course :P. Seriously though, we don’t want any overflow bugs. Unless death by potion overuse is a mechanic we want to consider? Note that if there is no cap then adding HP on level up is pointless, so levelling up would have to only affect attack and defence.
-	+ [Simon] Additionally, I need to add a space padding for a three digit number.  I would like to cap it at 99.
+* [X] ~Is there a maximum HP for the player?~
+	+ ~[Cyril] It depends what’s simpler for you: traditionally there is, but I think for our game, we could say no without impacting the gameplay.~
+	+ ~[Pharap] Yes. 255 of course :P. Seriously though, we don’t want any overflow bugs. Unless death by potion overuse is a mechanic we want to consider? Note that if there is no cap then adding HP on level up is pointless, so levelling up would have to only affect attack and defence.~
+	+ ~[Simon] Additionally, I need to add a space padding for a three digit number.  I would like to cap it at 99.~
 * [X] ~What are the starting HP, AP, DF for the player in level 1?~
     + ~[Cyril] I would put the HP at 10, the AP at 2 and DF at 1. We may need to revisit that after playtesting.~
 	+ ~[Simon] I have set these values and we can reassess.~
 * [X] ~In the 'How to Play', the 'Defend Option' states that after defending the game will move automatically back to the PLAYER turn.  Is this correct?  Should it be ENEMY turn?!~
     + ~[Cyril] Nope: when you choose defend, next, it shows you the screen with you holding your shield. on that screen, you get attacked by the enemy but have a shot at mitigating the damage depending on your DF and you deal 1 flat damage. Since you already got attacked, then it goes back to your initiative screen.~
 	+ ~[Simon] OK, I have changed the logic to do that.~
-* [ ] In the 'How to Play', the 'Drink a Potion' states that after defending the game will move automatically back to the ENEMY turn.  Is this correct?  Should it be PLAYER turn?
-    + [Cyril] Depends: if we get to the enemy screen, that means that the player skips a turn by drinking the potion, and get attacked twice. That makes drinking a potion a bit of a gamble (depending on how much damage you received before drinking, and after drinking) and the game more difficult. If we get back to the player screen, that means there is no downside drinking a potion and it makes the game easier. It really depends what we want to do.
-	+ [Pharap] That’s a tough one. Though if we’re sticking with 3 items slots the most a player can ever recover in a battle is 15 HP so it won’t be that much of an advantage against a tougher enemy, unless we introduce different sized potions, or make HP recovery relative to player level.
-* [ ] What is the level on the level up?
-    + [Cyril] Not sure I understand the question? The level is shown under the cup, above the random stat gain.
-	+ [Simon] Yes but what is it? Its not the dungeon level you are playing, so what does the ‘level’ represent?
-    + [Cyril] Level is the level the player is at: you start a level 1, and the more you kill enemies, the more you level up and gain random perk points.
+* [X] ~In the 'How to Play', the 'Drink a Potion' states that after defending the game will move automatically back to the ENEMY turn.  Is this correct?  Should it be PLAYER turn?~
+    + ~[Cyril] Depends: if we get to the enemy screen, that means that the player skips a turn by drinking the potion, and get attacked twice. That makes drinking a potion a bit of a gamble (depending on how much damage you received before drinking, and after drinking) and the game more difficult. If we get back to the player screen, that means there is no downside drinking a potion and it makes the game easier. It really depends what we want to do.~
+	+ ~[Pharap] That’s a tough one. Though if we’re sticking with 3 items slots the most a player can ever recover in a battle is 15 HP so it won’t be that much of an advantage against a tougher enemy, unless we introduce different sized potions, or make HP recovery relative to player level.~
+* [X] ~What is the level on the level up?~
+    + ~[Cyril] Not sure I understand the question? The level is shown under the cup, above the random stat gain.~
+	+ ~[Simon] Yes but what is it? Its not the dungeon level you are playing, so what does the ‘level’ represent?~
+    + ~[Cyril] Level is the level the player is at: you start a level 1, and the more you kill enemies, the more you level up and gain random perk points.~
