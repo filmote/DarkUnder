@@ -196,7 +196,7 @@ uint16_t battleLoop() {
         font3x5.setCursor(17, 35);
         font3x5.print(hpLoss);
 
-        myHero.setHitPoints(myHero.getHitPoints() + hpLoss);
+        myHero.setHitPoints(myHero.getHitPoints() - hpLoss);
         damageEnemy(attackingEnemyIdx, 1);
 
         gameState = GameState::Battle_EnemyDies;
