@@ -54,7 +54,7 @@ void playLoop() {
 
         for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
           
-          Item door = level->getDoors()[i];
+          Item door = myLevel.getDoors()[i];
     
           if (!door.getEnabled() && (door.getItemType() == ItemType::SelfLockingDoor) && myHero.getX() && myHero.getY()) { 
             door.setEnabled(true); 
