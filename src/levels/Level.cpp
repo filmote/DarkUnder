@@ -48,8 +48,8 @@ MapElement Level::getMapElement(uint8_t x, uint8_t y) {
 
 
   // Otherwise, work it out from the map ..
-
-  uint8_t tileNumber = pgm_read_byte(&_level[_startPos + (y / MAP_TILE_WIDTH) + ((x / MAP_TILE_HEIGHT) * _width)]);
+  
+  uint8_t tileNumber = pgm_read_byte(&_level[_startPos + (x / MAP_TILE_WIDTH) + ((y / MAP_TILE_HEIGHT) * _width)]);
   const uint8_t *tile = _map_tiles[tileNumber];
   uint8_t mapElement = pgm_read_byte(&tile[(x % MAP_TILE_WIDTH) + (((y % MAP_TILE_HEIGHT) / 8) * MAP_TILE_PHYSICAL_WIDTH)]) & (1 << (y % MAP_TILE_HEIGHT % 8));
   
