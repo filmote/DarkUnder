@@ -2,18 +2,18 @@
 #include <WString.h>
 #include "Utils.h"
 
-const char BeholderName[] PROGMEM = "A BEHOLDER";
+const char OccularName[] PROGMEM = "AN OCCULAR";
 const char SkeletonName[] PROGMEM = "A SKELETON";
-const char DisplacerName[] PROGMEM = "A DISPLACER";
+const char SparkatName[] PROGMEM = "A SPARKAT";
 const char WraithName[] PROGMEM = "A WRAITH";
 const char DragonName[] PROGMEM = "A DRAGON";
 const char RatName[] PROGMEM = "A RAT";
 const char SlimeName[] PROGMEM = "A SLIME";
 
 const __FlashStringHelper * EnemyNames[] = {
-    FlashString(BeholderName),
+    FlashString(OccularName),
     FlashString(SkeletonName),
-    FlashString(DisplacerName),
+    FlashString(SparkatName),
     FlashString(WraithName),
     FlashString(DragonName),
     FlashString(RatName),

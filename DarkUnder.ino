@@ -50,8 +50,8 @@ uint8_t inventory_action = 0;
 
 // Enemy details ..
 
-const uint8_t *enemy_images[] = { enemy_beholder, enemy_skeleton, enemy_displacer, enemy_wraith, enemy_dragon, enemy_rat, enemy_slime };
-const uint8_t *enemy_masks[] = { enemy_beholder_Mask, enemy_skeleton_Mask, enemy_displacer_Mask, enemy_wraith_Mask, enemy_dragon_Mask, enemy_rat_Mask, enemy_slime_Mask };
+const uint8_t *enemy_images[] = { enemy_occular, enemy_skeleton, enemy_sparkat, enemy_wraith, enemy_dragon, enemy_rat, enemy_slime };
+const uint8_t *enemy_masks[] = { enemy_occular_Mask, enemy_skeleton_Mask, enemy_sparkat_Mask, enemy_wraith_Mask, enemy_dragon_Mask, enemy_rat_Mask, enemy_slime_Mask };
 
 
 // Item details ..

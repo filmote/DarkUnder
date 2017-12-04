@@ -129,9 +129,9 @@ uint8_t loadEnemies(const uint8_t * level, Enemy * enemies, uint8_t idx, uint8_t
       uint8_t xp = 0;
       boolean moving = false;
 
-      if (enemyType == EnemyType::Beholder)       { hp = ENEMY_BEHOLDER_HP; ap = ENEMY_BEHOLDER_AP; xp = ENEMY_BEHOLDER_XP; moving = ENEMY_BEHOLDER_MV;  }
+      if (enemyType == EnemyType::Occular)        { hp = ENEMY_OCCULAR_HP; ap = ENEMY_OCCULAR_AP; xp = ENEMY_OCCULAR_XP; moving = ENEMY_OCCULAR_MV;  }
       else if (enemyType == EnemyType::Skeleton)  { hp = ENEMY_SKELETON_HP; ap = ENEMY_SKELETON_AP; xp = ENEMY_SKELETON_XP; moving = ENEMY_SKELETON_MV;  }
-      else if (enemyType == EnemyType::Displacer) { hp = ENEMY_DISPLACER_HP; ap = ENEMY_DISPLACER_AP; xp = ENEMY_DISPLACER_XP; moving = ENEMY_DISPLACER_MV;  }
+      else if (enemyType == EnemyType::Sparkat)   { hp = ENEMY_SPARKAT_HP; ap = ENEMY_SPARKAT_AP; xp = ENEMY_SPARKAT_XP; moving = ENEMY_SPARKAT_MV;  }
       else if (enemyType == EnemyType::Wraith)    { hp = ENEMY_WRAITH_HP; ap = ENEMY_WRAITH_AP; xp = ENEMY_WRAITH_XP; moving = ENEMY_WRAITH_MV;  }
       else if (enemyType == EnemyType::Dragon)    { hp = ENEMY_DRAGON_HP; ap = ENEMY_DRAGON_AP; xp = ENEMY_DRAGON_XP; moving = ENEMY_DRAGON_MV;  }
       else if (enemyType == EnemyType::Rat)       { hp = ENEMY_RAT_HP; ap = ENEMY_RAT_AP; xp = ENEMY_RAT_XP; moving = ENEMY_RAT_MV; }

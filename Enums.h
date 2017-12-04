@@ -154,9 +154,9 @@ enum class MapElement : uint8_t {
 };
 
 enum class EnemyType : uint8_t {
-  Beholder,
+  Occular,
   Skeleton,
-  Displacer,
+  Sparkat,
   Wraith,
   Dragon,
   Rat,
