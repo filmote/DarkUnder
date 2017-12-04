@@ -418,11 +418,11 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
         else if (deltaY < 0) { myHero->setDirection(Direction::South); }
 
         EnemyType enemyType = enemy.getEnemyType();
-        uint8_t offsetX = 6;  // Beholder
+        uint8_t offsetX = 6;  // Occular
         uint8_t offsetY = 5;
 
         if (enemyType == EnemyType::Skeleton)         { offsetX = 11; offsetY = 5;  }
-        else if (enemyType == EnemyType::Displacer)   { offsetX = 8;  offsetY = 10; }
+        else if (enemyType == EnemyType::Sparkat)     { offsetX = 8;  offsetY = 10; }
         else if (enemyType == EnemyType::Wraith)      { offsetX = 16; offsetY = 3;  }
         else if (enemyType == EnemyType::Dragon)      { offsetX = 3;  offsetY = 5;  }
         else if (enemyType == EnemyType::Rat)         { offsetX = 23; offsetY = 16; }

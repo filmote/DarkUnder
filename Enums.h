@@ -173,6 +173,7 @@ enum class ItemType : uint8_t {
   LockedGate = 100,
   LockedDoor,
   UnlockedDoor,
+  SelfLockingDoor
 };
 
 enum class Direction : uint8_t {

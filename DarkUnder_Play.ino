@@ -12,6 +12,10 @@ void playLoop() {
 
   bool playerMoved = false ;
 
+  #ifdef USE_SELF_LOCKING_DOOR
+  MapElement origLocation = myLevel.getMapElement(myHero.getX(), myHero.getY());
+  #endif
+
   drawPlayerVision(&myHero, &myLevel);
   drawDirectionIndicator(&myHero);
   drawLevelDescription(&myLevel);
@@ -43,6 +47,24 @@ void playLoop() {
   // If the player moved then so should the enemies ..
 
   if (playerMoved) {
+
+    #ifdef USE_SELF_LOCKING_DOOR
+
+      if (origLocation == MapElement::SelfLockingDoor) {
+
+        for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
+          
+          Item door = level->getDoors()[i];
+    
+          if (!door.getEnabled() && (door.getItemType() == ItemType::SelfLockingDoor) && myHero.getX() && myHero.getY()) { 
+            door.setEnabled(true); 
+          }
+      
+        }
+
+      }
+      
+    #endif
 
     if (myLevel.getMapElement(myHero.getX(), myHero.getY()) == MapElement::UnlockedDoor) {
 
