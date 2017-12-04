@@ -210,7 +210,7 @@ const uint8_t PROGMEM level_01[] = {
 100, 22, 15,
 100, 37, 15,
 100, 22, 40,
-11, 8, 10, 5, 3, 1, 4, 8, 9, 
+11, 5, 4, 8, 3, 8, 10, 1, 9, 
 };
 
 const uint8_t PROGMEM level_02[] = {
@@ -290,7 +290,7 @@ const uint8_t PROGMEM level_02[] = {
 100, 7, 30,
 100, 52, 30,
 100, 67, 30,
-0, 8, 11, 10, 4, 3, 1, 13, 7, 2, 13, 5, 0, 2, 9, 12, 4, 3, 2, 9, 
+0, 4, 7, 0, 4, 8, 3, 2, 2, 3, 11, 1, 13, 9, 2, 10, 13, 5, 12, 9, 
 };
 
 const uint8_t PROGMEM level_03[] = {};
@@ -306,3 +306,4 @@ const uint8_t PROGMEM level_07[] = {};
 const uint8_t PROGMEM level_08[] = {};
 
 const uint8_t PROGMEM level_09[] = {};
+
