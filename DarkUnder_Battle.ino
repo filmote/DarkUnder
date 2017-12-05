@@ -63,7 +63,7 @@ uint16_t battleLoop() {
         arduboy.drawCompressed(18, 14, enemy_defeated_Mask, BLACK);
         arduboy.drawCompressed(18, 14, enemy_defeated, WHITE);
 
-        font3x5.setCursor(34, 26);
+        font3x5.setCursor(32 + (xp < 9 ? 2 : 0), 26);
         font3x5.print(xp);
         myHero.setExperiencePoints(myHero.getExperiencePoints() + xp);
 
