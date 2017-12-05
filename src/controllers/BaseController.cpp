@@ -18,8 +18,8 @@ BaseController::BaseController() {}
  */
 bool BaseController::moveLegal(Enemy *allEnemies, Player *player, Level *level, uint16_t x, uint16_t y) {
 
-  if ((level->getMapElement(x, y) == MapElement::Floor) ||
-      (player != nullptr && level->getMapElement(x, y) == MapElement::UnlockedDoor)) {
+  if ((level->getMapElement(x, y, false) == MapElement::Floor) ||
+      (player != nullptr && level->getMapElement(x, y, false) == MapElement::UnlockedDoor)) {
        
 
     // Is there a locked door in the way ?

@@ -150,12 +150,13 @@ uint16_t inventoryLoop() {
                 int16_t deltaX = doors[i].getX() - myHero.getX();
                 int16_t deltaY = doors[i].getY() - myHero.getY();
 
-                if (doors[i].getEnabled() && (doors[i].getItemType() == ItemType::LockedDoor || doors[i].getItemType() == ItemType::LockedGate) &&
+                if (doors[i].getEnabled() && (doors[i].getItemType() == ItemType::LockedDoor || doors[i].getItemType() == ItemType::LockedGate || doors[i].getItemType() == ItemType::SelfLockingDoor) &&
                     absT(deltaX) <= 1 && absT(deltaY) <= 1) {
 
-                  if (doors[i].getItemType() == ItemType::LockedGate)       doors[i].setEnabled(false);
-                  if (doors[i].getItemType() == ItemType::LockedDoor)       doors[i].setItemType(ItemType::UnlockedDoor);
-
+                  if (doors[i].getItemType() == ItemType::LockedGate)         doors[i].setEnabled(false);
+                  if (doors[i].getItemType() == ItemType::LockedDoor)         doors[i].setItemType(ItemType::UnlockedDoor);
+                  if (doors[i].getItemType() == ItemType::SelfLockingDoor)    doors[i].setEnabled(false);
+                  
                   myHero.setInventory(inventory_selection, ItemType::None);
                   inventory_action = INVENTORY_ACTION_USE;
                   gameState = GameState::InventorySelect;

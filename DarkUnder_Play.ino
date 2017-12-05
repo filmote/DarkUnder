@@ -8,17 +8,15 @@
  *
  * -----------------------------------------------------------------------------------------------------------------------------
  */
-void playLoop() {
+uint16_t playLoop() {
 
   bool playerMoved = false ;
+  uint16_t delayLength = 0;
 
-  #ifdef USE_SELF_LOCKING_DOOR
-  MapElement origLocation = myLevel.getMapElement(myHero.getX(), myHero.getY());
-  #endif
+  MapElement origLocation = myLevel.getMapElement(myHero.getX(), myHero.getY(), true);
 
   drawPlayerVision(&myHero, &myLevel);
   drawDirectionIndicator(&myHero);
-  drawLevelDescription(&myLevel);
 
   uint8_t buttons = arduboy.justPressedButtons();
 
@@ -48,25 +46,25 @@ void playLoop() {
 
   if (playerMoved) {
 
-    #ifdef USE_SELF_LOCKING_DOOR
+    if (origLocation == MapElement::SelfLockingDoor) {
 
-      if (origLocation == MapElement::SelfLockingDoor) {
+      for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
+  
+        if (!myLevel.getDoors()[i].getEnabled() && (myLevel.getDoors()[i].getItemType() == ItemType::SelfLockingDoor) && myHero.getX() && myHero.getY()) { 
 
-        for (uint8_t i = 0; i < NUMBER_OF_DOORS; ++i) {
+          (myLevel.getDoors()[i]).setEnabled(true); 
+          delayLength = FIGHT_DELAY;          
           
-          Item door = myLevel.getDoors()[i];
-    
-          if (!door.getEnabled() && (door.getItemType() == ItemType::SelfLockingDoor) && myHero.getX() && myHero.getY()) { 
-            door.setEnabled(true); 
-          }
-      
+          font3x5.setCursor(80,44);
+          font3x5.print(F("GATE LOCKS\nBEHIND YOU!"));
+
         }
-
+    
       }
-      
-    #endif
 
-    if (myLevel.getMapElement(myHero.getX(), myHero.getY()) == MapElement::UnlockedDoor) {
+    }
+
+    if (myLevel.getMapElement(myHero.getX(), myHero.getY(), false) == MapElement::UnlockedDoor) {
 
       if (level < MAX_LEVEL_COUNT) {
         gameState = GameState::NextLevel;
@@ -75,7 +73,7 @@ void playLoop() {
         gameState = GameState::EndOfGame;
       }
 
-      return;
+      return delayLength;
 
     }
 
@@ -92,5 +90,13 @@ void playLoop() {
     }
 
   }
+
+  if (delayLength == 0) {
+
+    drawLevelDescription(&myLevel);
+    
+  }
+
+  return delayLength;
 
 }

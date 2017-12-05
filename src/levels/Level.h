@@ -10,7 +10,7 @@ class Level {
   public:
 
     Level();
-    MapElement getMapElement(uint8_t x, uint8_t y);
+    MapElement getMapElement(uint8_t x, uint8_t y, bool returnInactive);
 
     uint32_t getStartPos();
     uint8_t getWidth();

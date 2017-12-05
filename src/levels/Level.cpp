@@ -24,7 +24,7 @@ void Level::setHeight(const uint8_t value)                  { _height = value; }
 void Level::setLevel(const uint8_t *value)                  { _level = value; }
 void Level::setMapTiles(const uint8_t * const *value)       { _map_tiles = value; }
   
-MapElement Level::getMapElement(uint8_t x, uint8_t y) {
+MapElement Level::getMapElement(uint8_t x, uint8_t y, bool returnInactive) {
 
 
   // Is there a door in this location?
@@ -33,7 +33,7 @@ MapElement Level::getMapElement(uint8_t x, uint8_t y) {
 
     Item door = _doors[i];
 
-    if (door.getEnabled() && door.getX() == x && door.getY() == y) {
+    if ((returnInactive ? true: door.getEnabled()) && door.getX() == x && door.getY() == y) {
 
       return (MapElement)((uint8_t)door.getItemType());
 

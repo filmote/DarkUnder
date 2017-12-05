@@ -142,7 +142,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
   if (horizon3Plus) {
 
-    MapElement mapElement = (MapElement)myLevel->getMapElement(playerX + farFrontX, playerY + farFrontY);
+    MapElement mapElement = (MapElement)myLevel->getMapElement(playerX + farFrontX, playerY + farFrontY, false);
 
     int8_t imageIndex = 0;
     int8_t xOffset = 0;
@@ -152,7 +152,8 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
       switch (mapElement) {
 
-        case MapElement::LockedGate:
+      case MapElement::LockedGate:
+      case MapElement::SelfLockingDoor:
           imageIndex = MAP_IMAGE_FAR_GATE_LOCKED;
           xOffset = 27;
           yOffset = 26;
@@ -190,7 +191,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
   // Far left wall ..
 
   if (horizon2Plus) {
-    if ((MapElement)myLevel->getMapElement(playerX + farLeftX, playerY + farLeftY) > MapElement::Floor) {
+    if ((MapElement)myLevel->getMapElement(playerX + farLeftX, playerY + farLeftY, false) > MapElement::Floor) {
      Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 23, map_images[MAP_IMAGE_FAR_LEFT], 0);
     }
   }
@@ -199,7 +200,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
   // Far right wall ..
 
   if (horizon2Plus) {
-    if ((MapElement)myLevel->getMapElement(playerX + farRightX, playerY + farRightY) > MapElement::Floor) {
+    if ((MapElement)myLevel->getMapElement(playerX + farRightX, playerY + farRightY, false) > MapElement::Floor) {
      Sprites::drawOverwrite(VISION_X_OFFSET + 35, VISION_Y_OFFSET + 23, map_images[MAP_IMAGE_FAR_RIGHT], 0);
     }
   }
@@ -215,7 +216,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
     int8_t xOffset = 0;
     int8_t yOffset = 0;
 
-    MapElement mapElement = (MapElement)myLevel->getMapElement(playerX + middleFrontX, playerY + middleFrontY);
+    MapElement mapElement = (MapElement)myLevel->getMapElement(playerX + middleFrontX, playerY + middleFrontY, false);
 
     if (mapElement > MapElement::Floor) {
 
@@ -224,6 +225,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
       switch (mapElement) {
 
         case MapElement::LockedGate:
+        case MapElement::SelfLockingDoor:
           imageIndex = MAP_IMAGE_MID_GATE_LOCKED;
           xOffset = 24;
           yOffset = 23;
@@ -258,29 +260,29 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
   // Mid left wall ..
 
-  MapElement mapElement = myLevel->getMapElement(playerX + middleLeftX, playerY + middleLeftY);
+  MapElement mapElement = myLevel->getMapElement(playerX + middleLeftX, playerY + middleLeftY, false);
   if (mapElement == MapElement::Wall) {
     Sprites::drawOverwrite(VISION_X_OFFSET + 1, VISION_Y_OFFSET + 14, map_images[MAP_IMAGE_MID_LEFT], 0);
   }
-  else if (mapElement == MapElement::LockedGate) {
+  else if (mapElement == MapElement::LockedGate || mapElement == MapElement::SelfLockingDoor) {
     Sprites::drawOverwrite(VISION_X_OFFSET + 15, VISION_Y_OFFSET + 15, map_images[MAP_IMAGE_MID_GATE_LEFT], 0);
   }
 
 
   // Mid right wall ..
 
-  mapElement = myLevel->getMapElement(playerX + middleRightX, playerY + middleRightY);
+  mapElement = myLevel->getMapElement(playerX + middleRightX, playerY + middleRightY, false);
   if (mapElement == MapElement::Wall) {
     Sprites::drawOverwrite(VISION_X_OFFSET + 39, VISION_Y_OFFSET + 14, map_images[MAP_IMAGE_MID_RIGHT], 0);
   }
-  else if (mapElement == MapElement::LockedGate) {
+  else if (mapElement == MapElement::LockedGate || mapElement == MapElement::SelfLockingDoor) {
     Sprites::drawOverwrite(VISION_X_OFFSET + 39, VISION_Y_OFFSET + 15, map_images[MAP_IMAGE_MID_GATE_RIGHT], 0);
   }
 
 
   // Close front wall ..
 
-  mapElement = (MapElement)myLevel->getMapElement(playerX + closeFrontX, playerY + closeFrontY);
+  mapElement = (MapElement)myLevel->getMapElement(playerX + closeFrontX, playerY + closeFrontY, false);
   bool renderCloseFront = (mapElement > MapElement::Floor);
 
   if (mapElement > MapElement::Floor) {
@@ -298,6 +300,7 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
         break;
 
       case MapElement::LockedGate:
+      case MapElement::SelfLockingDoor:
         imageIndex = MAP_IMAGE_CLOSE_GATE_LOCKED;
         xOffset = 15;
         yOffset = 14;
@@ -328,22 +331,22 @@ void drawPlayerVision(Player *myHero, Level *myLevel) {
 
   // Close left wall ..
 
-  mapElement = myLevel->getMapElement(playerX + closeLeftX, playerY + closeLeftY);
+  mapElement = myLevel->getMapElement(playerX + closeLeftX, playerY + closeLeftY, false);
   if (mapElement == MapElement::Wall) {
     Sprites::drawOverwrite(VISION_X_OFFSET, VISION_Y_OFFSET, map_images[MAP_IMAGE_CLOSE_LEFT], 0);
   }
-  else if (mapElement == MapElement::LockedGate) {
+  else if (mapElement == MapElement::LockedGate || mapElement == MapElement::SelfLockingDoor) {
     Sprites::drawOverwrite(VISION_X_OFFSET, VISION_Y_OFFSET, map_images[MAP_IMAGE_CLOSE_GATE_LEFT], 0);
   }
 
 
   // Close right wall ..
 
-  mapElement = myLevel->getMapElement(playerX + closeRightX, playerY + closeRightY);
+  mapElement = myLevel->getMapElement(playerX + closeRightX, playerY + closeRightY, false);
   if (mapElement == MapElement::Wall) {
     Sprites::drawOverwrite(VISION_X_OFFSET + 48, VISION_Y_OFFSET, map_images[MAP_IMAGE_CLOSE_RIGHT], 0);
   }
-  else if (mapElement == MapElement::LockedGate) {
+  else if (mapElement == MapElement::LockedGate || mapElement == MapElement::SelfLockingDoor) {
     Sprites::drawOverwrite(VISION_X_OFFSET + 49, VISION_Y_OFFSET, map_images[MAP_IMAGE_CLOSE_GATE_RIGHT], 0);
   }
 
@@ -578,7 +581,7 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
       if (mapX >= 0 && mapX < ((uint8_t)myLevel->getWidth() * MAP_TILE_WIDTH) && mapY >= 0 && mapY < ((uint8_t)myLevel->getHeight() * MAP_TILE_HEIGHT) && !(drawX == 4 && drawY == 0) ) {
       #endif
 
-        MapElement element = myLevel->getMapElement(mapX, mapY);
+        MapElement element = myLevel->getMapElement(mapX, mapY, false);
 
         if (element != MapElement::Wall) {
 
@@ -645,6 +648,7 @@ void drawMapAndStatistics(Player *player, Level *myLevel) {
 
               case MapElement::LockedGate:
               case MapElement::LockedDoor:
+              case MapElement::SelfLockingDoor:
                 #ifdef USE_LARGE_MAP
                 arduboy.drawLine(mapXOffset + (drawX * MAP_TILE_OFFSET) + 1, mapYOffset + (drawY * MAP_TILE_OFFSET) + 1, mapXOffset + (drawX * MAP_TILE_OFFSET) + 1, mapYOffset + (drawY * MAP_TILE_OFFSET) + 2, BLACK);
                 #endif

@@ -127,7 +127,7 @@ void loop() {
 
     case GameState::Move:
     case GameState::ItemIgnore:
-      playLoop();
+      delayLength = playLoop();
       break;
 
     case GameState::InventorySelect:
