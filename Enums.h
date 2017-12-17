@@ -6,7 +6,7 @@
 #undef  USE_SOUNDS
 
         // Saves 290 bytes
-#undef  USE_LARGE_MAP
+#define  USE_LARGE_MAP
 
         // Should a level up include HP
 #define LEVEL_UP_INC_HP 
@@ -35,7 +35,7 @@
 #define MAP_TILE_OFFSET                   5
 
 #define NUMBER_OF_ENEMIES                 30
-#define NUMBER_OF_DOORS                   7
+#define NUMBER_OF_DOORS                   8
 #define NUMBER_OF_ITEMS                   NUMBER_OF_ENEMIES
 
 #define MAP_IMAGE_BACK                    0
@@ -63,9 +63,6 @@
 #define MAP_IMAGE_FAR_LEFT                20
 #define MAP_IMAGE_FAR_RIGHT               21
 
-#define DICE_NO_ACTION                    -15
-#define DICE_DELAY_START                  DICE_NO_ACTION + 1
-#define DICE_DELAY_END                    32
 #define FIGHT_DELAY                       1500
 #define LEVEL_UP_DELAY                    3000
 
