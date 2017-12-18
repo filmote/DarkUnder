@@ -53,6 +53,8 @@ bool EnemyController::moveTowardsPlayer(Enemy *thisEnemy, Enemy *allEnemies, Pla
   
 bool EnemyController::moveToVacantSquare(Enemy *thisEnemy, Enemy *allEnemies, Player *player, Level *level, Direction playerDirection) {
   
+  (void)player; // Silence warning about unused parameter
+  
   if (playerDirection == Direction::North && EnemyController::moveLegal(allEnemies, nullptr, level, thisEnemy->getX(), thisEnemy->getY() - 1))              { thisEnemy->setY(thisEnemy->getY() - 1); } 
   else if (playerDirection == Direction::South && EnemyController::moveLegal(allEnemies, nullptr, level, thisEnemy->getX(), thisEnemy->getY() + 1))         { thisEnemy->setY(thisEnemy->getY() + 1); } 
   else if (playerDirection == Direction::East && EnemyController::moveLegal(allEnemies, nullptr, level, thisEnemy->getX() + 1, thisEnemy->getY()))          { thisEnemy->setX(thisEnemy->getX() + 1); } 
