@@ -42,6 +42,7 @@ bool PlayerController::move(Player *player, Enemy *allEnemies, Level *level, But
       case Button::Down:   ++curDirection; ++curDirection;      break;
       case Button::Left:   --curDirection;                      break;
       case Button::Right:  ++curDirection;                      break;
+      default:                                                  break;
       
     }
 
