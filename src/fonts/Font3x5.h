@@ -7,7 +7,7 @@ class Font3x5 : public Print {
     
   public:
 
-    Font3x5(int8_t width, int8_t height);   
+    Font3x5(void);
 
     virtual size_t write(uint8_t); // used by the Arduino Print class
     void printChar(const char c, const int8_t x, int8_t y);
