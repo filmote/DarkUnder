@@ -17,6 +17,6 @@ class EnemyController : public BaseController {
 
     static void move(Enemy *thisEnemy, Enemy *allEnemies, Player *player, Level *level); 
     static boolean moveTowardsPlayer(Enemy *thisEnemy, Enemy *allEnemies, Player *player, Level *level);
-    static boolean moveToVacantSquare(Enemy *thisEnemy, Enemy *allEnemies, Player *player, Level *level, Direction playerDirection);
+    static boolean moveToVacantSquare(Enemy *thisEnemy, Enemy *allEnemies, Level *level, Direction playerDirection);
 
 };

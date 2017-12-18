@@ -16,7 +16,7 @@ void EnemyController::move(Enemy *thisEnemy, Enemy *allEnemies, Player *player, 
 
     for (int i = 0; i < 20; i++) {
 
-      if (EnemyController::moveToVacantSquare(thisEnemy, allEnemies, player, level, (Direction)random((uint8_t)Direction::North, (uint8_t)Direction::Count))) { break; }
+      if (EnemyController::moveToVacantSquare(thisEnemy, allEnemies, level, (Direction)random((uint8_t)Direction::North, (uint8_t)Direction::Count))) { break; }
 
     }
 
@@ -51,7 +51,7 @@ bool EnemyController::moveTowardsPlayer(Enemy *thisEnemy, Enemy *allEnemies, Pla
 
 }
   
-bool EnemyController::moveToVacantSquare(Enemy *thisEnemy, Enemy *allEnemies, Player *player, Level *level, Direction playerDirection) {
+bool EnemyController::moveToVacantSquare(Enemy *thisEnemy, Enemy *allEnemies, Level *level, Direction playerDirection) {
   
   if (playerDirection == Direction::North && EnemyController::moveLegal(allEnemies, nullptr, level, thisEnemy->getX(), thisEnemy->getY() - 1))              { thisEnemy->setY(thisEnemy->getY() - 1); } 
   else if (playerDirection == Direction::South && EnemyController::moveLegal(allEnemies, nullptr, level, thisEnemy->getX(), thisEnemy->getY() + 1))         { thisEnemy->setY(thisEnemy->getY() + 1); } 
