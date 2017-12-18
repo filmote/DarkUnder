@@ -16,14 +16,15 @@ class Level {
     uint8_t getWidth();
     uint8_t getHeight();
 
-    const Item * getDoors();
-    const uint8_t * getLevel();
-    const uint8_t * const * getMapTiles();
+    Item * getDoors(); // Allow modification if the Level object isn't const
+    const Item * getDoors() const;
+    const uint8_t * getLevel() const;
+    const uint8_t * const * getMapTiles() const;
 
     char * getTitleLine1();
     char * getTitleLine2();
     
-    void setDoors(const Item *value);
+    void setDoors(Item *value);
     void setStartPos(const uint32_t value);
     void setWidth(const uint8_t value);
     void setHeight(const uint8_t value);
@@ -42,7 +43,8 @@ class Level {
     
     const uint8_t * _level;
     const uint8_t * const * _map_tiles;
-    const Item * _doors;
+    Item * _doors;
 
 
 };
+
