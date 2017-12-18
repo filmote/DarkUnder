@@ -97,7 +97,7 @@ uint16_t battleLoop() {
 
         if ((buttons & LEFT_BUTTON_MASK) && (uint8_t)fightButton > 0) {
 
-          for (uint8_t i = (uint8_t)fightButton - 1; i >= 0; --i) {
+          for (int8_t i = (uint8_t)fightButton - 1; i >=0; --i) {
             if (fightButtons[i]) {
               fightButton = (FightButtons)i;
               break;

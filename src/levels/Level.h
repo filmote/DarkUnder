@@ -44,5 +44,4 @@ class Level {
     const uint8_t * const * _map_tiles;
     const Item * _doors;
 
-
 };

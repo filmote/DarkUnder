@@ -49,7 +49,7 @@ const uint8_t PROGMEM font_images[] = {
 };
 
 
-Font3x5::Font3x5(int8_t width, int8_t height) {
+Font3x5::Font3x5() {
 
   _lineHeight = FONT3X5_HEIGHT + 2;
   _letterSpacing = 1;
