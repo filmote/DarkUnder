@@ -5,9 +5,6 @@
         // 834 bytes
 #undef  USE_SOUNDS
 
-        // Saves 290 bytes
-#define  USE_LARGE_MAP
-
         // Should a level up include HP
 #define LEVEL_UP_INC_HP 
 
