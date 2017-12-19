@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "title": "Dark & Under",
-  "description": "Kill the .",
+  "description": "Do you have what it takes to survive the depths of the Undermountain? Alone?  If so, then pack your gear, strap on your shield, explore labyrinthine corridors and battle unimaginable foes to steal the greedy Dragon's treasure.",
   "author": "Garage Collective",
   "version": "1.0.0",
   "date": "2017-12-20",
@@ -23,7 +23,7 @@
    { "control": "Down",
      "action": "During Play: About face"},
    { "control": "A",
-     "action": "During Play: Display large Map if configured"},     
+     "action": "During Play: Display large map if configured"},     
    { "control": "B",
      "action": "During Play: Display inventory"},     
    { "control": "Left / Right",
@@ -39,7 +39,7 @@
       "filename": "screenshot00.png"
     },
     {
-      "title": "Credits.",
+      "title": "Credits",
       "filename": "screenshot01.png"
     },
     {
@@ -47,14 +47,22 @@
       "filename": "screenshot02.png"
     },
     {
-      "title": "All Missions Compete.",
-      "filename": "screenshot03.png"
+      "title": "Under Attack!",
+      "filename": "screenshot08.png"
+    },
+    {
+      "title": "Manage Inventory",
+      "filename": "screenshot10.png"
+    },
+    {
+      "title": "The End",
+      "filename": "screenshot09.png"
     }
   ],
   "binaries": [
     {
       "title": "The Game",
-      "filename": "Nineteen43.hex",
+      "filename": "DarkUnder.hex",
       "device": "Arduboy"
     }
   ]
