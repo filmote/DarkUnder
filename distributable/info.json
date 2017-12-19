@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 2,
+  "title": "Dark & Under",
+  "description": "Kill the .",
+  "author": "Garage Collective",
+  "version": "1.0.0",
+  "date": "2017-12-20",
+  "genre": "Action",
+  "publisher": "Garage Collective",
+  "idea": "Garage Collective",
+  "code": "Simon Holmes",
+  "art": "Cyril Guichard",
+  "url": "https://github.com/filmote/DarkUnder",
+  "sourceUrl": "https://github.com/filmote/DarkUnder",
+  "email": "simon@bloggingadeadhorse.com",
+  "companion": "",
+  "banner": "banner.png",
+  "buttons": [
+   { "control": "Up",
+     "action": "During Play: Move forward"},
+   { "control": "Left / Right",
+     "action": "During Play: Turn left or right"},
+   { "control": "Down",
+     "action": "During Play: About face"},
+   { "control": "A",
+     "action": "During Play: Display large Map if configured"},     
+   { "control": "B",
+     "action": "During Play: Display inventory"},     
+   { "control": "Left / Right",
+     "action": "Inventory: Highlight item"},     
+   { "control": "A",
+     "action": "Inventory: Select item / action"},     
+   { "control": "B",
+     "action": "Inventory: Return to game play"}
+  ],     
+  "screenshots": [
+    {
+      "title": "Splash Screen",
+      "filename": "screenshot00.png"
+    },
+    {
+      "title": "Credits.",
+      "filename": "screenshot01.png"
+    },
+    {
+      "title": "Under Attack!",
+      "filename": "screenshot02.png"
+    },
+    {
+      "title": "All Missions Compete.",
+      "filename": "screenshot03.png"
+    }
+  ],
+  "binaries": [
+    {
+      "title": "The Game",
+      "filename": "Nineteen43.hex",
+      "device": "Arduboy"
+    }
+  ]
+}
