@@ -1,13 +1,10 @@
 #pragma once
+#include "src/levels/MapData.h"
 
 // ----  Memory saving and other decision switches ----------------------------------------------------------------------------------
 
-        // 834 bytes
-#undef  USE_SOUNDS
-
         // Should a level up include HP
 #define LEVEL_UP_INC_HP 
-
 #define LEVEL_UP_SELECT_PRIZE
 
 // ----------------------------------------------------------------------------------------------------------------------------------

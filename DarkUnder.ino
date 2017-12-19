@@ -13,15 +13,8 @@
 #include "src/utils/Utils.h"
 #include "src/utils/EnemyNames.h"
 
-#ifdef USE_SOUNDS
-#include <ArduboyTones.h>
-#endif
 
 Arduboy2Ext arduboy;
-#ifdef USE_SOUNDS
-ArduboyTones sound(arduboy.audio.enabled);
-#endif
-
 Font3x5 font3x5 = Font3x5();
 
 Item items[NUMBER_OF_ITEMS];
